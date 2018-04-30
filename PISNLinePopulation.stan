@@ -1,12 +1,19 @@
 functions {
   real dNdm1dm2dVdt(real m1, real m2, real z, real R0, real alpha, real gamma, real MMin, real MMax) {
-    return R0*(1-alpha)*m1^(-alpha)/(m1 - MMin)/(MMax^(1-alpha) - MMin^(1-alpha))*(1+z)^(gamma-1);
+    if (m2 > m1 || m2 < MMin || m1 > MMax) {
+      reject("masses out of bounds");
+      return 0.0;
+    } else {
+      return R0*(1-alpha)*m1^(-alpha)/(m1 - MMin)/(MMax^(1-alpha) - MMin^(1-alpha))*(1+z)^(gamma-1);
+    }
   }
 
   real Ez(real z, real Om) {
     real opz = 1.0 + z;
     real opz2 = opz*opz;
     real opz3 = opz2*opz;
+
+    if (Om < 0 || Om > 1) reject("Om outside bounds.");
 
     return sqrt(opz3*Om + (1.0-Om));
   }
@@ -60,26 +67,59 @@ functions {
 
     return r*yj + (1.0-r)*yi;
   }
+
+  real[,] trapz3(real[] xs, real[,,] ys) {
+    int s[3] = dims(ys);
+    real out[s[2],s[3]];
+    real dx[s[1]-1] = to_array_1d(to_vector(xs[2:]) - to_vector(xs[1:s[1]-1]));
+
+    if (s[1] != size(xs)) reject("dimension mismatch in trapz3");
+
+    for (j in 1:s[2]) {
+      for (k in 1:s[3]) {
+        out[j,k] = sum(to_array_1d(0.5 * to_vector(dx) .* (to_vector(ys[2:,j,k]) + to_vector(ys[1:s[1]-1,j,k]))));
+      }
+    }
+    return out;
+  }
+
+  real[] trapz2(real[] xs, real[,] ys) {
+    int s[2] = dims(ys);
+    real out[s[2]];
+    real dx[s[1]-1] = to_array_1d(to_vector(xs[2:]) - to_vector(xs[1:s[1]-1]));
+
+    for (j in 1:s[2]) {
+      out[j] = sum(to_array_1d(0.5 * to_vector(dx) .* (to_vector(ys[2:,j]) + to_vector(ys[1:s[1]-1,j]))));
+    }
+
+    return out;
+  }
+
+  real trapz(real[] xs, real[] ys) {
+    int n = size(xs);
+    real dx[n-1] = to_array_1d(to_vector(xs[2:]) - to_vector(xs[1:n-1]));
+
+    return sum(to_array_1d(0.5 * to_vector(dx) .* (to_vector(ys[2:]) + to_vector(ys[1:n-1]))));
+  }
 }
 
 data {
   int nobs;
-  vector[nobs] mc_obs;
-  vector[nobs] eta_obs;
-  vector[nobs] dl_obs;
-  vector[nobs] sigma_mc;
-  vector[nobs] sigma_eta;
-  vector[nobs] sigma_dl;
+  vector<lower=0>[nobs] mc_obs;
+  vector<lower=0,upper=0.25>[nobs] eta_obs;
+  vector<lower=0>[nobs] dl_obs;
+  vector<lower=0>[nobs] sigma_mc;
+  vector<lower=0>[nobs] sigma_eta;
+  vector<lower=0>[nobs] sigma_dl;
 
-  real zmax;
-  real MMin;
+  real<lower=0> zmax;
 
   int nms;
-  real ms[nms];
-  real opt_snrs[nms,nms];
+  real<lower=0> ms[nms];
+  real<lower=0> opt_snrs[nms,nms];
 
   int nthetas;
-  real thetas[nthetas];
+  real<lower=0,upper=1> thetas[nthetas];
 }
 
 transformed data {
@@ -109,7 +149,8 @@ parameters {
   real<lower=0> R0;
   real<lower=-3, upper=3> alpha;
   real<lower=-5, upper=5> gamma;
-  real<lower=20> MMax;
+  real<lower=20, upper=100> MMax;
+  real<lower=3, upper=10> MMin;
 
   vector<lower=MMin, upper=MMax>[nobs] m1s;
   vector<lower=0, upper=1>[nobs] f_m2s;
@@ -132,8 +173,8 @@ transformed parameters {
   real N;
 
   for (i in 1:nobs) {
-    m2s[i] = MMin + f_m2s[i]*m1s[i];
-    m2s_jac[i] = m1s[i];
+    m2s[i] = MMin + f_m2s[i]*(m1s[i]-MMin);
+    m2s_jac[i] = m1s[i]-MMin;
   }
 
   {
@@ -171,6 +212,7 @@ transformed parameters {
 
   {
     real dN[nms, nms, ninterp] = rep_array(0.0, nms, nms, ninterp);
+    real dN_sum[nms-1, nms-1, ninterp-1] = rep_array(0.0, nms-1, nms-1, ninterp-1);
 
     for (i in 1:nms) {
       real m1_obs = ms[i];
@@ -183,47 +225,39 @@ transformed parameters {
           real m1 = m1_obs / (1+z);
           real m2 = m2_obs / (1+z);
 
-          real osnr = opt_snrs[i,j] / dl;
-          real theta_thresh = 8.0/osnr;
-          real f;
-
-          if (theta_thresh > 1.0) {
-            f = 0.0;
-          } else {
-            f = interp1d(theta_thresh, thetas, fabove_thetas);
-          }
-
-          if (m2 < MMin || m1 > MMax) {
+          if (m2 < MMin || m1 > MMax || z == 0) {
             dN[i,j,k] = 0.0;
           } else {
-            dN[i,j,k] = dNdm1dm2dVdt(m1, m2, z, R0, alpha, gamma, MMin, MMax) * dVcdzinterp[k] * f;
+            // A note about the following line, which cost me a day of head-scratching:
+            // The below division by dl when z == 0 (which is now handled by the other branch of the if)
+            // would generate an undefined gradient (though a well-defined *value*) for the
+            // normalisation integral.
+            real osnr = opt_snrs[i,j] / dl;
+            real theta_thresh = 8.0/osnr;
+
+            if (theta_thresh >= 1.0) {
+              dN[i,j,k] = 0.0;
+            } else {
+              real f = interp1d(theta_thresh, thetas, fabove_thetas);
+              dN[i,j,k] = dNdm1dm2dVdt(m1, m2, z, R0, alpha, gamma, MMin, MMax) * dVcdzinterp[k] * f / (1+z)^2;
+            }
           }
         }
       }
     }
 
-    N = 0.0;
-    for (i in 1:nms-1) {
-      real dm1 = ms[i+1] - ms[i];
-      for (j in 1:i-1) {
-        real dm2 = ms[j+1] - ms[j];
-        for (k in 1:ninterp-1) {
-          real dz = zinterp[k+1] - zinterp[k];
-
-          N = N + 0.125*dm1*dm2*dz*(dN[i,j,k] + dN[i,j,k+1] + dN[i,j+1,k] + dN[i,j+1,k+1] + dN[i+1,j,k] + dN[i+1,j,k+1] + dN[i+1,j+1,k] + dN[i+1,j+1,k+1]);
-        }
-      }
-    }
+    N = trapz(zinterp, trapz2(ms, trapz3(ms, dN)));
   }
 }
 
 model {
-  H0 ~ lognormal(log(70), log(90.0/70.0));
+  H0 ~ lognormal(log(70), 0.2);
   // Flat prior on Om
 
   R0 ~ lognormal(log(100), 3);
   // Flat prior on alpha
   // Flat prior on gamma
+  // Flat prior on MMin
   // Flat prior on MMax
 
   // Likelihood for observations
@@ -236,7 +270,8 @@ model {
   // Population for the observations
   for (i in 1:nobs) {
     real dVdz = interp1d(zs[i], zinterp, dVcdzinterp);
-    target += log(dNdm1dm2dVdt(m1s[i], m2s[i], zs[i], R0, alpha, gamma, MMin, MMax)) + log(dVdz) + log(m2s_jac[i]);
+    real x = dNdm1dm2dVdt(m1s[i], m2s[i], zs[i], R0, alpha, gamma, MMin, MMax);
+    target += log(x) + log(dVdz) + log(m2s_jac[i]);
   }
 
   // Poisson normalisation
