@@ -7,9 +7,9 @@ functions {
     return sqrt(opz3*Om + (1.0-Om));
   }
 
-  real[] dDCdz(real z, real[] state, real[] theta, real[] x_r, int[] x_i) {
-    real Om = theta[1];
-
+  real[] dDCudz(real z, real[] state, real[] theta, real[] x_r, int[] x_i) {
+    // real Om = theta[1];
+    real Om = x_r[1];
     real dstatedz[1];
 
     dstatedz[1] = 1.0/Ez(z, Om);
@@ -19,25 +19,23 @@ functions {
 
   int bisect_index(real x, real[] xs) {
     int n = size(xs);
-
     int i = 1;
     int j = n;
-
     real xi = xs[i];
     real xj = xs[j];
 
     if (x < xs[1] || x > xs[n]) reject("cannot interpolate out of bounds");
 
-    while (j-i > 1) {
+    while (j - i > 1) {
       int k = i + (j-i)/2;
       real xk = xs[k];
 
-      if (x > xk) {
-        xi = xk;
-        i = k;
-      } else {
-        xj = xk;
+      if (x <= xk) {
         j = k;
+        xj = xk;
+      } else {
+        i = k;
+        xi = xk;
       }
     }
 
@@ -45,90 +43,151 @@ functions {
   }
 
   real interp1d(real x, real[] xs, real[] ys) {
-    int j = bisect_index(x, xs);
+    int i = bisect_index(x, xs);
+    real xl = xs[i-1];
+    real xh = xs[i];
+    real yl = ys[i-1];
+    real yh = ys[i];
+    real r = (x-xl)/(xh-xl);
 
-    real xi = xs[j-1];
-    real xj = xs[j];
-    real yi = ys[j-1];
-    real yj = ys[j];
+    return r*yh + (1.0-r)*yl;
+  }
 
-    real r = (x-xi)/(xj-xi);
+  real interp2d(real x, real y, real[] xs, real[] ys, real[,] zs) {
+    int i = bisect_index(x, xs);
+    int j = bisect_index(y, ys);
 
-    return r*yj + (1.0-r)*yi;
+    real xl = xs[i-1];
+    real xh = xs[i];
+    real yl = ys[j-1];
+    real yh = ys[j];
+
+    real r = (x-xl)/(xh-xl);
+    real s = (y-yl)/(yh-yl);
+
+    return (1.0-r)*(1.0-s)*zs[i-1,j-1] + (1.0-r)*s*zs[i-1,j] + r*(1.0-s)*zs[i,j-1] + r*s*zs[i,j];
   }
 }
 
 data {
   int nobs;
   vector[nobs] mc_obs;
-  vector[nobs] dl_obs;
+  vector[nobs] eta_obs;
+  vector[nobs] A_obs;
+  vector[nobs] theta_obs;
 
   vector[nobs] sigma_mc;
-  vector[nobs] sigma_dl;
+  vector[nobs] sigma_eta;
+  vector[nobs] sigma_theta;
 
-  real zmax;
-  int ninterp;
+  int nm;
+  real ms[nm];
+  real opt_snr[nm,nm];
+
+  real dlinterp_max;
 }
 
 transformed data {
+  int ninterp = 100;
   real zinterp[ninterp];
-  real x_r[0];
+  real x_r[1];
   int x_i[0];
+  real Om = 0.3;
+
+  real minterp_min = min(ms);
+  real minterp_max = max(ms);
+
+  x_r[1] = Om;
 
   for (i in 1:ninterp) {
-    zinterp[i] = (i-1.0)*zmax/(ninterp-1.0);
+    zinterp[i] = (i-1.0)/(ninterp-1.0)*zinterp_max;
   }
 }
 
 parameters {
-  real<lower=0> H0;
-  real<lower=0,upper=1> om;
+  real<lower=0> h;
+  // real<lower=0,upper=1> Om;
 
-  real<lower=0> mc_max;
+  real<lower=0,upper=zinterp_max> zmax;
+  real<lower=minterp_min,upper=10> MMin;
+  real<lower=30, upper=minterp_max/(1.0+zmax)> MMax;
 
-  vector<lower=0,upper=mc_max>[nobs] mc;
-  vector<lower=0,upper=zmax>[nobs] zs;
+  vector<lower=MMin, upper=MMax>[nobs] m1s;
+  vector<lower=0, upper=1>[nobs] qs;
+  vector<lower=0, upper=zmax>[nobs] zs;
+  vector<lower=0, upper=1>[nobs] thetas;
 }
 
 transformed parameters {
+  real H0 = 100.0*h;
   real dH = 4.42563416002 * (67.74/H0);
-  vector[nobs] dl;
-  vector[nobs] dc;
+  vector[nobs] m2s;
+  vector[nobs] mcs;
+  vector[nobs] etas;
+  vector[nobs] dls;
+  vector[nobs] opt_snrs;
 
   {
-    real dcinterp[ninterp];
-    real states[ninterp-1,1];
-    real istate[1];
-    real theta[1];
+    real theta[0];
+    real state0[1];
+    real states[ninterp-1, 1];
+    real dcs[ninterp];
 
-    istate[1] = 0.0;
-    theta[1] = om;
+    // theta[1] = Om;
+    state0[1] = 0.0;
 
-    states = integrate_ode_rk45(dDCdz, istate, 0.0, zinterp[2:], theta, x_r, x_i);
-    dcinterp[1] = 0.0;
-    dcinterp[2:] = states[:,1];
+    states = integrate_ode_rk45(dDCudz, state0, 0.0, zinterp[2:], theta, x_r, x_i);
+
+    dcs[1] = 0.0;
+    for (i in 2:ninterp) {
+      real dcu = states[i-1,1];
+      dcs[i] = dH*dcu;
+    }
 
     for (i in 1:nobs) {
-      dc[i] = dH*interp1d(zs[i], zinterp, dcinterp);
-      dl[i] = (1.0+zs[i])*dc[i];
+      real dc = interp1d(zs[i], zinterp, dcs);
+      real dl = dc*(1.0+zs[i]);
+
+      dls[i] = dl;
     }
+  }
+
+  for (i in 1:nobs) {
+    m2s[i] = MMin + qs[i]*(MMax-MMin);
+  }
+
+  for (i in 1:nobs) {
+    real mt = m1s[i] + m2s[i];
+
+    etas[i] = m1s[i]*m2s[i]/(mt*mt);
+    mcs[i] = mt*etas[i]^(3.0/5.0);
+  }
+
+  for (i in 1:nobs) {
+    opt_snrs[i] = interp2d(m1s[i]*(1.0+zs[i]), m2s[i]*(1.0+zs[i]), ms, ms, opt_snr)/dls[i];
   }
 }
 
 model {
-  H0 ~ lognormal(log(70), log(80.0/70.0));
-  om ~ normal(0.3, 0.1);
+  h ~ lognormal(log(0.7), 0.2); // H0 = 70 w/20% uncert
+  // Flat prior in Om
 
-  mc_max ~ normal(80.0*(0.25^(3.0/5.0)), 15);
+  // Flat prior on MMin, MMax
 
-  /* Flat prior on mc */
-  target += -nobs*log(mc_max);
+  // Flat prior on m1 \in [MMin, MMax]
+  target += -nobs*log(MMax - MMin);
 
-  /* Volumetric prior on z */
-  for (i in 1:nobs) {
-    target += log(dH) + 2.0*log(dc[i]) - log(Ez(zs[i], om));
-  }
+  // Flat prior on q \in [0, 1]
 
-  mc_obs ~ lognormal(log(mc .* (1.0 + zs)), sigma_mc);
-  dl_obs ~ lognormal(log(dl), sigma_dl);
+  // Flat prior on z in [0, zmax].
+  target += -nobs*log(zmax);
+
+  // Flat prior on theta
+
+  // Observations
+  theta_obs ~ normal(thetas, sigma_theta);
+  mc_obs ~ lognormal(log(mcs .* (1.0+zs)), sigma_mc);
+  eta_obs ~ normal(etas, sigma_eta);
+  A_obs ~ normal(thetas .* opt_snrs, 1.0);
+  theta_obs ~ normal(thetas, sigma_theta);
 }
