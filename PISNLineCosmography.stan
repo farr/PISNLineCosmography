@@ -34,13 +34,14 @@ functions {
     // evaluation of the posterior at the limits of the mass range, and weight
     // as if we had a KDE with a bandwidth of MScale for the mass distribution.
     // We artificially cut off the distribution at 5*MScale (by which point the
-    // exponential factors are ~1e-11 anyway).
+    // exponential factors are ~1e-7 anyway).
     if (m1obs > MMax*(1+z) + 5*MScale) {
       return 0.0;
     }
 
     if (m1obs > MMax*(1+z)) {
-      uCut = exp(-((m1obs - MMax*(1+z))/MScale)^2);
+      real x = (m1obs - MMax*(1+z))/MScale;
+      uCut = exp(-0.5*x*x);
       m1obs = MMax*(1+z);
     } else {
       uCut = 1.0;
@@ -51,7 +52,8 @@ functions {
     }
 
     if (m1obs < MMin*(1+z)) {
-      lCut = exp(-((m1obs - MMin*(1+z))/MScale)^2);
+      real x = (m1obs - MMin*(1+z))/MScale;
+      lCut = exp(-0.5*x*x);
       m1obs = MMin*(1+z);
     } else {
       lCut = 1.0;
