@@ -191,7 +191,7 @@ model {
   // integral.  Here we use much smaller smoothing lengths because our samples
   // are much more dense.
   for (i in 1:ndet) {
-    real s = (200.0-1.0)/ngen; /* Typical mass spacing in the generated population */
+    real s = 0.5; // By examination of the spacing between m1s_det.
     fs_det[i] = dNdm1obsdqddl(m1s_det[i], dls_det[i], zs_det[i], R0, alpha, MMin, MMax, gamma, dH, Om, s);
   }
 
