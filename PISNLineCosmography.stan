@@ -74,7 +74,6 @@ transformed data {
   int dls_ind[nobs*nsamp];
 
   real sms[nobs];
-  real sm_det[ndet];
 
   real dls_det_sorted[ndet];
   int dls_det_ind[ndet];
@@ -107,12 +106,6 @@ transformed data {
   // KDE bandwidths.
   for (i in 1:nobs) {
     sms[i] = sd(m1s[i,:])/nsamp^0.2;
-  }
-  {
-    real s = sd(log(m1s_det))/ndet^0.2; // Use log-scale uncertainty here, since detected masses span order of magnitude or more
-    for (i in 1:ndet) {
-      sm_det[i] = m1s_det[i]*s; // Log scale smoothing
-    }
   }
 }
 
@@ -193,8 +186,13 @@ model {
   }
 
   // Poisson norm; we marginalise over the uncertainty in the Monte-Carlo integral.
+  // We don't smooth here, because we have a lot of points.
   for (i in 1:ndet) {
-    fs_det[i] = dNdm1obsdqddl(m1s_det[i], dls_det[i], zs_det[i], R0, alpha, MMin, MMax, gamma, dH, Om, sm_det[i]);
+    if (m1s_det[i] > MMin*(1+zs_det[i]) && m1s_det[i] < MMax*(1+zs_det[i])) {
+      fs_det[i] = dNdm1obsdqddl(m1s_det[i], dls_det[i], zs_det[i], R0, alpha, MMin, MMax, gamma, dH, Om, 1.0);
+    } else {
+      fs_det[i] = 0.0;
+    }
   }
 
   {
