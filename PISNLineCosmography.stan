@@ -20,35 +20,39 @@ functions {
     return dstatedDL;
   }
 
-  real dNdm1obsdqddl(real m1obs, real dl, real z, real R0, real alpha, real MMin, real MMax, real gamma, real dH, real Om, real MScale) {
+  real dNdm1obsdqddl(real m1o, real dl, real z, real R0, real alpha, real MMin, real MMax, real gamma, real dH, real Om, real MScale) {
     real dVdz;
     real dzddl;
     real dNdm1obs;
     real uCut;
     real lCut;
+    real m1obs;
+
+    // We need to soften the sharp cutoff or sampling will be very hard without
+    // lots of posterior samples per event.  Within the mass range, we do
+    // nothing; when a mass sample moves outside the mass range, fix the
+    // evaluation of the posterior at the limits of the mass range, and weight
+    // as if we had a KDE with a bandwidth of MScale for the mass distribution.
+    if (m1obs > MMax*(1+z)) {
+      uCut = exp(-((m1obs - MMax*(1+z))/MScale)^2);
+      m1obs = MMax*(1+z);
+    } else {
+      uCut = 1.0;
+      m1obs = m1o;
+    }
+
+    if (m1obs < MMin*(1+z)) {
+      lCut = exp(-((m1obs - MMin*(1+z))/MScale)^2);
+      m1obs = MMin*(1+z);
+    } else {
+      lCut = 1.0;
+      m1obs = m1o;
+    }
 
     dVdz = 4.0*pi()*dH*(dl/(1+z))^2/Ez(z, Om);
     dzddl = 1.0/(dl/(1+z) + dH*(1+z)/Ez(z, Om));
 
     dNdm1obs = R0*(1-alpha)/(MMax^(1-alpha) - MMin^(1-alpha))*(m1obs/(1+z))^(-alpha)/(1+z);
-
-    // We need to soften the sharp cutoff or sampling will be very hard.  The
-    // approach we use is to use a Simpson's rule bandwidth selection for the
-    // mass distribution we are using (the samples of individual mass for each
-    // event, or the samples of detected masses for the selection integral),
-    // which gives us a mass scale; then the hard cutoffs at each end of the
-    // distribution are softened by that scale.
-    if (m1obs > MMax*(1+z)) {
-      uCut = exp(-((m1obs - MMax*(1+z))/MScale)^2);
-    } else {
-      uCut = 1.0;
-    }
-
-    if (m1obs < MMin*(1+z)) {
-      lCut = exp(-((m1obs - MMin*(1+z))/MScale)^2);
-    } else {
-      lCut = 1.0;
-    }
 
     return dNdm1obs*dVdz*dzddl*(1+z)^(gamma-1)*uCut*lCut;
   }
