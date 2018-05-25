@@ -187,14 +187,12 @@ model {
     target += log(mean(fs));
   }
 
-  // Poisson norm; we marginalise over the uncertainty in the Monte-Carlo integral.
-  // We don't smooth here, because we have a lot of points.
+  // Poisson norm; we marginalise over the uncertainty in the Monte-Carlo
+  // integral.  Here we use much smaller smoothing lengths because our samples
+  // are much more dense.
   for (i in 1:ndet) {
-    if (m1s_det[i] > MMin*(1+zs_det[i]) && m1s_det[i] < MMax*(1+zs_det[i])) {
-      fs_det[i] = dNdm1obsdqddl(m1s_det[i], dls_det[i], zs_det[i], R0, alpha, MMin, MMax, gamma, dH, Om, 1.0);
-    } else {
-      fs_det[i] = 0.0;
-    }
+    real s = (200.0-1.0)/ngen; /* Typical mass spacing in the generated population */
+    fs_det[i] = dNdm1obsdqddl(m1s_det[i], dls_det[i], zs_det[i], R0, alpha, MMin, MMax, gamma, dH, Om, s);
   }
 
   {
