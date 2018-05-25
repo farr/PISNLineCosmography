@@ -38,8 +38,17 @@ functions {
     // event, or the samples of detected masses for the selection integral),
     // which gives us a mass scale; then the hard cutoffs at each end of the
     // distribution are softened by that scale.
-    uCut = normal_cdf(MMax, m1obs/(1+z), MScale);
-    lCut = 1.0 - normal_cdf(MMin, m1obs/(1+z), MScale);
+    if (m1obs > MMax*(1+z)) {
+      uCut = exp(-((m1obs - MMax*(1+z))/MScale)^2);
+    } else {
+      uCut = 1.0;
+    }
+
+    if (m1obs < MMin*(1+z)) {
+      lCut = exp(-((m1obs - MMin*(1+z))/MScale)^2);
+    } else {
+      lCut = 1.0;
+    }
 
     return dNdm1obs*dVdz*dzddl*(1+z)^(gamma-1)*uCut*lCut;
   }
@@ -174,8 +183,6 @@ model {
   MMin ~ normal(5.0, 1.0);
   MMax ~ normal(40.0, 10.0);
 
-
-
   for (i in 1:nobs) {
     real fs[nsamp];
 
@@ -197,7 +204,7 @@ model {
     mu = Vgen/ngen*sum(fs_det);
     sigma = Vgen/ngen*sqrt(ndet)*sd(fs_det);
 
-    if (sigma/mu > 0.1) reject("cannot estimate selection integral reliably");
+    if (sigma/mu > 0.5) reject("cannot estimate selection integral reliably");
 
     target += -mu;
   }

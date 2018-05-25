@@ -42,7 +42,7 @@ with h5py.File('selected.h5', 'r') as inp:
 
 model_pop = pystan.StanModel(file='PISNLineCosmography.stan')
 
-nsamp = 200 # TODO: Check convergence with this number of samples.
+nsamp = 25 # TODO: Check convergence with this number of samples.
 nobs = chain['m1s'].shape[0]
 
 m1 = zeros((nobs, nsamp))
