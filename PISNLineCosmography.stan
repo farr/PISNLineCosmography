@@ -20,14 +20,28 @@ functions {
     return dstatedDL;
   }
 
-  real dNdm1obsdqddl(real m1obs, real dl, real z, real R0, real alpha, real MMin, real MMax, real gamma, real dH, real Om) {
+  real dNdm1obsdqddl(real m1obs, real dl, real z, real R0, real alpha, real MMin, real MMax, real gamma, real dH, real Om, real MScale) {
     real dVdz;
     real dzddl;
+    real dNdm1obs;
+    real uCut;
+    real lCut;
 
     dVdz = 4.0*pi()*dH*(dl/(1+z))^2/Ez(z, Om);
     dzddl = 1.0/(dl/(1+z) + dH*(1+z)/Ez(z, Om));
 
-    return R0*(1-alpha)/(MMax^(1-alpha) - MMin^(1-alpha))*(m1obs/(1+z))^(-alpha)/(1+z)*dVdz*dzddl*(1+z)^(gamma-1);
+    dNdm1obs = R0*(1-alpha)/(MMax^(1-alpha) - MMin^(1-alpha))*(m1obs/(1+z))^(-alpha)/(1+z);
+
+    // We need to soften the sharp cutoff or sampling will be very hard.  The
+    // approach we use is to use a Simpson's rule bandwidth selection for the
+    // mass distribution we are using (the samples of individual mass for each
+    // event, or the samples of detected masses for the selection integral),
+    // which gives us a mass scale; then the hard cutoffs at each end of the
+    // distribution are softened by that scale.
+    uCut = normal_cdf(MMax, m1obs/(1+z), MScale);
+    lCut = 1.0 - normal_cdf(MMin, m1obs/(1+z), MScale);
+
+    return dNdm1obs*dVdz*dzddl*(1+z)^(gamma-1)*uCut*lCut;
   }
 }
 
@@ -51,11 +65,10 @@ transformed data {
   int dls_ind[nobs*nsamp];
 
   real sms[nobs];
+  real sm_det[ndet];
 
   real dls_det_sorted[ndet];
   int dls_det_ind[ndet];
-
-  real sm_det;
 
   real Om;
 
@@ -76,14 +89,21 @@ transformed data {
     dls_1d_sorted[i] = dls_1d[dls_ind[i]];
   }
 
-  for (i in 1:nobs) {
-    sms[i] = sd(m1s[i,:])/nsamp^0.2; // Silverman/Scott rule for bandwidth estimation.
-  }
-  sm_det = sd(m1s_det)/ndet^0.2;
-
   dls_det_ind = sort_indices_asc(dls_det);
   for (i in 1:ndet) {
     dls_det_sorted[i] = dls_det[dls_det_ind[i]];
+  }
+
+  // Smoothing scales for each event, roughly following Simpson's rule for
+  // KDE bandwidths.
+  for (i in 1:nobs) {
+    sms[i] = sd(m1s[i,:])/nsamp^0.2;
+  }
+  {
+    real s = sd(log(m1s_det))/ndet^0.2; // Use log-scale uncertainty here, since detected masses span order of magnitude or more
+    for (i in 1:ndet) {
+      sm_det[i] = m1s_det[i]*s; // Log scale smoothing
+    }
   }
 }
 
@@ -93,8 +113,8 @@ parameters {
   real<lower=0> R0;
   real<lower=1.0,upper=10.0> MMin;
   real<lower=30, upper=60.0> MMax;
-  real<lower=-5, upper=2> alpha;
-  real<lower=-1, upper=5> gamma;
+  real<lower=-3, upper=3> alpha;
+  real<lower=-5, upper=5> gamma;
 }
 
 transformed parameters {
@@ -103,6 +123,7 @@ transformed parameters {
 }
 
 model {
+  real Nex;
   real fs_det[ndet];
   real zs[nobs, nsamp];
 
@@ -153,19 +174,31 @@ model {
   MMin ~ normal(5.0, 1.0);
   MMax ~ normal(40.0, 10.0);
 
+
+
   for (i in 1:nobs) {
     real fs[nsamp];
 
     for (j in 1:nsamp) {
-      fs[j] = normal_cdf(MMax*(1+zs[i,j]), m1s[i,j], sms[i]) * (1.0 - normal_cdf(MMin*(1+zs[i,j]), m1s[i,j], sms[i])) * dNdm1obsdqddl(m1s[i,j], dls[i,j], zs[i,j], R0, alpha, MMin, MMax, gamma, dH, Om);
+      fs[j] = dNdm1obsdqddl(m1s[i,j], dls[i,j], zs[i,j], R0, alpha, MMin, MMax, gamma, dH, Om, sms[i]);
     }
-
     target += log(mean(fs));
   }
 
   // Poisson norm; we marginalise over the uncertainty in the Monte-Carlo integral.
   for (i in 1:ndet) {
-    fs_det[i] = normal_cdf(MMax*(1+zs_det[i]), m1s_det[i], sm_det) * (1.0 - normal_cdf(MMin*(1+zs_det[i]), m1s_det[i], sm_det)) * dNdm1obsdqddl(m1s_det[i], dls_det[i], zs_det[i], R0, alpha, MMin, MMax, gamma, dH, Om);
+    fs_det[i] = dNdm1obsdqddl(m1s_det[i], dls_det[i], zs_det[i], R0, alpha, MMin, MMax, gamma, dH, Om, sm_det[i]);
   }
-  target += -Vgen/ngen*sum(fs_det);
+
+  {
+    real mu;
+    real sigma;
+
+    mu = Vgen/ngen*sum(fs_det);
+    sigma = Vgen/ngen*sqrt(ndet)*sd(fs_det);
+
+    if (sigma/mu > 0.1) reject("cannot estimate selection integral reliably");
+
+    target += -mu;
+  }
 }
