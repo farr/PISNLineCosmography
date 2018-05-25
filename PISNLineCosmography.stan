@@ -26,7 +26,7 @@ functions {
     real dNdm1obs;
     real uCut;
     real lCut;
-    real m1obs;
+    real m1obs = m1o;
 
     // We need to soften the sharp cutoff or sampling will be very hard without
     // lots of posterior samples per event.  Within the mass range, we do
@@ -38,7 +38,6 @@ functions {
       m1obs = MMax*(1+z);
     } else {
       uCut = 1.0;
-      m1obs = m1o;
     }
 
     if (m1obs < MMin*(1+z)) {
@@ -46,7 +45,6 @@ functions {
       m1obs = MMin*(1+z);
     } else {
       lCut = 1.0;
-      m1obs = m1o;
     }
 
     dVdz = 4.0*pi()*dH*(dl/(1+z))^2/Ez(z, Om);
