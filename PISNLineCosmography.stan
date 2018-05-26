@@ -20,12 +20,10 @@ functions {
     return dstatedDL;
   }
 
-  real dNdm1obsdqddl(real m1o, real dl, real z, real R0, real alpha, real MMin, real MMax, real gamma, real dH, real Om, real MScale) {
+  real dNdm1obsdqddl(real m1o, real dl, real z, real R0, real alpha, real MMin, real MMax, real gamma, real dH, real Om) {
     real dVdz;
     real dzddl;
     real dNdm1obs;
-    real uCut;
-    real lCut;
     real m1obs = m1o;
 
     // We need to soften the sharp cutoff or sampling will be very hard without
@@ -35,28 +33,8 @@ functions {
     // as if we had a KDE with a bandwidth of MScale for the mass distribution.
     // We artificially cut off the distribution at 5*MScale (by which point the
     // exponential factors are ~1e-7 anyway).
-    if (m1obs > MMax*(1+z) + 5*MScale) {
+    if (m1obs > MMax*(1+z) || m1obs < MMin*(1+z)) {
       return 0.0;
-    }
-
-    if (m1obs > MMax*(1+z)) {
-      real x = (m1obs - MMax*(1+z))/MScale;
-      uCut = exp(-0.5*x*x);
-      m1obs = MMax*(1+z);
-    } else {
-      uCut = 1.0;
-    }
-
-    if (m1obs < MMin*(1+z) - 5*MScale) {
-      return 0.0;
-    }
-
-    if (m1obs < MMin*(1+z)) {
-      real x = (m1obs - MMin*(1+z))/MScale;
-      lCut = exp(-0.5*x*x);
-      m1obs = MMin*(1+z);
-    } else {
-      lCut = 1.0;
     }
 
     dVdz = 4.0*pi()*dH*(dl/(1+z))^2/Ez(z, Om);
@@ -64,7 +42,7 @@ functions {
 
     dNdm1obs = R0*(1-alpha)/(MMax^(1-alpha) - MMin^(1-alpha))*(m1obs/(1+z))^(-alpha)/(1+z);
 
-    return dNdm1obs*dVdz*dzddl*(1+z)^(gamma-1)*uCut*lCut;
+    return dNdm1obs*dVdz*dzddl*(1+z)^(gamma-1);
   }
 }
 
@@ -86,8 +64,6 @@ transformed data {
   real dls_1d[nobs*nsamp];
   real dls_1d_sorted[nobs*nsamp];
   int dls_ind[nobs*nsamp];
-
-  real sms[nobs];
 
   real dls_det_sorted[ndet];
   int dls_det_ind[ndet];
@@ -114,12 +90,6 @@ transformed data {
   dls_det_ind = sort_indices_asc(dls_det);
   for (i in 1:ndet) {
     dls_det_sorted[i] = dls_det[dls_det_ind[i]];
-  }
-
-  // Smoothing scales for each event, roughly following Simpson's rule for
-  // KDE bandwidths.
-  for (i in 1:nobs) {
-    sms[i] = sd(m1s[i,:])/nsamp^0.2;
   }
 }
 
@@ -194,17 +164,15 @@ model {
     real fs[nsamp];
 
     for (j in 1:nsamp) {
-      fs[j] = dNdm1obsdqddl(m1s[i,j], dls[i,j], zs[i,j], R0, alpha, MMin, MMax, gamma, dH, Om, sms[i]);
+      fs[j] = dNdm1obsdqddl(m1s[i,j], dls[i,j], zs[i,j], R0, alpha, MMin, MMax, gamma, dH, Om);
     }
     target += log(mean(fs));
   }
 
   // Poisson norm; we marginalise over the uncertainty in the Monte-Carlo
-  // integral.  Here we use much smaller smoothing lengths because our samples
-  // are much more dense.
+  // integral.
   for (i in 1:ndet) {
-    real s = 0.5; // By examination of the spacing between m1s_det.
-    fs_det[i] = dNdm1obsdqddl(m1s_det[i], dls_det[i], zs_det[i], R0, alpha, MMin, MMax, gamma, dH, Om, s);
+    fs_det[i] = dNdm1obsdqddl(m1s_det[i], dls_det[i], zs_det[i], R0, alpha, MMin, MMax, gamma, dH, Om);
   }
 
   {
