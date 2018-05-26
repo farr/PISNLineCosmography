@@ -28,17 +28,16 @@ functions {
     real uCut;
     real lCut;
 
-    /* Hard-coded smoothing scale of 0.5MSun on each end of the mass
-       distribution. */
+    /* Hard-coded smoothing scale of ~1% of the mass limits. */
     if (m1o > MMax*(1+z)) {
-      real x = (m1o/(1+z) - MMax)/0.5;
+      real x = (m1o/(1+z) - MMax)/0.4;
       uCut = exp(-0.5*x*x);
     } else {
       uCut = 1.0;
     }
 
     if (m1o < MMin*(1+z)) {
-      real x = (m1o/(1+z) - MMin)/0.5;
+      real x = (m1o/(1+z) - MMin)/0.05;
       lCut = exp(-0.5*x*x);
     } else {
       lCut = 1.0;
@@ -75,6 +74,8 @@ transformed data {
   real dls_det_sorted[ndet];
   int dls_det_ind[ndet];
 
+  real m_bw[nobs];
+
   real Om;
 
   real x_r[1];
@@ -98,6 +99,10 @@ transformed data {
   for (i in 1:ndet) {
     dls_det_sorted[i] = dls_det[dls_det_ind[i]];
   }
+
+  for (i in 1:nobs) {
+    m_bw[i] = sd(m1s[i,:])/nsamp^0.2; /* Silverman bandwidth */
+  }
 }
 
 parameters {
@@ -108,6 +113,8 @@ parameters {
   real<lower=30, upper=60.0> MMax;
   real<lower=-3, upper=3> alpha;
   real<lower=-5, upper=5> gamma;
+
+  real unit_normal;
 }
 
 transformed parameters {
@@ -116,7 +123,6 @@ transformed parameters {
 }
 
 model {
-  real Nex;
   real fs_det[ndet];
   real zs[nobs, nsamp];
 
@@ -167,6 +173,8 @@ model {
   MMin ~ normal(5.0, 1.0);
   MMax ~ normal(40.0, 10.0);
 
+  unit_normal ~ normal(0,1);
+
   for (i in 1:nobs) {
     real fs[nsamp];
     real s;
@@ -190,7 +198,7 @@ model {
     mu = Vgen/ngen*sum(fs_det);
     sigma = Vgen/ngen*sqrt(ndet)*sd(fs_det);
 
-    if (sigma/mu > 0.5) reject("cannot estimate selection integral reliably");
+    if (sigma/mu > 0.1) reject("cannot estimate selection integral reliably");
 
     target += -mu;
   }
