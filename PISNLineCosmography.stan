@@ -25,16 +25,23 @@ functions {
     real dzddl;
     real dNdm1obs;
     real m1obs = m1o;
+    real uCut;
+    real lCut;
 
-    // We need to soften the sharp cutoff or sampling will be very hard without
-    // lots of posterior samples per event.  Within the mass range, we do
-    // nothing; when a mass sample moves outside the mass range, fix the
-    // evaluation of the posterior at the limits of the mass range, and weight
-    // as if we had a KDE with a bandwidth of MScale for the mass distribution.
-    // We artificially cut off the distribution at 5*MScale (by which point the
-    // exponential factors are ~1e-7 anyway).
-    if (m1obs > MMax*(1+z) || m1obs < MMin*(1+z)) {
-      return 0.0;
+    /* Hard-coded smoothing scale of 0.5MSun on each end of the mass
+       distribution. */
+    if (m1o > MMax*(1+z)) {
+      real x = (m1o/(1+z) - MMax)/0.5;
+      uCut = exp(-0.5*x*x);
+    } else {
+      uCut = 1.0;
+    }
+
+    if (m1o < MMin*(1+z)) {
+      real x = (m1o/(1+z) - MMin)/0.5;
+      lCut = exp(-0.5*x*x);
+    } else {
+      lCut = 1.0;
     }
 
     dVdz = 4.0*pi()*dH*(dl/(1+z))^2/Ez(z, Om);
@@ -42,7 +49,7 @@ functions {
 
     dNdm1obs = R0*(1-alpha)/(MMax^(1-alpha) - MMin^(1-alpha))*(m1obs/(1+z))^(-alpha)/(1+z);
 
-    return dNdm1obs*dVdz*dzddl*(1+z)^(gamma-1);
+    return dNdm1obs*dVdz*dzddl*(1+z)^(gamma-1)*uCut*lCut;
   }
 }
 
@@ -167,9 +174,7 @@ model {
     for (j in 1:nsamp) {
       fs[j] = dNdm1obsdqddl(m1s[i,j], dls[i,j], zs[i,j], R0, alpha, MMin, MMax, gamma, dH, Om);
     }
-    s = mean(fs);
-    if (s == 0) reject("MMin too large or MMax too small");
-    target += log(s);
+    target += log(mean(fs));
   }
 
   // Poisson norm; we marginalise over the uncertainty in the Monte-Carlo
