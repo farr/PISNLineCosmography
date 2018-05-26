@@ -162,11 +162,14 @@ model {
 
   for (i in 1:nobs) {
     real fs[nsamp];
+    real s;
 
     for (j in 1:nsamp) {
       fs[j] = dNdm1obsdqddl(m1s[i,j], dls[i,j], zs[i,j], R0, alpha, MMin, MMax, gamma, dH, Om);
     }
-    target += log(mean(fs));
+    s = mean(fs);
+    if (s == 0) reject("MMin too large or MMax too small");
+    target += log(s);
   }
 
   // Poisson norm; we marginalise over the uncertainty in the Monte-Carlo
