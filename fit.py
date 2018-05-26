@@ -2,8 +2,26 @@
 
 from pylab import *
 
+from argparse import ArgumentParser
 import h5py
 import pystan
+
+p = ArgumentParser()
+
+post = p.add_argument_group('Event Options')
+post.add_argument('--nsamp', metavar='N', type=int, default=100, help='number of samples to keep (default: %(default)s)')
+post.add_argument('--five-years', action='store_true', help='analyse five years of data (default is 1)')
+
+sel = p.add_argument_group('Selection Function Options')
+sel.add_argument('--frac', metavar='F', type=float, default=1.0, help='fraction of database to use for selection (default: %(default)s)')
+
+samp = p.add_argument_group('Sampling Options')
+samp.add_argument('--iter', metavar='N', type=int, default=2000, help='number of iterations (default: %(default)s)')
+samp.add_argument('--thin', metavar='N', type=int, default=1, help='steps between saved iterations (default: %(default)s)')
+
+args = p.parse_args()
+
+nsamp = args.nsamp
 
 MMin = 5
 MMax = 40
@@ -25,10 +43,15 @@ with h5py.File('observations.h5', 'r') as inp:
     sigma_eta = array(inp['observations']['sigma_eta'])
     sigma_theta = array(inp['observations']['sigma_theta'])
 
+if args.five_years:
+    N_evt = len(m1s)
+else:
+    N_evt = N_1yr
+
 chain = {}
 with h5py.File('parameters.h5', 'r') as inp:
     for n in ['m1s', 'm2s', 'mcs', 'etas', 'qs', 'dLs', 'opt_snrs', 'thetas']:
-        chain[n] = array(inp[n])[:N_1yr, :]
+        chain[n] = array(inp[n])[:N_evt, :]
 
 with h5py.File('selected.h5', 'r') as inp:
     MObsMin = inp.attrs['MObsMin']
@@ -40,9 +63,16 @@ with h5py.File('selected.h5', 'r') as inp:
     qs_det = array(inp['q'])
     dls_det = array(inp['dl'])
 
+n = int(round(args.frac*len(m1s_det)))
+N_gen = int(round(args.frac*N_gen))
+
+m1s_det = m1s_det[:n]
+qs_det = qs_det[:n]
+dls_det = dls_det[:n]
+
+
 model_pop = pystan.StanModel(file='PISNLineCosmography.stan')
 
-nsamp = 100 # TODO: Check convergence with this number of samples.
 nobs = chain['m1s'].shape[0]
 
 m1 = zeros((nobs, nsamp))
@@ -68,11 +98,16 @@ data_pop = {
     'dls_det': dls_det
 }
 
-fit_pop = model_pop.sampling(data=data_pop)
+fit_pop = model_pop.sampling(data=data_pop, iter=args.iter, thin=args.thin)
 
 chain_pop = fit_pop.extract(permuted=True)
 
-with h5py.File('population_1yr.h5', 'w') as out:
+if args.five_years:
+    fname = 'population_5yr_{:03d}.h5'.format(nsamp)
+else:
+    fname = 'population_1yr_{:03d}.h5'.format(nsamp)
+
+with h5py.File(fname, 'w') as out:
     out.attrs['nsamp'] = nsamp
 
     for n in ['H0', 'R0', 'MMax', 'MMin', 'alpha', 'gamma']:
