@@ -69,7 +69,7 @@ m1s_det = m1s_det[:n]
 qs_det = qs_det[:n]
 dls_det = dls_det[:n]
 
-model_pop = pystan.StanModel(file='PISNLineCosmographyKDE.stan')
+model_pop = pystan.StanModel(file='PISNLineCosmography.stan')
 
 nobs = chain['m1s'].shape[0]
 nsamp = args.samp
