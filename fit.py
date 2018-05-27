@@ -9,7 +9,7 @@ import pystan
 p = ArgumentParser()
 
 post = p.add_argument_group('Event Options')
-post.add_argument('--nsamp', metavar='N', type=int, default=100, help='number of samples to keep (default: %(default)s)')
+post.add_argument('--samp', metavar='N', type=int, default=100, help='number of posterior samples used (default: %(default)s)')
 post.add_argument('--five-years', action='store_true', help='analyse five years of data (default is 1)')
 
 sel = p.add_argument_group('Selection Function Options')
@@ -20,8 +20,6 @@ samp.add_argument('--iter', metavar='N', type=int, default=2000, help='number of
 samp.add_argument('--thin', metavar='N', type=int, default=1, help='steps between saved iterations (default: %(default)s)')
 
 args = p.parse_args()
-
-nsamp = args.nsamp
 
 MMin = 5
 MMax = 40
@@ -56,6 +54,7 @@ with h5py.File('parameters.h5', 'r') as inp:
 with h5py.File('selected.h5', 'r') as inp:
     MObsMin = inp.attrs['MObsMin']
     MObsMax = inp.attrs['MObsMax']
+    dLmin = inp.attrs['dLMin']
     dLmax = inp.attrs['dLMax']
     N_gen = inp.attrs['NGen']
 
@@ -70,10 +69,10 @@ m1s_det = m1s_det[:n]
 qs_det = qs_det[:n]
 dls_det = dls_det[:n]
 
-
-model_pop = pystan.StanModel(file='PISNLineCosmography.stan')
+model_pop = pystan.StanModel(file='PISNLineCosmographyKDE.stan')
 
 nobs = chain['m1s'].shape[0]
+nsamp = args.samp
 
 m1 = zeros((nobs, nsamp))
 dl = zeros((nobs, nsamp))
@@ -93,7 +92,7 @@ data_pop = {
 
     'ndet': len(m1s_det),
     'ngen': N_gen,
-    'Vgen': (MObsMax-MObsMin)*dLmax,
+    'Vgen': (MObsMax-MObsMin)*(log(dLmax) - log(dLmin)),
     'm1s_det': m1s_det,
     'dls_det': dls_det
 }

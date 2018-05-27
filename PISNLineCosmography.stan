@@ -1,4 +1,22 @@
 functions {
+  /* The function f(y) = y^3*(6y^2 - 15y + 10) has zero first and second
+     derivative at y = 0,1 and goes from f(0) = 0 to f(1) = 1.  Vanishing first
+     and second derivative ensures both continuity of the gradient and also
+     volume preservation.
+
+     We map x \in [l,h] to y \in [0,1] linearly, so f(x) = 0 at x = l and f(x) =
+     1 at x = h with the zero derivatives occurring there.  Note that there is
+     no requirement that l <= h!
+
+     */
+  real smoothing(real x, real l, real h) {
+    real y = (x-l)/(h-l);
+    real y2 = y*y;
+    real y3 = y2*y;
+
+    return y3*(6.0*y2 - 15.0*y + 10.0);
+  }
+
   real Ez(real z, real Om) {
     real opz = 1.0 + z;
     real opz2 = opz*opz;
@@ -20,35 +38,32 @@ functions {
     return dstatedDL;
   }
 
-  real dNdm1obsdqddl(real m1o, real dl, real z, real R0, real alpha, real MMin, real MMax, real gamma, real dH, real Om) {
+  real dNdm1obsdqddl(real m1obs, real dl, real z, real R0, real alpha, real MMin, real MMax, real gamma, real dH, real Om) {
     real dVdz;
     real dzddl;
     real dNdm1obs;
-    real m1obs = m1o;
-    real uCut;
-    real lCut;
+    real m1 = m1obs / (1+z);
+    real dMLow = 0.1;
+    real dMHigh = 0.5;
 
-    /* Hard-coded smoothing scale of ~1% of the mass limits. */
-    if (m1o > MMax*(1+z)) {
-      real x = (m1o/(1+z) - MMax)/0.4;
-      uCut = exp(-0.5*x*x);
+    if ((m1 < MMin - dMLow) || (m1 > MMax + dMHigh)) {
+      return 0.0;
     } else {
-      uCut = 1.0;
-    }
+      real dN;
+      dVdz = 4.0*pi()*dH*(dl/(1+z))^2/Ez(z, Om);
+      dzddl = 1.0/(dl/(1+z) + dH*(1+z)/Ez(z, Om));
 
-    if (m1o < MMin*(1+z)) {
-      real x = (m1o/(1+z) - MMin)/0.05;
-      lCut = exp(-0.5*x*x);
-    } else {
-      lCut = 1.0;
-    }
+      dNdm1obs = R0*(1-alpha)/(MMax^(1-alpha) - MMin^(1-alpha))*(m1obs/(1+z))^(-alpha)/(1+z);
 
-    dVdz = 4.0*pi()*dH*(dl/(1+z))^2/Ez(z, Om);
-    dzddl = 1.0/(dl/(1+z) + dH*(1+z)/Ez(z, Om));
+      dN = dNdm1obs*dVdz*dzddl*(1+z)^(gamma-1);
 
-    dNdm1obs = R0*(1-alpha)/(MMax^(1-alpha) - MMin^(1-alpha))*(m1obs/(1+z))^(-alpha)/(1+z);
-
-    return dNdm1obs*dVdz*dzddl*(1+z)^(gamma-1)*uCut*lCut;
+      if (m1 < MMin) {
+        return dN*smoothing(m1, MMin-dMLow, MMin);
+      } else if (m1 > MMax) {
+        return dN*smoothing(m1, MMax+dMHigh, MMax);
+      } else {
+        return dN;
+      }
   }
 }
 
@@ -110,7 +125,7 @@ parameters {
 
   real<lower=0> R0;
   real<lower=1.0,upper=10.0> MMin;
-  real<lower=30, upper=60.0> MMax;
+  real<lower=30.0, upper=60.0> MMax;
   real<lower=-3, upper=3> alpha;
   real<lower=-5, upper=5> gamma;
 }
@@ -186,7 +201,8 @@ model {
   // Poisson norm; we marginalise over the uncertainty in the Monte-Carlo
   // integral.
   for (i in 1:ndet) {
-    fs_det[i] = dNdm1obsdqddl(m1s_det[i], dls_det[i], zs_det[i], R0, alpha, MMin, MMax, gamma, dH, Om);
+    /* Since the draws were uniform in d(log(dL)), we need to re-weight by d(dL)/d(log(dL)) = dL */
+    fs_det[i] = dls_det[i]*dNdm1obsdqddl(m1s_det[i], dls_det[i], zs_det[i], R0, alpha, MMin, MMax, gamma, dH, Om);
   }
 
   {
@@ -196,7 +212,7 @@ model {
     mu = Vgen/ngen*sum(fs_det);
     sigma = Vgen/ngen*sqrt(ndet)*sd(fs_det);
 
-    if (sigma/mu > 0.1) reject("cannot estimate selection integral reliably");
+    if (sigma/mu > 1.0/sqrt(nobs)) reject("cannot estimate selection integral reliably");
 
     target += -mu;
   }
