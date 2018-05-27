@@ -186,9 +186,7 @@ model {
   gamma ~ normal(3.0, 1.0);
   MMin ~ normal(5.0, 1.0);
   MMax ~ normal(40.0, 10.0);
-
-  unit_normal ~ normal(0,1);
-
+  
   for (i in 1:nobs) {
     real fs[nsamp];
     real s;
