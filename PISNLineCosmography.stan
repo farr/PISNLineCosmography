@@ -113,8 +113,6 @@ parameters {
   real<lower=30, upper=60.0> MMax;
   real<lower=-3, upper=3> alpha;
   real<lower=-5, upper=5> gamma;
-
-  real unit_normal;
 }
 
 transformed parameters {
