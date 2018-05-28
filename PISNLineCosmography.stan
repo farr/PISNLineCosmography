@@ -186,7 +186,7 @@ model {
   gamma ~ normal(3.0, 1.0);
   MMin ~ normal(5.0, 1.0);
   MMax ~ normal(40.0, 10.0);
-  
+
   for (i in 1:nobs) {
     real fs[nsamp];
     real s;
@@ -201,7 +201,7 @@ model {
   // integral.
   for (i in 1:ndet) {
     /* Since the draws were uniform in d(log(dL)), we need to re-weight by d(dL)/d(log(dL)) = dL */
-    fs_det[i] = dls_det[i]*dNdm1obsdqddl(m1s_det[i], dls_det[i], zs_det[i], R0, alpha, MMin, MMax, gamma, dH, Om);
+    fs_det[i] = dNdm1obsdqddl(m1s_det[i], dls_det[i], zs_det[i], R0, alpha, MMin, MMax, gamma, dH, Om);
   }
 
   {

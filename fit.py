@@ -54,7 +54,6 @@ with h5py.File('parameters.h5', 'r') as inp:
 with h5py.File('selected.h5', 'r') as inp:
     MObsMin = inp.attrs['MObsMin']
     MObsMax = inp.attrs['MObsMax']
-    dLmin = inp.attrs['dLMin']
     dLmax = inp.attrs['dLMax']
     N_gen = inp.attrs['NGen']
 
@@ -92,7 +91,7 @@ data_pop = {
 
     'ndet': len(m1s_det),
     'ngen': N_gen,
-    'Vgen': (MObsMax-MObsMin)*(log(dLmax) - log(dLmin)),
+    'Vgen': (MObsMax-MObsMin)*dLmax,
     'm1s_det': m1s_det,
     'dls_det': dls_det
 }
