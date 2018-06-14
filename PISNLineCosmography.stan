@@ -220,7 +220,7 @@ model {
 
   /* Population Distribution */
   for (i in 1:nobs) {
-    target += dNdm1obsdqddl(m1s_true[i], dls_true[i], zs_true[i], R0, alpha, MMin, MMax, gamma, dH, Om);
+    target += log(dNdm1obsdqddl(m1s_true[i], dls_true[i], zs_true[i], R0, alpha, MMin, MMax, gamma, dH, Om));
   }
 
   /* GW data likelihood */
