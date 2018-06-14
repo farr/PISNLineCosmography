@@ -1,22 +1,4 @@
 functions {
-  /* The function f(y) = y^3*(6y^2 - 15y + 10) has zero first and second
-     derivative at y = 0,1 and goes from f(0) = 0 to f(1) = 1.  Vanishing first
-     and second derivative ensures both continuity of the gradient and also
-     volume preservation.
-
-     We map x \in [l,h] to y \in [0,1] linearly, so f(x) = 0 at x = l and f(x) =
-     1 at x = h with the zero derivatives occurring there.  Note that there is
-     no requirement that l <= h!
-
-     */
-  real smoothing(real x, real l, real h) {
-    real y = (x-l)/(h-l);
-    real y2 = y*y;
-    real y3 = y2*y;
-
-    return y3*(6.0*y2 - 15.0*y + 10.0);
-  }
-
   real Ez(real z, real Om) {
     real opz = 1.0 + z;
     real opz2 = opz*opz;
@@ -42,29 +24,51 @@ functions {
     real dVdz;
     real dzddl;
     real dNdm1obs;
-    real m1 = m1obs / (1+z);
-    real dMLow = 0.1;
-    real dMHigh = 0.5;
+    real dN;
 
-    if ((m1 < MMin - dMLow) || (m1 > MMax + dMHigh)) {
-      return 0.0;
-    } else {
-      real dN;
-      dVdz = 4.0*pi()*dH*(dl/(1+z))^2/Ez(z, Om);
-      dzddl = 1.0/(dl/(1+z) + dH*(1+z)/Ez(z, Om));
+    dVdz = 4.0*pi()*dH*(dl/(1+z))^2/Ez(z, Om);
+    dzddl = 1.0/(dl/(1+z) + dH*(1+z)/Ez(z, Om));
 
-      dNdm1obs = R0*(1-alpha)/(MMax^(1-alpha) - MMin^(1-alpha))*(m1obs/(1+z))^(-alpha)/(1+z);
+    dNdm1obs = R0*(1-alpha)/(MMax^(1-alpha) - MMin^(1-alpha))*(m1obs/(1+z))^(-alpha)/(1+z);
 
-      dN = dNdm1obs*dVdz*dzddl*(1+z)^(gamma-1);
+    dN = dNdm1obs*dVdz*dzddl*(1+z)^(gamma-1);
+    return dN;
+  }
 
-      if (m1 < MMin) {
-        return dN*smoothing(m1, MMin-dMLow, MMin);
-      } else if (m1 > MMax) {
-        return dN*smoothing(m1, MMax+dMHigh, MMax);
+  int bisect_index(real x, real[] xs) {
+    int n = size(xs);
+    int i = 1;
+    int j = n;
+    real xi = xs[i];
+    real xj = xs[j];
+
+    if (x < xs[1] || x > xs[n]) reject("cannot interpolate out of bounds");
+
+    while (j - i > 1) {
+      int k = i + (j-i)/2;
+      real xk = xs[k];
+
+      if (x <= xk) {
+        j = k;
+        xj = xk;
       } else {
-        return dN;
+        i = k;
+        xi = xk;
       }
     }
+
+    return j;
+  }
+
+  real interp1d(real x, real[] xs, real[] ys) {
+    int i = bisect_index(x, xs);
+    real xl = xs[i-1];
+    real xh = xs[i];
+    real yl = ys[i-1];
+    real yh = ys[i];
+    real r = (x-xl)/(xh-xl);
+
+    return r*yh + (1.0-r)*yl;
   }
 }
 
@@ -80,17 +84,22 @@ data {
   real Vgen;
   real m1s_det[ndet];
   real dls_det[ndet];
+
+  int ninterp;
+
+  real mass_smoothing_scale_low;
+  real mass_smoothing_scale_high;
 }
 
 transformed data {
-  real dls_1d[nobs*nsamp];
-  real dls_1d_sorted[nobs*nsamp];
-  int dls_ind[nobs*nsamp];
-
   real dls_det_sorted[ndet];
   int dls_det_ind[ndet];
 
-  real m_bw[nobs];
+  vector[2] kde_pts[nobs, nsamp];
+  matrix[2,2] chol_kde_cov[nobs];
+
+  real dl_max;
+  real dls_interp[ninterp];
 
   real Om;
 
@@ -100,24 +109,47 @@ transformed data {
   Om = 0.3075;
   x_r[1] = Om;
 
-  for (i in 1:nobs) {
-    for (j in 1:nsamp) {
-      dls_1d[(i-1)*nsamp + j] = dls[i,j];
+  {
+    dl_max = 2.0*max({max(dls_det), max(to_array_1d(dls))}); // Maximum dL is double largest sample
+
+    for (i in 1:ninterp) {
+      dls_interp[i] = (i-1.0)/(ninterp-1.0)*dl_max;
     }
   }
 
-  dls_ind = sort_indices_asc(dls_1d);
-  for (i in 1:nobs*nsamp) {
-    dls_1d_sorted[i] = dls_1d[dls_ind[i]];
+  {
+    dls_det_ind = sort_indices_asc(dls_det);
+    for (i in 1:ndet) {
+      dls_det_sorted[i] = dls_det[dls_det_ind[i]];
+    }
   }
 
-  dls_det_ind = sort_indices_asc(dls_det);
-  for (i in 1:ndet) {
-    dls_det_sorted[i] = dls_det[dls_det_ind[i]];
-  }
+  {
+    for (i in 1:nobs) {
+      real mu_dl = 0.0;
+      real mu_m = 0.0;
+      matrix[2,2] c;
 
-  for (i in 1:nobs) {
-    m_bw[i] = sd(m1s[i,:])/nsamp^0.2; /* Silverman bandwidth */
+      for (j in 1:nsamp) {
+        mu_dl = mu_dl + dls[i,j];
+        mu_m = mu_m + m1s[i,j];
+
+        kde_pts[i,j][1] = m1s[i,j];
+        kde_pts[i,j][2] = dls[i,j];
+      }
+      mu_dl = mu_dl / nsamp;
+      mu_m = mu_m / nsamp;
+
+      c = rep_matrix(0.0, 2, 2);
+      for (j in 1:nsamp) {
+        c[1,1] = c[1,1] + square(m1s[i,j] - mu_m);
+        c[2,2] = c[2,2] + square(dls[i,j] - mu_dl);
+        c[1,2] = c[1,2] + (m1s[i,j] - mu_m) * (dls[i,j] - mu_dl);
+        c[2,1] = c[1,2];
+      }
+      c = c / nsamp^(4.0/3.0); // 1.0 + 2/(4 + d) = 4/3; 1.0 is to compute the mean, the 2/(4+d) is Silverman bandwidth rule
+      chol_kde_cov[i] = cholesky_decompose(c);
+    }
   }
 }
 
@@ -129,6 +161,9 @@ parameters {
   real<lower=30.0, upper=60.0> MMax;
   real<lower=-3, upper=3> alpha;
   real<lower=-5, upper=5> gamma;
+
+  real<lower=MMin, upper=MMax> m1s_true[nobs];
+  real<lower=0, upper=dl_max> dls_true[nobs];
 }
 
 transformed parameters {
@@ -138,29 +173,25 @@ transformed parameters {
 
 model {
   real fs_det[ndet];
-  real zs[nobs, nsamp];
+  real zs_true[nobs];
 
   real zs_det[ndet];
 
   {
-    real zs_1d[nobs*nsamp];
+    real zs_interp[ninterp];
     real theta[1];
     real state0[1];
-    real states[nobs*nsamp, 1];
+    real states[ninterp-1, 1];
 
     theta[1] = dH;
     state0[1] = 0.0;
 
-    states = integrate_ode_rk45(dzdDL, state0, 0.0, dls_1d_sorted, theta, x_r, x_i);
-
-    for (i in 1:nobs*nsamp) {
-      zs_1d[dls_ind[i]] = states[i,1];
-    }
+    states = integrate_ode_rk45(dzdDL, state0, 0.0, dls_interp[2:], theta, x_r, x_i);
+    zs_interp[1] = 0.0;
+    zs_interp[2:] = states[:,1];
 
     for (i in 1:nobs) {
-      for (j in 1:nsamp) {
-        zs[i,j] = zs_1d[(i-1)*nsamp + j];
-      }
+        zs_true[i] = interp1d(dls_true[i], dls_interp, zs_interp);
     }
   }
 
@@ -187,21 +218,32 @@ model {
   MMin ~ normal(5.0, 1.0);
   MMax ~ normal(40.0, 10.0);
 
+  /* Population Distribution */
+  for (i in 1:nobs) {
+    target += dNdm1obsdqddl(m1s_true[i], dls_true[i], zs_true[i], R0, alpha, MMin, MMax, gamma, dH, Om);
+  }
+
+  /* GW data likelihood */
   for (i in 1:nobs) {
     real fs[nsamp];
-    real s;
+    vector[2] p;
+
+    p[1] = m1s_true[i];
+    p[2] = dls_true[i];
 
     for (j in 1:nsamp) {
-      fs[j] = dNdm1obsdqddl(m1s[i,j], dls[i,j], zs[i,j], R0, alpha, MMin, MMax, gamma, dH, Om);
+      fs[j] = multi_normal_cholesky_lpdf(kde_pts[i,j] | p, chol_kde_cov[i]);
     }
-    target += log(mean(fs));
+    target += log_sum_exp(fs) - log(nsamp); /* Mean of the KDE kernels. */
   }
 
   // Poisson norm; we marginalise over the uncertainty in the Monte-Carlo
-  // integral.
+  // integral.  Here we smooth the sharp cutoff of the distribution
+  // exponentially at both ends with the smoothing scale given in the data block.
   for (i in 1:ndet) {
-    /* Since the draws were uniform in d(log(dL)), we need to re-weight by d(dL)/d(log(dL)) = dL */
     fs_det[i] = dNdm1obsdqddl(m1s_det[i], dls_det[i], zs_det[i], R0, alpha, MMin, MMax, gamma, dH, Om);
+
+    fs_det[i] = fs_det[i] * normal_cdf(m1s_det[i], MMin, mass_smoothing_scale_low) * (1.0 - normal_cdf(m1s_det[i], MMax, mass_smoothing_scale_high));
   }
 
   {

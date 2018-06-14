@@ -14,6 +14,11 @@ post.add_argument('--five-years', action='store_true', help='analyse five years 
 
 sel = p.add_argument_group('Selection Function Options')
 sel.add_argument('--frac', metavar='F', type=float, default=1.0, help='fraction of database to use for selection (default: %(default)s)')
+sel.add_argument('--smooth-low', metavar='DM', type=float, default=0.1, help='smoothing scale at the low-mass end (default: %(default)s)')
+sel.add_argument('--smooth-high', metavar='DM', type=float, default=0.05, help='smoothing scale at the high-mass end (default: %(default)s)')
+
+sel = p.add_argument_group('Cosmology Options')
+sel.add_argument('--ninterp', metavar='N', type=int, default=200, help='number of points for iterpolation of z(dL) (default: %(default)s)')
 
 samp = p.add_argument_group('Sampling Options')
 samp.add_argument('--iter', metavar='N', type=int, default=2000, help='number of iterations (default: %(default)s)')
@@ -93,7 +98,12 @@ data_pop = {
     'ngen': N_gen,
     'Vgen': (MObsMax-MObsMin)*dLmax,
     'm1s_det': m1s_det,
-    'dls_det': dls_det
+    'dls_det': dls_det,
+
+    'ninterp': args.ninterp,
+
+    'mass_smoothing_scale_low': args.smooth_low,
+    'mass_smoothing_scale_high': args.smooth_high
 }
 
 fit_pop = model_pop.sampling(data=data_pop, iter=args.iter, thin=args.thin)
