@@ -20,7 +20,7 @@ functions {
     return dstatedDL;
   }
 
-  real dNdm1obsdqddl(real m1obs, real dl, real z, real R0, real alpha, real MMin, real MMax, real gamma, real dH, real Om) {
+  real dNdm1obsdqddl(real m1obs, real dl, real z, real R0, real alpha, real MMin, real MMax, real gamma, real dH, real Om, real smooth_low, real smooth_high) {
     real dVdz;
     real dzddl;
     real dNdm1obs;
@@ -32,43 +32,8 @@ functions {
     dNdm1obs = R0*(1-alpha)/(MMax^(1-alpha) - MMin^(1-alpha))*(m1obs/(1+z))^(-alpha)/(1+z);
 
     dN = dNdm1obs*dVdz*dzddl*(1+z)^(gamma-1);
-    return dN;
-  }
 
-  int bisect_index(real x, real[] xs) {
-    int n = size(xs);
-    int i = 1;
-    int j = n;
-    real xi = xs[i];
-    real xj = xs[j];
-
-    if (x < xs[1] || x > xs[n]) reject("cannot interpolate out of bounds");
-
-    while (j - i > 1) {
-      int k = i + (j-i)/2;
-      real xk = xs[k];
-
-      if (x <= xk) {
-        j = k;
-        xj = xk;
-      } else {
-        i = k;
-        xi = xk;
-      }
-    }
-
-    return j;
-  }
-
-  real interp1d(real x, real[] xs, real[] ys) {
-    int i = bisect_index(x, xs);
-    real xl = xs[i-1];
-    real xh = xs[i];
-    real yl = ys[i-1];
-    real yh = ys[i];
-    real r = (x-xl)/(xh-xl);
-
-    return r*yh + (1.0-r)*yl;
+    return dN*normal_cdf(m1obs, MMin, smooth_low)*(1-normal_cdf(m1obs, MMax, smooth_high));
   }
 }
 
@@ -85,8 +50,6 @@ data {
   real m1s_det[ndet];
   real dls_det[ndet];
 
-  int ninterp;
-
   real mass_smoothing_scale_low;
   real mass_smoothing_scale_high;
 }
@@ -95,25 +58,30 @@ transformed data {
   real dls_det_sorted[ndet];
   int dls_det_ind[ndet];
 
-  vector[2] kde_pts[nobs, nsamp];
-  matrix[2,2] chol_kde_cov[nobs];
-
-  real dl_max;
-  real dls_interp[ninterp];
+  real dls_1d[nobs*nsamp];
+  real dls_1d_sorted[nobs*nsamp];
+  int dls_1d_ind[nobs*nsamp];
 
   real Om;
 
   real x_r[1];
   int x_i[0];
 
+  real m_bw[nobs];
+
   Om = 0.3075;
   x_r[1] = Om;
 
   {
-    dl_max = 2.0*max({max(dls_det), max(to_array_1d(dls))}); // Maximum dL is double largest sample
+    for (i in 1:nobs) {
+      for (j in 1:nsamp) {
+        dls_1d[(i-1)*nsamp + j] = dls[i,j];
+      }
+    }
 
-    for (i in 1:ninterp) {
-      dls_interp[i] = (i-1.0)/(ninterp-1.0)*dl_max;
+    dls_1d_ind = sort_indices_asc(dls_1d);
+    for (i in 1:nobs*nsamp) {
+      dls_1d_sorted[i] = dls_1d[dls_1d_ind[i]];
     }
   }
 
@@ -124,32 +92,8 @@ transformed data {
     }
   }
 
-  {
-    for (i in 1:nobs) {
-      real mu_dl = 0.0;
-      real mu_m = 0.0;
-      matrix[2,2] c;
-
-      for (j in 1:nsamp) {
-        mu_dl = mu_dl + dls[i,j];
-        mu_m = mu_m + m1s[i,j];
-
-        kde_pts[i,j][1] = m1s[i,j];
-        kde_pts[i,j][2] = dls[i,j];
-      }
-      mu_dl = mu_dl / nsamp;
-      mu_m = mu_m / nsamp;
-
-      c = rep_matrix(0.0, 2, 2);
-      for (j in 1:nsamp) {
-        c[1,1] = c[1,1] + square(m1s[i,j] - mu_m);
-        c[2,2] = c[2,2] + square(dls[i,j] - mu_dl);
-        c[1,2] = c[1,2] + (m1s[i,j] - mu_m) * (dls[i,j] - mu_dl);
-        c[2,1] = c[1,2];
-      }
-      c = c / nsamp^(4.0/3.0); // 1.0 + 2/(4 + d) = 4/3; 1.0 is to compute the mean, the 2/(4+d) is Silverman bandwidth rule
-      chol_kde_cov[i] = cholesky_decompose(c);
-    }
+  for (i in 1:nobs) {
+    m_bw[i] = sd(m1s[i,:])/nsamp^0.2;  /* Silverman rule for bandwidth */
   }
 }
 
@@ -161,9 +105,6 @@ parameters {
   real<lower=30.0, upper=60.0> MMax;
   real<lower=-3, upper=3> alpha;
   real<lower=-5, upper=5> gamma;
-
-  real<lower=MMin, upper=MMax> m1s_true[nobs];
-  real<lower=0, upper=dl_max> dls_true[nobs];
 }
 
 transformed parameters {
@@ -173,25 +114,31 @@ transformed parameters {
 
 model {
   real fs_det[ndet];
-  real zs_true[nobs];
+  real zs[nobs, nsamp];
 
   real zs_det[ndet];
 
   {
-    real zs_interp[ninterp];
+    real zs_1d[nobs*nsamp];
+    real zs_1d_sorted[nobs*nsamp];
     real theta[1];
     real state0[1];
-    real states[ninterp-1, 1];
+    real states[nobs*nsamp,1];
 
     theta[1] = dH;
     state0[1] = 0.0;
 
-    states = integrate_ode_rk45(dzdDL, state0, 0.0, dls_interp[2:], theta, x_r, x_i);
-    zs_interp[1] = 0.0;
-    zs_interp[2:] = states[:,1];
+    states = integrate_ode_rk45(dzdDL, state0, 0.0, dls_1d_sorted, theta, x_r, x_i);
+    zs_1d_sorted = states[:,1];
+
+    for (i in 1:nobs*nsamp) {
+      zs_1d[dls_1d_ind[i]] = zs_1d_sorted[i];
+    }
 
     for (i in 1:nobs) {
-        zs_true[i] = interp1d(dls_true[i], dls_interp, zs_interp);
+      for (j in 1:nsamp) {
+        zs[i,j] = zs_1d[(i-1)*nsamp + j];
+      }
     }
   }
 
@@ -218,32 +165,21 @@ model {
   MMin ~ normal(5.0, 1.0);
   MMax ~ normal(40.0, 10.0);
 
-  /* Population Distribution */
-  for (i in 1:nobs) {
-    target += log(dNdm1obsdqddl(m1s_true[i], dls_true[i], zs_true[i], R0, alpha, MMin, MMax, gamma, dH, Om));
-  }
-
-  /* GW data likelihood */
   for (i in 1:nobs) {
     real fs[nsamp];
-    vector[2] p;
-
-    p[1] = m1s_true[i];
-    p[2] = dls_true[i];
 
     for (j in 1:nsamp) {
-      fs[j] = multi_normal_cholesky_lpdf(kde_pts[i,j] | p, chol_kde_cov[i]);
+      fs[j] = dNdm1obsdqddl(m1s[i,j], dls[i,j], zs[i,j], R0, alpha, MMin, MMax, gamma, dH, Om, m_bw[i], m_bw[i]);
     }
-    target += log_sum_exp(fs) - log(nsamp); /* Mean of the KDE kernels. */
+
+    target += log(mean(fs));
   }
 
   // Poisson norm; we marginalise over the uncertainty in the Monte-Carlo
   // integral.  Here we smooth the sharp cutoff of the distribution
   // exponentially at both ends with the smoothing scale given in the data block.
   for (i in 1:ndet) {
-    fs_det[i] = dNdm1obsdqddl(m1s_det[i], dls_det[i], zs_det[i], R0, alpha, MMin, MMax, gamma, dH, Om);
-
-    fs_det[i] = fs_det[i] * normal_cdf(m1s_det[i], MMin, mass_smoothing_scale_low) * (1.0 - normal_cdf(m1s_det[i], MMax, mass_smoothing_scale_high));
+    fs_det[i] = dNdm1obsdqddl(m1s_det[i], dls_det[i], zs_det[i], R0, alpha, MMin, MMax, gamma, dH, Om, mass_smoothing_scale_low, mass_smoothing_scale_high);
   }
 
   {
