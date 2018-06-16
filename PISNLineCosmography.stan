@@ -49,9 +49,6 @@ data {
   real Vgen;
   real m1s_det[ndet];
   real dls_det[ndet];
-
-  real mass_smoothing_scale_low;
-  real mass_smoothing_scale_high;
 }
 
 transformed data {
@@ -66,8 +63,6 @@ transformed data {
 
   real x_r[1];
   int x_i[0];
-
-  real m_bw[nobs];
 
   Om = 0.3075;
   x_r[1] = Om;
@@ -91,10 +86,6 @@ transformed data {
       dls_det_sorted[i] = dls_det[dls_det_ind[i]];
     }
   }
-
-  for (i in 1:nobs) {
-    m_bw[i] = sd(m1s[i,:])/nsamp^0.2;  /* Silverman rule for bandwidth */
-  }
 }
 
 parameters {
@@ -105,6 +96,9 @@ parameters {
   real<lower=30.0, upper=60.0> MMax;
   real<lower=-3, upper=3> alpha;
   real<lower=-5, upper=5> gamma;
+
+  real<lower=0> smoothing_low;
+  real<lower=0> smoothing_high;
 }
 
 transformed parameters {
@@ -165,11 +159,14 @@ model {
   MMin ~ normal(5.0, 1.0);
   MMax ~ normal(40.0, 10.0);
 
+  smoothing_low ~ lognormal(0.0, 1.0);
+  smoothing_high ~ lognormal(0.0, 1.0);
+
   for (i in 1:nobs) {
     real fs[nsamp];
 
     for (j in 1:nsamp) {
-      fs[j] = dNdm1obsdqddl(m1s[i,j], dls[i,j], zs[i,j], R0, alpha, MMin, MMax, gamma, dH, Om, m_bw[i], m_bw[i]);
+      fs[j] = dNdm1obsdqddl(m1s[i,j], dls[i,j], zs[i,j], R0, alpha, MMin, MMax, gamma, dH, Om, smoothing_low, smoothing_high);
     }
 
     target += log(mean(fs));
@@ -179,7 +176,7 @@ model {
   // integral.  Here we smooth the sharp cutoff of the distribution
   // exponentially at both ends with the smoothing scale given in the data block.
   for (i in 1:ndet) {
-    fs_det[i] = dNdm1obsdqddl(m1s_det[i], dls_det[i], zs_det[i], R0, alpha, MMin, MMax, gamma, dH, Om, mass_smoothing_scale_low, mass_smoothing_scale_high);
+    fs_det[i] = dNdm1obsdqddl(m1s_det[i], dls_det[i], zs_det[i], R0, alpha, MMin, MMax, gamma, dH, Om, smoothing_low, smoothing_high);
   }
 
   {
