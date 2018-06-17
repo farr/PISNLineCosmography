@@ -33,7 +33,7 @@ functions {
 
     dN = dNdm1obs*dVdz*dzddl*(1+z)^(gamma-1);
 
-    return dN*normal_cdf(m1obs, MMin, smooth_low)*(1-normal_cdf(m1obs, MMax, smooth_high));
+    return dN*normal_cdf(m1obs/(1+z), MMin, smooth_low)*(1-normal_cdf(m1obs/(1+z), MMax, smooth_high));
   }
 }
 
@@ -49,6 +49,9 @@ data {
   real Vgen;
   real m1s_det[ndet];
   real dls_det[ndet];
+
+  real smooth_high;
+  real smooth_low;
 }
 
 transformed data {
@@ -91,19 +94,17 @@ transformed data {
 parameters {
   real<lower=0> h;
 
-  real<lower=0> R0;
+  real<lower=0> r100;
   real<lower=1.0,upper=10.0> MMin;
   real<lower=30.0, upper=60.0> MMax;
   real<lower=-3, upper=3> alpha;
   real<lower=-5, upper=5> gamma;
-
-  real<lower=0> smoothing_low;
-  real<lower=0> smoothing_high;
 }
 
 transformed parameters {
   real H0 = 100.0*h;
   real dH = 4.42563416002 * (67.74/H0);
+  real R0 = 100.0*r100;
 }
 
 model {
@@ -151,22 +152,19 @@ model {
     }
   }
 
-  h ~ lognormal(log(0.7), 0.2);
+  h ~ lognormal(log(0.7), 0.5);
 
-  R0 ~ lognormal(log(100.0), 1.0);
+  r100 ~ lognormal(0.0, 1.0);
   alpha ~ normal(1.0, 1.0);
   gamma ~ normal(3.0, 1.0);
   MMin ~ normal(5.0, 1.0);
   MMax ~ normal(40.0, 10.0);
 
-  smoothing_low ~ lognormal(0.0, 1.0);
-  smoothing_high ~ lognormal(0.0, 1.0);
-
   for (i in 1:nobs) {
     real fs[nsamp];
 
     for (j in 1:nsamp) {
-      fs[j] = dNdm1obsdqddl(m1s[i,j], dls[i,j], zs[i,j], R0, alpha, MMin, MMax, gamma, dH, Om, smoothing_low, smoothing_high);
+      fs[j] = dNdm1obsdqddl(m1s[i,j], dls[i,j], zs[i,j], R0, alpha, MMin, MMax, gamma, dH, Om, smooth_low, smooth_high);
     }
 
     target += log(mean(fs));
@@ -176,7 +174,7 @@ model {
   // integral.  Here we smooth the sharp cutoff of the distribution
   // exponentially at both ends with the smoothing scale given in the data block.
   for (i in 1:ndet) {
-    fs_det[i] = dNdm1obsdqddl(m1s_det[i], dls_det[i], zs_det[i], R0, alpha, MMin, MMax, gamma, dH, Om, smoothing_low, smoothing_high);
+    fs_det[i] = dNdm1obsdqddl(m1s_det[i], dls_det[i], zs_det[i], R0, alpha, MMin, MMax, gamma, dH, Om, smooth_low, smooth_high);
   }
 
   {
