@@ -1,0 +1,55 @@
+Universe = vanilla
+executable = /home/wfarr/PISNLineCosmography/fit.py
+getenv = True
+
+request_cpus = 4
+
+nsamp = 50
+
+output = logs/1yr_$(nsamp).out
+error = logs/1yr_$(nsamp).err
+log = logs/1yr_$(nsamp).log
+
+arguments = --samp $(nsamp)
+
+queue
+
+nsamp = 100
+
+output = logs/1yr_$(nsamp).out
+error = logs/1yr_$(nsamp).err
+log = logs/1yr_$(nsamp).log
+
+arguments = --samp $(nsamp)
+
+queue
+
+nsamp = 200
+
+output = logs/1yr_$(nsamp).out
+error = logs/1yr_$(nsamp).err
+log = logs/1yr_$(nsamp).log
+
+arguments = --samp $(nsamp)
+
+queue
+
+nsamp = 400
+
+output = logs/1yr_$(nsamp).out
+error = logs/1yr_$(nsamp).err
+log = logs/1yr_$(nsamp).log
+
+arguments = --samp $(nsamp)
+
+queue
+
+nsamp = 800
+
+output = logs/1yr_$(nsamp).out
+error = logs/1yr_$(nsamp).err
+log = logs/1yr_$(nsamp).log
+
+arguments = --samp $(nsamp)
+
+queue

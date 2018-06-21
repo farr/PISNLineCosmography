@@ -1,0 +1,112 @@
+
+Gradient evaluation took 3.68149 seconds
+1000 transitions using 10 leapfrog steps per transition would take 36814.9 seconds.
+Adjust your expectations accordingly!
+
+
+
+Gradient evaluation took 3.65164 seconds
+1000 transitions using 10 leapfrog steps per transition would take 36516.4 seconds.
+Adjust your expectations accordingly!
+
+
+
+Gradient evaluation took 3.62547 seconds
+1000 transitions using 10 leapfrog steps per transition would take 36254.7 seconds.
+Adjust your expectations accordingly!
+
+
+
+Gradient evaluation took 3.71855 seconds
+1000 transitions using 10 leapfrog steps per transition would take 37185.5 seconds.
+Adjust your expectations accordingly!
+
+
+Iteration:    1 / 2000 [  0%]  (Warmup)
+Iteration:    1 / 2000 [  0%]  (Warmup)
+Iteration:    1 / 2000 [  0%]  (Warmup)
+Iteration:    1 / 2000 [  0%]  (Warmup)
+Iteration:  200 / 2000 [ 10%]  (Warmup)
+Iteration:  200 / 2000 [ 10%]  (Warmup)
+Iteration:  200 / 2000 [ 10%]  (Warmup)
+Iteration:  200 / 2000 [ 10%]  (Warmup)
+Iteration:  400 / 2000 [ 20%]  (Warmup)
+Iteration:  400 / 2000 [ 20%]  (Warmup)
+Iteration:  400 / 2000 [ 20%]  (Warmup)
+Iteration:  400 / 2000 [ 20%]  (Warmup)
+Iteration:  600 / 2000 [ 30%]  (Warmup)
+Iteration:  600 / 2000 [ 30%]  (Warmup)
+Iteration:  600 / 2000 [ 30%]  (Warmup)
+Iteration:  600 / 2000 [ 30%]  (Warmup)
+Iteration:  800 / 2000 [ 40%]  (Warmup)
+Iteration:  800 / 2000 [ 40%]  (Warmup)
+Iteration:  800 / 2000 [ 40%]  (Warmup)
+Iteration:  800 / 2000 [ 40%]  (Warmup)
+Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Iteration: 2000 / 2000 [100%]  (Sampling)
+
+ Elapsed Time: 52227.6 seconds (Warm-up)
+               52001.7 seconds (Sampling)
+               104229 seconds (Total)
+
+Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Iteration: 2000 / 2000 [100%]  (Sampling)
+
+ Elapsed Time: 55070 seconds (Warm-up)
+               58060.9 seconds (Sampling)
+               113131 seconds (Total)
+
+Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Iteration: 2000 / 2000 [100%]  (Sampling)
+
+ Elapsed Time: 57687.3 seconds (Warm-up)
+               61694.1 seconds (Sampling)
+               119381 seconds (Total)
+
+Iteration: 2000 / 2000 [100%]  (Sampling)
+
+ Elapsed Time: 58494.3 seconds (Warm-up)
+               69099.8 seconds (Sampling)
+               127594 seconds (Total)
+
+Inference for Stan model: anon_model_b1cd0136479701f07fe18a5cb7ad861b.
+4 chains, each with iter=2000; warmup=1000; thin=1; 
+post-warmup draws per chain=1000, total post-warmup draws=4000.
+
+        mean se_mean     sd   2.5%    25%    50%    75%  97.5%  n_eff   Rhat
+h       0.69  2.6e-3   0.12   0.47   0.61   0.68   0.76   0.94 2107.0    1.0
+r100    1.32  3.8e-3   0.19   0.98   1.18    1.3   1.44   1.74 2603.0    1.0
+MMin    6.12    0.01   0.73    4.5    5.7   6.21   6.61   7.38 2768.0    1.0
+MMax   39.79    0.04   1.71  36.61  38.63  39.72  40.84  43.39 2092.0    1.0
+alpha   1.04  4.1e-3   0.21   0.61   0.89   1.04   1.18   1.45 2632.0    1.0
+gamma   2.37    0.01   0.53   1.33   2.02   2.36    2.7   3.43 2655.0    1.0
+H0     68.85    0.26  11.82  47.36  60.85  68.06   76.2  93.92 2107.0    1.0
+dH      4.49    0.02    0.8   3.19   3.93    4.4   4.93   6.33 2044.0    1.0
+R0    131.79    0.38  19.13  97.67 118.24  130.1 143.55 173.91 2603.0    1.0
+lp__  467.48    0.05   1.78 463.09  466.5 467.81  468.8  470.0 1481.0    1.0
+
+Samples were drawn using NUTS at Thu Jun 21 16:47:38 2018.
+For each parameter, n_eff is a crude measure of effective sample size,
+and Rhat is the potential scale reduction factor on split chains (at 
+convergence, Rhat=1).
