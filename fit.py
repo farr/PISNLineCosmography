@@ -16,7 +16,7 @@ sel = p.add_argument_group('Selection Function Options')
 sel.add_argument('--frac', metavar='F', type=float, default=1.0, help='fraction of database to use for selection (default: %(default)s)')
 
 sel = p.add_argument_group('Smoothing Options')
-sel.add_argument('--smooth-high', metavar='DM', type=float, default=0.4, help='high mass cutoff smoothing length (default: %(default)s)')
+sel.add_argument('--smooth-high', metavar='DM', type=float, default=0.05, help='high mass cutoff smoothing length (default: %(default)s)')
 sel.add_argument('--smooth-low', metavar='DM', type=float, default=0.1, help='low mass cutoff smoothing length (default: %(default)s)')
 
 samp = p.add_argument_group('Sampling Options')
@@ -84,14 +84,27 @@ for i in range(nobs):
     m1[i,:] = np.random.choice(chain['m1s'][i,:], replace=False, size=nsamp)
     dl[i,:] = np.random.choice(chain['dLs'][i,:], replace=False, size=nsamp)
 
-# It is important for the error checking of the ODE integrator that all the dl are unique, so we dither by 1 pc
-dl = dl + 1e-9*randn(*dl.shape)
+dl_max = np.max(dl)*1.2
+
+pts = concatenate((m1[:,:,newaxis], dl[:,:,newaxis]), axis=2)
+cms = []
+for i in range(nobs):
+    ps = pts[i,:,:]
+    cm = cov(ps, rowvar=False)
+    cm /= ps.shape[0]**(1.0/3.0) # Scott's rule: bw^2 ~ 1/N^(2/(4+d))
+
+    cms.append(cm)
+cms = array(cms)
 
 data_pop = {
     'nobs': nobs,
     'nsamp': nsamp,
-    'm1s': m1,
-    'dls': dl,
+
+    'dMax': dl_max,
+    'ninterp': 200,
+
+    'm1s_dls': pts,
+    'kde_bws': cms,
 
     'ndet': len(m1s_det),
     'ngen': N_gen,
