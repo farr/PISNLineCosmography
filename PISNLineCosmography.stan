@@ -134,7 +134,7 @@ parameters {
   real<lower=-3, upper=3> alpha;
   real<lower=-5, upper=5> gamma;
 
-  real<lower=MMin, upper=MMax> m1s_obs[nobs];
+  real<lower=MMin, upper=MMax> m1s[nobs];
   real<lower=0, upper=dMax> dls_obs[nobs];
 }
 
@@ -143,6 +143,7 @@ transformed parameters {
   real dH = 4.42563416002 * (67.74/H0);
   real R0 = 100.0*r100;
 
+  real m1s_obs[nobs];
   real zs_obs[nobs];
 
   {
@@ -161,6 +162,10 @@ transformed parameters {
     for (i in 1:nobs) {
       zs_obs[i] = interp1d(dls_obs[i], dls_interp, zs_interp);
     }
+  }
+
+  for (i in 1:nobs) {
+    m1s_obs[i] = m1s[i]*(1.0 + zs_obs[i]);
   }
 }
 
@@ -194,6 +199,7 @@ model {
   /* Population prior for the observed masses and distances. */
   for (i in 1:nobs) {
     target += log(dNdm1obsdqddl(m1s_obs[i], dls_obs[i], zs_obs[i], R0, alpha, MMin, MMax, gamma, dH, Om));
+    target += log1p(zs_obs[i]); /* Jacobian; we sample in m1s, but density in m1s_obs: d(m1s_obs)/d m1s = 1+z */
   }
 
   /* KDE Approximation to the likelihood. */
