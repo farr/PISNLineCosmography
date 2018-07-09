@@ -16,7 +16,7 @@ sel = p.add_argument_group('Selection Function Options')
 sel.add_argument('--frac', metavar='F', type=float, default=1.0, help='fraction of database to use for selection (default: %(default)s)')
 
 sel = p.add_argument_group('Smoothing Options')
-sel.add_argument('--smooth-high', metavar='DM', type=float, default=0.4, help='high mass cutoff smoothing length (default: %(default)s)')
+sel.add_argument('--smooth-high', metavar='DM', type=float, default=0.05, help='high mass cutoff smoothing length (default: %(default)s)')
 sel.add_argument('--smooth-low', metavar='DM', type=float, default=0.1, help='low mass cutoff smoothing length (default: %(default)s)')
 
 samp = p.add_argument_group('Sampling Options')

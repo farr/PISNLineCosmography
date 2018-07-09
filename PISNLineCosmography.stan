@@ -50,6 +50,8 @@ data {
   real m1s_det[ndet];
   real dls_det[ndet];
 
+  /* Used to smooth the samples for the selection integral; otherwise smoothing
+     is computed automatically using KDE bandwidth estimaiton. */
   real smooth_high;
   real smooth_low;
 }
@@ -61,6 +63,8 @@ transformed data {
   real dls_1d[nobs*nsamp];
   real dls_1d_sorted[nobs*nsamp];
   int dls_1d_ind[nobs*nsamp];
+
+  real m_bw[nobs];
 
   real Om;
 
@@ -88,6 +92,10 @@ transformed data {
     for (i in 1:ndet) {
       dls_det_sorted[i] = dls_det[dls_det_ind[i]];
     }
+  }
+
+  for (i in 1:nobs) {
+    m_bw[i] = sd(m1s[i,:])/nsamp^(0.2); /* Something like Scotts rule: BW ~ sigma/N^(1/(4+d))*/
   }
 }
 
@@ -164,7 +172,7 @@ model {
     real fs[nsamp];
 
     for (j in 1:nsamp) {
-      fs[j] = dNdm1obsdqddl(m1s[i,j], dls[i,j], zs[i,j], R0, alpha, MMin, MMax, gamma, dH, Om, smooth_low, smooth_high);
+      fs[j] = dNdm1obsdqddl(m1s[i,j], dls[i,j], zs[i,j], R0, alpha, MMin, MMax, gamma, dH, Om, m_bw[i], m_bw[i]);
     }
 
     target += log(mean(fs));
