@@ -18,7 +18,7 @@ sel = p.add_argument_group('Selection Function Options')
 sel.add_argument('--frac', metavar='F', type=float, default=1.0, help='fraction of database to use for selection (default: %(default)s)')
 
 samp = p.add_argument_group('Sampling Options')
-samp.add_argument('--iter', metavar='N', type=int, default=2000, help='number of iterations (default: %(default)s)')
+samp.add_argument('--iter', metavar='N', type=int, default=1000, help='number of post-tune iterations (default: %(default)s)')
 samp.add_argument('--progress', action='store_true', help='show progress bar')
 
 args = p.parse_args()
