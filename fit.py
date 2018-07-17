@@ -19,6 +19,7 @@ sel.add_argument('--frac', metavar='F', type=float, default=1.0, help='fraction 
 
 samp = p.add_argument_group('Sampling Options')
 samp.add_argument('--iter', metavar='N', type=int, default=2000, help='number of iterations (default: %(default)s)')
+samp.add_argument('--progress', action='store_true', help='show progress bar')
 
 args = p.parse_args()
 
@@ -87,11 +88,11 @@ for i in range(2):
         pass
 
 with model:
-    stepMMin = pm.Metropolis(vars=model.MMin)
-    stepMMax = pm.Metropolis(vars=model.MMax)
+    stepMMin = pm.Metropolis(vars=model.MMin, tune_interval=10)
+    stepMMax = pm.Metropolis(vars=model.MMax, tune_interval=10)
     stepOthers = pm.NUTS(vars=[model.r, model.h, model.gamma, model.alpha])
 
-    chain_pop = pm.sample(args.iter, tune=args.iter, step=[stepMMin, stepMMax, stepOthers], chains=4, cores=4, progressbar=False)
+    chain_pop = pm.sample(args.iter, tune=args.iter, step=[stepMMin, stepMMax, stepOthers], chains=4, cores=4, progressbar=args.progress)
 
 if args.five_years:
     fname = 'population_5yr_{:03d}.h5'.format(nsamp)

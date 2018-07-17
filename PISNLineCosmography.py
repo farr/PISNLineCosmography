@@ -71,7 +71,9 @@ def make_model(m1obs, dlobs, m1obs_sel, dlobs_sel, ngen, Vgen):
     zs = theano.shared(linspace(0, zmax, 200))
     dls = dls_at_zs(zs, 1.0, Om)
 
-    hmax = 4.42563416002*0.6774*dls.eval()[-1]/np.max(dlobs)
+    # If H0 gets too large, we will be outside the valid domain of our dl vs z interpolation
+    # So, we need to impose a limit so that we always stay within the relevant domain
+    hmax = 4.42563416002*0.6774*dls.eval()[-1]/np.max(dlobs)*0.9 # 10% safety factor
     print('Setting hmax to {:g}'.format(hmax))
 
     model = pm.Model()
