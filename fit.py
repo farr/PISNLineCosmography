@@ -4,7 +4,9 @@ from pylab import *
 
 from argparse import ArgumentParser
 import h5py
-import pystan
+import pandas as pd
+import PISNLineCosmography as plc
+import pymc3 as pm
 
 p = ArgumentParser()
 
@@ -15,13 +17,8 @@ post.add_argument('--five-years', action='store_true', help='analyse five years 
 sel = p.add_argument_group('Selection Function Options')
 sel.add_argument('--frac', metavar='F', type=float, default=1.0, help='fraction of database to use for selection (default: %(default)s)')
 
-sel = p.add_argument_group('Smoothing Options')
-sel.add_argument('--smooth-high', metavar='DM', type=float, default=0.05, help='high mass cutoff smoothing length (default: %(default)s)')
-sel.add_argument('--smooth-low', metavar='DM', type=float, default=0.1, help='low mass cutoff smoothing length (default: %(default)s)')
-
 samp = p.add_argument_group('Sampling Options')
 samp.add_argument('--iter', metavar='N', type=int, default=2000, help='number of iterations (default: %(default)s)')
-samp.add_argument('--thin', metavar='N', type=int, default=1, help='steps between saved iterations (default: %(default)s)')
 
 args = p.parse_args()
 
@@ -72,8 +69,6 @@ m1s_det = m1s_det[:n]
 qs_det = qs_det[:n]
 dls_det = dls_det[:n]
 
-model_pop = pystan.StanModel(file='PISNLineCosmography.stan')
-
 nobs = chain['m1s'].shape[0]
 nsamp = args.samp
 
@@ -84,28 +79,19 @@ for i in range(nobs):
     m1[i,:] = np.random.choice(chain['m1s'][i,:], replace=False, size=nsamp)
     dl[i,:] = np.random.choice(chain['dLs'][i,:], replace=False, size=nsamp)
 
-# It is important for the error checking of the ODE integrator that all the dl are unique, so we dither by 1 pc
-dl = dl + 1e-9*randn(*dl.shape)
+# For reasons I don't understand, this fails the first time, but succeeds the second.
+for i in range(2):
+    try:
+        model = plc.make_model(m1, dl, m1s_det, dls_det, N_gen, (MObsMax-MObsMin)*dLmax)
+    except ValueError:
+        pass
 
-data_pop = {
-    'nobs': nobs,
-    'nsamp': nsamp,
-    'm1s': m1,
-    'dls': dl,
+with model:
+    stepMMin = pm.Metropolis(vars=model.MMin)
+    stepMMax = pm.Metropolis(vars=model.MMax)
+    stepOthers = pm.NUTS(vars=[model.r, model.h, model.gamma, model.alpha])
 
-    'ndet': len(m1s_det),
-    'ngen': N_gen,
-    'Vgen': (MObsMax-MObsMin)*dLmax,
-    'm1s_det': m1s_det,
-    'dls_det': dls_det,
-
-    'smooth_high': args.smooth_high,
-    'smooth_low': args.smooth_low
-}
-
-fit_pop = model_pop.sampling(data=data_pop, iter=args.iter, thin=args.thin)
-
-chain_pop = fit_pop.extract(permuted=True)
+    chain_pop = pm.sample(args.iter, tune=args.iter, step=[stepMMin, stepMMax, stepOthers], chains=4, cores=4, progressbar=False)
 
 if args.five_years:
     fname = 'population_5yr_{:03d}.h5'.format(nsamp)
@@ -118,4 +104,5 @@ with h5py.File(fname, 'w') as out:
     for n in ['H0', 'R0', 'MMax', 'MMin', 'alpha', 'gamma']:
         out.create_dataset(n, data=chain_pop[n], compression='gzip', shuffle=True)
 
-print(fit_pop)
+with pd.option_context('display.max_rows', None):
+    print(pm.summary(chain_pop))
