@@ -88,8 +88,8 @@ for i in range(2):
         pass
 
 with model:
-    stepMMin = pm.Metropolis(vars=model.MMin, tune_interval=10)
-    stepMMax = pm.Metropolis(vars=model.MMax, tune_interval=10)
+    stepMMin = pm.Metropolis(vars=model.MMin)
+    stepMMax = pm.Metropolis(vars=model.MMax)
     stepOthers = pm.NUTS(vars=[model.r, model.h, model.gamma, model.alpha])
 
     chain_pop = pm.sample(args.iter, tune=args.iter, step=[stepMMin, stepMMax, stepOthers], chains=4, cores=4, progressbar=args.progress)
