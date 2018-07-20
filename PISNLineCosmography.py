@@ -64,7 +64,8 @@ def make_model(m1obs, dlobs, m1obs_sel, dlobs_sel, ngen, Vgen):
     ndet = m1obs_sel.shape[0]
 
     # Right now, we don't fit Om, so just do the interpolant outside the model
-    zmax = 2.0*cosmo.z_at_value(Planck15.luminosity_distance, np.max(dlobs)*u.Gpc)
+    dlmax = max(np.max(dlobs), np.max(dlobs_sel))
+    zmax = 2.0*cosmo.z_at_value(Planck15.luminosity_distance, dlmax*u.Gpc)
 
     Om = Planck15.Om0
 
@@ -73,7 +74,7 @@ def make_model(m1obs, dlobs, m1obs_sel, dlobs_sel, ngen, Vgen):
 
     # If H0 gets too large, we will be outside the valid domain of our dl vs z interpolation
     # So, we need to impose a limit so that we always stay within the relevant domain
-    hmax = 4.42563416002*0.6774*dls.eval()[-1]/np.max(dlobs)*0.9 # 10% safety factor
+    hmax = 4.42563416002*0.6774*dls.eval()[-1]/dlmax*0.9 # 10% safety factor
     print('Setting hmax to {:g}'.format(hmax))
 
     model = pm.Model()

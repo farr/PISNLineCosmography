@@ -20,6 +20,7 @@ sel.add_argument('--frac', metavar='F', type=float, default=1.0, help='fraction 
 samp = p.add_argument_group('Sampling Options')
 samp.add_argument('--iter', metavar='N', type=int, default=1000, help='number of post-tune iterations (default: %(default)s)')
 samp.add_argument('--progress', action='store_true', help='show progress bar')
+samp.add_argument('--traceplot', metavar='FILE', help='filename for traceplot')
 
 args = p.parse_args()
 
@@ -80,16 +81,18 @@ for i in range(nobs):
     m1[i,:] = np.random.choice(chain['m1s'][i,:], replace=False, size=nsamp)
     dl[i,:] = np.random.choice(chain['dLs'][i,:], replace=False, size=nsamp)
 
-# For reasons I don't understand, this fails the first time, but succeeds the second.
+# For reasons I don't understand, this seems to fail the first time; if so, then
+# try one more time
 for i in range(2):
     try:
         model = plc.make_model(m1, dl, m1s_det, dls_det, N_gen, (MObsMax-MObsMin)*dLmax)
     except ValueError:
-        pass
+        continue
+    break
 
 with model:
-    stepMMin = pm.Metropolis(vars=model.MMin)
-    stepMMax = pm.Metropolis(vars=model.MMax)
+    stepMMin = pm.Metropolis(vars=model.MMin, tune_interval=5)
+    stepMMax = pm.Metropolis(vars=model.MMax, tune_interval=5)
     stepOthers = pm.NUTS(vars=[model.r, model.h, model.gamma, model.alpha])
 
     chain_pop = pm.sample(args.iter, tune=args.iter, step=[stepMMin, stepMMax, stepOthers], chains=4, cores=4, progressbar=args.progress)
@@ -107,3 +110,7 @@ with h5py.File(fname, 'w') as out:
 
 with pd.option_context('display.max_rows', None):
     print(pm.summary(chain_pop))
+
+if args.traceplot:
+    pm.traceplot(chain_pop)
+    savefig(args.traceplot)
