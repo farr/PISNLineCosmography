@@ -90,6 +90,10 @@ for i in range(nobs):
     m1[i,:] = np.random.choice(chain['m1s'][i,:], replace=False, size=nsamp)
     dl[i,:] = np.random.choice(chain['dLs'][i,:], replace=False, size=nsamp)
 
+# Perturb the dls and dls_det by 1 kpc just so that they are unique
+dl = dl + 1e-6*randn(*dl.shape)
+dls_det = dls_det + 1e-6*randn(*dls_det.shape)
+
 data = {
     'nobs': nobs,
     'nsamp': nsamp,
