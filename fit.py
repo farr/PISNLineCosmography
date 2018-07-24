@@ -8,9 +8,7 @@ from pylab import *
 
 from argparse import ArgumentParser
 import h5py
-import pandas as pd
-import PISNLineCosmography as plc
-import pymc3 as pm
+import pystan
 
 p = ArgumentParser()
 
@@ -18,13 +16,16 @@ post = p.add_argument_group('Event Options')
 post.add_argument('--samp', metavar='N', type=int, default=100, help='number of posterior samples used (default: %(default)s)')
 post.add_argument('--five-years', action='store_true', help='analyse five years of data (default is 1)')
 
+smooth = p.add_argument_group('Smoothing Options')
+smooth.add_argument('--smooth-low', metavar='DM', type=float, default=0.1, help='mass scale for smooth lower cutoff (default: %(default)s)')
+smooth.add_argument('--smooth-high', metavar='DM', type=float, default=1.0, help='mass scale for smooth upper cutoff (default: %(default)s)')
+
 sel = p.add_argument_group('Selection Function Options')
 sel.add_argument('--frac', metavar='F', type=float, default=1.0, help='fraction of database to use for selection (default: %(default)s)')
 
 samp = p.add_argument_group('Sampling Options')
 samp.add_argument('--iter', metavar='N', type=int, default=1000, help='number of post-tune iterations (default: %(default)s)')
-samp.add_argument('--progress', action='store_true', help='show progress bar')
-samp.add_argument('--traceplot', metavar='FILE', help='filename for traceplot')
+samp.add_argument('--thin', metavar='N', type=int, default=1, help='iterations between saved samples (default: %(default)s)')
 
 args = p.parse_args()
 
@@ -68,12 +69,16 @@ with h5py.File('selected.h5', 'r') as inp:
     qs_det = array(inp['q'])
     dls_det = array(inp['dl'])
 
+Vgen = (MObsMax - MObsMin)*dLmax
+
 n = int(round(args.frac*len(m1s_det)))
 N_gen = int(round(args.frac*N_gen))
 
 m1s_det = m1s_det[:n]
 qs_det = qs_det[:n]
 dls_det = dls_det[:n]
+
+ndet = m1s_det.shape[0]
 
 nobs = chain['m1s'].shape[0]
 nsamp = args.samp
@@ -85,36 +90,44 @@ for i in range(nobs):
     m1[i,:] = np.random.choice(chain['m1s'][i,:], replace=False, size=nsamp)
     dl[i,:] = np.random.choice(chain['dLs'][i,:], replace=False, size=nsamp)
 
-# For reasons I don't understand, this seems to fail the first time; if so, then
-# try one more time
-for i in range(2):
-    try:
-        model = plc.make_model(m1, dl, m1s_det, dls_det, N_gen, (MObsMax-MObsMin)*dLmax)
-    except ValueError:
-        continue
-    break
+data = {
+    'nobs': nobs,
+    'nsamp': nsamp,
 
-with model:
-    stepMMin = pm.Metropolis(vars=model.MMin, tune_interval=5)
-    stepMMax = pm.Metropolis(vars=model.MMax, tune_interval=5)
-    stepOthers = pm.NUTS(vars=[model.r, model.h, model.gamma, model.alpha])
+    'm1s': m1,
+    'dls': dl,
 
-    chain_pop = pm.sample(args.iter, tune=args.iter, step=[stepMMin, stepMMax, stepOthers], chains=4, cores=4, progressbar=args.progress)
+    'ndet': ndet,
+    'ngen': N_gen,
+    'Vgen': Vgen,
+    'm1s_det': m1s_det,
+    'dls_det': dls_det,
+
+    'smooth_low': args.smooth_low,
+    'smooth_high': args.smooth_high
+}
+
+model = pystan.StanModel(file='PISNLineCosmography.stan')
+
+fit = model.sampling(data=data, iter=2*args.iter, thin=args.thin, chains=4, n_jobs=4)
+chain = fit.extract(permuted=True)
 
 if args.five_years:
-    fname = 'population_5yr_{:03d}.h5'.format(nsamp)
+    fname = 'population_5yr_{:04d}.h5'.format(nsamp)
 else:
-    fname = 'population_1yr_{:03d}.h5'.format(nsamp)
+    fname = 'population_1yr_{:04d}.h5'.format(nsamp)
 
 with h5py.File(fname, 'w') as out:
     out.attrs['nsamp'] = nsamp
 
     for n in ['H0', 'R0', 'MMax', 'MMin', 'alpha', 'gamma']:
-        out.create_dataset(n, data=chain_pop[n], compression='gzip', shuffle=True)
+        out.create_dataset(n, data=chain[n], compression='gzip', shuffle=True)
 
-with pd.option_context('display.max_rows', None):
-    print(pm.summary(chain_pop))
+print(fit)
 
-if args.traceplot:
-    pm.traceplot(chain_pop)
-    savefig(args.traceplot)
+if args.five_years:
+    fname = 'traceplot_5yr_{:04d}.pdf'.format(nsamp)
+else:
+    fname = 'traceplot_1yr_{:04d}.pdf'.format(nsamp)
+fit.plot(['H0', 'R0', 'MMax', 'MMin', 'alpha', 'gamma'])
+savefig(fname)
