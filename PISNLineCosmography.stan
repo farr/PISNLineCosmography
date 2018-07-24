@@ -184,7 +184,7 @@ model {
     mu = Vgen/ngen*sum(fs_det);
     sigma = Vgen/ngen*sqrt(ndet)*sd(fs_det);
 
-    // if (sigma/mu > 1.0/sqrt(nobs)) reject("cannot estimate selection integral reliably");
+    if (sigma/mu > 1.0/sqrt(nobs)) reject("cannot estimate selection integral reliably");
 
     target += -mu;
   }
