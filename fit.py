@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 
+# Set the backend to a non-displaying one.
+import matplotlib
+matplotlib.use('PDF')
+
 from pylab import *
 
 from argparse import ArgumentParser
