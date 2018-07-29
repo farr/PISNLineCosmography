@@ -23,3 +23,13 @@ log = logs/1yr_$(nsamp).log
 arguments = --samp $(nsamp)
 
 queue
+
+nsamp = 800
+
+output = logs/1yr_sharper_$(nsamp).out
+error = logs/1yr_sharper_$(nsamp).err
+log = logs/1yr_sharper_$(nsamp).log
+
+arguments = --samp $(nsamp) --smooth-low 0.05 --smooth-high 0.5 --chainfile population_1yr_sharp_0800.h5 --tracefile traceplot_1yr_sharp_0800.pdf
+
+queue

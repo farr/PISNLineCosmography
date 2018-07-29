@@ -27,6 +27,10 @@ samp = p.add_argument_group('Sampling Options')
 samp.add_argument('--iter', metavar='N', type=int, default=1000, help='number of post-tune iterations (default: %(default)s)')
 samp.add_argument('--thin', metavar='N', type=int, default=1, help='iterations between saved samples (default: %(default)s)')
 
+oop = p.add_argument_group('Output Options')
+oop.add_argument('--chainfile', metavar='F', help='output file (default: population_{1yr,5yr}_NNNN.h5)')
+oop.add_argument('--tracefile', metavar='F', help='traceplot file (default: traceplot_{1yr,5yr}_NNNN.pdf)')
+
 args = p.parse_args()
 
 MMin = 5
@@ -116,7 +120,9 @@ model = pystan.StanModel(file='PISNLineCosmography.stan')
 fit = model.sampling(data=data, iter=2*args.iter, thin=args.thin, chains=4, n_jobs=4)
 chain = fit.extract(permuted=True)
 
-if args.five_years:
+if args.chainfile is not None:
+    fname = args.chainfile
+elif args.five_years:
     fname = 'population_5yr_{:04d}.h5'.format(nsamp)
 else:
     fname = 'population_1yr_{:04d}.h5'.format(nsamp)
@@ -129,7 +135,9 @@ with h5py.File(fname, 'w') as out:
 
 print(fit)
 
-if args.five_years:
+if args.tracefile is not None:
+    fname = args.tracefile
+elif args.five_years:
     fname = 'traceplot_5yr_{:04d}.pdf'.format(nsamp)
 else:
     fname = 'traceplot_1yr_{:04d}.pdf'.format(nsamp)
