@@ -23,13 +23,3 @@ log = logs/5yr_$(nsamp).log
 arguments = --samp $(nsamp) --five-years
 
 queue
-
-nsamp = 800
-
-output = logs/5yr_sharper_$(nsamp).out
-error = logs/5yr_sharper_$(nsamp).err
-log = logs/5yr_sharper_$(nsamp).log
-
-arguments = --samp $(nsamp) --five-years --smooth-low 0.05 --smooth-high 0.5 --chainfile population_5yr_sharp_0800.h5 --tracefile traceplot_5yr_sharp_0800.pdf
-
-queue

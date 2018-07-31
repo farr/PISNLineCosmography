@@ -16,10 +16,6 @@ post = p.add_argument_group('Event Options')
 post.add_argument('--samp', metavar='N', type=int, default=100, help='number of posterior samples used (default: %(default)s)')
 post.add_argument('--five-years', action='store_true', help='analyse five years of data (default is 1)')
 
-smooth = p.add_argument_group('Smoothing Options')
-smooth.add_argument('--smooth-low', metavar='DM', type=float, default=0.1, help='mass scale for smooth lower cutoff (default: %(default)s)')
-smooth.add_argument('--smooth-high', metavar='DM', type=float, default=1.0, help='mass scale for smooth upper cutoff (default: %(default)s)')
-
 sel = p.add_argument_group('Selection Function Options')
 sel.add_argument('--frac', metavar='F', type=float, default=1.0, help='fraction of database to use for selection (default: %(default)s)')
 
@@ -109,10 +105,7 @@ data = {
     'ngen': N_gen,
     'Vgen': Vgen,
     'm1s_det': m1s_det,
-    'dls_det': dls_det,
-
-    'smooth_low': args.smooth_low,
-    'smooth_high': args.smooth_high
+    'dls_det': dls_det
 }
 
 model = pystan.StanModel(file='PISNLineCosmography.stan')

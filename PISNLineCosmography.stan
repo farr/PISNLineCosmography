@@ -20,20 +20,27 @@ functions {
     return dstatedDL;
   }
 
-  real dNdm1obsdqddl(real m1obs, real dl, real z, real R0, real alpha, real MMin, real MMax, real gamma, real dH, real Om, real smooth_low, real smooth_high) {
-    real dVdz;
-    real dzddl;
-    real dNdm1obs;
-    real dN;
+  real dNdm1obsdqddl(real m1obs, real dl, real z, real R0, real alpha, real MMin, real MMax, real gamma, real dH, real Om) {
+    real m1;
+    m1 = m1obs / (1 + z);
 
-    dVdz = 4.0*pi()*dH*(dl/(1+z))^2/Ez(z, Om);
-    dzddl = 1.0/(dl/(1+z) + dH*(1+z)/Ez(z, Om));
+    if (m1 < MMin || m1 > MMax) {
+      return 0.0;
+    } else {
+      real dVdz;
+      real dzddl;
+      real dNdm1obs;
+      real dN;
 
-    dNdm1obs = R0*(1-alpha)/(MMax^(1-alpha) - MMin^(1-alpha))*(m1obs/(1+z))^(-alpha)/(1+z);
+      dVdz = 4.0*pi()*dH*(dl/(1+z))^2/Ez(z, Om);
+      dzddl = 1.0/(dl/(1+z) + dH*(1+z)/Ez(z, Om));
 
-    dN = dNdm1obs*dVdz*dzddl*(1+z)^(gamma-1);
+      dNdm1obs = R0*(1-alpha)/(MMax^(1-alpha) - MMin^(1-alpha))*(m1obs/(1+z))^(-alpha)/(1+z);
 
-    return dN*normal_cdf(m1obs/(1+z), MMin, smooth_low)*(1-normal_cdf(m1obs/(1+z), MMax, smooth_high));
+      dN = dNdm1obs*dVdz*dzddl*(1+z)^(gamma-1);
+
+      return dN;
+    }
   }
 }
 
@@ -49,9 +56,6 @@ data {
   real Vgen;
   real m1s_det[ndet];
   real dls_det[ndet];
-
-  real smooth_high;
-  real smooth_low;
 }
 
 transformed data {
@@ -164,7 +168,7 @@ model {
     real fs[nsamp];
 
     for (j in 1:nsamp) {
-      fs[j] = dNdm1obsdqddl(m1s[i,j], dls[i,j], zs[i,j], R0, alpha, MMin, MMax, gamma, dH, Om, smooth_low, smooth_high);
+      fs[j] = dNdm1obsdqddl(m1s[i,j], dls[i,j], zs[i,j], R0, alpha, MMin, MMax, gamma, dH, Om);
     }
 
     target += log(mean(fs));
@@ -174,7 +178,7 @@ model {
   // integral.  Here we smooth the sharp cutoff of the distribution
   // exponentially at both ends with the smoothing scale given in the data block.
   for (i in 1:ndet) {
-    fs_det[i] = dNdm1obsdqddl(m1s_det[i], dls_det[i], zs_det[i], R0, alpha, MMin, MMax, gamma, dH, Om, smooth_low, smooth_high);
+    fs_det[i] = dNdm1obsdqddl(m1s_det[i], dls_det[i], zs_det[i], R0, alpha, MMin, MMax, gamma, dH, Om);
   }
 
   {
