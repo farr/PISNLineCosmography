@@ -8,7 +8,8 @@ from pylab import *
 
 from argparse import ArgumentParser
 import h5py
-import pystan
+import PISNLineCosmography as plc
+import pymc3 as pm
 
 p = ArgumentParser()
 
@@ -21,7 +22,6 @@ sel.add_argument('--frac', metavar='F', type=float, default=1.0, help='fraction 
 
 samp = p.add_argument_group('Sampling Options')
 samp.add_argument('--iter', metavar='N', type=int, default=1000, help='number of post-tune iterations (default: %(default)s)')
-samp.add_argument('--thin', metavar='N', type=int, default=1, help='iterations between saved samples (default: %(default)s)')
 
 oop = p.add_argument_group('Output Options')
 oop.add_argument('--chainfile', metavar='F', help='output file (default: population_{1yr,5yr}_NNNN.h5)')
@@ -94,24 +94,24 @@ for i in range(nobs):
 dl = dl + 1e-6*randn(*dl.shape)
 dls_det = dls_det + 1e-6*randn(*dls_det.shape)
 
-data = {
-    'nobs': nobs,
-    'nsamp': nsamp,
+m = plc.make_model(m1, dl, m1s_det, dls_det, Vgen, N_gen)
 
-    'm1s': m1,
-    'dls': dl,
+with m:
+    step_met = pm.Metropolis(vars=[m.MMin, m.MMax], S=array([[0.01, 0.0], [0.0, 0.16]]))
+    step_hmc = pm.NUTS(vars=[m.R0, m.alpha, m.gamma, m.H0])
 
-    'ndet': ndet,
-    'ngen': N_gen,
-    'Vgen': Vgen,
-    'm1s_det': m1s_det,
-    'dls_det': dls_det
-}
+    t = pm.sample(draws=args.iter, tune=args.iter, step=[step_met, step_hmc], chains=4, cores=4)
 
-model = pystan.StanModel(file='PISNLineCosmography.stan')
+print(pm.summary(t))
 
-fit = model.sampling(data=data, iter=2*args.iter, thin=args.thin, chains=4, n_jobs=4)
-chain = fit.extract(permuted=True)
+if args.tracefile is not None:
+    fname = args.tracefile
+elif args.five_years:
+    fname = 'traceplot_5yr_{:04d}.pdf'.format(nsamp)
+else:
+    fname = 'traceplot_1yr_{:04d}.pdf'.format(nsamp)
+pm.traceplot(t, varnames=['H0', 'R0', 'MMax', 'MMin', 'alpha', 'gamma'])
+savefig(fname)
 
 if args.chainfile is not None:
     fname = args.chainfile
@@ -124,15 +124,4 @@ with h5py.File(fname, 'w') as out:
     out.attrs['nsamp'] = nsamp
 
     for n in ['H0', 'R0', 'MMax', 'MMin', 'alpha', 'gamma']:
-        out.create_dataset(n, data=chain[n], compression='gzip', shuffle=True)
-
-print(fit)
-
-if args.tracefile is not None:
-    fname = args.tracefile
-elif args.five_years:
-    fname = 'traceplot_5yr_{:04d}.pdf'.format(nsamp)
-else:
-    fname = 'traceplot_1yr_{:04d}.pdf'.format(nsamp)
-fit.plot(['H0', 'R0', 'MMax', 'MMin', 'alpha', 'gamma'])
-savefig(fname)
+        out.create_dataset(n, data=t[n], compression='gzip', shuffle=True)
