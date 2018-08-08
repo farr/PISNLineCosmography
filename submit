@@ -10,7 +10,7 @@ output = logs/1yr_$(nsamp).out
 error = logs/1yr_$(nsamp).err
 log = logs/1yr_$(nsamp).log
 
-arguments = --samp $(nsamp)
+arguments = --samp $(nsamp) --iter 2000
 
 queue
 
@@ -20,6 +20,6 @@ output = logs/1yr_$(nsamp).out
 error = logs/1yr_$(nsamp).err
 log = logs/1yr_$(nsamp).log
 
-arguments = --samp $(nsamp)
+arguments = --samp $(nsamp) --iter 2000
 
 queue
