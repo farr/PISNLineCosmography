@@ -7,9 +7,11 @@ matplotlib.use('PDF')
 from pylab import *
 
 from argparse import ArgumentParser
+import astropy.cosmology as cosmo
+from astropy.cosmology import Planck15
+import astropy.units as u
 import h5py
-import PISNLineCosmography as plc
-import pymc3 as pm
+import pystan
 
 p = ArgumentParser()
 
@@ -20,8 +22,13 @@ post.add_argument('--five-years', action='store_true', help='analyse five years 
 sel = p.add_argument_group('Selection Function Options')
 sel.add_argument('--frac', metavar='F', type=float, default=1.0, help='fraction of database to use for selection (default: %(default)s)')
 
+alg = p.add_argument_group('Algorithm Options')
+alg.add_argument('--ninterp', metavar='N', type=int, default=500, help='number of interpolated points for cosmology functions (default: %(default)s)')
+alg.add_argument('--smooth-low', metavar='dM', type=float, default=0.15, help='low-mass smoothing scale for selection f\'cn (default: %(default)s)')
+alg.add_argument('--smooth-high', metavar='dM', type=float, default=0.05, help='high-mass smoothing scale for selection f\'cn (default: %(default)s)')
+
 samp = p.add_argument_group('Sampling Options')
-samp.add_argument('--iter', metavar='N', type=int, default=1000, help='number of post-tune iterations (default: %(default)s)')
+samp.add_argument('--iter', metavar='N', type=int, default=2000, help='number of iterations, half to tuning (default: %(default)s)')
 
 oop = p.add_argument_group('Output Options')
 oop.add_argument('--chainfile', metavar='F', help='output file (default: population_{1yr,5yr}_NNNN.h5)')
@@ -90,19 +97,44 @@ for i in range(nobs):
     m1[i,:] = np.random.choice(chain['m1s'][i,:], replace=False, size=nsamp)
     dl[i,:] = np.random.choice(chain['dLs'][i,:], replace=False, size=nsamp)
 
-# Perturb the dls and dls_det by 1 kpc just so that they are unique
-dl = dl + 1e-6*randn(*dl.shape)
-dls_det = dls_det + 1e-6*randn(*dls_det.shape)
+m = pystan.StanModel(file='PISNLineCosmography.stan')
 
-m = plc.make_model(m1, dl, m1s_det, dls_det, Vgen, N_gen)
+bws = []
+for i in range(m1.shape[0]):
+    bws.append(cov(row_stack((m1[i,:], dl[i,:])))/nsamp**(1.0/3.0))
 
-with m:
-    step_met = pm.Metropolis(vars=[m.MMin, m.MMax], S=array([[0.01, 0.0], [0.0, 0.16]]))
-    step_hmc = pm.NUTS(vars=[m.R0, m.alpha, m.gamma, m.H0])
+dlmax = max(np.max(dl), np.max(dls_det))
+zmax = 2*cosmo.z_at_value(Planck15.luminosity_distance, dlmax*u.Gpc)
 
-    t = pm.sample(draws=args.iter, tune=args.iter, step=[step_met, step_hmc], chains=4, cores=4)
+zs_interp = logspace(log10(1), log10(1+zmax), args.ninterp) - 1
+dlu_interp = Planck15.luminosity_distance(zs_interp) / Planck15.hubble_distance
 
-print(pm.summary(t))
+data = {
+    'nobs': m1.shape[0],
+    'nsamp': m1.shape[1],
+    'nsel': m1s_det.shape[0],
+
+    'm1s_dls': concatenate((m1[:,:,newaxis], dl[:,:,newaxis]), 2),
+    'bws': bws,
+
+    'm1s_sel': m1s_det,
+    'dls_sel': dls_det,
+
+    'Vgen': Vgen,
+    'ngen': N_gen,
+
+    'ninterp': args.ninterp,
+    'zs_interp': zs_interp,
+    'dlu_interp': dlu_interp,
+
+    'smooth_low': args.smooth_low,
+    'smooth_high': args.smooth_high
+}
+
+f = m.sampling(data=data, iter=args.iter)
+t = f.extract(permuted=True)
+
+print(f) # Summary of sampling.
 
 if args.tracefile is not None:
     fname = args.tracefile
@@ -110,7 +142,7 @@ elif args.five_years:
     fname = 'traceplot_5yr_{:04d}.pdf'.format(nsamp)
 else:
     fname = 'traceplot_1yr_{:04d}.pdf'.format(nsamp)
-pm.traceplot(t, varnames=['H0', 'R0', 'MMax', 'MMin', 'alpha', 'gamma'])
+f.plot(['H0', 'R0', 'MMax', 'MMin', 'alpha', 'gamma'])
 savefig(fname)
 
 if args.chainfile is not None:
@@ -123,5 +155,5 @@ else:
 with h5py.File(fname, 'w') as out:
     out.attrs['nsamp'] = nsamp
 
-    for n in ['H0', 'R0', 'MMax', 'MMin', 'alpha', 'gamma']:
+    for n in ['H0', 'R0', 'MMax', 'MMin', 'alpha', 'gamma', 'm1s_true', 'dls_true', 'zs_true']:
         out.create_dataset(n, data=t[n], compression='gzip', shuffle=True)
