@@ -1,0 +1,91 @@
+\documentclass[modern]{aastex62}
+
+\usepackage{acro}
+
+% Quantities
+\newcommand{\oneYearUncert}{10 \, \kmsMpc}
+\newcommand{\fiveYearUncert}{5 \, \kmsMpc}
+
+% units
+\newcommand{\kmsMpc}{\mathrm{km} \, \mathrm{s}^{-1} \, \mathrm{Mpc}^{-1}}
+\newcommand{\MSun}{M_\odot}
+
+% Acronym defn's
+\DeclareAcronym{BH}{
+  short = BH,
+  long = {black hole}
+}
+\DeclareAcronym{BBH}{
+  short = BBH,
+  long = {binary black hole}
+}
+\DeclareAcronym{BNS}{
+  short = BNS,
+  long = {binary neutron star}
+}
+\DeclareAcronym{GW}{
+  short = GW,
+  long = {gravitational wave}
+}
+\DeclareAcronym{PISN}{
+  short = PISN,
+  long = {pair instability supernova}
+}
+
+\begin{document}
+
+\title{The Pair Instability Supernova Mass Absorption Line: Enabling a Pure
+Gravitational Wave Measurement of the Hubble Constant}
+
+\author[0000-0003-1540-8562]{Will M. Farr}
+\affiliation{Department of Physics and Astronomy, Stony Brook University, Stony Brook NY 11794, USA}
+\affiliation{Center for Computational Astronomy, Flatiron Institute, 162 5th Ave., New York NY 10010, USA}
+\email{will.farr@stonybrook.edu}
+
+\author[0000-0002-1980-5293]{Maya Fishbach}
+\affiliation{Department of Astronomy and Astrophysics, University of Chicago, Chicago IL 60637, USA}
+\email{mfishbach@uchicago.edu}
+
+\author[0000-0002-0175-5064]{Daniel E. Holz}
+\affiliation{Enrico Fermi Institute, Department of Physics, Department of Astronomy and Astrophysics,\\and Kavli Institute for Cosmological Physics, University of Chicago, Chicago IL 60637, USA}
+\email{holz@uchicago.edu}
+
+\begin{abstract}
+%
+  Gravitational interactions are scale-free.  Because of this freedom, there is
+  a perfect degeneracy between the mass scale and redshift of a gravitational
+  wave source; some non-gravitational process is necessary to provide redshift
+  information. \Ac{GW} observations do provide direct information about the
+  luminosity distance of a \ac{GW} source.  Here we suggest that the \ac{PISN}
+  process, thought to impose a sharp upper-limit on the source-frame mass of
+  \ac{BH} stellar remnants, provides an ``absorption line'' that permits a
+  statistical measurement of the redshift-luminosity-distance relation using a
+  population of \ac{BBH} inspirals.  Assuming that the intrinsic scatter in the
+  mass upper-limit of the \ac{BH} mass distribution imposed by the \ac{PISN}
+  process is $\lesssim 1\,\MSun$, we simulate one and five years of Advanced
+  LIGO \ac{BBH} detections with realistic uncertainties is mass and distance
+  measurements and show that analysis of these populations permits determination
+  of the Hubble constant to $\pm \oneYearUncert$ after one and $\pm
+  \fiveYearUncert$ after five years of observation.  These uncertainties are
+  competitive with, if not better, than obtainable through any other known
+  \ac{GW} observational technique with this data set, including observations of
+  \ac{BNS} mergers \emph{with} electromagnetic counterparts like GW170817.
+%
+\end{abstract}
+
+\section{Introduction}
+
+\section{Method}
+
+\section{Simulated Observations}
+
+\section{Conclusions}
+
+\acknowledgments
+
+We thank Stephen Feeney for providing a sounding board for the methods discussed
+in this paper.
+
+\bibliography{pisn-line}
+
+\end{document}

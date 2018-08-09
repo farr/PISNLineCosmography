@@ -1,0 +1,8 @@
+pisn-line.pdf
+*.log
+*.fls
+*.fdb_latexmk
+*.aux
+*.bbl
+*.blg
+*.synctex.gz
