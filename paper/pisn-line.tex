@@ -1,26 +1,37 @@
 \documentclass[modern]{aastex62}
 
 \usepackage{acro}
+\usepackage{amsmath}
 
 % Commands
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\diff}[2]{\frac{\dd #1}{\dd #2}}
 \newcommand{\fixme}[1]{\textcolor{red}{#1}}
 
 % Shorthand
 \newcommand{\mdet}{m^\mathrm{detector}}
+\newcommand{\MMax}{M_\mathrm{max}}
+\newcommand{\MMin}{M_\mathrm{min}}
 \newcommand{\monedet}{m_1^\mathrm{detector}}
+\newcommand{\monesource}{m_1^\mathrm{source}}
 \newcommand{\msource}{m^\mathrm{source}}
 
 % Quantities
+\newcommand{\alphaTrue}{1}
 \newcommand{\fiveYearUncert}{5 \, \kmsMpc}
+\newcommand{\gammaTrue}{3}
 \newcommand{\MSourceMax}{40 \, \MSun}
+\newcommand{\MSourceMin}{5 \, \MSun}
 \newcommand{\None}{282}
 \newcommand{\Nfive}{1463}
 \newcommand{\oneYearUncert}{10 \, \kmsMpc}
+\newcommand{\RZeroTrue}{100 \, \perGpcyr}
 
 % units
 \newcommand{\Gpc}{\mathrm{Gpc}}
 \newcommand{\kmsMpc}{\mathrm{km} \, \mathrm{s}^{-1} \, \mathrm{Mpc}^{-1}}
 \newcommand{\MSun}{M_\odot}
+\newcommand{\perGpcyr}{\mathrm{Gpc}^{-3} \, \mathrm{yr}^{-1}}
 
 % Acronym defn's
 \DeclareAcronym{BH}{
@@ -121,7 +132,33 @@ that are comparable to GW170814 \citep{GW170814} at comparable signal-to-noise
 ratios.
 
 \fixme{Boring details about mass ratio distribution, redshift evolution, etc,
-etc.}
+etc.}  We draw our events from a model similar to that fit in
+\citet{Fishbach2018}.  In our model, \ac{BBH} mergers occur with a rate density
+that is given by
+%
+\begin{equation}
+  \label{eq:model}
+  \diff{N}{m_1 \dd V_C \dd t} =
+  \begin{cases}
+    R_0 \frac{1 - \alpha}{\MMax^{1-\alpha} - \MMin^{1-\alpha}} m_1^{-\alpha} \left( 1 + z \right)^{\gamma} & \MMin \leq m_1 \leq \MMax \textnormal{ and } \alpha \neq 1 \\
+    R_0 \left(\log \frac{\MMax}{\MMin} \right)^{-1} \frac{1}{m_1} \left( 1 + z \right)^{\gamma} & \MMin \leq m_1 \leq \MMax \textnormal{ and } \alpha = 1 \\
+    0 & \textnormal{otherwise}
+  \end{cases},
+\end{equation}
+%
+where all quantities are referred to the source frame, $V_C$ is the comoving
+volume, the parameter $R_0$ is the volumetric merger rate at $z = 0$, $\MMin$
+and $\MMax$ are parameters giving the minimum and maximum black hole (source
+frame) mass, the parameter $\alpha$ is the power-law slope of the mass function
+for the more massive \ac{BH} in a \ac{BBH} merger, and the parameter $\gamma$
+controls the redshift evolution of the merger rate.  We assume that the
+distribution of mass ratios, $q = m_2/m_1$ follows $p(q) \propto
+\mathrm{const}$, and ignore the spins of the merging black holes.  Our catalogs
+are generated with the physically reasonable parameters $R_0 = \RZeroTrue{}$
+\citep{O1-BBH}, $\alpha = \alphaTrue{}$ \citep{Fishbach2017}, $\gamma =
+\gammaTrue{}$ \citep{Fishbach2018}, $\MMin = \MSourceMin{}$
+\citep{Ozel2010,Farr2011,Kreidberg2012}, and $\MMax = \MSourceMax{}$
+\citep{Fishbach2017}.
 
 We generate catalogs of events that correspond to all detected \ac{BBH} events
 from one year and five years of three-detector observing time at design
