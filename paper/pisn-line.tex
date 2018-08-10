@@ -2,11 +2,23 @@
 
 \usepackage{acro}
 
+% Commands
+\newcommand{\fixme}[1]{\textcolor{red}{#1}}
+
+% Shorthand
+\newcommand{\mdet}{m^\mathrm{detector}}
+\newcommand{\monedet}{m_1^\mathrm{detector}}
+\newcommand{\msource}{m^\mathrm{source}}
+
 % Quantities
-\newcommand{\oneYearUncert}{10 \, \kmsMpc}
 \newcommand{\fiveYearUncert}{5 \, \kmsMpc}
+\newcommand{\MSourceMax}{40 \, \MSun}
+\newcommand{\None}{282}
+\newcommand{\Nfive}{1463}
+\newcommand{\oneYearUncert}{10 \, \kmsMpc}
 
 % units
+\newcommand{\Gpc}{\mathrm{Gpc}}
 \newcommand{\kmsMpc}{\mathrm{km} \, \mathrm{s}^{-1} \, \mathrm{Mpc}^{-1}}
 \newcommand{\MSun}{M_\odot}
 
@@ -75,9 +87,78 @@ Gravitational Wave Measurement of the Hubble Constant}
 
 \section{Introduction}
 
-\section{Method}
+Some collected references (for use later):
 
-\section{Simulated Observations}
+\begin{itemize}
+  \item \ac{PISN} \cite{Heger2002,Belczynski2016,Woosley2017,Spera2017}.
+  \item GW170817: \cite{GW170817,GW170817-H0}
+  \item Accuracy of $H_0$ measurements: \cite{GW170817-H0,Chen2017}
+\end{itemize}
+
+\section{Method}
+\label{sec:method}
+
+\Ac{GW} detectors are directly sensitive to the mass and redshift combination
+%
+\begin{equation}
+  \label{eq:Mdet-definition}
+  \mdet \equiv \msource \left( 1 + z \right),
+\end{equation}
+%
+where $\mdet$ is the observed mass, $\msource$ is the source-frame mass, and $z$
+is the redshift of the source.  Comparing parameterised \ac{GW} waveforms
+\citep[e.g.][]{Taracchini2014,Bohe2017,Smith2016,Kahn2016,Chatziioannou2017} to
+the data observed by \ac{GW} detectors it is possible to produce a posterior
+distribution over \ac{BBH} parameters that describes our uncertainty about the
+source properties \citep{Veitch2015,GW150914-PE}; in particular, one can obtain
+a marginalized two-dimensional distribution describing our knowledge of
+$\monedet$ and $d_L$, ignoring all other parameters (here we follow the standard
+convention of denoting the mass of the more massive component of the binary by
+$m_1$).  Rather than simulate this process for synthetic events, we here
+approximate the posterior that would be obtained using a method similar to
+\citet{Fishbach2018}, but tuned to produce uncertainties in these two parameters
+that are comparable to GW170814 \citep{GW170814} at comparable signal-to-noise
+ratios.
+
+\fixme{Boring details about mass ratio distribution, redshift evolution, etc,
+etc.}
+
+We generate catalogs of events that correspond to all detected \ac{BBH} events
+from one year and five years of three-detector observing time at design
+sensitivity \citep{AdvancedLIGO,AdvancedVIRGO}.  The first year's observations
+of the five-year catalog are identical to the one-year catalog. The catalogs
+contain \None{} and \Nfive{} events.  Figure \ref{fig:true-det-masses-dLs} shows
+the true (detector frame) masses and luminosity distances for the detected
+events; the events range from $\sim 5 \, \MSun$ to $80 \, \MSun$ in mass
+(detector frame) and reach to $d_L \sim 6 \, \Gpc$.  Our approximation to the
+posterior produces the set of inferred masses and distances shown in Figure
+\ref{fig:obs-det-masses-dLs}.
+
+\begin{figure}
+  \plotone{plots/m1-dL-true}
+%
+  \caption{\label{fig:true-det-masses-dLs} The true (detector frame) masses and
+  luminosity distances for the one year (dark) and five year (light) catalogs
+  described in Section \ref{sec:method}.  The effect of redshifting on the mass
+  can clearly be seen; the maximum source-frame mass is $\MSourceMax$.  The
+  solid black line gives the maximum detector-frame mass as a function of
+  luminosity distance for the cosmology used to generate the catalog
+  \citep{Planck2016}; the dashed lines give the same relation but for a 10\%
+  change in $H_0$.}
+%
+\end{figure}
+
+\begin{figure}
+  \plotone{plots/m1-dL-obs}
+%
+  \caption{\label{fig:obs-det-masses-dLs} The inferred (detector frame) masses
+  and luminosity distances for the one-year catalog (dark) and five-year catalog
+  (light).  The points are the posterior mean and bars give the posterior
+  standard deviation with a flat prior on $\monedet$ and $d_L$.  The solid black
+  line gives the maximum detector-frame mass as a function of luminosity
+  distance for the cosmology used to generate the catalog.}
+%
+\end{figure}
 
 \section{Conclusions}
 
