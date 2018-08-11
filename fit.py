@@ -29,6 +29,7 @@ alg.add_argument('--smooth-high', metavar='dM', type=float, default=0.05, help='
 
 samp = p.add_argument_group('Sampling Options')
 samp.add_argument('--iter', metavar='N', type=int, default=2000, help='number of iterations, half to tuning (default: %(default)s)')
+samp.add_argument('--thin', metavar='N', type=int, default=1, help='steps between recorded iterations (default: %(default)s)')
 
 oop = p.add_argument_group('Output Options')
 oop.add_argument('--chainfile', metavar='F', help='output file (default: population_{1yr,5yr}_NNNN.h5)')
@@ -131,7 +132,7 @@ data = {
     'smooth_high': args.smooth_high
 }
 
-f = m.sampling(data=data, iter=args.iter)
+f = m.sampling(data=data, iter=args.iter, thin=args.thin)
 t = f.extract(permuted=True)
 
 print(f) # Summary of sampling.
