@@ -24,6 +24,10 @@ sel = p.add_argument_group('Selection Function Options')
 sel.add_argument('--selfile', metavar='FILE.h5', default='selected.h5', help='file containing records of successful injections for VT estimation (default: %(default)s)')
 sel.add_argument('--frac', metavar='F', type=float, default=1.0, help='fraction of database to use for selection (default: %(default)s)')
 
+pr = p.add_argument_group('Prior Options')
+pr.add_argument('--H0-mean', metavar='H0', default=0.7, type=float, help='Prior mean for H0 (default: %(default)s)')
+pr.add_argument('--H0-sd', metavar='dH0', default=0.2, type=float, help='Prior s.d. for H0 (default %(default)s)')
+
 alg = p.add_argument_group('Algorithm Options')
 alg.add_argument('--ninterp', metavar='N', type=int, default=500, help='number of interpolated points for cosmology functions (default: %(default)s)')
 alg.add_argument('--smooth-low', metavar='dM', type=float, default=0.07, help='low-mass smoothing scale for selection f\'cn (default: %(default)s)')
@@ -35,8 +39,8 @@ samp.add_argument('--iter', metavar='N', type=int, default=2000, help='number of
 samp.add_argument('--thin', metavar='N', type=int, default=1, help='steps between recorded iterations (default: %(default)s)')
 
 oop = p.add_argument_group('Output Options')
-oop.add_argument('--chainfile', metavar='F', help='output file (default: population_{1yr,5yr}_NNNN.h5)')
-oop.add_argument('--tracefile', metavar='F', help='traceplot file (default: traceplot_{1yr,5yr}_NNNN.pdf)')
+oop.add_argument('--chainfile', metavar='F', default='population.h5', help='output file (default: %(default)s)')
+oop.add_argument('--tracefile', metavar='F', default='traceplot.pdf', help='traceplot file (default: %(default)s)')
 
 args = p.parse_args()
 
@@ -112,7 +116,10 @@ data = {
     'smooth_low': args.smooth_low,
     'smooth_high': args.smooth_high,
 
-    'dl_max': dLmax
+    'dl_max': dLmax,
+
+    'H0_mean': args.H0_mean,
+    'H0_sd': args.H0_sd
 }
 
 f = m.sampling(data=data, iter=args.iter, thin=args.thin)
@@ -120,23 +127,11 @@ t = f.extract(permuted=True)
 
 print(f) # Summary of sampling.
 
-if args.tracefile is not None:
-    fname = args.tracefile
-elif args.five_years:
-    fname = 'traceplot_5yr_{:04d}.pdf'.format(nsamp)
-else:
-    fname = 'traceplot_1yr_{:04d}.pdf'.format(nsamp)
 f.plot(['H0', 'R0', 'MMax', 'MMin', 'alpha', 'beta', 'gamma'])
-savefig(fname)
+savefig(args.tracefile)
 
-if args.chainfile is not None:
-    fname = args.chainfile
-elif args.five_years:
-    fname = 'population_5yr_{:04d}.h5'.format(nsamp)
-else:
-    fname = 'population_1yr_{:04d}.h5'.format(nsamp)
 
-with h5py.File(fname, 'w') as out:
+with h5py.File(args.chainfile, 'w') as out:
     out.attrs['nsamp'] = nsamp
 
     for n in ['H0', 'R0', 'MMax', 'MMin', 'alpha', 'beta', 'gamma', 'm1s_true', 'm2s_true', 'dls_true', 'zs_true']:

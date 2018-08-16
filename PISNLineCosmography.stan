@@ -109,6 +109,9 @@ data {
   real smooth_high; /* ... at high mass. */
 
   real dl_max; /* Maximum dL. */
+
+  real H0_mean; /* Mean for H0 prior. */
+  real H0_sd; /* s.d. for H0 prior. */
 }
 
 transformed data {
@@ -203,7 +206,7 @@ transformed parameters {
 
 model {
   /* Priors on population parameters */
-  h ~ lognormal(log(0.7), 1);
+  h ~ lognormal(log(H0_mean/100.0), H0_sd/H0_mean);
   r ~ lognormal(log(1), 1);
 
   MMin ~ normal(5, 2);
