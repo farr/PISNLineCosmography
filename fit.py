@@ -143,7 +143,7 @@ elif args.five_years:
     fname = 'traceplot_5yr_{:04d}.pdf'.format(nsamp)
 else:
     fname = 'traceplot_1yr_{:04d}.pdf'.format(nsamp)
-f.plot(['H0', 'R0', 'MMax', 'MMin', 'alpha', 'gamma'])
+f.plot(['H0', 'R0', 'MMax', 'MMin', 'alpha', 'beta', 'gamma'])
 savefig(fname)
 
 if args.chainfile is not None:
@@ -156,5 +156,5 @@ else:
 with h5py.File(fname, 'w') as out:
     out.attrs['nsamp'] = nsamp
 
-    for n in ['H0', 'R0', 'MMax', 'MMin', 'alpha', 'gamma', 'm1s_true', 'm2s_true', 'dls_true', 'zs_true']:
+    for n in ['H0', 'R0', 'MMax', 'MMin', 'alpha', 'beta', 'gamma', 'm1s_true', 'm2s_true', 'dls_true', 'zs_true']:
         out.create_dataset(n, data=t[n], compression='gzip', shuffle=True)
