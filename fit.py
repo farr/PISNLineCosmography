@@ -47,7 +47,7 @@ N_evt = args.events
 
 chain = {}
 with h5py.File(args.sampfile, 'r') as inp:
-    for n in ['m1s', 'm2s', 'mcs', 'etas', 'dLs', 'opt_snrs', 'thetas']:
+    for n in ['m1s', 'm2s', 'dLs']:
         chain[n] = array(inp[n])[:N_evt, :]
 
 with h5py.File(args.selfile, 'r') as inp:
