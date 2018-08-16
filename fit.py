@@ -24,8 +24,8 @@ sel.add_argument('--frac', metavar='F', type=float, default=1.0, help='fraction 
 
 alg = p.add_argument_group('Algorithm Options')
 alg.add_argument('--ninterp', metavar='N', type=int, default=500, help='number of interpolated points for cosmology functions (default: %(default)s)')
-alg.add_argument('--smooth-low', metavar='dM', type=float, default=0.4, help='low-mass smoothing scale for selection f\'cn (default: %(default)s)')
-alg.add_argument('--smooth-high', metavar='dM', type=float, default=0.5, help='high-mass smoothing scale for selection f\'cn (default: %(default)s)')
+alg.add_argument('--smooth-low', metavar='dM', type=float, default=0.07, help='low-mass smoothing scale for selection f\'cn (default: %(default)s)')
+alg.add_argument('--smooth-high', metavar='dM', type=float, default=0.16, help='high-mass smoothing scale for selection f\'cn (default: %(default)s)')
 
 samp = p.add_argument_group('Sampling Options')
 samp.add_argument('--iter', metavar='N', type=int, default=2000, help='number of iterations, half to tuning (default: %(default)s)')
