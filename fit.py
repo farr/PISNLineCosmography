@@ -16,10 +16,12 @@ import pystan
 p = ArgumentParser()
 
 post = p.add_argument_group('Event Options')
+post.add_argument('--sampfile', metavar='FILE.h5', default='parameters.h5', help='posterior samples file (default: %(default)s)')
 post.add_argument('--samp', metavar='N', type=int, default=100, help='number of posterior samples used (default: %(default)s)')
-post.add_argument('--five-years', action='store_true', help='analyse five years of data (default is 1)')
+post.add_argument('--events', metavar='N', type=int, help='number of events to analyze (default: all)')
 
 sel = p.add_argument_group('Selection Function Options')
+sel.add_argument('--selfile', metavar='FILE.h5', default='selected.h5', help='file containing records of successful injections for VT estimation (default: %(default)s)')
 sel.add_argument('--frac', metavar='F', type=float, default=1.0, help='fraction of database to use for selection (default: %(default)s)')
 
 alg = p.add_argument_group('Algorithm Options')
@@ -28,6 +30,7 @@ alg.add_argument('--smooth-low', metavar='dM', type=float, default=0.07, help='l
 alg.add_argument('--smooth-high', metavar='dM', type=float, default=0.16, help='high-mass smoothing scale for selection f\'cn (default: %(default)s)')
 
 samp = p.add_argument_group('Sampling Options')
+samp.add_argument('--stanfile', metavar='FILE.stan', default='PISNLineCosmography.stan', help='file containing STAN code (default: %(default)s)')
 samp.add_argument('--iter', metavar='N', type=int, default=2000, help='number of iterations, half to tuning (default: %(default)s)')
 samp.add_argument('--thin', metavar='N', type=int, default=1, help='steps between recorded iterations (default: %(default)s)')
 
@@ -40,34 +43,14 @@ args = p.parse_args()
 MMin = 5
 MMax = 40
 
-with h5py.File('observations.h5', 'r') as inp:
-    N_1yr = inp.attrs['N_1yr']
-
-    m1s = array(inp['truth']['m1'])
-    m2s = array(inp['truth']['m2'])
-    zs = array(inp['truth']['z'])
-    dls = array(inp['truth']['dl'])
-    thetas = array(inp['truth']['theta'])
-
-    mc_obs = array(inp['observations']['mc'])
-    eta_obs = array(inp['observations']['eta'])
-    A_obs = array(inp['observations']['A'])
-    theta_obs = array(inp['observations']['theta'])
-    sigma_mc = array(inp['observations']['sigma_mc'])
-    sigma_eta = array(inp['observations']['sigma_eta'])
-    sigma_theta = array(inp['observations']['sigma_theta'])
-
-if args.five_years:
-    N_evt = len(m1s)
-else:
-    N_evt = N_1yr
+N_evt = args.events
 
 chain = {}
-with h5py.File('parameters.h5', 'r') as inp:
+with h5py.File(args.sampfile, 'r') as inp:
     for n in ['m1s', 'm2s', 'mcs', 'etas', 'dLs', 'opt_snrs', 'thetas']:
         chain[n] = array(inp[n])[:N_evt, :]
 
-with h5py.File('selected.h5', 'r') as inp:
+with h5py.File(args.selfile, 'r') as inp:
     MObsMin = inp.attrs['MObsMin']
     MObsMax = inp.attrs['MObsMax']
     dLmax = inp.attrs['dLMax']
@@ -103,7 +86,7 @@ for i in range(nobs):
     m2[i,:] = chain['m2s'][i,inds]
     dl[i,:] = chain['dLs'][i,inds]
 
-m = pystan.StanModel(file='PISNLineCosmography.stan')
+m = pystan.StanModel(file=args.stanfile)
 
 bws = []
 for i in range(m1.shape[0]):
