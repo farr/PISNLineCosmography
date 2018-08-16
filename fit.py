@@ -25,8 +25,8 @@ sel.add_argument('--selfile', metavar='FILE.h5', default='selected.h5', help='fi
 sel.add_argument('--frac', metavar='F', type=float, default=1.0, help='fraction of database to use for selection (default: %(default)s)')
 
 pr = p.add_argument_group('Prior Options')
-pr.add_argument('--H0-mean', metavar='H0', default=0.7, type=float, help='Prior mean for H0 (default: %(default)s)')
-pr.add_argument('--H0-sd', metavar='dH0', default=0.2, type=float, help='Prior s.d. for H0 (default %(default)s)')
+pr.add_argument('--H0-mean', metavar='H0', default=70.0, type=float, help='Prior mean for H0 (default: %(default)s)')
+pr.add_argument('--H0-sd', metavar='dH0', default=15.0, type=float, help='Prior s.d. for H0 (default %(default)s)')
 
 alg = p.add_argument_group('Algorithm Options')
 alg.add_argument('--ninterp', metavar='N', type=int, default=500, help='number of interpolated points for cosmology functions (default: %(default)s)')
