@@ -136,7 +136,7 @@ transformed data {
 parameters {
   real<lower=0> r; /* R(z=0) / (100 Gpc^-3 yr^-1) */
   real<lower=0> h; /* H0 / (100 km/s/Mpc) */
-  real<lower=1,upper=10> MMin; /* MSun */
+  real<lower=3,upper=10> MMin; /* MSun */
   real<lower=30,upper=60> MMax; /* MSun */
   real alpha; /* m1 power law slope is m1^(-alpha) */
   real beta; /* m2 power law slope is p(m2 | m1) ~ m2^beta */
