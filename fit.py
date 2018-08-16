@@ -24,8 +24,8 @@ sel.add_argument('--frac', metavar='F', type=float, default=1.0, help='fraction 
 
 alg = p.add_argument_group('Algorithm Options')
 alg.add_argument('--ninterp', metavar='N', type=int, default=500, help='number of interpolated points for cosmology functions (default: %(default)s)')
-alg.add_argument('--smooth-low', metavar='dM', type=float, default=0.15, help='low-mass smoothing scale for selection f\'cn (default: %(default)s)')
-alg.add_argument('--smooth-high', metavar='dM', type=float, default=0.05, help='high-mass smoothing scale for selection f\'cn (default: %(default)s)')
+alg.add_argument('--smooth-low', metavar='dM', type=float, default=0.4, help='low-mass smoothing scale for selection f\'cn (default: %(default)s)')
+alg.add_argument('--smooth-high', metavar='dM', type=float, default=0.5, help='high-mass smoothing scale for selection f\'cn (default: %(default)s)')
 
 samp = p.add_argument_group('Sampling Options')
 samp.add_argument('--iter', metavar='N', type=int, default=2000, help='number of iterations, half to tuning (default: %(default)s)')
@@ -64,7 +64,7 @@ else:
 
 chain = {}
 with h5py.File('parameters.h5', 'r') as inp:
-    for n in ['m1s', 'm2s', 'mcs', 'etas', 'qs', 'dLs', 'opt_snrs', 'thetas']:
+    for n in ['m1s', 'm2s', 'mcs', 'etas', 'dLs', 'opt_snrs', 'thetas']:
         chain[n] = array(inp[n])[:N_evt, :]
 
 with h5py.File('selected.h5', 'r') as inp:
@@ -74,16 +74,18 @@ with h5py.File('selected.h5', 'r') as inp:
     N_gen = inp.attrs['NGen']
 
     m1s_det = array(inp['m1'])
-    qs_det = array(inp['q'])
+    m2s_det = array(inp['m2'])
     dls_det = array(inp['dl'])
 
-Vgen = (MObsMax - MObsMin)*dLmax
+# Area of the triangle from [MObsMin,MObsMin] to [MObsMax,MObsMax]
+# Times dLmax for dL volume.
+Vgen = 0.5*(MObsMax-MObsMin)*(MObsMax-MObsMin)*dLmax
 
 n = int(round(args.frac*len(m1s_det)))
 N_gen = int(round(args.frac*N_gen))
 
 m1s_det = m1s_det[:n]
-qs_det = qs_det[:n]
+m2s_det = m2s_det[:n]
 dls_det = dls_det[:n]
 
 ndet = m1s_det.shape[0]
@@ -92,44 +94,42 @@ nobs = chain['m1s'].shape[0]
 nsamp = args.samp
 
 m1 = zeros((nobs, nsamp))
+m2 = zeros((nobs, nsamp))
 dl = zeros((nobs, nsamp))
 
 for i in range(nobs):
-    m1[i,:] = np.random.choice(chain['m1s'][i,:], replace=False, size=nsamp)
-    dl[i,:] = np.random.choice(chain['dLs'][i,:], replace=False, size=nsamp)
+    inds = np.random.choice(chain['m1s'].shape[1], replace=False, size=nsamp)
+    m1[i,:] = chain['m1s'][i,inds]
+    m2[i,:] = chain['m2s'][i,inds]
+    dl[i,:] = chain['dLs'][i,inds]
 
 m = pystan.StanModel(file='PISNLineCosmography.stan')
 
 bws = []
 for i in range(m1.shape[0]):
-    bws.append(cov(row_stack((m1[i,:], dl[i,:])))/nsamp**(1.0/3.0))
-
-dlmax = max(np.max(dl), np.max(dls_det))
-zmax = 2*cosmo.z_at_value(Planck15.luminosity_distance, dlmax*u.Gpc)
-
-zs_interp = logspace(log10(1), log10(1+zmax), args.ninterp) - 1
-dlu_interp = Planck15.luminosity_distance(zs_interp) / Planck15.hubble_distance
+    bws.append(cov(row_stack((m1[i,:], m2[i,:], dl[i,:])))/nsamp**(2.0/7.0))
 
 data = {
     'nobs': m1.shape[0],
     'nsamp': m1.shape[1],
     'nsel': m1s_det.shape[0],
 
-    'm1s_dls': concatenate((m1[:,:,newaxis], dl[:,:,newaxis]), 2),
+    'm1s_m2s_dls': concatenate((m1[:,:,newaxis], m2[:,:,newaxis], dl[:,:,newaxis]), 2),
     'bws': bws,
 
     'm1s_sel': m1s_det,
+    'm2s_sel': m2s_det,
     'dls_sel': dls_det,
 
     'Vgen': Vgen,
     'ngen': N_gen,
 
     'ninterp': args.ninterp,
-    'zs_interp': zs_interp,
-    'dlu_interp': dlu_interp,
 
     'smooth_low': args.smooth_low,
-    'smooth_high': args.smooth_high
+    'smooth_high': args.smooth_high,
+
+    'dl_max': dLmax
 }
 
 f = m.sampling(data=data, iter=args.iter, thin=args.thin)
@@ -156,5 +156,5 @@ else:
 with h5py.File(fname, 'w') as out:
     out.attrs['nsamp'] = nsamp
 
-    for n in ['H0', 'R0', 'MMax', 'MMin', 'alpha', 'gamma', 'm1s_true', 'dls_true', 'zs_true']:
+    for n in ['H0', 'R0', 'MMax', 'MMin', 'alpha', 'gamma', 'm1s_true', 'm2s_true', 'dls_true', 'zs_true']:
         out.create_dataset(n, data=t[n], compression='gzip', shuffle=True)

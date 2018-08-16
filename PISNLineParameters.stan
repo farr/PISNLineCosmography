@@ -64,18 +64,15 @@ transformed data {
 
 parameters {
   real<lower=minterp_min, upper=minterp_max> m1;
-  real<lower=0, upper=1> q;
+  real<lower=minterp_min, upper=m1> m2;
   real<lower=0, upper=dL_max> dL;
   real<lower=0, upper=1> theta;
 }
 
 transformed parameters {
-  real m2;
   real mc;
   real eta;
   real opt_snr;
-
-  m2 = minterp_min + q*(m1-minterp_min);
 
   {
     real mt = m1 + m2;
@@ -88,7 +85,7 @@ transformed parameters {
 }
 
 model {
-  // Flat prior on everything
+  // Flat prior on m1, m2, dl.  Since we sample in Q, we need a factor of d(m2)/dq
 
   // Observations
   theta_obs ~ normal(theta, sigma_theta);

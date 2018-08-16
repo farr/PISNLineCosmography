@@ -8,8 +8,8 @@ functions {
   }
 
   real [] dzdDL(real dl, real[] state, real[] theta, real[] x_r, int[] x_i) {
-    real Om = theta[1];
-    real dH = theta[2];
+    real Om = x_r[1];
+    real dH = theta[1];
     real z = state[1];
 
     real dstatedDL[1];
@@ -28,21 +28,25 @@ data {
 }
 
 transformed data {
-  real x_r[0];
+  real x_r[1];
   int x_i[0];
 
   int dlinds[nobs] = sort_indices_asc(dls);
 
   real sorted_dls[nobs];
 
+  real Om = 0.3075; /* From Planck15 astropy.cosmology */
+
+  x_r[1] = Om;
+
   for (i in 1:nobs) {
     sorted_dls[i] = dls[dlinds[i]];
   }
+
 }
 
 parameters {
   real<lower=0> H0;
-  real<lower=0,upper=1> Om;
 
   real<lower=0> dMMax;
 }
@@ -56,12 +60,11 @@ transformed parameters {
   {
     real state0[1];
     real states[nobs, 1];
-    real theta[2];
+    real theta[1];
 
     state0[1] = 0.0;
 
-    theta[1] = Om;
-    theta[2] = dH;
+    theta[1] = dH;
 
     states = integrate_ode_rk45(dzdDL, state0, 0, sorted_dls, theta, x_r, x_i);
 
