@@ -12,13 +12,13 @@ from astropy.cosmology import Planck15
 import astropy.units as u
 import h5py
 import pystan
+import sys
 
 p = ArgumentParser()
 
 post = p.add_argument_group('Event Options')
 post.add_argument('--sampfile', metavar='FILE.h5', default='parameters.h5', help='posterior samples file (default: %(default)s)')
 post.add_argument('--samp', metavar='N', type=int, default=100, help='number of posterior samples used (default: %(default)s)')
-post.add_argument('--events', metavar='N', type=int, help='number of events to analyze (default: all)')
 
 sel = p.add_argument_group('Selection Function Options')
 sel.add_argument('--selfile', metavar='FILE.h5', default='selected.h5', help='file containing records of successful injections for VT estimation (default: %(default)s)')
@@ -44,15 +44,17 @@ oop.add_argument('--tracefile', metavar='F', default='traceplot.pdf', help='trac
 
 args = p.parse_args()
 
+print('Called with the following command line:')
+print(' '.join(sys.argv))
+
 MMin = 5
 MMax = 40
-
-N_evt = args.events
 
 chain = {}
 with h5py.File(args.sampfile, 'r') as inp:
     for n in ['m1s', 'm2s', 'dLs']:
-        chain[n] = array(inp[n])[:N_evt, :]
+        chain[n] = array(inp[n])
+    Tobs = inp.attrs['Tobs']
 
 with h5py.File(args.selfile, 'r') as inp:
     MObsMin = inp.attrs['MObsMin']
@@ -110,6 +112,7 @@ data = {
 
     'Vgen': Vgen,
     'ngen': N_gen,
+    'Tobs': Tobs,
 
     'ninterp': args.ninterp,
 
