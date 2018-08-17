@@ -14,6 +14,8 @@
 \newcommand{\MMin}{M_\mathrm{min}}
 \newcommand{\monedet}{m_1^\mathrm{detector}}
 \newcommand{\monesource}{m_1^\mathrm{source}}
+\newcommand{\mtwodet}{m_2^\mathrm{detector}}
+\newcommand{\mtwosource}{m_2^\mathrm{source}}
 \newcommand{\msource}{m^\mathrm{source}}
 
 % Quantities
@@ -114,6 +116,38 @@ Some collected references (for use later):
 \section{Method}
 \label{sec:method}
 
+\fixme{Boring details about mass ratio distribution, redshift evolution, etc,
+etc.}  We draw our events from a model similar to \citet{Fishbach2018}.  In our
+model, \ac{BBH} mergers occur with a rate density that is given by
+%
+\begin{equation}
+  \label{eq:model}
+  \diff{N}{m_1 \dd m_2 \dd V \dd t} =
+  \begin{cases}
+    R_0 \frac{\left(1 - \alpha\right) m_1^{-\alpha}}{\MMax^{1-\alpha} - \MMin^{1-\alpha}} \frac{\left(1 + \beta\right) m_2^\beta}{m_1^{1+\beta} - \MMin^{1+\beta}} \left( 1 + z \right)^{\gamma} & \MMin \leq m_2 < m_1 \leq \MMax \\
+    0 & \textnormal{otherwise}
+  \end{cases},
+\end{equation}
+%
+where all quantities are referred to the source frame, $V$ is the comoving
+volume (see \citet{Hogg1999} for a review of distance measures in cosmology),
+the parameter $R_0$ is the volumetric merger rate at $z = 0$, $\MMin$ and
+$\MMax$ are parameters giving the minimum and maximum black hole (source frame)
+mass, the parameter $\alpha$ is the power-law slope of the mass function for the
+more massive \ac{BH} in a \ac{BBH} merger, the parameter $\beta$ is the
+power-law slope of the distribution of the smaller mass conditioned on the value
+of $m_1$, and the parameter $\gamma$ controls the redshift evolution of the
+merger rate.  We ignore the spins of the merging \acp{BH}; our catalogs contain
+only non-spinning \acp{BH}.  Our catalogs are generated with the physically
+reasonable parameters $R_0 = \RZeroTrue{}$ \citep{O1-BBH}, $\alpha =
+\alphaTrue{}$ \citep{Fishbach2017}, $\gamma = \gammaTrue{}$
+\citep{Fishbach2018}, $\MMin = \MSourceMin{}$
+\citep{Ozel2010,Farr2011,Kreidberg2012}, and $\MMax = \MSourceMax{}$
+\citep{Fishbach2017}.  We use cosmological parameters from Table 4,
+``TT,TE,EE+lowP+lensing+ext'' of \citet{Planck2016}, as implemented in the
+\texttt{Planck15} object of the \texttt{astropy.cosmology} module from
+\citet{Astropy2018}.
+
 \Ac{GW} detectors are directly sensitive to the mass and redshift combination
 %
 \begin{equation}
@@ -121,49 +155,30 @@ Some collected references (for use later):
   \mdet \equiv \msource \left( 1 + z \right),
 \end{equation}
 %
-where $\mdet$ is the observed mass, $\msource$ is the source-frame mass, and $z$
-is the redshift of the source.  Comparing parameterised \ac{GW} waveforms
+where $\mdet$ is a mass parameter as measured in the detector frame, $\msource$
+is the corresponding mass in the source frame, and $z$ is the redshift of the
+source.  The amplitude of a gravitational wave measured at the detector depends
+only on $\monedet$; $\mtwodet$; the luminosity distance, $d_L$, to the source;
+and angular factors describing the orientation of the source's orbit and
+position on the sky relative to the \ac{GW} antenna. Comparing parameterised
+\ac{GW} waveforms
 \citep[e.g.][]{Taracchini2014,Bohe2017,Smith2016,Kahn2016,Chatziioannou2017} to
 the data observed by \ac{GW} detectors it is possible to produce a posterior
 distribution over \ac{BBH} parameters that describes our uncertainty about the
 source properties \citep{Veitch2015,GW150914-PE}; in particular, one can obtain
-a marginalized two-dimensional distribution describing our knowledge of
-$\monedet$ and $d_L$, ignoring all other parameters (here we follow the standard
-convention of denoting the mass of the more massive component of the binary by
-$m_1$).  Rather than simulate this process for synthetic events, we here
-approximate the posterior that would be obtained using a method similar to
-\citet{Fishbach2018}, but tuned to produce uncertainties in these two parameters
-that are comparable to GW170814 \citep{GW170814} at comparable signal-to-noise
-ratios.
-
-\fixme{Boring details about mass ratio distribution, redshift evolution, etc,
-etc.}  We draw our events from a model similar to that fit in
-\citet{Fishbach2018}.  In our model, \ac{BBH} mergers occur with a rate density
-that is given by
-%
-\begin{equation}
-  \label{eq:model}
-  \diff{N}{m_1 \dd V_C \dd t} =
-  \begin{cases}
-    R_0 \frac{1 - \alpha}{\MMax^{1-\alpha} - \MMin^{1-\alpha}} m_1^{-\alpha} \left( 1 + z \right)^{\gamma} & \MMin \leq m_1 \leq \MMax \textnormal{ and } \alpha \neq 1 \\
-    R_0 \left(\log \frac{\MMax}{\MMin} \right)^{-1} \frac{1}{m_1} \left( 1 + z \right)^{\gamma} & \MMin \leq m_1 \leq \MMax \textnormal{ and } \alpha = 1 \\
-    0 & \textnormal{otherwise}
-  \end{cases},
-\end{equation}
-%
-where all quantities are referred to the source frame, $V_C$ is the comoving
-volume, the parameter $R_0$ is the volumetric merger rate at $z = 0$, $\MMin$
-and $\MMax$ are parameters giving the minimum and maximum black hole (source
-frame) mass, the parameter $\alpha$ is the power-law slope of the mass function
-for the more massive \ac{BH} in a \ac{BBH} merger, and the parameter $\gamma$
-controls the redshift evolution of the merger rate.  We assume that the
-distribution of mass ratios, $q = m_2/m_1$ follows $p(q) \propto
-\mathrm{const}$, and ignore the spins of the merging black holes.  Our catalogs
-are generated with the physically reasonable parameters $R_0 = \RZeroTrue{}$
-\citep{O1-BBH}, $\alpha = \alphaTrue{}$ \citep{Fishbach2017}, $\gamma =
-\gammaTrue{}$ \citep{Fishbach2018}, $\MMin = \MSourceMin{}$
-\citep{Ozel2010,Farr2011,Kreidberg2012}, and $\MMax = \MSourceMax{}$
-\citep{Fishbach2017}.
+a marginalized three-dimensional distribution describing our knowledge of
+$\monedet$, $\mtwodet$, and $d_L$, ignoring all other parameters (here we follow
+the standard convention of denoting the mass of the more massive component of
+the binary by $m_1$ and of the less massive component by $m_2$).  Rather than
+simulate this process for the mergers in our catalog, we here approximate the
+posterior that would be obtained from a proper analysis using a method similar
+to \citet{Fishbach2018}, but tuned to produce uncertainties in these two
+parameters that are comparable to GW170814 \citep{GW170814} at comparable
+signal-to-noise ratios.  Unlike \citet{Fishbach2018}, we use \ac{GW} amplitudes
+as implemented in the ``IMRPhenomPv2'' waveform \citep{Kahn2016} that
+incorporate the inspiral, merger, and ringdown of the source; a source is
+considered detected if its (noisily-measured) amplitude exceeds a
+signal-to-noise threshold of 8 in a hypothetical detector with the .  
 
 We generate catalogs of events that correspond to all detected \ac{BBH} events
 from one year and five years of three-detector observing time at design
