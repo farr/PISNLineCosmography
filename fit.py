@@ -30,8 +30,6 @@ pr.add_argument('--H0-sd', metavar='dH0', default=15.0, type=float, help='Prior 
 
 alg = p.add_argument_group('Algorithm Options')
 alg.add_argument('--ninterp', metavar='N', type=int, default=500, help='number of interpolated points for cosmology functions (default: %(default)s)')
-alg.add_argument('--smooth-low', metavar='dM', type=float, default=0.07, help='low-mass smoothing scale for selection f\'cn (default: %(default)s)')
-alg.add_argument('--smooth-high', metavar='dM', type=float, default=0.16, help='high-mass smoothing scale for selection f\'cn (default: %(default)s)')
 
 samp = p.add_argument_group('Sampling Options')
 samp.add_argument('--stanfile', metavar='FILE.stan', default='PISNLineCosmography.stan', help='file containing STAN code (default: %(default)s)')
@@ -116,8 +114,8 @@ data = {
 
     'ninterp': args.ninterp,
 
-    'smooth_low': args.smooth_low,
-    'smooth_high': args.smooth_high,
+    'smooth_low': 0.05, # This should be physically irrelevant scale
+    'smooth_high': 0.4, # Likewise, physically irrelevant scale
 
     'dl_max': dLmax,
 
