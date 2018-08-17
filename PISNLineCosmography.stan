@@ -102,6 +102,7 @@ data {
 
   real Vgen; /* Total injected volume (mass x luminosity distance) */
   int ngen; /* Total number of injections made. */
+  real Tobs; /* Observing time (years) */
 
   int ninterp; /* Number of interpolation points for cosmography */
 
@@ -199,7 +200,7 @@ transformed parameters {
         dNs[i] = dNs[i]*normal_cdf(m2, MMin, smooth_low)*(1.0-normal_cdf(m1, MMax, smooth_high));
       }
 
-      Nex = Vgen/ngen*sum(dNs);
+      Nex = Tobs*Vgen/ngen*sum(dNs);
     }
   }
 }
