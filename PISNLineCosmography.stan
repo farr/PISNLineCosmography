@@ -29,7 +29,7 @@ functions {
 
     int j = bisect_index(x, xs);
 
-    if ((j <= 1) || (j >= n)) reject("cannot interpolate out of bounds");
+    if ((j <= 1) || (j > n)) reject("cannot interpolate out of bounds");
 
     {
       real x0;
