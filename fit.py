@@ -42,6 +42,48 @@ oop.add_argument('--tracefile', metavar='F', default='traceplot.pdf', help='trac
 
 args = p.parse_args()
 
+def initializer(m1s, m2s, dls):
+    def init():
+        inds = randint(m1s.shape[1], size=m1s.shape[0])
+
+        # Choose random observed masses and distances
+        m1_obs = array([m1s[i,inds[i]] for i in range(m1s.shape[0])])
+        m2_obs = array([m2s[i,inds[i]] for i in range(m2s.shape[0])])
+        dl_obs = array([dls[i,inds[i]] for i in range(dls.shape[0])])
+
+        # Choose a random H0
+        H0 = 70.0 + 5.0*randn()
+
+        c = cosmo.FlatLambdaCDM(H0, Planck15.Om0)
+
+        zs = array([cosmo.z_at_value(c.luminosity_distance, d*u.Gpc) for d in dl_obs])
+        m1 = m1_obs / (1+zs)
+        m2 = m2_obs / (1+zs)
+
+        MMax = np.max(m1) + rand()
+        MMin = max([1.0, np.min(m2) - rand()]) # Ensure MMin > 1
+
+        R = 100.0 + 10*randn()
+
+        alpha = -1.0 + randn()
+        beta = 0.0 + randn()
+        gamma = 3.0 + randn()
+
+        return {
+            'r': R/100.0,
+            'h': H0/100.0,
+            'MMin': MMin,
+            'MMax': MMax,
+            'alpha': alpha,
+            'beta': beta,
+            'gamma': gamma,
+            'm1s_true': m1,
+            'm2s_frac': (m2-MMin)/(m1-MMin),
+            'dls_true': dl_obs
+        }
+
+    return init
+
 print('Called with the following command line:')
 print(' '.join(sys.argv))
 
@@ -123,7 +165,7 @@ data = {
     'H0_sd': args.H0_sd
 }
 
-f = m.sampling(data=data, iter=args.iter, thin=args.thin)
+f = m.sampling(data=data, init=initializer(m1, m2, dl), iter=args.iter, thin=args.thin)
 t = f.extract(permuted=True)
 
 print(f) # Summary of sampling.
