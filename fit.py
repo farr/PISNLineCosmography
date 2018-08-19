@@ -61,7 +61,13 @@ def initializer(m1s, m2s, dls):
         m2 = m2_obs / (1+zs)
 
         MMax = np.max(m1) + rand()
-        MMin = max([1.0, np.min(m2) - rand()]) # Ensure MMin > 1
+        MMin = np.min(m2) - rand()
+
+        if MMax < 30 or MMax > 100:
+            return init() # Try again
+
+        if MMin < 3 or MMin > 10:
+            return init() # Try again
 
         R = 100.0 + 10*randn()
 
