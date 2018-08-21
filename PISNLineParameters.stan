@@ -85,7 +85,7 @@ transformed parameters {
 }
 
 model {
-  // Flat prior on m1, m2, dl.  Since we sample in Q, we need a factor of d(m2)/dq
+  // Flat prior on m1, m2, dl.
 
   // Observations
   theta_obs ~ normal(theta, sigma_theta);
