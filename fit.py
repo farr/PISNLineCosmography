@@ -85,10 +85,6 @@ for i in range(nobs):
 m = plc.make_model(m1, m2, dl, m1s_det, m2s_det, dls_det, Tobs, Vgen, N_gen)
 
 with m:
-    stepNUTS = pm.NUTS([m.R0, m.H0, m.alpha, m.beta, m.gamma])
-    stepMMax = pm.Metropolis(m.MMax)
-    stepMMin = pm.Metropolis(m.MMin)
-
     t = pm.sample(step=[stepNUTS, stepMMax, stepMMin], chains=4, cores=4, draws=args.iter, tune=args.iter, init=None)
 
 print(pm.summary(t)) # Summary of sampling.
