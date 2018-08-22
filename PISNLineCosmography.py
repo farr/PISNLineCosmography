@@ -25,7 +25,7 @@ def interp1d(x, xs, ys):
 
     return r*ys[i] + (1.0-r)*ys[i-1]
 
-def dNdm1obsdm2obsddldt(m1obs, m2obs, dlobs, zobs, R0, MMin, MMax, alpha, beta, gamma, dH):
+def dNdm1obsdm2obsddldt(m1obs, m2obs, dlobs, zobs, R0, MMin, MMax, alpha, beta, gamma, dH, smooth=False):
     m1 = m1obs / (1.0 + zobs)
     m2 = m2obs / (1.0 + zobs)
     dc = dlobs / (1.0 + zobs)
@@ -42,7 +42,19 @@ def dNdm1obsdm2obsddldt(m1obs, m2obs, dlobs, zobs, R0, MMin, MMax, alpha, beta, 
 
     dN = dNdm1dm2dVdt*dmdmobs*dmdmobs*dVdz*dzddl_
 
-    return tt.switch((m1 < MMax) & (m2 > MMin), dN, 0.0)
+    if smooth:
+        bw_high = tt.std(m1, axis=1)/m1.shape[1]**(1.0/5.0)
+        bw_low = tt.std(m2, axis=1)/m2.shape[1]**(1.0/5.0)
+
+        bw_high = bw_high[:,newaxis]
+        bw_low = bw_low[:,newaxis]
+
+        dN_low = tt.switch(m2 < MMin, dN*tt.exp(-0.5*(m2-MMin)*(m2-MMin)/(bw_low*bw_low)), dN)
+        dN_high = tt.switch(m1 > MMax, dN_low*tt.exp(-0.5*(m1-MMax)*(m1-MMax)/(bw_high*bw_high)), dN_low)
+
+        return dN_high
+    else:
+        return tt.switch((m1 < MMax) & (m2 > MMin), dN, 0.0)
 
 def make_model(m1obs, m2obs, dlobs, m1sel, m2sel, dlsel, Tobs, Vgen, Ngen):
     dlmax = 5.0*max(np.max(dlobs), np.max(dlsel))
@@ -81,10 +93,10 @@ def make_model(m1obs, m2obs, dlobs, m1sel, m2sel, dlsel, Tobs, Vgen, Ngen):
         zobs = interp1d(dlobs, dlinterp, zinterp)
         zsel = interp1d(dlsel, dlinterp, zinterp)
 
-        Nex = pm.Deterministic('Nex', Tobs*Vgen/Ngen*tt.sum(dNdm1obsdm2obsddldt(m1sel, m2sel, dlsel, zsel, R0, MMin, MMax, alpha, beta, gamma, dH)))
+        Nex = pm.Deterministic('Nex', Tobs*Vgen/Ngen*tt.sum(dNdm1obsdm2obsddldt(m1sel, m2sel, dlsel, zsel, R0, MMin, MMax, alpha, beta, gamma, dH, smooth=False)))
 
         pm.Potential('norm', -Nex)
 
-        pm.Potential('likelihood', tt.sum(tt.log(tt.mean(dNdm1obsdm2obsddldt(m1obs, m2obs, dlobs, zobs, R0, MMin, MMax, alpha, beta, gamma, dH), axis=1))))
+        pm.Potential('likelihood', tt.sum(tt.log(tt.mean(dNdm1obsdm2obsddldt(m1obs, m2obs, dlobs, zobs, R0, MMin, MMax, alpha, beta, gamma, dH, smooth=True), axis=1))))
 
     return m
