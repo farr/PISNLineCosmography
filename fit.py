@@ -11,8 +11,7 @@ import astropy.cosmology as cosmo
 from astropy.cosmology import Planck15
 import astropy.units as u
 import h5py
-import PISNLineCosmography as plc
-import pymc3 as pm
+import pystan
 import sys
 
 p = ArgumentParser()
@@ -24,8 +23,11 @@ post.add_argument('--samp', metavar='N', type=int, default=100, help='number of 
 sel = p.add_argument_group('Selection Function Options')
 sel.add_argument('--selfile', metavar='FILE.h5', default='selected.h5', help='file containing records of successful injections for VT estimation (default: %(default)s)')
 sel.add_argument('--frac', metavar='F', type=float, default=1.0, help='fraction of database to use for selection (default: %(default)s)')
+sel.add_argument('--smooth-low', metavar='dM', type=float, default=0.6, help='smoothing mass scale at low-mass cutoff (default: %(default)s)')
+sel.add_argument('--smooth-high', metavar='dM', type=float, default=0.4, help='smoothing mass scale at high-mass cutoff (default: %(default)s)')
 
 samp = p.add_argument_group('Sampling Options')
+samp.add_argument('--stanfile', metavar='FILE.stan', default='PISNLineCosmography.stan', help='stan file (default: %(default)s)')
 samp.add_argument('--iter', metavar='N', type=int, default=1000, help='number of sampling iterations (equal amount of tuning; default: %(default)s)')
 
 oop = p.add_argument_group('Output Options')
@@ -55,10 +57,7 @@ with h5py.File(args.selfile, 'r') as inp:
     m1s_det = array(inp['m1'])
     m2s_det = array(inp['m2'])
     dls_det = array(inp['dl'])
-
-# Area of the triangle from [MObsMin,MObsMin] to [MObsMax,MObsMax]
-# Times dLmax for dL volume.
-Vgen = 0.5*(MObsMax-MObsMin)*(MObsMax-MObsMin)*dLmax
+    wts_det = array(inp['wt'])
 
 n = int(round(args.frac*len(m1s_det)))
 N_gen = int(round(args.frac*N_gen))
@@ -66,6 +65,7 @@ N_gen = int(round(args.frac*N_gen))
 m1s_det = m1s_det[:n]
 m2s_det = m2s_det[:n]
 dls_det = dls_det[:n]
+wts_det = wts_det[:n]
 
 ndet = m1s_det.shape[0]
 
@@ -82,22 +82,79 @@ for i in range(nobs):
     m2[i,:] = chain['m2s'][i,inds]
     dl[i,:] = chain['dLs'][i,inds]
 
-m = plc.make_model(m1, m2, dl, m1s_det, m2s_det, dls_det, Tobs, Vgen, N_gen)
+model = pystan.StanModel(file=args.stanfile)
 
-with m:
-    stepNUTS = pm.NUTS([m.R0, m.H0, m.alpha, m.beta, m.gamma])
-    stepMMax = pm.Metropolis(m.MMax)
-    stepMMin = pm.Metropolis(m.MMin)
+pts = np.stack((m1,m2,dl), axis=2)
 
-    t = pm.sample(step=[stepNUTS, stepMMax, stepMMin], chains=4, cores=4, draws=args.iter, tune=args.iter, init=None)
+ndet = m1s_det.shape[0]
+data = {
+    'nobs': nobs,
+    'nsamp': nsamp,
+    'ndet': ndet,
+    'ninterp': 500,
+    'm1obs_m2obs_dL': pts,
+    'bw_chol': [np.linalg.cholesky(cov(pts[i,:,:], rowvar=False)/nsamp**(2.0/7.0)) for i in range(nobs)],
+    'm1obs_det': m1s_det,
+    'm2obs_det': m2s_det,
+    'dlobs_det': dls_det,
+    'wts_det': wts_det,
+    'Tobs': Tobs,
+    'dLMax': dLmax,
+    'Ngen': N_gen,
+    'smooth_low': args.smooth_low,
+    'smooth_high': args.smooth_high
+}
 
-print(pm.summary(t)) # Summary of sampling.
+def init(chain_id):
+    R0 = exp(log(100) + 0.1*randn())
+    H0 = 70.0 + 5*randn()
 
-pm.traceplot(t)
+    alpha = 1.0 + randn()
+    beta = randn()
+    gamma = 3.0 + randn()
+
+    c = cosmo.FlatLambdaCDM(H0*u.km/u.s/u.Mpc, Planck15.Om0)
+
+    inds = randint(pts.shape[1], size=pts.shape[0])
+
+    m1obs = array([pts[i,inds[i],0] for i in range(nobs)])
+    m2obs = array([pts[i,inds[i],1] for i in range(nobs)])
+    dls = array([pts[i,inds[i],2] for i in range(nobs)])
+
+    zs = array([cosmo.z_at_value(c.luminosity_distance, d*u.Gpc) for d in dls])
+
+    m1 = m1obs / (1+zs)
+    m2 = m2obs / (1+zs)
+
+    MMin = np.min(m2) - 0.1
+    MMax = np.max(m1) + 1.0
+
+    m2_frac = (m2-MMin)/(m1-MMin)
+
+    return {
+        'H0': H0,
+        'R0': R0,
+        'alpha': alpha,
+        'beta': beta,
+        'gamma': gamma,
+        'MMin': MMin,
+        'MMax': MMax,
+        'm1_true': m1,
+        'm2_frac': m2_frac,
+        'dl_true': dls
+    }
+
+fit = model.sampling(data=data, iter=2*args.iter, chains=4, n_jobs=4, init=init)
+
+print(fit)
+
+fit.plot(['H0', 'R0', 'MMin', 'MMax', 'alpha', 'beta', 'gamma', 'Nex'])
 savefig(args.tracefile)
+
+t = fit.extract(permuted=True)
 
 with h5py.File(args.chainfile, 'w') as out:
     out.attrs['nsamp'] = nsamp
 
-    for n in ['H0', 'R0', 'MMax', 'MMin', 'alpha', 'beta', 'gamma']:
+    for n in ['H0', 'R0', 'MMax', 'MMin', 'alpha', 'beta', 'gamma', 'm1_true', 'm2_true', 'dl_true', 'z_true', 'Nex', 'sigma_rel_Nex']:
         out.create_dataset(n, data=t[n], compression='gzip', shuffle=True)
