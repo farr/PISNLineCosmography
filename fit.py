@@ -29,6 +29,7 @@ sel.add_argument('--smooth-high', metavar='dM', type=float, default=0.4, help='s
 samp = p.add_argument_group('Sampling Options')
 samp.add_argument('--stanfile', metavar='FILE.stan', default='PISNLineCosmography.stan', help='stan file (default: %(default)s)')
 samp.add_argument('--iter', metavar='N', type=int, default=1000, help='number of sampling iterations (equal amount of tuning; default: %(default)s)')
+samp.add_argument('--thin', metavar='N', type=int, default=1, help='steps between recorded samples (default: %(default)s)')
 
 oop = p.add_argument_group('Output Options')
 oop.add_argument('--chainfile', metavar='F', default='population.h5', help='output file (default: %(default)s)')
@@ -144,7 +145,7 @@ def init(chain_id):
         'dl_true': dls
     }
 
-fit = model.sampling(data=data, iter=2*args.iter, chains=4, n_jobs=4, init=init)
+fit = model.sampling(data=data, iter=2*args.iter, thin=args.thin, chains=4, n_jobs=4, init=init)
 
 print(fit)
 
