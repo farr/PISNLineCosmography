@@ -110,9 +110,9 @@ def init(chain_id):
     R0 = exp(log(100) + 0.1*randn())
     H0 = 70.0 + 5*randn()
 
-    alpha = 1.0 + randn()
-    beta = randn()
-    gamma = 3.0 + randn()
+    alpha = 0.75 + 0.5*randn()
+    beta = 0.5*randn()
+    gamma = 3.0 + 0.5*randn()
 
     c = cosmo.FlatLambdaCDM(H0*u.km/u.s/u.Mpc, Planck15.Om0)
 

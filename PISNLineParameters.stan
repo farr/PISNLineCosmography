@@ -24,6 +24,19 @@ functions {
     return j;
   }
 
+  real interp1d(real x, real[] xs, real[] ys) {
+    int i = bisect_index(x, xs);
+
+    real x0 = xs[i-1];
+    real x1 = xs[i];
+    real y0 = ys[i-1];
+    real y1 = ys[i];
+
+    real r = (x-x0)/(x1-x0);
+
+    return r*y1 + (1.0-r)*y0;
+  }
+
   real interp2d(real x, real y, real[] xs, real[] ys, real[,] zs) {
     int i = bisect_index(x, xs);
     int j = bisect_index(y, ys);
@@ -55,6 +68,9 @@ data {
   real opt_snrs[nm,nm];
 
   real dL_max;
+
+  real mu_theta;
+  real sig_theta;
 }
 
 transformed data {
@@ -85,7 +101,8 @@ transformed parameters {
 }
 
 model {
-  // Flat prior on m1, m2, dl.
+  // Flat prior on m1, m2, dl; approximate prior on theta.
+  theta ~ normal(mu_theta, sig_theta);
 
   // Observations
   theta_obs ~ normal(theta, sigma_theta);
