@@ -218,7 +218,22 @@ model {
     mu[3] = dl_true[i];
 
     for (j in 1:nsamp) {
+      real zsamp;
+
+      zsamp = interp1d(m1obs_m2obs_dL[i,j][3], dlinterp, zinterp);
+
       f[j] = multi_normal_cholesky_lpdf(m1obs_m2obs_dL[i,j] | mu, bw_chol[i]);
+
+      /*
+        This deserves some explanation: we approximate the likelihood by drawing
+        samples of m1obs, m2obs, dL from a flat-prior posterior.  However, here
+        we are using m1, m2_frac, dL as parameters.  So, we need to "convert"
+        the samples in m1obs, m2obs, dL to samples in m1, m2_frac, dL, which we
+        do by adding the following Jacobian factor:
+
+        p(m1, m2_frac, dL) = p(m1obs, m2obs, dL) * (dmobs/dm)^2 * (dm2/dm2_frac)
+      */
+      f[j] = f[j] + 2.0*log1p(zsamp) + log(m1_true[i] - MMin);
     }
 
     target += log_sum_exp(f) - log(nsamp);
