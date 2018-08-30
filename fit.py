@@ -85,16 +85,15 @@ for i in range(nobs):
 
 model = pystan.StanModel(file=args.stanfile)
 
-pts = np.stack((m1,m2,dl), axis=2)
-
 ndet = m1s_det.shape[0]
 data = {
     'nobs': nobs,
     'nsamp': nsamp,
     'ndet': ndet,
     'ninterp': 500,
-    'm1obs_m2obs_dL': pts,
-    'bw_chol': [np.linalg.cholesky(cov(pts[i,:,:], rowvar=False)/nsamp**(2.0/7.0)) for i in range(nobs)],
+    'm1obs': m1,
+    'm2obs': m2,
+    'dlobs': dl,
     'm1obs_det': m1s_det,
     'm2obs_det': m2s_det,
     'dlobs_det': dls_det,
@@ -106,46 +105,7 @@ data = {
     'smooth_high': args.smooth_high
 }
 
-def init(chain_id):
-    R0 = exp(log(100) + 0.1*randn())
-    H0 = 70.0 + 5*randn()
-
-    alpha = 0.75 + 0.5*randn()
-    beta = 0.5*randn()
-    gamma = 3.0 + 0.5*randn()
-
-    c = cosmo.FlatLambdaCDM(H0*u.km/u.s/u.Mpc, Planck15.Om0)
-
-    inds = randint(pts.shape[1], size=pts.shape[0])
-
-    m1obs = array([pts[i,inds[i],0] for i in range(nobs)])
-    m2obs = array([pts[i,inds[i],1] for i in range(nobs)])
-    dls = array([pts[i,inds[i],2] for i in range(nobs)])
-
-    zs = array([cosmo.z_at_value(c.luminosity_distance, d*u.Gpc) for d in dls])
-
-    m1 = m1obs / (1+zs)
-    m2 = m2obs / (1+zs)
-
-    MMin = np.min(m2) - 0.1
-    MMax = np.max(m1) + 1.0
-
-    m2_frac = (m2-MMin)/(m1-MMin)
-
-    return {
-        'H0': H0,
-        'R0': R0,
-        'alpha': alpha,
-        'beta': beta,
-        'gamma': gamma,
-        'MMin': MMin,
-        'MMax': MMax,
-        'm1_true': m1,
-        'm2_frac': m2_frac,
-        'dl_true': dls
-    }
-
-fit = model.sampling(data=data, iter=2*args.iter, thin=args.thin, chains=4, n_jobs=4, init=init)
+fit = model.sampling(data=data, iter=2*args.iter, thin=args.thin, chains=4, n_jobs=4)
 
 print(fit)
 
