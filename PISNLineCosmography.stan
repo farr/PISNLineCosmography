@@ -45,6 +45,10 @@ functions {
     return sqrt(opz3*Om + (1.0-Om));
   }
 
+  real dzddL(real dl, real z, real dH, real Om) {
+    return 1.0/(dl/(1+z) + (1+z)*dH/Ez(z,Om));
+  }
+
   real [] dzddL_system(real dl, real[] state, real[] theta, real[] x_r, int[] x_i) {
     real Om = x_r[1];
     real dH = theta[1];
@@ -53,13 +57,9 @@ functions {
     real dstatedDL[1];
 
     /* DL = (1+z) DC and d(DC)/dz = dH/E(z) => this equation */
-    dstatedDL[1] = 1.0/(dl/(1+z) + (1+z)*dH/Ez(z, Om));
+    dstatedDL[1] = dzddL(dl, z, dH, Om);
 
     return dstatedDL;
-  }
-
-  real dzddL(real dl, real z, real dH, real Om) {
-    return 1.0/(dl/(1+z) + (1+z)*dH/Ez(z,Om));
   }
 
   real dNdm1dm2ddLdt(real m1, real m2, real dl, real z, real R0, real MMin, real MMax, real alpha, real beta, real gamma, real dH, real Om) {
@@ -218,22 +218,7 @@ model {
     mu[3] = dl_true[i];
 
     for (j in 1:nsamp) {
-      real zsamp;
-
-      zsamp = interp1d(m1obs_m2obs_dL[i,j][3], dlinterp, zinterp);
-
       f[j] = multi_normal_cholesky_lpdf(m1obs_m2obs_dL[i,j] | mu, bw_chol[i]);
-
-      /*
-        This deserves some explanation: we approximate the likelihood by drawing
-        samples of m1obs, m2obs, dL from a flat-prior posterior.  However, here
-        we are using m1, m2_frac, dL as parameters.  So, we need to "convert"
-        the samples in m1obs, m2obs, dL to samples in m1, m2_frac, dL, which we
-        do by adding the following Jacobian factor:
-
-        p(m1, m2_frac, dL) = p(m1obs, m2obs, dL) * (dmobs/dm)^2 * (dm2/dm2_frac)
-      */
-      f[j] = f[j] + 2.0*log1p(zsamp) + log(m1_true[i] - MMin);
     }
 
     target += log_sum_exp(f) - log(nsamp);
