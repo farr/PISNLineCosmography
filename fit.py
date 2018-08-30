@@ -128,7 +128,7 @@ fit = model.sampling(data=data, iter=2*args.iter, thin=args.thin, chains=4, n_jo
 
 print(fit)
 
-fit.plot(['H0', 'R0', 'MMin', 'MMax', 'alpha', 'beta', 'gamma', 'Nex'])
+fit.plot(['H0', 'R0', 'MMin', 'MMax', 'alpha', 'beta', 'gamma'])
 savefig(args.tracefile)
 
 t = fit.extract(permuted=True)
@@ -136,5 +136,5 @@ t = fit.extract(permuted=True)
 with h5py.File(args.chainfile, 'w') as out:
     out.attrs['nsamp'] = nsamp
 
-    for n in ['H0', 'R0', 'MMax', 'MMin', 'alpha', 'beta', 'gamma', 'm1_true', 'm2_true', 'dl_true', 'z_true', 'Nex', 'sigma_rel_Nex']:
+    for n in ['H0', 'R0', 'MMax', 'MMin', 'alpha', 'beta', 'gamma', 'dH']:
         out.create_dataset(n, data=t[n], compression='gzip', shuffle=True)
