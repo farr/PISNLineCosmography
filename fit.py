@@ -105,7 +105,26 @@ data = {
     'smooth_high': args.smooth_high
 }
 
-fit = model.sampling(data=data, iter=2*args.iter, thin=args.thin, chains=4, n_jobs=4)
+def init(chain_id=0):
+    H0 = 70 + 5*randn()
+    R0 = 100 + 10*randn()
+    MMin = 5 + 0.2*randn()
+    MMax = 37.5 + 2*randn()
+    alpha = 0.75 + 0.1*randn()
+    beta = 0.0 + 0.1*randn()
+    gamma = 3 + 0.1*randn()
+
+    return {
+        'H0': H0,
+        'R0': R0,
+        'MMin': MMin,
+        'MMax': MMax,
+        'alpha': alpha,
+        'beta': beta,
+        'gamma': gamma
+    }
+
+fit = model.sampling(data=data, iter=2*args.iter, thin=args.thin, chains=4, n_jobs=4, init=init)
 
 print(fit)
 
