@@ -62,7 +62,9 @@ functions {
     return dstatedDL;
   }
 
-  real dNdm1dm2ddLdt(real m1, real m2, real dl, real z, real R0, real MMin, real MMax, real alpha, real beta, real gamma, real dH, real Om) {
+  real dNdm1obsdm2obsddLdt(real m1obs, real m2obs, real dl, real z, real R0, real MMin, real MMax, real alpha, real beta, real gamma, real dH, real Om, real bw_low, real bw_high) {
+    real m1 = m1obs / (1+z);
+    real m2 = m2obs / (1+z);
     real m1norm = (1.0-alpha)/(MMax^(1-alpha) - MMin^(1-alpha));
     real m2norm = (1.0+beta)/(m1^(1+beta) - MMin^(1+beta));
 
@@ -71,7 +73,24 @@ functions {
     real dVdz = 4.0*pi()*(dl/(1+z))^2*dH/Ez(z,Om);
     real dzddL_ = dzddL(dl, z, dH, Om);
 
-    return dNdm1dm2dVdt * dVdz * dzddL_;
+    real sl;
+    real sh;
+
+    real dmdmobs = 1.0/(1.0+z);
+
+    if (m2 < MMin) {
+      sl = exp(-0.5*(m2-MMin)^2/bw_low^2);
+    } else {
+      sl = 1.0;
+    }
+
+    if (m1 > MMax) {
+      sh = exp(-0.5*(m1-MMax)^2/bw_high^2);
+    } else {
+      sh = 1.0;
+    }
+
+    return dNdm1dm2dVdt * dmdmobs^2 * dVdz * dzddL_ * sl * sh;
   }
 }
 
@@ -82,8 +101,9 @@ data {
 
   int ninterp;
 
-  vector[3] m1obs_m2obs_dL[nobs, nsamp];
-  matrix[3,3] bw_chol[nobs];
+  real m1obs[nobs,nsamp];
+  real m2obs[nobs,nsamp];
+  real dlobs[nobs,nsamp];
 
   real m1obs_det[ndet];
   real m2obs_det[ndet];
@@ -106,6 +126,14 @@ transformed data {
   real x_r[1];
   int x_i[0];
 
+  real bw_low[nobs];
+  real bw_high[nobs];
+
+  for (i in 1:nobs) {
+    bw_low[i] = sd(m2obs[i,:])/nsamp^0.2;
+    bw_high[i] = sd(m1obs[i,:])/nsamp^0.2;
+  }
+
   x_r[1] = Om;
 
   for (i in 1:ninterp) {
@@ -123,25 +151,28 @@ parameters {
 
   real<lower=3,upper=10> MMin;
   real<lower=30,upper=100> MMax;
-
-  real<lower=MMin, upper=MMax> m1_true[nobs];
-  real<lower=0, upper=1> m2_frac[nobs];
-  real<lower=0, upper=dLMax> dl_true[nobs];
 }
 
 transformed parameters {
+  real dH = 4.42563416002 * (67.74/H0);
+}
+
+model {
   real Nex;
   real sigma_rel_Nex;
-  real m2_true[nobs];
-  real z_true[nobs];
   real zinterp[ninterp];
 
-  real dH = 4.42563416002 * (67.74/H0);
+  R0 ~ lognormal(log(100), 1);
+  H0 ~ lognormal(log(70), 15.0/70.0);
 
-  for (i in 1:nobs) {
-    m2_true[i] = MMin + m2_frac[i]*(m1_true[i] - MMin);
-  }
+  alpha ~ normal(1, 2);
+  beta ~ normal(0, 2);
+  gamma ~ normal(3,2);
 
+  MMin ~ normal(5, 2);
+  MMax ~ normal(40, 10);
+
+  /* Interpolate over redshifts */
   {
     real state0[1];
     real theta[1];
@@ -153,12 +184,9 @@ transformed parameters {
     states = integrate_ode_rk45(dzddL_system, state0, 0.0, dlinterp[2:], theta, x_r, x_i);
     zinterp[1] = 0.0;
     zinterp[2:] = states[:,1];
-
-    for (i in 1:nobs) {
-      z_true[i] = interp1d(dl_true[i], dlinterp, zinterp);
-    }
   }
 
+  /* Poisson norm */
   {
     real fsum;
     real fs[ndet];
@@ -168,17 +196,11 @@ transformed parameters {
 
       zobs = interp1d(dlobs_det[i], dlinterp, zinterp);
 
-      fs[i] = dNdm1dm2ddLdt(m1obs_det[i]/(1+zobs), m2obs_det[i]/(1+zobs), dlobs_det[i], zobs, R0, MMin, MMax, alpha, beta, gamma, dH, Om);
+      fs[i] = dNdm1obsdm2obsddLdt(m1obs_det[i], m2obs_det[i], dlobs_det[i], zobs, R0, MMin, MMax, alpha, beta, gamma, dH, Om, smooth_low, smooth_high);
 
       /* It can happen when *both* m1 and m2 are smaller than MMin that negative
       /* numbers come out.  Hopefully this is a small fraction of the total! */
       if (fs[i] < 0) fs[i] = 0.0;
-
-      /* Transform to dm1obs dm2obs */
-      fs[i] = fs[i]/(1+zobs)^2;
-
-      /* Implement smoothing */
-      fs[i] = fs[i] * normal_cdf(m2obs_det[i]/(1+zobs), MMin, smooth_low) * (1.0 - normal_cdf(m1obs_det[i]/(1+zobs), MMax, smooth_high));
 
       /* Re-weight */
       fs[i] = fs[i] / wts_det[i];
@@ -187,41 +209,25 @@ transformed parameters {
     fsum = sum(fs);
 
     Nex = Tobs/Ngen*fsum;
-    sigma_rel_Nex = sqrt(ndet)*sd(fs)/fsum;
-  }
-}
-
-model {
-  R0 ~ lognormal(log(100), 1);
-  H0 ~ lognormal(log(70), 15.0/70.0);
-
-  alpha ~ normal(1, 2);
-  beta ~ normal(0, 2);
-  gamma ~ normal(3,2);
-
-  MMin ~ normal(5, 2);
-  MMax ~ normal(40, 10);
-
-  /* Impose distribution on m1, m2, dl */
-  for (i in 1:nobs) {
-    target += log(dNdm1dm2ddLdt(m1_true[i], m2_true[i], dl_true[i], z_true[i], R0, MMin, MMax, alpha, beta, gamma, dH, Om));
-    target += log(m1_true[i] - MMin); /* Jacobian because we sample in m2_frac */
   }
 
-  /* Likelihood for each event. */
+  /* Marginalize over likelihood */
   for (i in 1:nobs) {
-    vector[3] mu;
-    real f[nsamp];
-
-    mu[1] = m1_true[i]*(1+z_true[i]);
-    mu[2] = m2_true[i]*(1+z_true[i]);
-    mu[3] = dl_true[i];
+    real fs[nsamp];
 
     for (j in 1:nsamp) {
-      f[j] = multi_normal_cholesky_lpdf(m1obs_m2obs_dL[i,j] | mu, bw_chol[i]);
+      real z;
+
+      z = interp1d(dlobs[i,j], dlinterp, zinterp);
+
+      fs[j] = dNdm1obsdm2obsddLdt(m1obs[i,j], m2obs[i,j], dlobs[i,j], z, R0, MMin, MMax, alpha, beta, gamma, dH, Om, bw_low[i], bw_high[i]);
+
+      /* If m1 *and* m2 are smaller than MMin, then there is a negative number
+         in the density, so get rid of it.  Hopefully this occurs rarely. */
+      if (fs[j] < 0.0) fs[j] = 0.0;
     }
 
-    target += log_sum_exp(f) - log(nsamp);
+    target += log(mean(fs));
   }
 
   /* Poisson Norm */
