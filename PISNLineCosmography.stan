@@ -62,35 +62,36 @@ functions {
     return dstatedDL;
   }
 
-  real dNdm1obsdm2obsddLdt(real m1obs, real m2obs, real dl, real z, real R0, real MMin, real MMax, real alpha, real beta, real gamma, real dH, real Om, real bw_low, real bw_high) {
+  real log_dNdm1obsdm2obsddLdt(real m1obs, real m2obs, real dl, real z, real R0, real MMin, real MMax, real alpha, real beta, real gamma, real dH, real Om, real bw_low, real bw_high) {
     real m1 = m1obs / (1+z);
     real m2 = m2obs / (1+z);
-    real m1norm = (1.0-alpha)/(MMax^(1-alpha) - MMin^(1-alpha));
-    real m2norm = (1.0+beta)/(m1^(1+beta) - MMin^(1+beta));
+    real log_m1norm = log((1.0-alpha)/(MMax^(1-alpha) - MMin^(1-alpha)));
+    real m2norm_neg = (1.0+beta)/(m1^(1+beta) - MMin^(1+beta));
+    real log_m2norm = log((m2norm_neg < 0 ? -m2norm_neg : m2norm_neg));
 
-    real dNdm1dm2dVdt = R0 * m1^(-alpha) * m2^beta * m1norm * m2norm * (1+z)^(gamma-1);
+    real log_dNdm1dm2dVdt = log(R0) - alpha*log(m1) + beta*log(m2) + log_m1norm + log_m2norm + (gamma-1)*log1p(z);
 
-    real dVdz = 4.0*pi()*(dl/(1+z))^2*dH/Ez(z,Om);
-    real dzddL_ = dzddL(dl, z, dH, Om);
+    real log_dVdz = log(4.0*pi()) + 2.0*log(dl/(1+z)) + log(dH) - log(Ez(z,Om));
+    real log_dzddL = log(dzddL(dl, z, dH, Om));
 
-    real sl;
-    real sh;
+    real log_sl;
+    real log_sh;
 
-    real dmdmobs = 1.0/(1.0+z);
+    real log_dmdmobs = -log1p(z);
 
     if (m2 < MMin) {
-      sl = exp(-0.5*(m2-MMin)^2/bw_low^2);
+      log_sl = -0.5*(m2-MMin)^2/bw_low^2;
     } else {
-      sl = 1.0;
+      log_sl = 0.0;
     }
 
     if (m1 > MMax) {
-      sh = exp(-0.5*(m1-MMax)^2/bw_high^2);
+      log_sh = -0.5*(m1-MMax)^2/bw_high^2;
     } else {
-      sh = 1.0;
+      log_sh = 0.0;
     }
 
-    return dNdm1dm2dVdt * dmdmobs^2 * dVdz * dzddL_ * sl * sh;
+    return log_dNdm1dm2dVdt + 2.0*log_dmdmobs + log_dVdz + log_dzddL + log_sl + log_sh;
   }
 }
 
@@ -196,17 +197,13 @@ model {
 
       zobs = interp1d(dlobs_det[i], dlinterp, zinterp);
 
-      fs[i] = dNdm1obsdm2obsddLdt(m1obs_det[i], m2obs_det[i], dlobs_det[i], zobs, R0, MMin, MMax, alpha, beta, gamma, dH, Om, smooth_low, smooth_high);
-
-      /* It can happen when *both* m1 and m2 are smaller than MMin that negative
-      /* numbers come out.  Hopefully this is a small fraction of the total! */
-      if (fs[i] < 0) fs[i] = 0.0;
+      fs[i] = log_dNdm1obsdm2obsddLdt(m1obs_det[i], m2obs_det[i], dlobs_det[i], zobs, R0, MMin, MMax, alpha, beta, gamma, dH, Om, smooth_low, smooth_high);
 
       /* Re-weight */
-      fs[i] = fs[i] / wts_det[i];
+      fs[i] = fs[i] - log(wts_det[i]);
     }
 
-    fsum = sum(fs);
+    fsum = exp(log_sum_exp(fs));
 
     Nex = Tobs/Ngen*fsum;
   }
@@ -220,14 +217,10 @@ model {
 
       z = interp1d(dlobs[i,j], dlinterp, zinterp);
 
-      fs[j] = dNdm1obsdm2obsddLdt(m1obs[i,j], m2obs[i,j], dlobs[i,j], z, R0, MMin, MMax, alpha, beta, gamma, dH, Om, bw_low[i], bw_high[i]);
-
-      /* If m1 *and* m2 are smaller than MMin, then there is a negative number
-         in the density, so get rid of it.  Hopefully this occurs rarely. */
-      if (fs[j] < 0.0) fs[j] = 0.0;
+      fs[j] = log_dNdm1obsdm2obsddLdt(m1obs[i,j], m2obs[i,j], dlobs[i,j], z, R0, MMin, MMax, alpha, beta, gamma, dH, Om, bw_low[i], bw_high[i]);
     }
 
-    target += log(mean(fs));
+    target += log_sum_exp(fs) - log(nsamp);
   }
 
   /* Poisson Norm */
