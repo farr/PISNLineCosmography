@@ -22,7 +22,7 @@ post.add_argument('--samp', metavar='N', type=int, default=100, help='number of 
 
 sel = p.add_argument_group('Selection Function Options')
 sel.add_argument('--selfile', metavar='FILE.h5', default='selected.h5', help='file containing records of successful injections for VT estimation (default: %(default)s)')
-sel.add_argument('--frac', metavar='F', type=float, default=1.0, help='fraction of database to use for selection (default: %(default)s)')
+sel.add_argument('--nsel', metavar='N', type=int, help='number of selected systems to include (default: all)')
 sel.add_argument('--smooth-low', metavar='dM', type=float, default=0.1, help='smoothing mass scale at low-mass cutoff (default: %(default)s)')
 sel.add_argument('--smooth-high', metavar='dM', type=float, default=0.5, help='smoothing mass scale at high-mass cutoff (default: %(default)s)')
 
@@ -60,13 +60,14 @@ with h5py.File(args.selfile, 'r') as inp:
     dls_det = array(inp['dl'])
     wts_det = array(inp['wt'])
 
-n = int(round(args.frac*len(m1s_det)))
-N_gen = int(round(args.frac*N_gen))
+if args.nsel is not None:
+    f = float(args.nsel)/float(len(m1s_det))
 
-m1s_det = m1s_det[:n]
-m2s_det = m2s_det[:n]
-dls_det = dls_det[:n]
-wts_det = wts_det[:n]
+    N_gen = int(round(f*N_gen))
+    m1s_det = m1s_det[:args.nsel]
+    m2s_det = m2s_det[:args.nsel]
+    dls_det = dls_det[:args.nsel]
+    wts_det = wts_det[:args.nsel]
 
 ndet = m1s_det.shape[0]
 
