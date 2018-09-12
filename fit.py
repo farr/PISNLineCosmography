@@ -63,11 +63,13 @@ with h5py.File(args.selfile, 'r') as inp:
 if args.nsel is not None:
     f = float(args.nsel)/float(len(m1s_det))
 
+    s = np.random.choice(m1s_det.shape[0], replace=False, size=args.nsel)
+
     N_gen = int(round(f*N_gen))
-    m1s_det = m1s_det[:args.nsel]
-    m2s_det = m2s_det[:args.nsel]
-    dls_det = dls_det[:args.nsel]
-    wts_det = wts_det[:args.nsel]
+    m1s_det = m1s_det[s]
+    m2s_det = m2s_det[s]
+    dls_det = dls_det[s]
+    wts_det = wts_det[s]
 
 ndet = m1s_det.shape[0]
 
@@ -165,5 +167,5 @@ t = fit.extract(permuted=True)
 with h5py.File(args.chainfile, 'w') as out:
     out.attrs['nsamp'] = nsamp
 
-    for n in ['H0', 'R0', 'MMax', 'MMin', 'alpha', 'beta', 'gamma', 'dH', 'Nex', 'sigma_log_Nex', 'neff_det', 'm1_true', 'm2_true', 'dl_true', 'z_true']:
+    for n in ['H0', 'R0', 'MMax', 'MMin', 'alpha', 'beta', 'gamma', 'dH', 'Nex', 'sigma_Nex', 'neff_det', 'm1_true', 'm2_true', 'dl_true', 'z_true']:
         out.create_dataset(n, data=t[n], compression='gzip', shuffle=True)

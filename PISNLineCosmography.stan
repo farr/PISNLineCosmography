@@ -143,7 +143,7 @@ parameters {
 transformed parameters {
   real dH = 4.42563416002 * (67.74/H0);
   real Nex;
-  real sigma_log_Nex;
+  real sigma_Nex;
   real neff_det;
 
   real m2_true[nobs];
@@ -212,8 +212,8 @@ transformed parameters {
     fsum2 = exp(log_sum_exp(fs2));
 
     Nex = Tobs/Ngen*fsum;
-    sigma_log_Nex = sqrt(fsum2 - fsum*fsum/ndet)/fsum;
-    neff_det = 1.0/(sigma_log_Nex^2);
+    sigma_Nex = sqrt(fsum2 - fsum*fsum/ndet)*Tobs/Ngen;
+    neff_det = Nex*Nex/(sigma_Nex*sigma_Nex);
   }
 }
 
@@ -251,6 +251,6 @@ model {
     target += log_sum_exp(fs) - log(nsamp);
   }
 
-  /* Poisson norm */
+  /* Poisson norm. */
   target += -Nex;
 }
