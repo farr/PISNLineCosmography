@@ -230,6 +230,8 @@ transformed parameters {
 }
 
 model {
+  real logps[nobs];
+
   R0 ~ lognormal(log(100), 1);
 
   H0 ~ normal(mu_H0, sigma_H0);
@@ -245,10 +247,11 @@ model {
 
   /* Population prior */
   for (i in 1:nobs) {
-    target += log_dNdm1dm2ddLdt(m1_true[i], m2_true[i], dl_true[i], z_true[i], R0, MMin, MMax, alpha, beta, gamma, dH, Om, w);
+    logps[i] = log_dNdm1dm2ddLdt(m1_true[i], m2_true[i], dl_true[i], z_true[i], R0, MMin, MMax, alpha, beta, gamma, dH, Om, w);
     /* Jacobian because we sample in m2_frac: dm2/d(m2_frac) = (m1-MMin). */
-    target += log(m1_true[i]-MMin);
+    logps[i] = logps[i] + log(m1_true[i]-MMin);
   }
+  target += sum(logps);
 
   /* Implement KDE likelihood */
   for (i in 1:nobs) {
@@ -263,8 +266,9 @@ model {
       fs[j] = multi_normal_cholesky_lpdf(m1obs_m2obs_dl[i,j] | x, chol_bw[i]);
     }
 
-    target += log_sum_exp(fs) - log(nsamp);
+    logps[i] = log_sum_exp(fs) - log(nsamp);
   }
+  target += sum(logps);
 
   /* Poisson norm. */
   target += -Nex;
