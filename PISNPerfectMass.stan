@@ -45,7 +45,7 @@ transformed data {
 parameters {
   real<lower=0> H0;
   real<lower=0,upper=1> Om;
-  real<lower=-1,upper=1.0/3.0> wDE;
+  real wDE;
 
   real<lower=0> dMMax;
 }
@@ -86,7 +86,7 @@ model {
   Om ~ normal(0.3, 0.1);
 
   /* We put a prior on wDE that peaks at -1 with a width of 1/3. */
-  wDE + 1.0 ~ exponential(3.0);
+  wDE ~ normal(-1, 1.0/3.0);
 
   /* Flat prior on MMax => flat prior on dMMax. */
   /* Flat prior on zMax => flat prior on dzMax. */
