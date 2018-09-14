@@ -1,22 +1,22 @@
 functions {
-  real Ez(real z, real Om, real wDE) {
+  real Ez(real z, real Om, real w) {
     real opz = 1.0 + z;
     real opz2 = opz*opz;
     real opz3 = opz2*opz;
 
-    return sqrt(opz3*Om + (1.0-Om)*(1.0+z)^(3*(1+wDE)));
+    return sqrt(opz3*Om + (1.0-Om)*(1.0+z)^(3*(1+w)));
   }
 
   real [] dzdDL(real dl, real[] state, real[] theta, real[] x_r, int[] x_i) {
     real dH = theta[1];
     real Om = theta[2];
-    real wDE = theta[3];
+    real w = theta[3];
     real z = state[1];
 
     real dstatedDL[1];
 
     /* DL = (1+z) DC and d(DC)/dz = dH/E(z) => this equation */
-    dstatedDL[1] = 1.0/(dl/(1+z) + (1+z)*dH/Ez(z, Om, wDE));
+    dstatedDL[1] = 1.0/(dl/(1+z) + (1+z)*dH/Ez(z, Om, w));
 
     return dstatedDL;
   }
@@ -26,6 +26,16 @@ data {
   int nobs;
   real m1_obs[nobs];
   real dls[nobs];
+
+  /* Priors */
+  real mu_H0;
+  real sigma_H0;
+
+  real mu_Om;
+  real sigma_Om;
+
+  real mu_w;
+  real sigma_w;
 }
 
 transformed data {
@@ -45,7 +55,7 @@ transformed data {
 parameters {
   real<lower=0> H0;
   real<lower=0,upper=1> Om;
-  real wDE;
+  real w;
 
   real<lower=0> dMMax;
 }
@@ -65,7 +75,7 @@ transformed parameters {
 
     theta[1] = dH;
     theta[2] = Om;
-    theta[3] = wDE;
+    theta[3] = w;
 
     states = integrate_ode_rk45(dzdDL, state0, 0, sorted_dls, theta, x_r, x_i);
 
@@ -82,11 +92,11 @@ transformed parameters {
 }
 
 model {
-  H0 ~ normal(70.0, 20.0);
-  Om ~ normal(0.3, 0.1);
+  H0 ~ normal(mu_H0, sigma_H0);
+  Om ~ normal(mu_Om, sigma_Om);
 
-  /* We put a prior on wDE that peaks at -1 with a width of 1/3. */
-  wDE ~ normal(-1, 1.0/3.0);
+  /* We put a prior on w that peaks at -1 with a width of 1/3. */
+  w ~ normal(mu_w, sigma_w);
 
   /* Flat prior on MMax => flat prior on dMMax. */
   /* Flat prior on zMax => flat prior on dzMax. */

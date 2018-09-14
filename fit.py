@@ -20,6 +20,9 @@ post = p.add_argument_group('Event Options')
 post.add_argument('--sampfile', metavar='FILE.h5', default='parameters.h5', help='posterior samples file (default: %(default)s)')
 post.add_argument('--samp', metavar='N', type=int, default=100, help='number of posterior samples used (default: %(default)s)')
 
+c = p.add_argument_group('Cosmology Options')
+c.add_argument('--prior', choices=['free', 'Planck-Om-w', 'H0', 'H0-Planck-Om'], default='free', help='cosmology priors: free; Om, w from Planck; 1%% H0; 1%% H0 plus Om from Planck (default: %(default)s)')
+
 sel = p.add_argument_group('Selection Function Options')
 sel.add_argument('--selfile', metavar='FILE.h5', default='selected.h5', help='file containing records of successful injections for VT estimation (default: %(default)s)')
 sel.add_argument('--nsel', metavar='N', type=int, help='number of selected systems to include (default: all)')
@@ -39,6 +42,55 @@ args = p.parse_args()
 
 print('Called with the following command line:')
 print(' '.join(sys.argv))
+
+# Set up the prior data
+data_free = {
+    'mu_H0': 70.0,
+    'sigma_H0': 20.0,
+    'mu_Om': 0.3,
+    'sigma_Om': 0.1,
+    'mu_w': -1.0,
+    'sigma_w': 0.5
+}
+
+data_Om_w_Planck = {
+    'mu_H0': 70.0,
+    'sigma_H0': 20.0,
+    'mu_Om': 0.3089,
+    'sigma_Om': 0.0062,
+    'mu_w': -1.019,
+    'sigma_w': 0.0775
+}
+
+H0 = Planck15.H0.to(u.km/u.s/u.Mpc).value
+data_H0_1pct = {
+    'mu_H0': H0,
+    'sigma_H0': 0.01*H0,
+    'mu_Om': 0.3,
+    'sigma_Om': 0.1,
+    'mu_w': -1.0,
+    'sigma_w': 0.5
+}
+
+data_H0_1pct_Om = {
+    'mu_H0': H0,
+    'sigma_H0': 0.01*H0,
+    'mu_Om': 0.3089,
+    'sigma_Om': 0.0062,
+    'mu_w': -1.0,
+    'sigma_w': 0.5
+}
+
+if args.prior == 'free':
+    data_prior = data_free
+elif args.prior == 'Planck-Om-w':
+    data_prior = data_Om_w_Planck
+elif args.prior == 'H0':
+    data_prior = data_H0_1pct
+elif args.prior == 'H0-Planck-Om':
+    data_prior = data_H0_1pct_Om
+else:
+    raise ValueError('unrecognized cosmology prior option')
 
 MMin = 5
 MMax = 40
@@ -111,6 +163,7 @@ data = {
     'smooth_low': args.smooth_low,
     'smooth_high': args.smooth_high
 }
+data.update(data_prior) # Add in the prior
 
 def init(chain_id=0):
     m1_init = zeros(nobs)
@@ -120,9 +173,11 @@ def init(chain_id=0):
     z_init = zeros(nobs)
 
     H0 = 70 + 5*randn()
+    Om = 0.3 + 0.05*randn()
+    w = -1.0 + 0.1*randn()
     R0 = 100 + 10*randn()
 
-    c = cosmo.FlatLambdaCDM(H0, Planck15.Om0)
+    c = cosmo.FlatwCDM(H0=H0, Om0=Om, w0=w)
 
     j = randint(m1.shape[1])
 
@@ -167,5 +222,5 @@ t = fit.extract(permuted=True)
 with h5py.File(args.chainfile, 'w') as out:
     out.attrs['nsamp'] = nsamp
 
-    for n in ['H0', 'R0', 'MMax', 'MMin', 'alpha', 'beta', 'gamma', 'dH', 'Nex', 'sigma_Nex', 'neff_det', 'm1_true', 'm2_true', 'dl_true', 'z_true']:
+    for n in ['H0', 'Om', 'w', 'R0', 'MMax', 'MMin', 'alpha', 'beta', 'gamma', 'dH', 'Nex', 'sigma_Nex', 'neff_det', 'm1_true', 'm2_true', 'dl_true', 'z_true']:
         out.create_dataset(n, data=t[n], compression='gzip', shuffle=True)

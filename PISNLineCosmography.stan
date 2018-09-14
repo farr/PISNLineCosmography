@@ -37,32 +37,33 @@ functions {
     return r*y1 + (1.0-r)*y0;
   }
 
-  real Ez(real z, real Om) {
+  real Ez(real z, real Om, real w) {
     real opz = 1.0 + z;
     real opz2 = opz*opz;
     real opz3 = opz2*opz;
 
-    return sqrt(opz3*Om + (1.0-Om));
+    return sqrt(opz3*Om + (1.0-Om)*(1.0+z)^(3*(1+w)));
   }
 
-  real dzddL(real dl, real z, real dH, real Om) {
-    return 1.0/(dl/(1+z) + (1+z)*dH/Ez(z,Om));
+  real dzddL(real dl, real z, real dH, real Om, real w) {
+    return 1.0/(dl/(1+z) + (1+z)*dH/Ez(z,Om,w));
   }
 
   real [] dzddL_system(real dl, real[] state, real[] theta, real[] x_r, int[] x_i) {
-    real Om = x_r[1];
     real dH = theta[1];
+    real Om = theta[2];
+    real w = theta[3];
     real z = state[1];
 
     real dstatedDL[1];
 
     /* DL = (1+z) DC and d(DC)/dz = dH/E(z) => this equation */
-    dstatedDL[1] = dzddL(dl, z, dH, Om);
+    dstatedDL[1] = dzddL(dl, z, dH, Om, w);
 
     return dstatedDL;
   }
 
-  real log_dNdm1dm2ddLdt(real m1, real m2, real dl, real z, real R0, real MMin, real MMax, real alpha, real beta, real gamma, real dH, real Om) {
+  real log_dNdm1dm2ddLdt(real m1, real m2, real dl, real z, real R0, real MMin, real MMax, real alpha, real beta, real gamma, real dH, real Om, real w) {
     real log_m1norm = log((1.0-alpha)/(MMax^(1-alpha) - MMin^(1-alpha)));
 
     /* In the event that this function is called with m1 < MMin, then this can
@@ -73,8 +74,8 @@ functions {
 
     real log_dNdm1dm2dVdt = log(R0) - alpha*log(m1) + beta*log(m2) + log_m1norm + log_m2norm + (gamma-1)*log1p(z);
 
-    real log_dVdz = log(4.0*pi()) + 2.0*log(dl/(1+z)) + log(dH) - log(Ez(z,Om));
-    real log_dzddL = log(dzddL(dl, z, dH, Om));
+    real log_dVdz = log(4.0*pi()) + 2.0*log(dl/(1+z)) + log(dH) - log(Ez(z,Om,w));
+    real log_dzddL = log(dzddL(dl, z, dH, Om, w));
 
     return log_dNdm1dm2dVdt + log_dVdz + log_dzddL;
   }
@@ -102,18 +103,23 @@ data {
 
   real smooth_low;
   real smooth_high;
+
+  /* Gaussian priors on cosmography */
+  real mu_H0;
+  real sigma_H0;
+  real mu_Om;
+  real sigma_Om;
+  real mu_w;
+  real sigma_w;
 }
 
 transformed data {
   real dlinterp[ninterp];
-  real Om = 0.3075;
 
-  real x_r[1];
+  real x_r[0];
   int x_i[0];
 
   matrix[3,3] chol_bw[nobs];
-
-  x_r[1] = Om;
 
   for (i in 1:ninterp) {
     dlinterp[i] = (i-1.0)/(ninterp-1.0)*dLMax;
@@ -126,6 +132,9 @@ transformed data {
 
 parameters {
   real<lower=50,upper=100> H0;
+  real<lower=0,upper=1> Om;
+  real w;
+
   real<lower=0> R0;
 
   real<lower=-3,upper=3> alpha;
@@ -154,11 +163,14 @@ transformed parameters {
   /* Interpolate over redshifts */
   {
     real state0[1];
-    real theta[1];
+    real theta[3];
     real states[ninterp-1,1];
 
     state0[1] = 0.0;
+
     theta[1] = dH;
+    theta[2] = Om;
+    theta[3] = w;
 
     states = integrate_ode_rk45(dzddL_system, state0, 0.0, dlinterp[2:], theta, x_r, x_i);
     zinterp[1] = 0.0;
@@ -188,7 +200,7 @@ transformed parameters {
       m1 = m1obs_det[i]/(1+zobs);
       m2 = m2obs_det[i]/(1+zobs);
 
-      fs[i] = log_dNdm1dm2ddLdt(m1, m2, dlobs_det[i], zobs, R0, MMin, MMax, alpha, beta, gamma, dH, Om);
+      fs[i] = log_dNdm1dm2ddLdt(m1, m2, dlobs_det[i], zobs, R0, MMin, MMax, alpha, beta, gamma, dH, Om, w);
 
       /* Re-weight */
       fs[i] = fs[i] - log(wts_det[i]);
@@ -219,7 +231,10 @@ transformed parameters {
 
 model {
   R0 ~ lognormal(log(100), 1);
-  H0 ~ lognormal(log(70), 15.0/70.0);
+
+  H0 ~ normal(mu_H0, sigma_H0);
+  Om ~ normal(mu_Om, sigma_Om);
+  w ~ normal(mu_w, sigma_w);
 
   alpha ~ normal(1, 2);
   beta ~ normal(0, 2);
@@ -230,7 +245,7 @@ model {
 
   /* Population prior */
   for (i in 1:nobs) {
-    target += log_dNdm1dm2ddLdt(m1_true[i], m2_true[i], dl_true[i], z_true[i], R0, MMin, MMax, alpha, beta, gamma, dH, Om);
+    target += log_dNdm1dm2ddLdt(m1_true[i], m2_true[i], dl_true[i], z_true[i], R0, MMin, MMax, alpha, beta, gamma, dH, Om, w);
     /* Jacobian because we sample in m2_frac: dm2/d(m2_frac) = (m1-MMin). */
     target += log(m1_true[i]-MMin);
   }
