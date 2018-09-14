@@ -150,7 +150,7 @@ data = {
     'nobs': nobs,
     'nsamp': nsamp,
     'ndet': ndet,
-    'ninterp': 500,
+    'ninterp': 100,
     'm1obs_m2obs_dl': m1_m2_dl,
     'bw': bws,
     'm1obs_det': m1s_det,
