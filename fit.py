@@ -49,8 +49,10 @@ data_free = {
     'sigma_H0': 20.0,
     'mu_Om': 0.3,
     'sigma_Om': 0.1,
-    'mu_w': -1.0,
-    'sigma_w': 0.5
+    'mu_wp': -1.0,
+    'sigma_wp': 0.5,
+    'mu_wa': 0.0,
+    'sigma_wa': 2.0/3.0
 }
 
 data_Om_w_Planck = {
@@ -58,8 +60,10 @@ data_Om_w_Planck = {
     'sigma_H0': 20.0,
     'mu_Om': 0.3089,
     'sigma_Om': 0.0062,
-    'mu_w': -1.019,
-    'sigma_w': 0.0775
+    'mu_wp': -1.019,
+    'sigma_wp': 0.0775,
+    'mu_wa': 0.0,
+    'sigma_wa': 0.01
 }
 
 H0 = Planck15.H0.to(u.km/u.s/u.Mpc).value
@@ -68,8 +72,10 @@ data_H0_1pct = {
     'sigma_H0': 0.01*H0,
     'mu_Om': 0.3,
     'sigma_Om': 0.1,
-    'mu_w': -1.0,
-    'sigma_w': 0.5
+    'mu_wp': -1.0,
+    'sigma_wp': 0.5,
+    'mu_wa': 0.0,
+    'sigma_wa': 2.0/3.0
 }
 
 data_H0_1pct_Om = {
@@ -77,8 +83,10 @@ data_H0_1pct_Om = {
     'sigma_H0': 0.01*H0,
     'mu_Om': 0.3089,
     'sigma_Om': 0.0062,
-    'mu_w': -1.0,
-    'sigma_w': 0.5
+    'mu_wp': -1.0,
+    'sigma_wp': 0.5,
+    'mu_wa': 0.0,
+    'sigma_wa': 2.0/3.0
 }
 
 if args.prior == 'free':
@@ -161,7 +169,8 @@ data = {
     'dLMax': dLmax,
     'Ngen': N_gen,
     'smooth_low': args.smooth_low,
-    'smooth_high': args.smooth_high
+    'smooth_high': args.smooth_high,
+    'z_p': 0.5 # Pivot redshift from perfect mass fits
 }
 data.update(data_prior) # Add in the prior
 
@@ -175,6 +184,7 @@ def init(chain_id=0):
     H0 = 70 + 5*randn()
     Om = 0.3 + 0.05*randn()
     w = -1.0 + 0.1*randn()
+    wa = 0.1*randn()
     R0 = 100 + 10*randn()
 
     c = cosmo.FlatwCDM(H0=H0, Om0=Om, w0=w)
@@ -199,6 +209,9 @@ def init(chain_id=0):
 
     return {
         'H0': H0,
+        'Om': Om,
+        'w_p': w,
+        'w_a': wa,
         'R0': R0,
         'MMin': MMin,
         'MMax': MMax,
@@ -214,7 +227,7 @@ fit = model.sampling(data=data, iter=2*args.iter, thin=args.thin, chains=4, n_jo
 
 print(fit)
 
-fit.plot(['H0', 'R0', 'MMin', 'MMax', 'alpha', 'beta', 'gamma'])
+fit.plot(['H0', 'Om', 'w_p', 'w_a', 'R0', 'MMin', 'MMax', 'alpha', 'beta', 'gamma'])
 savefig(args.tracefile)
 
 t = fit.extract(permuted=True)
@@ -222,5 +235,5 @@ t = fit.extract(permuted=True)
 with h5py.File(args.chainfile, 'w') as out:
     out.attrs['nsamp'] = nsamp
 
-    for n in ['H0', 'Om', 'w', 'R0', 'MMax', 'MMin', 'alpha', 'beta', 'gamma', 'dH', 'Nex', 'sigma_Nex', 'neff_det', 'm1_true', 'm2_true', 'dl_true', 'z_true']:
+    for n in ['H0', 'Om', 'w0', 'w_p', 'w_a', 'R0', 'MMax', 'MMin', 'alpha', 'beta', 'gamma', 'dH', 'Nex', 'sigma_Nex', 'neff_det', 'm1_true', 'm2_true', 'dl_true', 'z_true']:
         out.create_dataset(n, data=t[n], compression='gzip', shuffle=True)
