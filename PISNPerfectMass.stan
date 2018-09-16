@@ -1,8 +1,17 @@
 functions {
-  real Ez(real z, real Om, real w) {
+  real wz(real z, real z_p, real w_p, real w_a) {
+    real a = 1.0/(1.0 + z);
+    real a_p = 1.0/(1.0 + z_p);
+
+    return w_p + w_a*(a_p - a);
+  }
+
+  real Ez(real z, real Om, real z_p, real w_p, real w_a) {
     real opz = 1.0 + z;
     real opz2 = opz*opz;
     real opz3 = opz2*opz;
+
+    real w = wz(z, z_p, w_p, w_a);
 
     return sqrt(opz3*Om + (1.0-Om)*(1.0+z)^(3*(1+w)));
   }
@@ -10,13 +19,17 @@ functions {
   real [] dzdDL(real dl, real[] state, real[] theta, real[] x_r, int[] x_i) {
     real dH = theta[1];
     real Om = theta[2];
-    real w = theta[3];
+    real w_p = theta[3];
+    real w_a = theta[4];
+
+    real z_p = x_r[1];
+
     real z = state[1];
 
     real dstatedDL[1];
 
     /* DL = (1+z) DC and d(DC)/dz = dH/E(z) => this equation */
-    dstatedDL[1] = 1.0/(dl/(1+z) + (1+z)*dH/Ez(z, Om, w));
+    dstatedDL[1] = 1.0/(dl/(1+z) + (1+z)*dH/Ez(z, Om, z_p, w_p, w_a));
 
     return dstatedDL;
   }
@@ -34,17 +47,25 @@ data {
   real mu_Om;
   real sigma_Om;
 
-  real mu_w;
-  real sigma_w;
+  real mu_wp;
+  real sigma_wp;
+
+  real mu_wa;
+  real sigma_wa;
+
+  /* Pivot redshift */
+  real z_p;
 }
 
 transformed data {
-  real x_r[0];
+  real x_r[1];
   int x_i[0];
 
   int dlinds[nobs] = sort_indices_asc(dls);
 
   real sorted_dls[nobs];
+
+  x_r[1] = z_p;
 
   for (i in 1:nobs) {
     sorted_dls[i] = dls[dlinds[i]];
@@ -55,7 +76,8 @@ transformed data {
 parameters {
   real<lower=0> H0;
   real<lower=0,upper=1> Om;
-  real w;
+  real w_p;
+  real w_a;
 
   real<lower=0> dMMax;
 }
@@ -65,17 +87,19 @@ transformed parameters {
   real zs[nobs];
   real m1s[nobs];
   real MMax;
+  real w_0 = wz(0.0, z_p, w_p, w_a);
 
   {
     real state0[1];
     real states[nobs, 1];
-    real theta[3];
+    real theta[4];
 
     state0[1] = 0.0;
 
     theta[1] = dH;
     theta[2] = Om;
-    theta[3] = w;
+    theta[3] = w_p;
+    theta[4] = w_a;
 
     states = integrate_ode_rk45(dzdDL, state0, 0, sorted_dls, theta, x_r, x_i);
 
@@ -95,8 +119,8 @@ model {
   H0 ~ normal(mu_H0, sigma_H0);
   Om ~ normal(mu_Om, sigma_Om);
 
-  /* We put a prior on w that peaks at -1 with a width of 1/3. */
-  w ~ normal(mu_w, sigma_w);
+  w_p ~ normal(mu_wp, sigma_wp);
+  w_a ~ normal(mu_wa, sigma_wa);
 
   /* Flat prior on MMax => flat prior on dMMax. */
   /* Flat prior on zMax => flat prior on dzMax. */
