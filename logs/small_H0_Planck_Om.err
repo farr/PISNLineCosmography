@@ -1,9 +1,0 @@
-DIAGNOSTIC(S) FROM PARSER:
-Warning: integer division implicitly rounds to integer. Found int division: (j - i) / 2
- Positive values rounded down, negative values rounded up or down in platform-dependent way.
-
-/mnt/home/wfarr/anaconda3/lib/python3.6/site-packages/h5py/__init__.py:36: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
-  from ._conv import register_converters as _register_converters
-INFO:pystan:COMPILING THE C++ CODE FOR MODEL anon_model_61d680ba7ac3f61f0c0c9b8469be551c NOW.
-/mnt/home/wfarr/anaconda3/lib/python3.6/site-packages/pystan/misc.py:399: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
-  elif np.issubdtype(np.asarray(v).dtype, float):
