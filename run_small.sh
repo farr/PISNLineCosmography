@@ -1,11 +1,5 @@
 #!/bin/bash
-#SBATCH --ntasks 1 --cpus-per-task 4 -p cca
-#SBATCH packjob
-#SBATCH --ntasks 1 --cpus-per-task 4 -p cca
-#SBATCH packjob
-#SBATCH --ntasks 1 --cpus-per-task 4 -p cca
-#SBATCH packjob
-#SBATCH --ntasks 1 --cpus-per-task 4 -p cca
+#SBATCH -n 1 --ntasks 4 --cpus-per-task 4 -p cca
 
 set -e
 
