@@ -170,7 +170,8 @@ data = {
     'Ngen': N_gen,
     'smooth_low': args.smooth_low,
     'smooth_high': args.smooth_high,
-    'z_p': 0.5 # Pivot redshift from perfect mass fits
+    'z_p': 0.5, # Pivot redshift from perfect mass fits
+    'MMin': MMin
 }
 data.update(data_prior) # Add in the prior
 
@@ -197,7 +198,13 @@ def init(chain_id=0):
         m1_init[i] = m1[i,j]/(1+z_init[i])
         m2_init[i] = m2[i,j]/(1+z_init[i])
 
-    MMin = np.min(m2_init) - 0.5*rand()
+        if m1_init[i] < MMin:
+            m2_init[i] = MMin + 0.1*rand()
+            m1_init[i] = m2_init[i] + 0.1*rand()
+
+        if m2_init[i] < MMin:
+            m2_init[i] = MMin + 0.1*rand()
+
     MMax = np.max(m1_init) + 0.5*rand()
 
     for i in range(nobs):
@@ -213,7 +220,6 @@ def init(chain_id=0):
         'w_p': w,
         'w_a': wa,
         'R0': R0,
-        'MMin': MMin,
         'MMax': MMax,
         'alpha': alpha,
         'beta': beta,
@@ -227,7 +233,7 @@ fit = model.sampling(data=data, iter=2*args.iter, thin=args.thin, chains=4, n_jo
 
 print(fit)
 
-fit.plot(['H0', 'Om', 'w_p', 'w_a', 'R0', 'MMin', 'MMax', 'alpha', 'beta', 'gamma'])
+fit.plot(['H0', 'Om', 'w_p', 'w_a', 'R0', 'MMax', 'alpha', 'beta', 'gamma'])
 savefig(args.tracefile)
 
 t = fit.extract(permuted=True)
@@ -235,5 +241,5 @@ t = fit.extract(permuted=True)
 with h5py.File(args.chainfile, 'w') as out:
     out.attrs['nsamp'] = nsamp
 
-    for n in ['H0', 'Om', 'w0', 'w_p', 'w_a', 'R0', 'MMax', 'MMin', 'alpha', 'beta', 'gamma', 'dH', 'Nex', 'sigma_Nex', 'neff_det', 'm1_true', 'm2_true', 'dl_true', 'z_true']:
+    for n in ['H0', 'Om', 'w0', 'w_p', 'w_a', 'R0', 'MMax', 'alpha', 'beta', 'gamma', 'dH', 'Nex', 'sigma_Nex', 'neff_det', 'm1_true', 'm2_true', 'dl_true', 'z_true']:
         out.create_dataset(n, data=t[n], compression='gzip', shuffle=True)

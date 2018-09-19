@@ -127,6 +127,9 @@ data {
 
   /* Pivot redshift */
   real z_p;
+
+  /* Specify MMin because it causes trouble sampling */
+  real MMin;
 }
 
 transformed data {
@@ -160,7 +163,6 @@ parameters {
   real<lower=-3,upper=3> beta;
   real<lower=-3,upper=5> gamma;
 
-  real<lower=3,upper=10> MMin;
   real<lower=30,upper=100> MMax;
 
   real<lower=MMin,upper=MMax> m1_true[nobs];
@@ -217,30 +219,40 @@ transformed parameters {
       real zobs;
       real m1;
       real m2;
+      real f1;
+      real f2;
+      real f3;
+      real f4;
+      real f5;
 
       zobs = interp1d(dlobs_det[i], dlinterp, zinterp);
 
       m1 = m1obs_det[i]/(1+zobs);
       m2 = m2obs_det[i]/(1+zobs);
 
-      fs[i] = log_dNdm1dm2ddLdt(m1, m2, dlobs_det[i], zobs, R0, MMin, MMax, alpha, beta, gamma, dH, Om, z_p, w_p, w_a);
+      f1 = log_dNdm1dm2ddLdt(m1, m2, dlobs_det[i], zobs, R0, MMin, MMax, alpha, beta, gamma, dH, Om, z_p, w_p, w_a);
 
       /* Re-weight */
-      fs[i] = fs[i] - log(wts_det[i]);
+      f2 = f1 - log(wts_det[i]);
 
       /* Two factors of dm/d(mobs) = 1/(1+z) for Jacobian */
-      fs[i] = fs[i] - 2.0*log1p(zobs);
+      f3 = f2 - 2.0*log1p(zobs);
 
       /* Smooth. */
       if (m1 > MMax) {
-        fs[i] = fs[i] - 0.5*(m1-MMax)^2/smooth_high^2;
+        f4 = f3 - 0.5*(m1-MMax)^2/smooth_high^2;
+      } else {
+        f4 = f3;
       }
 
       if (m2 < MMin) {
-        fs[i] = fs[i] - 0.5*(m2-MMin)^2/smooth_low^2;
+        f5 = f4 - 0.5*(m2-MMin)^2/smooth_low^2;
+      } else {
+        f5 = f4;
       }
+      fs[i] = f5;
 
-      fs2[i] = 2.0*fs[i];
+      fs2[i] = 2.0*f5;
     }
 
     fsum = exp(log_sum_exp(fs));
@@ -253,8 +265,6 @@ transformed parameters {
 }
 
 model {
-  real logps[nobs];
-
   R0 ~ lognormal(log(100), 1);
 
   H0 ~ normal(mu_H0, sigma_H0);
@@ -271,11 +281,10 @@ model {
 
   /* Population prior */
   for (i in 1:nobs) {
-    logps[i] = log_dNdm1dm2ddLdt(m1_true[i], m2_true[i], dl_true[i], z_true[i], R0, MMin, MMax, alpha, beta, gamma, dH, Om, z_p, w_p, w_a);
+    target += log_dNdm1dm2ddLdt(m1_true[i], m2_true[i], dl_true[i], z_true[i], R0, MMin, MMax, alpha, beta, gamma, dH, Om, z_p, w_p, w_a);
     /* Jacobian because we sample in m2_frac: dm2/d(m2_frac) = (m1-MMin). */
-    logps[i] = logps[i] + log(m1_true[i]-MMin);
+    target += log(m1_true[i]-MMin);
   }
-  target += sum(logps);
 
   /* Implement KDE likelihood */
   for (i in 1:nobs) {
@@ -290,9 +299,8 @@ model {
       fs[j] = multi_normal_cholesky_lpdf(m1obs_m2obs_dl[i,j] | x, chol_bw[i]);
     }
 
-    logps[i] = log_sum_exp(fs) - log(nsamp);
+    target += log_sum_exp(fs) - log(nsamp);
   }
-  target += sum(logps);
 
   /* Poisson norm. */
   target += -Nex;
