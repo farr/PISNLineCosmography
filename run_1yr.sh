@@ -3,7 +3,6 @@
 set -e
 
 source ~/.bashrc
-source activate
 export PYTHONPATH="$PYTHONPATH:/mnt/home/wfarr/PISNLineCosmography"
 
 if [ $# -ne 2 ]; then
@@ -12,7 +11,11 @@ if [ $# -ne 2 ]; then
 fi
 
 NSAMP=$1
+shift
 NSEL=$2
+shift
+
+source activate
 
 srun fit.py --sampfile parameters_1yr.h5 --samp $NSAMP --selfile selected.h5 --nsel $NSEL --chainfile population_1yr_free.h5 --tracefile traceplot_1yr_free.pdf --prior free && \
 srun fit.py --sampfile parameters_1yr.h5 --samp $NSAMP --selfile selected.h5 --nsel $NSEL --chainfile population_1yr_Planck_Om_w.h5 --tracefile traceplot_1yr_Planck_Om_w.pdf --prior Planck-Om-w && \
