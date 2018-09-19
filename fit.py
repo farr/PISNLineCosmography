@@ -49,10 +49,13 @@ data_free = {
     'sigma_H0': 20.0,
     'mu_Om': 0.3,
     'sigma_Om': 0.1,
+    'mu_Om_h2': 0.0,
+    'sigma_Om_h2': 1.0,
     'mu_wp': -1.0,
     'sigma_wp': 0.5,
     'mu_wa': 0.0,
-    'sigma_wa': 2.0/3.0
+    'sigma_wa': 2.0/3.0,
+    'use_Om_h2': 0
 }
 
 data_Om_w_Planck = {
@@ -60,10 +63,13 @@ data_Om_w_Planck = {
     'sigma_H0': 20.0,
     'mu_Om': 0.3089,
     'sigma_Om': 0.0062,
+    'mu_Om_h2': 0.14205,
+    'sigma_Om_h2': 0.00151,
     'mu_wp': -1.019,
     'sigma_wp': 0.0775,
     'mu_wa': 0.0,
-    'sigma_wa': 0.01
+    'sigma_wa': 0.01,
+    'use_Om_h2': 1
 }
 
 H0 = Planck15.H0.to(u.km/u.s/u.Mpc).value
@@ -72,10 +78,13 @@ data_H0_1pct = {
     'sigma_H0': 0.01*H0,
     'mu_Om': 0.3,
     'sigma_Om': 0.1,
+    'mu_Om_h2': 0.0,
+    'sigma_Om_h2': 1.0,
     'mu_wp': -1.0,
     'sigma_wp': 0.5,
     'mu_wa': 0.0,
-    'sigma_wa': 2.0/3.0
+    'sigma_wa': 2.0/3.0,
+    'use_Om_h2': 0
 }
 
 data_H0_1pct_Om = {
@@ -83,10 +92,13 @@ data_H0_1pct_Om = {
     'sigma_H0': 0.01*H0,
     'mu_Om': 0.3089,
     'sigma_Om': 0.0062,
+    'mu_Om_h2': 0.14205,
+    'sigma_Om_h2': 0.00151,
     'mu_wp': -1.0,
     'sigma_wp': 0.5,
     'mu_wa': 0.0,
-    'sigma_wa': 2.0/3.0
+    'sigma_wa': 2.0/3.0,
+    'use_Om_h2': 1
 }
 
 if args.prior == 'free':

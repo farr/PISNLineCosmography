@@ -120,10 +120,13 @@ data {
   real sigma_H0;
   real mu_Om;
   real sigma_Om;
+  real mu_Om_h2;
+  real sigma_Om_h2;
   real mu_wp;
   real sigma_wp;
   real mu_wa;
   real sigma_wa;
+  int use_Om_h2; /* 1 if you want to set the prior on Om_h2, so Om ignored */
 
   /* Pivot redshift */
   real z_p;
@@ -172,6 +175,7 @@ parameters {
 
 transformed parameters {
   real dH = 4.42563416002 * (67.74/H0);
+  real Om_h2 = Om * (H0/100.0) * (H0/100.0); /* Planck measures this. */
   real w0;
   real Nex;
   real sigma_Nex;
@@ -268,7 +272,14 @@ model {
   R0 ~ lognormal(log(100), 1);
 
   H0 ~ normal(mu_H0, sigma_H0);
-  Om ~ normal(mu_Om, sigma_Om);
+
+  if (use_Om_h2 == 0) {
+    Om ~ normal(mu_Om, sigma_Om);
+  } else {
+    Om_h2 ~ normal(mu_Om_h2, sigma_Om_h2);
+    /* We need a Jacobian: d(Om_h2)/d(Om) = (H0/100)^2 */
+    target += 2.0*log(H0/100.0);
+  }
   w_p ~ normal(mu_wp, sigma_wp);
   w_a ~ normal(mu_wa, sigma_wa);
 
