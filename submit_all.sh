@@ -6,7 +6,7 @@ source ~/.bashrc
 source activate
 export PYTHONPATH="$PYTHONPATH:/mnt/home/wfarr/PISNLineCosmography"
 
-COMMON_ARGS="-n 1 --tasks-per-node=4 --cpus-per-task 4 --exclusive=user"
+COMMON_ARGS="-n 1 --tasks-per-node 4 --cpus-per-task 4 --exclusive=user"
 CCA_ARGS="$COMMON_ARGS -p cca"
 GEN_ARGS="$COMMON_ARGS -t 20-00:00:00"
 

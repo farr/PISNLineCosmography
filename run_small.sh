@@ -12,7 +12,7 @@ fi
 
 NSAMP=$1
 shift
-NSEL=$2
+NSEL=$1
 shift
 
 source activate
