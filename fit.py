@@ -194,10 +194,30 @@ def init(chain_id=0):
     dl_init = zeros(nobs)
     z_init = zeros(nobs)
 
-    H0 = 70 + 5*randn()
-    Om = 0.3 + 0.05*randn()
-    w = -1.0 + 0.1*randn()
-    wa = 0.1*randn()
+    H0 = data['mu_H0'] + data['sigma_H0']*randn()
+
+    # Reflect to H0 \in [50, 100]
+    while (H0 < 50) or (H0 > 100):
+        if H0 < 50:
+            H0 = 100 - H0
+        elif H0 > 100:
+            H0 = 200 - H0
+
+    if data['use_Om_h2']:
+        Omh2 = data['mu_Om_h2'] + data['sigma_Om_h2']*randn()
+        Om = Omh2 / (H0/100.0)**2
+    else:
+        Om = data['mu_Om'] + data['sigma_Om']*randn()
+
+    # Reflect to Om \in [0,1]
+    while (Om < 0) or (Om > 1):
+        if Om < 0:
+            Om = -Om
+        elif Om > 1:
+            Om = 2.0 - Om
+
+    w = data['mu_wp'] + data['sigma_wp']*randn()
+    wa = 0.0 # We don't disperse here, because we don't want to get caught out with wrong masses in cosmology
     R0 = 100 + 10*randn()
 
     c = cosmo.FlatwCDM(H0=H0, Om0=Om, w0=w)
