@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --ntasks 2 --cpus-per-task 4 -p cca -o logs/small.out -e logs/small.err
+#SBATCH -n 1 --ntasks 2 --cpus-per-task 4 -p cca -o logs/small.out -e logs/small.err
 
 set -e
 
