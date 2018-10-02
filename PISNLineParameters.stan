@@ -105,7 +105,6 @@ model {
   theta ~ normal(mu_theta, sig_theta);
 
   // Observations
-  theta_obs ~ normal(theta, sigma_theta);
   mc_obs ~ lognormal(log(mc), sigma_mc);
   eta_obs ~ normal(eta, sigma_eta);
   A_obs ~ normal(theta .* opt_snr, 1.0);
