@@ -22,1633 +22,928 @@ Left-hand-side of sampling statement:
 /mnt/home/wfarr/anaconda3/lib/python3.6/site-packages/h5py/__init__.py:36: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
   from ._conv import register_converters as _register_converters
 INFO:pystan:COMPILING THE C++ CODE FOR MODEL anon_model_8c88e41ccf32f352906324ddea516349 NOW.
-DIAGNOSTIC(S) FROM PARSER:
-Warning: integer division implicitly rounds to integer. Found int division: (j - i) / 2
- Positive values rounded down, negative values rounded up or down in platform-dependent way.
-Warning (non-fatal):
-Left-hand side of sampling statement (~) may contain a non-linear transform of a parameter or local variable.
-If it does, you need to include a target += statement with the log absolute determinant of the Jacobian of the transform.
-Left-hand-side of sampling statement:
-    Om_h2 ~ normal(...)
-
-/mnt/home/wfarr/anaconda3/lib/python3.6/site-packages/h5py/__init__.py:36: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
-  from ._conv import register_converters as _register_converters
-INFO:pystan:COMPILING THE C++ CODE FOR MODEL anon_model_8c88e41ccf32f352906324ddea516349 NOW.
-DIAGNOSTIC(S) FROM PARSER:
-Warning: integer division implicitly rounds to integer. Found int division: (j - i) / 2
- Positive values rounded down, negative values rounded up or down in platform-dependent way.
-Warning (non-fatal):
-Left-hand side of sampling statement (~) may contain a non-linear transform of a parameter or local variable.
-If it does, you need to include a target += statement with the log absolute determinant of the Jacobian of the transform.
-Left-hand-side of sampling statement:
-    Om_h2 ~ normal(...)
-
-/mnt/home/wfarr/anaconda3/lib/python3.6/site-packages/h5py/__init__.py:36: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
-  from ._conv import register_converters as _register_converters
-INFO:pystan:COMPILING THE C++ CODE FOR MODEL anon_model_8c88e41ccf32f352906324ddea516349 NOW.
-WARNING:pystan:n_eff / iter for parameter w_p is 0.0005472905373161805!
-WARNING:pystan:n_eff / iter for parameter w_a is 0.000635163771936081!
-WARNING:pystan:n_eff / iter for parameter MMax is 0.0005392994783175128!
-WARNING:pystan:n_eff / iter for parameter m1_true[12] is 0.0008256244421689451!
-WARNING:pystan:n_eff / iter for parameter m1_true[21] is 0.0008460738549286522!
-WARNING:pystan:n_eff / iter for parameter m1_true[35] is 0.0006807056209609617!
-WARNING:pystan:n_eff / iter for parameter m1_true[41] is 0.0007760543640642568!
-WARNING:pystan:n_eff / iter for parameter m1_true[45] is 0.0008347310323412236!
-WARNING:pystan:n_eff / iter for parameter m1_true[78] is 0.0007090273915399701!
-WARNING:pystan:n_eff / iter for parameter m1_true[103] is 0.0006257750846922727!
-WARNING:pystan:n_eff / iter for parameter m1_true[104] is 0.0009564455967654196!
-WARNING:pystan:n_eff / iter for parameter m1_true[121] is 0.0006891797798905887!
-WARNING:pystan:n_eff / iter for parameter m1_true[129] is 0.000844870210683173!
-WARNING:pystan:n_eff / iter for parameter m1_true[152] is 0.0007581935840603148!
-WARNING:pystan:n_eff / iter for parameter m1_true[154] is 0.0008071638224443024!
-WARNING:pystan:n_eff / iter for parameter m1_true[157] is 0.0005560618917247824!
-WARNING:pystan:n_eff / iter for parameter m1_true[167] is 0.0009073552200201737!
-WARNING:pystan:n_eff / iter for parameter m1_true[182] is 0.00059933054411247!
-WARNING:pystan:n_eff / iter for parameter m1_true[220] is 0.0009575013951312061!
-WARNING:pystan:n_eff / iter for parameter m1_true[235] is 0.0009004744040086098!
-WARNING:pystan:n_eff / iter for parameter m1_true[252] is 0.0007809964921519804!
-WARNING:pystan:n_eff / iter for parameter m1_true[287] is 0.0009465773380112284!
-WARNING:pystan:n_eff / iter for parameter m1_true[301] is 0.0008002886620607083!
-WARNING:pystan:n_eff / iter for parameter m1_true[316] is 0.0009888782234510087!
-WARNING:pystan:n_eff / iter for parameter m1_true[319] is 0.0009124617472416469!
-WARNING:pystan:n_eff / iter for parameter m1_true[320] is 0.0007920501766498115!
-WARNING:pystan:n_eff / iter for parameter m1_true[321] is 0.0009662356128468961!
-WARNING:pystan:n_eff / iter for parameter m1_true[349] is 0.0007450997155048445!
-WARNING:pystan:n_eff / iter for parameter m1_true[376] is 0.0008187419474567812!
-WARNING:pystan:n_eff / iter for parameter m1_true[380] is 0.0008040583930836401!
-WARNING:pystan:n_eff / iter for parameter m1_true[404] is 0.0008865257658326387!
-WARNING:pystan:n_eff / iter for parameter m1_true[459] is 0.0006873405248840647!
-WARNING:pystan:n_eff / iter for parameter m1_true[467] is 0.000720190723535822!
-WARNING:pystan:n_eff / iter for parameter m1_true[518] is 0.0007678371522627275!
-WARNING:pystan:n_eff / iter for parameter m1_true[561] is 0.000987464285044317!
-WARNING:pystan:n_eff / iter for parameter w0 is 0.0005287169047936835!
-WARNING:pystan:n_eff / iter for parameter m2_true[12] is 0.0009676745195958544!
-WARNING:pystan:n_eff / iter for parameter m2_true[35] is 0.0008352139090878307!
-WARNING:pystan:n_eff / iter for parameter m2_true[78] is 0.0007295566217885009!
-WARNING:pystan:n_eff / iter for parameter m2_true[121] is 0.0009544940154608!
-WARNING:pystan:n_eff / iter for parameter m2_true[157] is 0.0006746809517719778!
-WARNING:pystan:n_eff / iter for parameter m2_true[182] is 0.0006872790521912929!
-WARNING:pystan:n_eff / iter for parameter m2_true[349] is 0.00092633642610379!
-WARNING:pystan:n_eff / iter for parameter m2_true[518] is 0.000982081777869781!
-WARNING:pystan:n_eff / iter for parameter z_true[4] is 0.0009679280691173372!
-WARNING:pystan:n_eff / iter for parameter z_true[6] is 0.0009642070736083302!
-WARNING:pystan:n_eff / iter for parameter z_true[12] is 0.0008431637888798943!
-WARNING:pystan:n_eff / iter for parameter z_true[15] is 0.00094034463567867!
-WARNING:pystan:n_eff / iter for parameter z_true[21] is 0.0009910134102590043!
-WARNING:pystan:n_eff / iter for parameter z_true[25] is 0.0009561302367514927!
-WARNING:pystan:n_eff / iter for parameter z_true[33] is 0.0009271327075581433!
-WARNING:pystan:n_eff / iter for parameter z_true[35] is 0.0007308257267122346!
-WARNING:pystan:n_eff / iter for parameter z_true[41] is 0.0008176952278334096!
-WARNING:pystan:n_eff / iter for parameter z_true[43] is 0.0008570941093976144!
-WARNING:pystan:n_eff / iter for parameter z_true[46] is 0.0009886130727639975!
-WARNING:pystan:n_eff / iter for parameter z_true[50] is 0.0006489202431971272!
-WARNING:pystan:n_eff / iter for parameter z_true[67] is 0.0009056698461524311!
-WARNING:pystan:n_eff / iter for parameter z_true[69] is 0.0009618806427566847!
-WARNING:pystan:n_eff / iter for parameter z_true[78] is 0.0006358917913009401!
-WARNING:pystan:n_eff / iter for parameter z_true[86] is 0.0007365073923646529!
-WARNING:pystan:n_eff / iter for parameter z_true[89] is 0.000757214260547996!
-WARNING:pystan:n_eff / iter for parameter z_true[92] is 0.000997800498180891!
-WARNING:pystan:n_eff / iter for parameter z_true[100] is 0.0009215152624901977!
-WARNING:pystan:n_eff / iter for parameter z_true[102] is 0.000757880193219851!
-WARNING:pystan:n_eff / iter for parameter z_true[103] is 0.0007408345952507238!
-WARNING:pystan:n_eff / iter for parameter z_true[121] is 0.0006938156271508482!
-WARNING:pystan:n_eff / iter for parameter z_true[141] is 0.000989770996255437!
-WARNING:pystan:n_eff / iter for parameter z_true[142] is 0.0009149921598897048!
-WARNING:pystan:n_eff / iter for parameter z_true[146] is 0.0009043352870458918!
-WARNING:pystan:n_eff / iter for parameter z_true[154] is 0.0008339556268046319!
-WARNING:pystan:n_eff / iter for parameter z_true[157] is 0.0006204403437314572!
-WARNING:pystan:n_eff / iter for parameter z_true[161] is 0.0008121345225699756!
-WARNING:pystan:n_eff / iter for parameter z_true[164] is 0.0009193044331049677!
-WARNING:pystan:n_eff / iter for parameter z_true[166] is 0.0007588803618704123!
-WARNING:pystan:n_eff / iter for parameter z_true[171] is 0.0009889096941746575!
-WARNING:pystan:n_eff / iter for parameter z_true[182] is 0.0007160582917953347!
-WARNING:pystan:n_eff / iter for parameter z_true[187] is 0.0007478896868864519!
-WARNING:pystan:n_eff / iter for parameter z_true[189] is 0.0009458295139797824!
-WARNING:pystan:n_eff / iter for parameter z_true[210] is 0.0007149837714167901!
-WARNING:pystan:n_eff / iter for parameter z_true[220] is 0.0008464804481418851!
-WARNING:pystan:n_eff / iter for parameter z_true[235] is 0.0008791516027983424!
-WARNING:pystan:n_eff / iter for parameter z_true[242] is 0.0009341568001277133!
-WARNING:pystan:n_eff / iter for parameter z_true[252] is 0.0009692374354401892!
-WARNING:pystan:n_eff / iter for parameter z_true[270] is 0.0009373007804667405!
-WARNING:pystan:n_eff / iter for parameter z_true[295] is 0.0007809479448052186!
-WARNING:pystan:n_eff / iter for parameter z_true[298] is 0.0009879453802899907!
-WARNING:pystan:n_eff / iter for parameter z_true[301] is 0.0008506571749203317!
-WARNING:pystan:n_eff / iter for parameter z_true[305] is 0.0009816818345153328!
-WARNING:pystan:n_eff / iter for parameter z_true[309] is 0.0008295885190540376!
-WARNING:pystan:n_eff / iter for parameter z_true[310] is 0.0009229468166183154!
-WARNING:pystan:n_eff / iter for parameter z_true[319] is 0.0009962493708926927!
-WARNING:pystan:n_eff / iter for parameter z_true[320] is 0.0008754543203289874!
-WARNING:pystan:n_eff / iter for parameter z_true[336] is 0.000995960795800304!
-WARNING:pystan:n_eff / iter for parameter z_true[349] is 0.0007347868299892447!
-WARNING:pystan:n_eff / iter for parameter z_true[351] is 0.000987480862042238!
-WARNING:pystan:n_eff / iter for parameter z_true[357] is 0.0008799224391187606!
-WARNING:pystan:n_eff / iter for parameter z_true[363] is 0.0008855609976933443!
-WARNING:pystan:n_eff / iter for parameter z_true[366] is 0.000989464110093806!
-WARNING:pystan:n_eff / iter for parameter z_true[375] is 0.0007503906988653353!
-WARNING:pystan:n_eff / iter for parameter z_true[376] is 0.0009464628180474118!
-WARNING:pystan:n_eff / iter for parameter z_true[380] is 0.000854691689485272!
-WARNING:pystan:n_eff / iter for parameter z_true[396] is 0.0009966157259695275!
-WARNING:pystan:n_eff / iter for parameter z_true[413] is 0.0009646298869265463!
-WARNING:pystan:n_eff / iter for parameter z_true[420] is 0.0009361980551556977!
-WARNING:pystan:n_eff / iter for parameter z_true[422] is 0.0008627744410030486!
-WARNING:pystan:n_eff / iter for parameter z_true[429] is 0.0009704746716199975!
-WARNING:pystan:n_eff / iter for parameter z_true[431] is 0.0009923602840625984!
-WARNING:pystan:n_eff / iter for parameter z_true[435] is 0.000772687114784355!
-WARNING:pystan:n_eff / iter for parameter z_true[442] is 0.0009370076819452746!
-WARNING:pystan:n_eff / iter for parameter z_true[445] is 0.0009810806930325925!
-WARNING:pystan:n_eff / iter for parameter z_true[450] is 0.0009739078886282013!
-WARNING:pystan:n_eff / iter for parameter z_true[465] is 0.0009007793821173032!
-WARNING:pystan:n_eff / iter for parameter z_true[467] is 0.0007681912144855959!
-WARNING:pystan:n_eff / iter for parameter z_true[468] is 0.0009710317805676462!
-WARNING:pystan:n_eff / iter for parameter z_true[492] is 0.00087009554850616!
-WARNING:pystan:n_eff / iter for parameter z_true[501] is 0.0008396212154396473!
-WARNING:pystan:n_eff / iter for parameter z_true[505] is 0.0008463848672930839!
-WARNING:pystan:n_eff / iter for parameter z_true[506] is 0.0007562187462515942!
-WARNING:pystan:n_eff / iter for parameter z_true[507] is 0.0009692846920071316!
-WARNING:pystan:n_eff / iter for parameter z_true[508] is 0.0007898996955217136!
-WARNING:pystan:n_eff / iter for parameter z_true[518] is 0.0008165914260552454!
-WARNING:pystan:n_eff / iter for parameter z_true[524] is 0.0008600226676145969!
-WARNING:pystan:n_eff / iter for parameter z_true[530] is 0.0008258272866809616!
-WARNING:pystan:n_eff / iter for parameter z_true[534] is 0.0009655255963671771!
-WARNING:pystan:n_eff / iter for parameter z_true[542] is 0.0009917090332779686!
-WARNING:pystan:n_eff / iter for parameter z_true[548] is 0.0009301945917105308!
-WARNING:pystan:n_eff / iter for parameter z_true[553] is 0.0009941014178291307!
-WARNING:pystan:n_eff / iter for parameter z_true[556] is 0.0008207630347632747!
-WARNING:pystan:n_eff / iter for parameter z_true[573] is 0.0009651278996478178!
-WARNING:pystan:n_eff / iter for parameter z_true[576] is 0.0008013913597807676!
-WARNING:pystan:n_eff / iter for parameter z_true[579] is 0.0008952615673815342!
-WARNING:pystan:n_eff / iter for parameter z_true[580] is 0.0009635907233908517!
-WARNING:pystan:n_eff / iter for parameter z_true[600] is 0.000980525313445425!
-WARNING:pystan:n_eff / iter for parameter z_true[601] is 0.0008178665850251189!
+WARNING:pystan:n_eff / iter for parameter w_p is 0.0005760320007458173!
+WARNING:pystan:n_eff / iter for parameter w_a is 0.0006565225068239868!
+WARNING:pystan:n_eff / iter for parameter R0 is 0.0009637970976615225!
+WARNING:pystan:n_eff / iter for parameter MMax is 0.0005898090743561046!
+WARNING:pystan:n_eff / iter for parameter m1_true[35] is 0.0009889096471789448!
+WARNING:pystan:n_eff / iter for parameter m1_true[78] is 0.0008087925585334697!
+WARNING:pystan:n_eff / iter for parameter m1_true[103] is 0.000796013937578169!
+WARNING:pystan:n_eff / iter for parameter m1_true[121] is 0.0008083877587877038!
+WARNING:pystan:n_eff / iter for parameter m1_true[154] is 0.0009198625070759348!
+WARNING:pystan:n_eff / iter for parameter m1_true[157] is 0.0009735135286481827!
+WARNING:pystan:n_eff / iter for parameter m1_true[182] is 0.0007322610818343106!
+WARNING:pystan:n_eff / iter for parameter m1_true[349] is 0.0009610582346155066!
+WARNING:pystan:n_eff / iter for parameter m1_true[429] is 0.0009861880779295517!
+WARNING:pystan:n_eff / iter for parameter w0 is 0.0005419820629464622!
+WARNING:pystan:n_eff / iter for parameter m2_true[182] is 0.0007608165265501795!
+WARNING:pystan:n_eff / iter for parameter z_true[18] is 0.0009564274456037089!
+WARNING:pystan:n_eff / iter for parameter z_true[35] is 0.0009009717370137648!
+WARNING:pystan:n_eff / iter for parameter z_true[50] is 0.0008236722264561702!
+WARNING:pystan:n_eff / iter for parameter z_true[86] is 0.0007626789481878817!
+WARNING:pystan:n_eff / iter for parameter z_true[89] is 0.0009041238470211892!
+WARNING:pystan:n_eff / iter for parameter z_true[102] is 0.0008605910629650886!
+WARNING:pystan:n_eff / iter for parameter z_true[103] is 0.0007621126785671052!
+WARNING:pystan:n_eff / iter for parameter z_true[121] is 0.0007557021271301919!
+WARNING:pystan:n_eff / iter for parameter z_true[142] is 0.0009409744722997933!
+WARNING:pystan:n_eff / iter for parameter z_true[146] is 0.0009591632330828887!
+WARNING:pystan:n_eff / iter for parameter z_true[154] is 0.0008594182873878723!
+WARNING:pystan:n_eff / iter for parameter z_true[157] is 0.0007986777659384496!
+WARNING:pystan:n_eff / iter for parameter z_true[161] is 0.0009270526759772806!
+WARNING:pystan:n_eff / iter for parameter z_true[164] is 0.0009486403670900102!
+WARNING:pystan:n_eff / iter for parameter z_true[166] is 0.0009521696644871801!
+WARNING:pystan:n_eff / iter for parameter z_true[182] is 0.0006219892820302787!
+WARNING:pystan:n_eff / iter for parameter z_true[187] is 0.0007999133509334316!
+WARNING:pystan:n_eff / iter for parameter z_true[210] is 0.000875820397711156!
+WARNING:pystan:n_eff / iter for parameter z_true[235] is 0.000983005309565217!
+WARNING:pystan:n_eff / iter for parameter z_true[295] is 0.0007766649681481095!
+WARNING:pystan:n_eff / iter for parameter z_true[309] is 0.0009724396255475338!
+WARNING:pystan:n_eff / iter for parameter z_true[310] is 0.0008823403468560055!
+WARNING:pystan:n_eff / iter for parameter z_true[349] is 0.000808377161005241!
+WARNING:pystan:n_eff / iter for parameter z_true[375] is 0.0008707286964419738!
+WARNING:pystan:n_eff / iter for parameter z_true[380] is 0.0009956699893875886!
+WARNING:pystan:n_eff / iter for parameter z_true[422] is 0.0009610836505557331!
+WARNING:pystan:n_eff / iter for parameter z_true[435] is 0.000859036034374791!
+WARNING:pystan:n_eff / iter for parameter z_true[442] is 0.0009920601387516568!
+WARNING:pystan:n_eff / iter for parameter z_true[459] is 0.0009454194233138945!
+WARNING:pystan:n_eff / iter for parameter z_true[465] is 0.0008449096118096566!
+WARNING:pystan:n_eff / iter for parameter z_true[501] is 0.0009056936820186318!
+WARNING:pystan:n_eff / iter for parameter z_true[505] is 0.0008762364874069633!
+WARNING:pystan:n_eff / iter for parameter z_true[508] is 0.0008673757158181683!
+WARNING:pystan:n_eff / iter for parameter z_true[518] is 0.0008731885069547036!
+WARNING:pystan:n_eff / iter for parameter z_true[573] is 0.0009825518189175264!
+WARNING:pystan:n_eff / iter for parameter z_true[576] is 0.000825997922480495!
 WARNING:pystan:n_eff / iter for parameter zinterp[1] is nan!
-WARNING:pystan:n_eff / iter for parameter zinterp[2] is 0.0005472819476855389!
-WARNING:pystan:n_eff / iter for parameter zinterp[3] is 0.0005252164642677687!
-WARNING:pystan:n_eff / iter for parameter zinterp[4] is 0.0005209543206152677!
-WARNING:pystan:n_eff / iter for parameter zinterp[5] is 0.0005196693930028505!
-WARNING:pystan:n_eff / iter for parameter zinterp[6] is 0.0005192098356889602!
-WARNING:pystan:n_eff / iter for parameter zinterp[7] is 0.0005190545889459789!
-WARNING:pystan:n_eff / iter for parameter zinterp[8] is 0.0005190363285907444!
-WARNING:pystan:n_eff / iter for parameter zinterp[9] is 0.0005191000514223218!
-WARNING:pystan:n_eff / iter for parameter zinterp[10] is 0.0005192295799387013!
-WARNING:pystan:n_eff / iter for parameter zinterp[11] is 0.0005194250563466654!
-WARNING:pystan:n_eff / iter for parameter zinterp[12] is 0.0005196884269728378!
-WARNING:pystan:n_eff / iter for parameter zinterp[13] is 0.0005200125788456092!
-WARNING:pystan:n_eff / iter for parameter zinterp[14] is 0.0005203975400999564!
-WARNING:pystan:n_eff / iter for parameter zinterp[15] is 0.0005208480676389432!
-WARNING:pystan:n_eff / iter for parameter zinterp[16] is 0.0005213631399260908!
-WARNING:pystan:n_eff / iter for parameter zinterp[17] is 0.00052195388715002!
-WARNING:pystan:n_eff / iter for parameter zinterp[18] is 0.0005226282197151014!
-WARNING:pystan:n_eff / iter for parameter zinterp[19] is 0.0005233672601931591!
-WARNING:pystan:n_eff / iter for parameter zinterp[20] is 0.000524171862907961!
-WARNING:pystan:n_eff / iter for parameter zinterp[21] is 0.0005250408478080568!
-WARNING:pystan:n_eff / iter for parameter zinterp[22] is 0.0005259733696386025!
-WARNING:pystan:n_eff / iter for parameter zinterp[23] is 0.000526969289193051!
-WARNING:pystan:n_eff / iter for parameter zinterp[24] is 0.0005280271768607112!
-WARNING:pystan:n_eff / iter for parameter zinterp[25] is 0.0005291488855955612!
-WARNING:pystan:n_eff / iter for parameter zinterp[26] is 0.0005303384962249756!
-WARNING:pystan:n_eff / iter for parameter zinterp[27] is 0.0005315880577790252!
-WARNING:pystan:n_eff / iter for parameter zinterp[28] is 0.0005328988396565602!
-WARNING:pystan:n_eff / iter for parameter zinterp[29] is 0.0005342698409570435!
-WARNING:pystan:n_eff / iter for parameter zinterp[30] is 0.0005356996529813203!
-WARNING:pystan:n_eff / iter for parameter zinterp[31] is 0.0005371878086048353!
-WARNING:pystan:n_eff / iter for parameter zinterp[32] is 0.0005387338101769451!
-WARNING:pystan:n_eff / iter for parameter zinterp[33] is 0.0005403371559134883!
-WARNING:pystan:n_eff / iter for parameter zinterp[34] is 0.0005420023265428724!
-WARNING:pystan:n_eff / iter for parameter zinterp[35] is 0.0005437241098366274!
-WARNING:pystan:n_eff / iter for parameter zinterp[36] is 0.0005455021701961831!
-WARNING:pystan:n_eff / iter for parameter zinterp[37] is 0.0005473360690505651!
-WARNING:pystan:n_eff / iter for parameter zinterp[38] is 0.0005492250593265898!
-WARNING:pystan:n_eff / iter for parameter zinterp[39] is 0.000551169332067143!
-WARNING:pystan:n_eff / iter for parameter zinterp[40] is 0.0005531716224058781!
-WARNING:pystan:n_eff / iter for parameter zinterp[41] is 0.0005552280237279908!
-WARNING:pystan:n_eff / iter for parameter zinterp[42] is 0.0005573381876793314!
-WARNING:pystan:n_eff / iter for parameter zinterp[43] is 0.0005595017758329511!
-WARNING:pystan:n_eff / iter for parameter zinterp[44] is 0.000561718989598125!
-WARNING:pystan:n_eff / iter for parameter zinterp[45] is 0.0005639891847273493!
-WARNING:pystan:n_eff / iter for parameter zinterp[46] is 0.000566311820141199!
-WARNING:pystan:n_eff / iter for parameter zinterp[47] is 0.0005686865450947574!
-WARNING:pystan:n_eff / iter for parameter zinterp[48] is 0.0005711129853672243!
-WARNING:pystan:n_eff / iter for parameter zinterp[49] is 0.0005735908789765951!
-WARNING:pystan:n_eff / iter for parameter zinterp[50] is 0.000576122958493399!
-WARNING:pystan:n_eff / iter for parameter zinterp[51] is 0.000578705733154006!
-WARNING:pystan:n_eff / iter for parameter zinterp[52] is 0.0005813388111564502!
-WARNING:pystan:n_eff / iter for parameter zinterp[53] is 0.0005840258904644776!
-WARNING:pystan:n_eff / iter for parameter zinterp[54] is 0.0005867642132943576!
-WARNING:pystan:n_eff / iter for parameter zinterp[55] is 0.0005895526211461279!
-WARNING:pystan:n_eff / iter for parameter zinterp[56] is 0.0005923909157486598!
-WARNING:pystan:n_eff / iter for parameter zinterp[57] is 0.0005952779026877051!
-WARNING:pystan:n_eff / iter for parameter zinterp[58] is 0.0005982132292083806!
-WARNING:pystan:n_eff / iter for parameter zinterp[59] is 0.0006011965545785704!
-WARNING:pystan:n_eff / iter for parameter zinterp[60] is 0.0006042275338749318!
-WARNING:pystan:n_eff / iter for parameter zinterp[61] is 0.0006073059667627054!
-WARNING:pystan:n_eff / iter for parameter zinterp[62] is 0.0006104314065920638!
-WARNING:pystan:n_eff / iter for parameter zinterp[63] is 0.0006136034679055564!
-WARNING:pystan:n_eff / iter for parameter zinterp[64] is 0.0006168218045746273!
-WARNING:pystan:n_eff / iter for parameter zinterp[65] is 0.0006200860748105983!
-WARNING:pystan:n_eff / iter for parameter zinterp[66] is 0.0006233959226087513!
-WARNING:pystan:n_eff / iter for parameter zinterp[67] is 0.0006267509773436287!
-WARNING:pystan:n_eff / iter for parameter zinterp[68] is 0.00063015090946022!
-WARNING:pystan:n_eff / iter for parameter zinterp[69] is 0.0006335953065156733!
-WARNING:pystan:n_eff / iter for parameter zinterp[70] is 0.0006370837868483087!
-WARNING:pystan:n_eff / iter for parameter zinterp[71] is 0.000640615966196119!
-WARNING:pystan:n_eff / iter for parameter zinterp[72] is 0.0006441966032524055!
-WARNING:pystan:n_eff / iter for parameter zinterp[73] is 0.0006478213096405092!
-WARNING:pystan:n_eff / iter for parameter zinterp[74] is 0.0006514975325061372!
-WARNING:pystan:n_eff / iter for parameter zinterp[75] is 0.0006552190213366096!
-WARNING:pystan:n_eff / iter for parameter zinterp[76] is 0.0006589828960424835!
-WARNING:pystan:n_eff / iter for parameter zinterp[77] is 0.0006627887759310547!
-WARNING:pystan:n_eff / iter for parameter zinterp[78] is 0.0006666362856256528!
-WARNING:pystan:n_eff / iter for parameter zinterp[79] is 0.000670528273257375!
-WARNING:pystan:n_eff / iter for parameter zinterp[80] is 0.0006744635718189407!
-WARNING:pystan:n_eff / iter for parameter zinterp[81] is 0.0006784396105021164!
-WARNING:pystan:n_eff / iter for parameter zinterp[82] is 0.0006824560370039573!
-WARNING:pystan:n_eff / iter for parameter zinterp[83] is 0.0006865125010879645!
-WARNING:pystan:n_eff / iter for parameter zinterp[84] is 0.0006906086486503838!
-WARNING:pystan:n_eff / iter for parameter zinterp[85] is 0.00069474412469306!
-WARNING:pystan:n_eff / iter for parameter zinterp[86] is 0.000698918573958795!
-WARNING:pystan:n_eff / iter for parameter zinterp[87] is 0.000703131643191386!
-WARNING:pystan:n_eff / iter for parameter zinterp[88] is 0.0007073829781056218!
-WARNING:pystan:n_eff / iter for parameter zinterp[89] is 0.0007116722227831543!
-WARNING:pystan:n_eff / iter for parameter zinterp[90] is 0.0007159990204751791!
-WARNING:pystan:n_eff / iter for parameter zinterp[91] is 0.0007203630143277787!
-WARNING:pystan:n_eff / iter for parameter zinterp[92] is 0.0007247638482810158!
-WARNING:pystan:n_eff / iter for parameter zinterp[93] is 0.0007292011654133971!
-WARNING:pystan:n_eff / iter for parameter zinterp[94] is 0.0007336794241042474!
-WARNING:pystan:n_eff / iter for parameter zinterp[95] is 0.000738203276136963!
-WARNING:pystan:n_eff / iter for parameter zinterp[96] is 0.000742762901729032!
-WARNING:pystan:n_eff / iter for parameter zinterp[97] is 0.0007473579565661041!
-WARNING:pystan:n_eff / iter for parameter zinterp[98] is 0.0007519881483906727!
-WARNING:pystan:n_eff / iter for parameter zinterp[99] is 0.0007566531567706311!
-WARNING:pystan:n_eff / iter for parameter zinterp[100] is 0.0007613538262538049!
+WARNING:pystan:n_eff / iter for parameter zinterp[2] is 0.0005524706079330461!
+WARNING:pystan:n_eff / iter for parameter zinterp[3] is 0.0005309984307089635!
+WARNING:pystan:n_eff / iter for parameter zinterp[4] is 0.0005260911150778264!
+WARNING:pystan:n_eff / iter for parameter zinterp[5] is 0.0005240718225082935!
+WARNING:pystan:n_eff / iter for parameter zinterp[6] is 0.0005229622663799028!
+WARNING:pystan:n_eff / iter for parameter zinterp[7] is 0.0005222752488582334!
+WARNING:pystan:n_eff / iter for parameter zinterp[8] is 0.0005218310382775578!
+WARNING:pystan:n_eff / iter for parameter zinterp[9] is 0.0005215322411445058!
+WARNING:pystan:n_eff / iter for parameter zinterp[10] is 0.0005213341761271924!
+WARNING:pystan:n_eff / iter for parameter zinterp[11] is 0.0005212188531742685!
+WARNING:pystan:n_eff / iter for parameter zinterp[12] is 0.0005211688219753104!
+WARNING:pystan:n_eff / iter for parameter zinterp[13] is 0.0005211742696556681!
+WARNING:pystan:n_eff / iter for parameter zinterp[14] is 0.000521222752131361!
+WARNING:pystan:n_eff / iter for parameter zinterp[15] is 0.0005213083215089992!
+WARNING:pystan:n_eff / iter for parameter zinterp[16] is 0.0005214266829088984!
+WARNING:pystan:n_eff / iter for parameter zinterp[17] is 0.0005215730270816648!
+WARNING:pystan:n_eff / iter for parameter zinterp[18] is 0.0005217438578800825!
+WARNING:pystan:n_eff / iter for parameter zinterp[19] is 0.0005219367747315319!
+WARNING:pystan:n_eff / iter for parameter zinterp[20] is 0.0005221482109664004!
+WARNING:pystan:n_eff / iter for parameter zinterp[21] is 0.0005223751761203617!
+WARNING:pystan:n_eff / iter for parameter zinterp[22] is 0.000522615595467282!
+WARNING:pystan:n_eff / iter for parameter zinterp[23] is 0.0005228787854695525!
+WARNING:pystan:n_eff / iter for parameter zinterp[24] is 0.0005231530226913181!
+WARNING:pystan:n_eff / iter for parameter zinterp[25] is 0.0005234362499499482!
+WARNING:pystan:n_eff / iter for parameter zinterp[26] is 0.0005237271204746913!
+WARNING:pystan:n_eff / iter for parameter zinterp[27] is 0.000524024327097826!
+WARNING:pystan:n_eff / iter for parameter zinterp[28] is 0.000524326846302299!
+WARNING:pystan:n_eff / iter for parameter zinterp[29] is 0.0005246339063584733!
+WARNING:pystan:n_eff / iter for parameter zinterp[30] is 0.0005249448603268126!
+WARNING:pystan:n_eff / iter for parameter zinterp[31] is 0.000525258538929999!
+WARNING:pystan:n_eff / iter for parameter zinterp[32] is 0.0005255737507692727!
+WARNING:pystan:n_eff / iter for parameter zinterp[33] is 0.0005258899007947802!
+WARNING:pystan:n_eff / iter for parameter zinterp[34] is 0.0005262064723701465!
+WARNING:pystan:n_eff / iter for parameter zinterp[35] is 0.0005265229874931697!
+WARNING:pystan:n_eff / iter for parameter zinterp[36] is 0.0005268390079467833!
+WARNING:pystan:n_eff / iter for parameter zinterp[37] is 0.0005271540808534112!
+WARNING:pystan:n_eff / iter for parameter zinterp[38] is 0.0005274677553003408!
+WARNING:pystan:n_eff / iter for parameter zinterp[39] is 0.0005277797403363622!
+WARNING:pystan:n_eff / iter for parameter zinterp[40] is 0.000528093088489144!
+WARNING:pystan:n_eff / iter for parameter zinterp[41] is 0.000528404034809308!
+WARNING:pystan:n_eff / iter for parameter zinterp[42] is 0.0005287122937560545!
+WARNING:pystan:n_eff / iter for parameter zinterp[43] is 0.000529017601353384!
+WARNING:pystan:n_eff / iter for parameter zinterp[44] is 0.0005293197593649344!
+WARNING:pystan:n_eff / iter for parameter zinterp[45] is 0.0005296192391208575!
+WARNING:pystan:n_eff / iter for parameter zinterp[46] is 0.0005299154203506843!
+WARNING:pystan:n_eff / iter for parameter zinterp[47] is 0.0005302082311024285!
+WARNING:pystan:n_eff / iter for parameter zinterp[48] is 0.0005304977883088758!
+WARNING:pystan:n_eff / iter for parameter zinterp[49] is 0.0005307837552416847!
+WARNING:pystan:n_eff / iter for parameter zinterp[50] is 0.0005310658211518798!
+WARNING:pystan:n_eff / iter for parameter zinterp[51] is 0.0005313439394122256!
+WARNING:pystan:n_eff / iter for parameter zinterp[52] is 0.0005316188078622369!
+WARNING:pystan:n_eff / iter for parameter zinterp[53] is 0.0005318897590847082!
+WARNING:pystan:n_eff / iter for parameter zinterp[54] is 0.0005321566380581866!
+WARNING:pystan:n_eff / iter for parameter zinterp[55] is 0.0005324194221655248!
+WARNING:pystan:n_eff / iter for parameter zinterp[56] is 0.0005326781134626061!
+WARNING:pystan:n_eff / iter for parameter zinterp[57] is 0.0005329328410906859!
+WARNING:pystan:n_eff / iter for parameter zinterp[58] is 0.0005331837127914813!
+WARNING:pystan:n_eff / iter for parameter zinterp[59] is 0.0005334305341123843!
+WARNING:pystan:n_eff / iter for parameter zinterp[60] is 0.0005336733606045719!
+WARNING:pystan:n_eff / iter for parameter zinterp[61] is 0.0005339132175883358!
+WARNING:pystan:n_eff / iter for parameter zinterp[62] is 0.0005341490653226756!
+WARNING:pystan:n_eff / iter for parameter zinterp[63] is 0.0005343809287345466!
+WARNING:pystan:n_eff / iter for parameter zinterp[64] is 0.0005346088388957676!
+WARNING:pystan:n_eff / iter for parameter zinterp[65] is 0.00053483283156238!
+WARNING:pystan:n_eff / iter for parameter zinterp[66] is 0.0005350529486668786!
+WARNING:pystan:n_eff / iter for parameter zinterp[67] is 0.0005352694100243532!
+WARNING:pystan:n_eff / iter for parameter zinterp[68] is 0.0005354822997709578!
+WARNING:pystan:n_eff / iter for parameter zinterp[69] is 0.0005356914650079941!
+WARNING:pystan:n_eff / iter for parameter zinterp[70] is 0.0005358969689100751!
+WARNING:pystan:n_eff / iter for parameter zinterp[71] is 0.0005360988702753133!
+WARNING:pystan:n_eff / iter for parameter zinterp[72] is 0.0005362972287562022!
+WARNING:pystan:n_eff / iter for parameter zinterp[73] is 0.0005364921101915206!
+WARNING:pystan:n_eff / iter for parameter zinterp[74] is 0.0005366835780913599!
+WARNING:pystan:n_eff / iter for parameter zinterp[75] is 0.0005368716925990936!
+WARNING:pystan:n_eff / iter for parameter zinterp[76] is 0.0005370565155959844!
+WARNING:pystan:n_eff / iter for parameter zinterp[77] is 0.0005372381061127496!
+WARNING:pystan:n_eff / iter for parameter zinterp[78] is 0.0005374165208029355!
+WARNING:pystan:n_eff / iter for parameter zinterp[79] is 0.0005375918186445166!
+WARNING:pystan:n_eff / iter for parameter zinterp[80] is 0.0005377640569869935!
+WARNING:pystan:n_eff / iter for parameter zinterp[81] is 0.0005379332978386776!
+WARNING:pystan:n_eff / iter for parameter zinterp[82] is 0.0005380996008374226!
+WARNING:pystan:n_eff / iter for parameter zinterp[83] is 0.0005382630233030341!
+WARNING:pystan:n_eff / iter for parameter zinterp[84] is 0.0005384236179514188!
+WARNING:pystan:n_eff / iter for parameter zinterp[85] is 0.0005385814399047668!
+WARNING:pystan:n_eff / iter for parameter zinterp[86] is 0.0005387365423904687!
+WARNING:pystan:n_eff / iter for parameter zinterp[87] is 0.0005388889766005341!
+WARNING:pystan:n_eff / iter for parameter zinterp[88] is 0.0005390387940927838!
+WARNING:pystan:n_eff / iter for parameter zinterp[89] is 0.0005391860458663427!
+WARNING:pystan:n_eff / iter for parameter zinterp[90] is 0.0005393307825131093!
+WARNING:pystan:n_eff / iter for parameter zinterp[91] is 0.00053947305349685!
+WARNING:pystan:n_eff / iter for parameter zinterp[92] is 0.0005396129086759642!
+WARNING:pystan:n_eff / iter for parameter zinterp[93] is 0.000539750398379869!
+WARNING:pystan:n_eff / iter for parameter zinterp[94] is 0.00053988557283825!
+WARNING:pystan:n_eff / iter for parameter zinterp[95] is 0.0005400184829277538!
+WARNING:pystan:n_eff / iter for parameter zinterp[96] is 0.0005401491803201173!
+WARNING:pystan:n_eff / iter for parameter zinterp[97] is 0.0005402777150234669!
+WARNING:pystan:n_eff / iter for parameter zinterp[98] is 0.0005404041358314024!
+WARNING:pystan:n_eff / iter for parameter zinterp[99] is 0.0005405284909627873!
+WARNING:pystan:n_eff / iter for parameter zinterp[100] is 0.0005406508277710934!
 WARNING:pystan:n_eff / iter below 0.001 indicates that the effective sample size has likely been overestimated
-WARNING:pystan:Rhat for parameter H0 is 1.222187173945329!
-WARNING:pystan:Rhat for parameter w_p is 3.2713551473496643!
-WARNING:pystan:Rhat for parameter w_a is 2.080998026556938!
-WARNING:pystan:Rhat for parameter R0 is 1.2294745863437022!
-WARNING:pystan:Rhat for parameter gamma is 1.1111132261074892!
-WARNING:pystan:Rhat for parameter MMax is 3.605956059037574!
-WARNING:pystan:Rhat for parameter m1_true[4] is 1.1461584465076715!
-WARNING:pystan:Rhat for parameter m1_true[8] is 1.1320732291433464!
-WARNING:pystan:Rhat for parameter m1_true[10] is 1.1288484733322413!
-WARNING:pystan:Rhat for parameter m1_true[11] is 1.318432756721234!
-WARNING:pystan:Rhat for parameter m1_true[12] is 1.5511780533920156!
-WARNING:pystan:Rhat for parameter m1_true[15] is 1.1635359187282435!
-WARNING:pystan:Rhat for parameter m1_true[19] is 1.1180788182472168!
-WARNING:pystan:Rhat for parameter m1_true[20] is 1.1556615364506189!
-WARNING:pystan:Rhat for parameter m1_true[21] is 1.5249373226180964!
-WARNING:pystan:Rhat for parameter m1_true[24] is 1.1181040067006915!
-WARNING:pystan:Rhat for parameter m1_true[25] is 1.189934923098174!
-WARNING:pystan:Rhat for parameter m1_true[35] is 1.8757583247199703!
-WARNING:pystan:Rhat for parameter m1_true[38] is 1.2017627795454588!
-WARNING:pystan:Rhat for parameter m1_true[41] is 1.625898380183122!
-WARNING:pystan:Rhat for parameter m1_true[45] is 1.539012077997655!
-WARNING:pystan:Rhat for parameter m1_true[46] is 1.1793864242481356!
-WARNING:pystan:Rhat for parameter m1_true[50] is 1.2439400716787663!
-WARNING:pystan:Rhat for parameter m1_true[54] is 1.2449894856203791!
-WARNING:pystan:Rhat for parameter m1_true[56] is 1.1781733977571163!
-WARNING:pystan:Rhat for parameter m1_true[72] is 1.1176342185208934!
-WARNING:pystan:Rhat for parameter m1_true[77] is 1.3447779112496452!
-WARNING:pystan:Rhat for parameter m1_true[78] is 1.780985816261642!
-WARNING:pystan:Rhat for parameter m1_true[79] is 1.2419927230524992!
-WARNING:pystan:Rhat for parameter m1_true[82] is 1.141512687848889!
-WARNING:pystan:Rhat for parameter m1_true[86] is 1.1487719038923396!
-WARNING:pystan:Rhat for parameter m1_true[89] is 1.2090486273557348!
-WARNING:pystan:Rhat for parameter m1_true[90] is 1.1314517576460437!
-WARNING:pystan:Rhat for parameter m1_true[92] is 1.114082703729386!
-WARNING:pystan:Rhat for parameter m1_true[99] is 1.1533599615492576!
-WARNING:pystan:Rhat for parameter m1_true[100] is 1.2461353543227032!
-WARNING:pystan:Rhat for parameter m1_true[102] is 1.1888317221198335!
-WARNING:pystan:Rhat for parameter m1_true[103] is 2.1409411961503078!
-WARNING:pystan:Rhat for parameter m1_true[104] is 1.4175439889800105!
-WARNING:pystan:Rhat for parameter m1_true[106] is 1.1074837226312273!
-WARNING:pystan:Rhat for parameter m1_true[118] is 1.2866439181964535!
-WARNING:pystan:Rhat for parameter m1_true[121] is 1.841206123086458!
-WARNING:pystan:Rhat for parameter m1_true[123] is 1.1416027474928223!
-WARNING:pystan:Rhat for parameter m1_true[125] is 1.1532889900081182!
-WARNING:pystan:Rhat for parameter m1_true[126] is 1.1423132187735219!
-WARNING:pystan:Rhat for parameter m1_true[128] is 1.1016050293624344!
-WARNING:pystan:Rhat for parameter m1_true[129] is 1.524613519139013!
-WARNING:pystan:Rhat for parameter m1_true[131] is 1.2121492464286328!
-WARNING:pystan:Rhat for parameter m1_true[136] is 1.1404383382922723!
-WARNING:pystan:Rhat for parameter m1_true[137] is 1.2018975770936102!
-WARNING:pystan:Rhat for parameter m1_true[138] is 1.1182163257722728!
-WARNING:pystan:Rhat for parameter m1_true[140] is 1.1357322097535452!
-WARNING:pystan:Rhat for parameter m1_true[152] is 1.6665057942887427!
-WARNING:pystan:Rhat for parameter m1_true[154] is 1.5736355379222575!
-WARNING:pystan:Rhat for parameter m1_true[157] is 3.026620604302717!
-WARNING:pystan:Rhat for parameter m1_true[161] is 1.1880981210446493!
-WARNING:pystan:Rhat for parameter m1_true[162] is 1.1032747834695984!
-WARNING:pystan:Rhat for parameter m1_true[164] is 1.1789006901894632!
-WARNING:pystan:Rhat for parameter m1_true[166] is 1.10425696484964!
-WARNING:pystan:Rhat for parameter m1_true[167] is 1.4589804163625524!
-WARNING:pystan:Rhat for parameter m1_true[169] is 1.1259816967129375!
-WARNING:pystan:Rhat for parameter m1_true[172] is 1.3513347571219831!
-WARNING:pystan:Rhat for parameter m1_true[174] is 1.1784116387774646!
-WARNING:pystan:Rhat for parameter m1_true[176] is 1.1558379528682932!
-WARNING:pystan:Rhat for parameter m1_true[181] is 1.1017407878437597!
-WARNING:pystan:Rhat for parameter m1_true[182] is 2.361235303781535!
-WARNING:pystan:Rhat for parameter m1_true[183] is 1.1705091735955178!
-WARNING:pystan:Rhat for parameter m1_true[185] is 1.1583940866887517!
-WARNING:pystan:Rhat for parameter m1_true[187] is 1.3732244683749861!
-WARNING:pystan:Rhat for parameter m1_true[188] is 1.3795133527551897!
-WARNING:pystan:Rhat for parameter m1_true[189] is 1.1038591917601022!
-WARNING:pystan:Rhat for parameter m1_true[190] is 1.3541685378874508!
-WARNING:pystan:Rhat for parameter m1_true[192] is 1.1082783533271878!
-WARNING:pystan:Rhat for parameter m1_true[193] is 1.2049202289567804!
-WARNING:pystan:Rhat for parameter m1_true[205] is 1.1786662596688386!
-WARNING:pystan:Rhat for parameter m1_true[210] is 1.2578082721626416!
-WARNING:pystan:Rhat for parameter m1_true[211] is 1.145740597404971!
-WARNING:pystan:Rhat for parameter m1_true[212] is 1.2052732087498559!
-WARNING:pystan:Rhat for parameter m1_true[214] is 1.1129876515162715!
-WARNING:pystan:Rhat for parameter m1_true[220] is 1.4156757001720652!
-WARNING:pystan:Rhat for parameter m1_true[222] is 1.3362216226026664!
-WARNING:pystan:Rhat for parameter m1_true[223] is 1.1426389772669967!
-WARNING:pystan:Rhat for parameter m1_true[230] is 1.1075212435709905!
-WARNING:pystan:Rhat for parameter m1_true[233] is 1.1284402125677733!
-WARNING:pystan:Rhat for parameter m1_true[235] is 1.4660198789129453!
-WARNING:pystan:Rhat for parameter m1_true[242] is 1.1320848058769637!
-WARNING:pystan:Rhat for parameter m1_true[243] is 1.153260018624623!
-WARNING:pystan:Rhat for parameter m1_true[252] is 1.617645682504358!
-WARNING:pystan:Rhat for parameter m1_true[253] is 1.1975474605584426!
-WARNING:pystan:Rhat for parameter m1_true[260] is 1.1000880895315892!
-WARNING:pystan:Rhat for parameter m1_true[270] is 1.2607249516405497!
-WARNING:pystan:Rhat for parameter m1_true[271] is 1.1752265735481355!
-WARNING:pystan:Rhat for parameter m1_true[272] is 1.1059789253075194!
-WARNING:pystan:Rhat for parameter m1_true[273] is 1.123113840544743!
-WARNING:pystan:Rhat for parameter m1_true[275] is 1.262420589493566!
-WARNING:pystan:Rhat for parameter m1_true[276] is 1.2338366481087373!
-WARNING:pystan:Rhat for parameter m1_true[280] is 1.123559307689172!
-WARNING:pystan:Rhat for parameter m1_true[284] is 1.2278373117693442!
-WARNING:pystan:Rhat for parameter m1_true[285] is 1.1496868448766966!
-WARNING:pystan:Rhat for parameter m1_true[287] is 1.4201600971453963!
-WARNING:pystan:Rhat for parameter m1_true[289] is 1.3794846101518936!
-WARNING:pystan:Rhat for parameter m1_true[298] is 1.1289295242782957!
-WARNING:pystan:Rhat for parameter m1_true[301] is 1.5828782982145477!
-WARNING:pystan:Rhat for parameter m1_true[305] is 1.1772054755241819!
-WARNING:pystan:Rhat for parameter m1_true[310] is 1.3355899209005775!
-WARNING:pystan:Rhat for parameter m1_true[316] is 1.3931273152034827!
-WARNING:pystan:Rhat for parameter m1_true[319] is 1.4492728934340193!
-WARNING:pystan:Rhat for parameter m1_true[320] is 1.6037156459347761!
-WARNING:pystan:Rhat for parameter m1_true[321] is 1.4083914630319656!
-WARNING:pystan:Rhat for parameter m1_true[326] is 1.1132275039725366!
-WARNING:pystan:Rhat for parameter m1_true[332] is 1.1429215109019042!
-WARNING:pystan:Rhat for parameter m1_true[335] is 1.180871174612071!
-WARNING:pystan:Rhat for parameter m1_true[336] is 1.1910245373963462!
-WARNING:pystan:Rhat for parameter m1_true[339] is 1.3448963829529759!
-WARNING:pystan:Rhat for parameter m1_true[344] is 1.3252412071660231!
-WARNING:pystan:Rhat for parameter m1_true[345] is 1.182064969033505!
-WARNING:pystan:Rhat for parameter m1_true[347] is 1.1483375808414262!
-WARNING:pystan:Rhat for parameter m1_true[349] is 1.689370737284701!
-WARNING:pystan:Rhat for parameter m1_true[351] is 1.3290381311609372!
-WARNING:pystan:Rhat for parameter m1_true[352] is 1.1768983866053924!
-WARNING:pystan:Rhat for parameter m1_true[354] is 1.2980338408028333!
-WARNING:pystan:Rhat for parameter m1_true[356] is 1.167414211155511!
-WARNING:pystan:Rhat for parameter m1_true[359] is 1.201425874137364!
-WARNING:pystan:Rhat for parameter m1_true[361] is 1.1366443580780752!
-WARNING:pystan:Rhat for parameter m1_true[363] is 1.3734482384112638!
-WARNING:pystan:Rhat for parameter m1_true[364] is 1.1654913598359542!
-WARNING:pystan:Rhat for parameter m1_true[365] is 1.1119625773208504!
-WARNING:pystan:Rhat for parameter m1_true[372] is 1.110691672079449!
-WARNING:pystan:Rhat for parameter m1_true[374] is 1.1778132556506498!
-WARNING:pystan:Rhat for parameter m1_true[376] is 1.5602772835818146!
-WARNING:pystan:Rhat for parameter m1_true[379] is 1.1581213288211538!
-WARNING:pystan:Rhat for parameter m1_true[380] is 1.5786676230126238!
-WARNING:pystan:Rhat for parameter m1_true[386] is 1.2149452490089205!
-WARNING:pystan:Rhat for parameter m1_true[388] is 1.3314258988414016!
-WARNING:pystan:Rhat for parameter m1_true[394] is 1.1102454638193624!
-WARNING:pystan:Rhat for parameter m1_true[396] is 1.1202248436099884!
-WARNING:pystan:Rhat for parameter m1_true[400] is 1.2643531133786616!
-WARNING:pystan:Rhat for parameter m1_true[404] is 1.4801868260812956!
-WARNING:pystan:Rhat for parameter m1_true[411] is 1.100889243778302!
-WARNING:pystan:Rhat for parameter m1_true[414] is 1.1343871801941108!
-WARNING:pystan:Rhat for parameter m1_true[416] is 1.1025014370812838!
-WARNING:pystan:Rhat for parameter m1_true[418] is 1.2322146990827232!
-WARNING:pystan:Rhat for parameter m1_true[427] is 1.2970180371088058!
-WARNING:pystan:Rhat for parameter m1_true[429] is 1.3792946176352288!
-WARNING:pystan:Rhat for parameter m1_true[431] is 1.3027324448699573!
-WARNING:pystan:Rhat for parameter m1_true[437] is 1.2323208147767581!
-WARNING:pystan:Rhat for parameter m1_true[458] is 1.1257088016655823!
-WARNING:pystan:Rhat for parameter m1_true[459] is 1.8520839007219285!
-WARNING:pystan:Rhat for parameter m1_true[460] is 1.1007824363691747!
-WARNING:pystan:Rhat for parameter m1_true[467] is 1.7499378924787805!
-WARNING:pystan:Rhat for parameter m1_true[478] is 1.1432654364671393!
-WARNING:pystan:Rhat for parameter m1_true[488] is 1.133837178388105!
-WARNING:pystan:Rhat for parameter m1_true[489] is 1.2202916417720282!
-WARNING:pystan:Rhat for parameter m1_true[492] is 1.2560615431908613!
-WARNING:pystan:Rhat for parameter m1_true[493] is 1.3209757921994627!
-WARNING:pystan:Rhat for parameter m1_true[496] is 1.1144377604869815!
-WARNING:pystan:Rhat for parameter m1_true[497] is 1.2033024544107238!
-WARNING:pystan:Rhat for parameter m1_true[498] is 1.2592928446151475!
-WARNING:pystan:Rhat for parameter m1_true[502] is 1.148486368547767!
-WARNING:pystan:Rhat for parameter m1_true[504] is 1.140878000432816!
-WARNING:pystan:Rhat for parameter m1_true[508] is 1.217788400150242!
-WARNING:pystan:Rhat for parameter m1_true[509] is 1.1175828332446633!
-WARNING:pystan:Rhat for parameter m1_true[512] is 1.169909922393896!
-WARNING:pystan:Rhat for parameter m1_true[518] is 1.6391049566805056!
-WARNING:pystan:Rhat for parameter m1_true[519] is 1.1098619261171814!
-WARNING:pystan:Rhat for parameter m1_true[521] is 1.145086792015846!
-WARNING:pystan:Rhat for parameter m1_true[531] is 1.1527764941550993!
-WARNING:pystan:Rhat for parameter m1_true[534] is 1.1440392181392167!
-WARNING:pystan:Rhat for parameter m1_true[535] is 1.1710560351534325!
-WARNING:pystan:Rhat for parameter m1_true[537] is 1.1636143109837698!
-WARNING:pystan:Rhat for parameter m1_true[538] is 1.1457804900406128!
-WARNING:pystan:Rhat for parameter m1_true[541] is 1.182071943773361!
-WARNING:pystan:Rhat for parameter m1_true[542] is 1.1017044314693227!
-WARNING:pystan:Rhat for parameter m1_true[548] is 1.3657225146421474!
-WARNING:pystan:Rhat for parameter m1_true[554] is 1.2149862627824608!
-WARNING:pystan:Rhat for parameter m1_true[556] is 1.137785415258261!
-WARNING:pystan:Rhat for parameter m1_true[561] is 1.393211311421554!
-WARNING:pystan:Rhat for parameter m1_true[563] is 1.1237128895236488!
-WARNING:pystan:Rhat for parameter m1_true[566] is 1.1672883610152949!
-WARNING:pystan:Rhat for parameter m1_true[568] is 1.1996189379300188!
-WARNING:pystan:Rhat for parameter m1_true[575] is 1.2283884783695718!
-WARNING:pystan:Rhat for parameter m1_true[576] is 1.203127759780273!
-WARNING:pystan:Rhat for parameter m1_true[578] is 1.1818395260268242!
-WARNING:pystan:Rhat for parameter m1_true[592] is 1.2549469049613484!
-WARNING:pystan:Rhat for parameter m1_true[594] is 1.1769649875369859!
-WARNING:pystan:Rhat for parameter m1_true[600] is 1.1598593588686406!
-WARNING:pystan:Rhat for parameter m1_true[601] is 1.3781342668198489!
-WARNING:pystan:Rhat for parameter m1_true[604] is 1.1539211784598473!
-WARNING:pystan:Rhat for parameter dH is 1.2251075567773317!
-WARNING:pystan:Rhat for parameter w0 is 4.101188253330069!
-WARNING:pystan:Rhat for parameter sigma_Nex is 1.2204772988417654!
-WARNING:pystan:Rhat for parameter neff_det is 1.3053732372381752!
-WARNING:pystan:Rhat for parameter m2_true[4] is 1.1053601583782453!
-WARNING:pystan:Rhat for parameter m2_true[8] is 1.108008170264207!
-WARNING:pystan:Rhat for parameter m2_true[10] is 1.1502650463527606!
-WARNING:pystan:Rhat for parameter m2_true[11] is 1.1507849555444782!
-WARNING:pystan:Rhat for parameter m2_true[12] is 1.4084423980561012!
-WARNING:pystan:Rhat for parameter m2_true[14] is 1.1176082220791612!
-WARNING:pystan:Rhat for parameter m2_true[15] is 1.1159563725943822!
-WARNING:pystan:Rhat for parameter m2_true[20] is 1.138447072280813!
-WARNING:pystan:Rhat for parameter m2_true[21] is 1.260268153877676!
-WARNING:pystan:Rhat for parameter m2_true[24] is 1.1398626551608413!
-WARNING:pystan:Rhat for parameter m2_true[25] is 1.141033899944767!
-WARNING:pystan:Rhat for parameter m2_true[35] is 1.5368032085055738!
-WARNING:pystan:Rhat for parameter m2_true[41] is 1.30060244614573!
-WARNING:pystan:Rhat for parameter m2_true[45] is 1.1829767355396368!
-WARNING:pystan:Rhat for parameter m2_true[46] is 1.1795529775521938!
-WARNING:pystan:Rhat for parameter m2_true[54] is 1.1434947101091637!
-WARNING:pystan:Rhat for parameter m2_true[56] is 1.1714170155840629!
-WARNING:pystan:Rhat for parameter m2_true[67] is 1.113486828988548!
-WARNING:pystan:Rhat for parameter m2_true[72] is 1.1228091244015375!
-WARNING:pystan:Rhat for parameter m2_true[77] is 1.1514565438842728!
-WARNING:pystan:Rhat for parameter m2_true[78] is 1.731851899504933!
-WARNING:pystan:Rhat for parameter m2_true[79] is 1.200413172811544!
-WARNING:pystan:Rhat for parameter m2_true[84] is 1.117032910594094!
-WARNING:pystan:Rhat for parameter m2_true[89] is 1.131498084875476!
-WARNING:pystan:Rhat for parameter m2_true[92] is 1.100696746745764!
-WARNING:pystan:Rhat for parameter m2_true[100] is 1.1854607059114963!
-WARNING:pystan:Rhat for parameter m2_true[102] is 1.197736655501572!
-WARNING:pystan:Rhat for parameter m2_true[103] is 1.3598005858278952!
-WARNING:pystan:Rhat for parameter m2_true[104] is 1.1857407853943638!
-WARNING:pystan:Rhat for parameter m2_true[113] is 1.1081777644093689!
-WARNING:pystan:Rhat for parameter m2_true[121] is 1.4171246987079245!
-WARNING:pystan:Rhat for parameter m2_true[123] is 1.1293861692564056!
-WARNING:pystan:Rhat for parameter m2_true[125] is 1.2107663654608043!
-WARNING:pystan:Rhat for parameter m2_true[129] is 1.1791461261802487!
-WARNING:pystan:Rhat for parameter m2_true[131] is 1.171010658320063!
-WARNING:pystan:Rhat for parameter m2_true[136] is 1.1542749705131554!
-WARNING:pystan:Rhat for parameter m2_true[137] is 1.1303570576651796!
-WARNING:pystan:Rhat for parameter m2_true[140] is 1.1506195172811895!
-WARNING:pystan:Rhat for parameter m2_true[144] is 1.1232921436228998!
-WARNING:pystan:Rhat for parameter m2_true[152] is 1.1933135592839128!
-WARNING:pystan:Rhat for parameter m2_true[154] is 1.3319168771604355!
-WARNING:pystan:Rhat for parameter m2_true[157] is 1.8924230372362234!
-WARNING:pystan:Rhat for parameter m2_true[159] is 1.1448525101275366!
-WARNING:pystan:Rhat for parameter m2_true[164] is 1.1255216822280032!
-WARNING:pystan:Rhat for parameter m2_true[166] is 1.1439058947086707!
-WARNING:pystan:Rhat for parameter m2_true[167] is 1.1150364481729438!
-WARNING:pystan:Rhat for parameter m2_true[169] is 1.1253014138638164!
-WARNING:pystan:Rhat for parameter m2_true[172] is 1.1946296457931544!
-WARNING:pystan:Rhat for parameter m2_true[174] is 1.105930132236826!
-WARNING:pystan:Rhat for parameter m2_true[176] is 1.1121370576314684!
-WARNING:pystan:Rhat for parameter m2_true[181] is 1.1161135153604633!
-WARNING:pystan:Rhat for parameter m2_true[182] is 1.8472794579722107!
-WARNING:pystan:Rhat for parameter m2_true[185] is 1.1445996603305615!
-WARNING:pystan:Rhat for parameter m2_true[188] is 1.2198784948539432!
-WARNING:pystan:Rhat for parameter m2_true[189] is 1.1116677311290637!
-WARNING:pystan:Rhat for parameter m2_true[190] is 1.1920734692900734!
-WARNING:pystan:Rhat for parameter m2_true[193] is 1.152894105318125!
-WARNING:pystan:Rhat for parameter m2_true[197] is 1.1102072665026244!
-WARNING:pystan:Rhat for parameter m2_true[205] is 1.1420248755515274!
-WARNING:pystan:Rhat for parameter m2_true[208] is 1.1715834354327346!
-WARNING:pystan:Rhat for parameter m2_true[210] is 1.1588963004373596!
-WARNING:pystan:Rhat for parameter m2_true[211] is 1.2122011253807308!
-WARNING:pystan:Rhat for parameter m2_true[212] is 1.1546797403444051!
-WARNING:pystan:Rhat for parameter m2_true[220] is 1.264042681579924!
-WARNING:pystan:Rhat for parameter m2_true[232] is 1.1326990597718984!
-WARNING:pystan:Rhat for parameter m2_true[233] is 1.1049251268463052!
-WARNING:pystan:Rhat for parameter m2_true[235] is 1.217275149635578!
-WARNING:pystan:Rhat for parameter m2_true[237] is 1.1185739780803046!
-WARNING:pystan:Rhat for parameter m2_true[245] is 1.1462626880313893!
-WARNING:pystan:Rhat for parameter m2_true[251] is 1.106535056917885!
-WARNING:pystan:Rhat for parameter m2_true[252] is 1.2231479905012694!
-WARNING:pystan:Rhat for parameter m2_true[256] is 1.1022577443012396!
-WARNING:pystan:Rhat for parameter m2_true[260] is 1.1176939720840358!
-WARNING:pystan:Rhat for parameter m2_true[270] is 1.2398255204432955!
-WARNING:pystan:Rhat for parameter m2_true[272] is 1.114029722919979!
-WARNING:pystan:Rhat for parameter m2_true[275] is 1.1038182699737473!
-WARNING:pystan:Rhat for parameter m2_true[276] is 1.2026869273644643!
-WARNING:pystan:Rhat for parameter m2_true[283] is 1.1033763191811128!
-WARNING:pystan:Rhat for parameter m2_true[284] is 1.1677702124182419!
-WARNING:pystan:Rhat for parameter m2_true[285] is 1.1188589040322316!
-WARNING:pystan:Rhat for parameter m2_true[287] is 1.2028971103484314!
-WARNING:pystan:Rhat for parameter m2_true[289] is 1.1486367821390207!
-WARNING:pystan:Rhat for parameter m2_true[301] is 1.2754009748717243!
-WARNING:pystan:Rhat for parameter m2_true[305] is 1.1801155769219038!
-WARNING:pystan:Rhat for parameter m2_true[306] is 1.1551352516638809!
-WARNING:pystan:Rhat for parameter m2_true[310] is 1.2377716421727025!
-WARNING:pystan:Rhat for parameter m2_true[316] is 1.2529192120791253!
-WARNING:pystan:Rhat for parameter m2_true[319] is 1.2731846725831764!
-WARNING:pystan:Rhat for parameter m2_true[320] is 1.3062330206097863!
-WARNING:pystan:Rhat for parameter m2_true[321] is 1.1211926113009423!
-WARNING:pystan:Rhat for parameter m2_true[326] is 1.133544260481616!
-WARNING:pystan:Rhat for parameter m2_true[327] is 1.1060038171529847!
-WARNING:pystan:Rhat for parameter m2_true[332] is 1.1753378239608816!
-WARNING:pystan:Rhat for parameter m2_true[336] is 1.2491306567973743!
-WARNING:pystan:Rhat for parameter m2_true[339] is 1.1661988774563221!
-WARNING:pystan:Rhat for parameter m2_true[345] is 1.1507846342561208!
-WARNING:pystan:Rhat for parameter m2_true[347] is 1.1321917688414442!
-WARNING:pystan:Rhat for parameter m2_true[349] is 1.4418133096869683!
-WARNING:pystan:Rhat for parameter m2_true[351] is 1.143964657387222!
-WARNING:pystan:Rhat for parameter m2_true[352] is 1.1512785487646229!
-WARNING:pystan:Rhat for parameter m2_true[353] is 1.1003287201737137!
-WARNING:pystan:Rhat for parameter m2_true[357] is 1.1265239637297932!
-WARNING:pystan:Rhat for parameter m2_true[359] is 1.1013493647224781!
-WARNING:pystan:Rhat for parameter m2_true[361] is 1.1827547340825186!
-WARNING:pystan:Rhat for parameter m2_true[363] is 1.2753013258697652!
-WARNING:pystan:Rhat for parameter m2_true[366] is 1.1021769950926283!
-WARNING:pystan:Rhat for parameter m2_true[368] is 1.1175568767068873!
-WARNING:pystan:Rhat for parameter m2_true[374] is 1.1913739005318837!
-WARNING:pystan:Rhat for parameter m2_true[376] is 1.206032094167273!
-WARNING:pystan:Rhat for parameter m2_true[379] is 1.1088028259194898!
-WARNING:pystan:Rhat for parameter m2_true[380] is 1.2522126218596916!
-WARNING:pystan:Rhat for parameter m2_true[388] is 1.1731335397382814!
-WARNING:pystan:Rhat for parameter m2_true[400] is 1.172948487678479!
-WARNING:pystan:Rhat for parameter m2_true[414] is 1.1315509893958737!
-WARNING:pystan:Rhat for parameter m2_true[418] is 1.2096683602100204!
-WARNING:pystan:Rhat for parameter m2_true[427] is 1.1103111435591082!
-WARNING:pystan:Rhat for parameter m2_true[429] is 1.2771053592216697!
-WARNING:pystan:Rhat for parameter m2_true[431] is 1.2245679855358695!
-WARNING:pystan:Rhat for parameter m2_true[437] is 1.1554848902114625!
-WARNING:pystan:Rhat for parameter m2_true[458] is 1.1293478093289706!
-WARNING:pystan:Rhat for parameter m2_true[459] is 1.2019544777185402!
-WARNING:pystan:Rhat for parameter m2_true[460] is 1.1098592548106905!
-WARNING:pystan:Rhat for parameter m2_true[467] is 1.2545021182262661!
-WARNING:pystan:Rhat for parameter m2_true[473] is 1.1071523365740057!
-WARNING:pystan:Rhat for parameter m2_true[480] is 1.1066415030281576!
-WARNING:pystan:Rhat for parameter m2_true[492] is 1.2774519738337862!
-WARNING:pystan:Rhat for parameter m2_true[493] is 1.1784674623669618!
-WARNING:pystan:Rhat for parameter m2_true[495] is 1.1293756378864!
-WARNING:pystan:Rhat for parameter m2_true[497] is 1.1127238515392608!
-WARNING:pystan:Rhat for parameter m2_true[498] is 1.1507338866018617!
-WARNING:pystan:Rhat for parameter m2_true[502] is 1.1487894982043587!
-WARNING:pystan:Rhat for parameter m2_true[504] is 1.1470365530977789!
-WARNING:pystan:Rhat for parameter m2_true[505] is 1.1102097935633308!
-WARNING:pystan:Rhat for parameter m2_true[508] is 1.1696271219356478!
-WARNING:pystan:Rhat for parameter m2_true[509] is 1.1267055252747307!
-WARNING:pystan:Rhat for parameter m2_true[512] is 1.1723186430164587!
-WARNING:pystan:Rhat for parameter m2_true[518] is 1.398553235554423!
-WARNING:pystan:Rhat for parameter m2_true[521] is 1.1262378199243148!
-WARNING:pystan:Rhat for parameter m2_true[531] is 1.198129074441972!
-WARNING:pystan:Rhat for parameter m2_true[532] is 1.119935854965527!
-WARNING:pystan:Rhat for parameter m2_true[534] is 1.1961446469499881!
-WARNING:pystan:Rhat for parameter m2_true[535] is 1.1121267228149636!
-WARNING:pystan:Rhat for parameter m2_true[537] is 1.139158181698011!
-WARNING:pystan:Rhat for parameter m2_true[548] is 1.215057432908277!
-WARNING:pystan:Rhat for parameter m2_true[561] is 1.1945780277035096!
-WARNING:pystan:Rhat for parameter m2_true[564] is 1.1022623426318028!
-WARNING:pystan:Rhat for parameter m2_true[568] is 1.1929641160696722!
-WARNING:pystan:Rhat for parameter m2_true[575] is 1.1306951032122163!
-WARNING:pystan:Rhat for parameter m2_true[576] is 1.21344083668882!
-WARNING:pystan:Rhat for parameter m2_true[592] is 1.1877220525442052!
-WARNING:pystan:Rhat for parameter m2_true[600] is 1.1562683673654026!
-WARNING:pystan:Rhat for parameter m2_true[601] is 1.2591627323675112!
-WARNING:pystan:Rhat for parameter z_true[2] is 1.1213805647797304!
-WARNING:pystan:Rhat for parameter z_true[3] is 1.1261976579184363!
-WARNING:pystan:Rhat for parameter z_true[4] is 1.4071588007495852!
-WARNING:pystan:Rhat for parameter z_true[5] is 1.2550217629262952!
-WARNING:pystan:Rhat for parameter z_true[6] is 1.4096267845348618!
-WARNING:pystan:Rhat for parameter z_true[7] is 1.1328381698406786!
-WARNING:pystan:Rhat for parameter z_true[8] is 1.2585506285520924!
-WARNING:pystan:Rhat for parameter z_true[9] is 1.1326970366513776!
-WARNING:pystan:Rhat for parameter z_true[10] is 1.313270495292135!
-WARNING:pystan:Rhat for parameter z_true[11] is 1.2439224529122654!
-WARNING:pystan:Rhat for parameter z_true[12] is 1.5254975443439716!
-WARNING:pystan:Rhat for parameter z_true[13] is 1.133717915210162!
-WARNING:pystan:Rhat for parameter z_true[14] is 1.2601141648831093!
-WARNING:pystan:Rhat for parameter z_true[15] is 1.432441045482378!
-WARNING:pystan:Rhat for parameter z_true[16] is 1.1690926510710924!
-WARNING:pystan:Rhat for parameter z_true[17] is 1.145621754030948!
-WARNING:pystan:Rhat for parameter z_true[18] is 1.3534203499025117!
-WARNING:pystan:Rhat for parameter z_true[19] is 1.1774493572986535!
-WARNING:pystan:Rhat for parameter z_true[20] is 1.2548409058168484!
-WARNING:pystan:Rhat for parameter z_true[21] is 1.3943414261357048!
-WARNING:pystan:Rhat for parameter z_true[23] is 1.1941878891768538!
-WARNING:pystan:Rhat for parameter z_true[24] is 1.2949207937775082!
-WARNING:pystan:Rhat for parameter z_true[25] is 1.413398362671947!
-WARNING:pystan:Rhat for parameter z_true[26] is 1.1031976655370317!
-WARNING:pystan:Rhat for parameter z_true[27] is 1.1173617256075643!
-WARNING:pystan:Rhat for parameter z_true[29] is 1.1828104287694303!
-WARNING:pystan:Rhat for parameter z_true[30] is 1.1039511771676258!
-WARNING:pystan:Rhat for parameter z_true[31] is 1.1406473619150397!
-WARNING:pystan:Rhat for parameter z_true[33] is 1.4411470609396808!
-WARNING:pystan:Rhat for parameter z_true[34] is 1.135998262823073!
-WARNING:pystan:Rhat for parameter z_true[35] is 1.7231092203988676!
-WARNING:pystan:Rhat for parameter z_true[36] is 1.2627248787120404!
-WARNING:pystan:Rhat for parameter z_true[37] is 1.1186951023058567!
-WARNING:pystan:Rhat for parameter z_true[38] is 1.1574919910754788!
-WARNING:pystan:Rhat for parameter z_true[39] is 1.157209711575425!
-WARNING:pystan:Rhat for parameter z_true[41] is 1.5576660355343896!
-WARNING:pystan:Rhat for parameter z_true[42] is 1.2203648280265813!
-WARNING:pystan:Rhat for parameter z_true[43] is 1.510982392034066!
-WARNING:pystan:Rhat for parameter z_true[44] is 1.138955743994452!
-WARNING:pystan:Rhat for parameter z_true[45] is 1.3733944081700282!
-WARNING:pystan:Rhat for parameter z_true[46] is 1.3934885056295412!
-WARNING:pystan:Rhat for parameter z_true[47] is 1.3516376557533272!
-WARNING:pystan:Rhat for parameter z_true[48] is 1.1240239029809143!
-WARNING:pystan:Rhat for parameter z_true[49] is 1.1828893319942402!
-WARNING:pystan:Rhat for parameter z_true[50] is 2.0048472395038144!
-WARNING:pystan:Rhat for parameter z_true[51] is 1.2040365751191175!
-WARNING:pystan:Rhat for parameter z_true[53] is 1.1132825323339632!
-WARNING:pystan:Rhat for parameter z_true[54] is 1.296360555685878!
-WARNING:pystan:Rhat for parameter z_true[56] is 1.2619211241304604!
-WARNING:pystan:Rhat for parameter z_true[57] is 1.1259395361296756!
-WARNING:pystan:Rhat for parameter z_true[58] is 1.2522253040366182!
-WARNING:pystan:Rhat for parameter z_true[59] is 1.1076161776517603!
-WARNING:pystan:Rhat for parameter z_true[60] is 1.1466878357899124!
-WARNING:pystan:Rhat for parameter z_true[61] is 1.2193811763063764!
-WARNING:pystan:Rhat for parameter z_true[66] is 1.277927537333365!
-WARNING:pystan:Rhat for parameter z_true[67] is 1.4568343449647219!
-WARNING:pystan:Rhat for parameter z_true[69] is 1.4123354292666852!
-WARNING:pystan:Rhat for parameter z_true[70] is 1.2230434484170036!
-WARNING:pystan:Rhat for parameter z_true[72] is 1.2309644204996224!
-WARNING:pystan:Rhat for parameter z_true[73] is 1.1168685213179204!
-WARNING:pystan:Rhat for parameter z_true[75] is 1.1653562943117213!
-WARNING:pystan:Rhat for parameter z_true[76] is 1.103563078067235!
-WARNING:pystan:Rhat for parameter z_true[77] is 1.245390334220185!
-WARNING:pystan:Rhat for parameter z_true[78] is 2.0875084924101026!
-WARNING:pystan:Rhat for parameter z_true[79] is 1.3364777662991576!
-WARNING:pystan:Rhat for parameter z_true[80] is 1.1115659474973048!
-WARNING:pystan:Rhat for parameter z_true[81] is 1.2038930141956!
-WARNING:pystan:Rhat for parameter z_true[82] is 1.1739544497305803!
-WARNING:pystan:Rhat for parameter z_true[84] is 1.3232553735460784!
-WARNING:pystan:Rhat for parameter z_true[85] is 1.2225245150656698!
-WARNING:pystan:Rhat for parameter z_true[86] is 1.7042806982908323!
-WARNING:pystan:Rhat for parameter z_true[87] is 1.223481670934719!
-WARNING:pystan:Rhat for parameter z_true[89] is 1.6613043321250407!
-WARNING:pystan:Rhat for parameter z_true[90] is 1.2687080902409777!
-WARNING:pystan:Rhat for parameter z_true[91] is 1.1572483775000721!
-WARNING:pystan:Rhat for parameter z_true[92] is 1.3843003740458302!
-WARNING:pystan:Rhat for parameter z_true[93] is 1.2706004406853402!
-WARNING:pystan:Rhat for parameter z_true[94] is 1.1672366512870678!
-WARNING:pystan:Rhat for parameter z_true[96] is 1.1674777692697613!
-WARNING:pystan:Rhat for parameter z_true[97] is 1.2235071889494558!
-WARNING:pystan:Rhat for parameter z_true[98] is 1.128846296928845!
-WARNING:pystan:Rhat for parameter z_true[99] is 1.208791335148314!
-WARNING:pystan:Rhat for parameter z_true[100] is 1.4429680043110802!
-WARNING:pystan:Rhat for parameter z_true[101] is 1.1965698779182896!
-WARNING:pystan:Rhat for parameter z_true[102] is 1.662410948268864!
-WARNING:pystan:Rhat for parameter z_true[103] is 1.7011495578951652!
-WARNING:pystan:Rhat for parameter z_true[104] is 1.3926798737654724!
-WARNING:pystan:Rhat for parameter z_true[106] is 1.1455089108831704!
-WARNING:pystan:Rhat for parameter z_true[107] is 1.14685426610344!
-WARNING:pystan:Rhat for parameter z_true[108] is 1.157397289269028!
-WARNING:pystan:Rhat for parameter z_true[110] is 1.3088716302112995!
-WARNING:pystan:Rhat for parameter z_true[112] is 1.3788095472264585!
-WARNING:pystan:Rhat for parameter z_true[113] is 1.2152673335610866!
-WARNING:pystan:Rhat for parameter z_true[115] is 1.115311442244606!
-WARNING:pystan:Rhat for parameter z_true[116] is 1.1399062606053902!
-WARNING:pystan:Rhat for parameter z_true[117] is 1.3523544791411723!
-WARNING:pystan:Rhat for parameter z_true[118] is 1.226662364552427!
-WARNING:pystan:Rhat for parameter z_true[119] is 1.1482717205900752!
-WARNING:pystan:Rhat for parameter z_true[120] is 1.211523028415742!
-WARNING:pystan:Rhat for parameter z_true[121] is 1.8274869044250035!
-WARNING:pystan:Rhat for parameter z_true[123] is 1.2747334897838283!
-WARNING:pystan:Rhat for parameter z_true[125] is 1.2987446726916452!
-WARNING:pystan:Rhat for parameter z_true[126] is 1.1807961240608285!
-WARNING:pystan:Rhat for parameter z_true[127] is 1.1213367870163986!
-WARNING:pystan:Rhat for parameter z_true[128] is 1.3000764887403524!
-WARNING:pystan:Rhat for parameter z_true[129] is 1.330239767704411!
-WARNING:pystan:Rhat for parameter z_true[130] is 1.1588356277100362!
-WARNING:pystan:Rhat for parameter z_true[131] is 1.338585806751563!
-WARNING:pystan:Rhat for parameter z_true[132] is 1.1302998605568626!
-WARNING:pystan:Rhat for parameter z_true[133] is 1.1198382775189888!
-WARNING:pystan:Rhat for parameter z_true[135] is 1.1525965921940067!
-WARNING:pystan:Rhat for parameter z_true[136] is 1.284021340119988!
-WARNING:pystan:Rhat for parameter z_true[137] is 1.3359667555562003!
-WARNING:pystan:Rhat for parameter z_true[138] is 1.181897972564712!
-WARNING:pystan:Rhat for parameter z_true[140] is 1.3330697220616392!
-WARNING:pystan:Rhat for parameter z_true[141] is 1.3900480466664487!
-WARNING:pystan:Rhat for parameter z_true[142] is 1.4464098816904851!
-WARNING:pystan:Rhat for parameter z_true[143] is 1.2712248467211134!
-WARNING:pystan:Rhat for parameter z_true[144] is 1.336406924480881!
-WARNING:pystan:Rhat for parameter z_true[145] is 1.1736862343340997!
-WARNING:pystan:Rhat for parameter z_true[146] is 1.4561267188625746!
-WARNING:pystan:Rhat for parameter z_true[148] is 1.1832594032997836!
-WARNING:pystan:Rhat for parameter z_true[149] is 1.1993425832556912!
-WARNING:pystan:Rhat for parameter z_true[151] is 1.151874310059109!
-WARNING:pystan:Rhat for parameter z_true[152] is 1.3717649562032528!
-WARNING:pystan:Rhat for parameter z_true[153] is 1.1779297366686023!
-WARNING:pystan:Rhat for parameter z_true[154] is 1.5399231953982393!
-WARNING:pystan:Rhat for parameter z_true[155] is 1.2592690803140807!
-WARNING:pystan:Rhat for parameter z_true[156] is 1.344637330623952!
-WARNING:pystan:Rhat for parameter z_true[157] is 2.177648958990307!
-WARNING:pystan:Rhat for parameter z_true[158] is 1.2342785718720284!
-WARNING:pystan:Rhat for parameter z_true[159] is 1.2927134583969986!
-WARNING:pystan:Rhat for parameter z_true[160] is 1.219543288223808!
-WARNING:pystan:Rhat for parameter z_true[161] is 1.5668239580099812!
-WARNING:pystan:Rhat for parameter z_true[162] is 1.1639063812713817!
-WARNING:pystan:Rhat for parameter z_true[164] is 1.4463791310170298!
-WARNING:pystan:Rhat for parameter z_true[165] is 1.211379646355363!
-WARNING:pystan:Rhat for parameter z_true[166] is 1.6595815514803405!
-WARNING:pystan:Rhat for parameter z_true[167] is 1.3133812542067085!
-WARNING:pystan:Rhat for parameter z_true[168] is 1.2451523594697662!
-WARNING:pystan:Rhat for parameter z_true[169] is 1.1919004908187907!
-WARNING:pystan:Rhat for parameter z_true[170] is 1.1838858161424288!
-WARNING:pystan:Rhat for parameter z_true[171] is 1.3912935353383171!
-WARNING:pystan:Rhat for parameter z_true[172] is 1.3160981432144705!
-WARNING:pystan:Rhat for parameter z_true[173] is 1.1499708748886501!
-WARNING:pystan:Rhat for parameter z_true[174] is 1.24496706839956!
-WARNING:pystan:Rhat for parameter z_true[176] is 1.2255879539414352!
-WARNING:pystan:Rhat for parameter z_true[178] is 1.141762581444723!
-WARNING:pystan:Rhat for parameter z_true[179] is 1.1612534166712016!
-WARNING:pystan:Rhat for parameter z_true[181] is 1.2749287759974768!
-WARNING:pystan:Rhat for parameter z_true[182] is 1.7747614137988557!
-WARNING:pystan:Rhat for parameter z_true[183] is 1.1876677381057985!
-WARNING:pystan:Rhat for parameter z_true[185] is 1.2755319008169694!
-WARNING:pystan:Rhat for parameter z_true[186] is 1.104714335667299!
-WARNING:pystan:Rhat for parameter z_true[187] is 1.679231502256667!
-WARNING:pystan:Rhat for parameter z_true[188] is 1.3363612187129137!
-WARNING:pystan:Rhat for parameter z_true[189] is 1.4229941668861947!
-WARNING:pystan:Rhat for parameter z_true[190] is 1.2753992347858578!
-WARNING:pystan:Rhat for parameter z_true[191] is 1.1542143856232863!
-WARNING:pystan:Rhat for parameter z_true[192] is 1.2928061248337153!
-WARNING:pystan:Rhat for parameter z_true[193] is 1.2734895598349583!
-WARNING:pystan:Rhat for parameter z_true[194] is 1.2177258413895793!
-WARNING:pystan:Rhat for parameter z_true[195] is 1.189211523436779!
-WARNING:pystan:Rhat for parameter z_true[196] is 1.204606130708421!
-WARNING:pystan:Rhat for parameter z_true[197] is 1.2160502685298975!
-WARNING:pystan:Rhat for parameter z_true[199] is 1.1448308044999085!
-WARNING:pystan:Rhat for parameter z_true[200] is 1.1522007762606474!
-WARNING:pystan:Rhat for parameter z_true[201] is 1.1406180156438042!
-WARNING:pystan:Rhat for parameter z_true[202] is 1.2876426264577667!
-WARNING:pystan:Rhat for parameter z_true[203] is 1.1574904995208195!
-WARNING:pystan:Rhat for parameter z_true[204] is 1.339478100837255!
-WARNING:pystan:Rhat for parameter z_true[205] is 1.193585162425568!
-WARNING:pystan:Rhat for parameter z_true[206] is 1.1464126849015022!
-WARNING:pystan:Rhat for parameter z_true[207] is 1.3308336863782282!
-WARNING:pystan:Rhat for parameter z_true[208] is 1.2943454111303547!
-WARNING:pystan:Rhat for parameter z_true[210] is 1.7630886996716708!
-WARNING:pystan:Rhat for parameter z_true[211] is 1.2662715994482336!
-WARNING:pystan:Rhat for parameter z_true[212] is 1.3357897911169743!
-WARNING:pystan:Rhat for parameter z_true[213] is 1.172927157149744!
-WARNING:pystan:Rhat for parameter z_true[214] is 1.2049178957753721!
-WARNING:pystan:Rhat for parameter z_true[216] is 1.3100373836462529!
-WARNING:pystan:Rhat for parameter z_true[218] is 1.132664102736499!
-WARNING:pystan:Rhat for parameter z_true[219] is 1.1605367749563513!
-WARNING:pystan:Rhat for parameter z_true[220] is 1.520964590010841!
-WARNING:pystan:Rhat for parameter z_true[221] is 1.226991753922817!
-WARNING:pystan:Rhat for parameter z_true[222] is 1.221709505492633!
-WARNING:pystan:Rhat for parameter z_true[223] is 1.1268924320573563!
-WARNING:pystan:Rhat for parameter z_true[224] is 1.1937037352410613!
-WARNING:pystan:Rhat for parameter z_true[226] is 1.2915781779829352!
-WARNING:pystan:Rhat for parameter z_true[227] is 1.156811787221496!
-WARNING:pystan:Rhat for parameter z_true[229] is 1.2679963943306334!
-WARNING:pystan:Rhat for parameter z_true[230] is 1.1752150138227995!
-WARNING:pystan:Rhat for parameter z_true[231] is 1.2580495579570428!
-WARNING:pystan:Rhat for parameter z_true[232] is 1.2840250659102639!
-WARNING:pystan:Rhat for parameter z_true[233] is 1.3538077290005819!
-WARNING:pystan:Rhat for parameter z_true[234] is 1.1532487421957993!
-WARNING:pystan:Rhat for parameter z_true[235] is 1.4857146754671298!
-WARNING:pystan:Rhat for parameter z_true[236] is 1.2831725780056176!
-WARNING:pystan:Rhat for parameter z_true[237] is 1.2489016237009787!
-WARNING:pystan:Rhat for parameter z_true[238] is 1.1344740587821742!
-WARNING:pystan:Rhat for parameter z_true[239] is 1.1248849806514825!
-WARNING:pystan:Rhat for parameter z_true[240] is 1.2928105883268846!
-WARNING:pystan:Rhat for parameter z_true[241] is 1.166753703748649!
-WARNING:pystan:Rhat for parameter z_true[242] is 1.433330377416664!
-WARNING:pystan:Rhat for parameter z_true[243] is 1.243672659275597!
-WARNING:pystan:Rhat for parameter z_true[244] is 1.1472269813835088!
-WARNING:pystan:Rhat for parameter z_true[245] is 1.2353822284074323!
-WARNING:pystan:Rhat for parameter z_true[251] is 1.3774079241133153!
-WARNING:pystan:Rhat for parameter z_true[252] is 1.4090052298596927!
-WARNING:pystan:Rhat for parameter z_true[253] is 1.1753912438830063!
-WARNING:pystan:Rhat for parameter z_true[254] is 1.1258797093918782!
-WARNING:pystan:Rhat for parameter z_true[256] is 1.36900460753483!
-WARNING:pystan:Rhat for parameter z_true[257] is 1.188040131695086!
-WARNING:pystan:Rhat for parameter z_true[259] is 1.2374323715387279!
-WARNING:pystan:Rhat for parameter z_true[260] is 1.3149394466102462!
-WARNING:pystan:Rhat for parameter z_true[261] is 1.1738580534046257!
-WARNING:pystan:Rhat for parameter z_true[265] is 1.2171017645325102!
-WARNING:pystan:Rhat for parameter z_true[266] is 1.1934674652632524!
-WARNING:pystan:Rhat for parameter z_true[267] is 1.2101994180920248!
-WARNING:pystan:Rhat for parameter z_true[268] is 1.2808315635641978!
-WARNING:pystan:Rhat for parameter z_true[269] is 1.1117924294814008!
-WARNING:pystan:Rhat for parameter z_true[270] is 1.4295199724397598!
-WARNING:pystan:Rhat for parameter z_true[271] is 1.1773002864216553!
-WARNING:pystan:Rhat for parameter z_true[272] is 1.2604308991317419!
-WARNING:pystan:Rhat for parameter z_true[273] is 1.1979902485813454!
-WARNING:pystan:Rhat for parameter z_true[274] is 1.1638820965125394!
-WARNING:pystan:Rhat for parameter z_true[275] is 1.2534807972012412!
-WARNING:pystan:Rhat for parameter z_true[276] is 1.344952901441612!
-WARNING:pystan:Rhat for parameter z_true[277] is 1.2474647112029396!
-WARNING:pystan:Rhat for parameter z_true[278] is 1.1654334177576353!
-WARNING:pystan:Rhat for parameter z_true[280] is 1.1538544609803498!
-WARNING:pystan:Rhat for parameter z_true[281] is 1.1653019797374478!
-WARNING:pystan:Rhat for parameter z_true[282] is 1.261477410275447!
-WARNING:pystan:Rhat for parameter z_true[283] is 1.2130892131093387!
-WARNING:pystan:Rhat for parameter z_true[284] is 1.2671388865614497!
-WARNING:pystan:Rhat for parameter z_true[285] is 1.2258637924635403!
-WARNING:pystan:Rhat for parameter z_true[286] is 1.175115129515414!
-WARNING:pystan:Rhat for parameter z_true[287] is 1.334959780974187!
-WARNING:pystan:Rhat for parameter z_true[288] is 1.3404497542797027!
-WARNING:pystan:Rhat for parameter z_true[289] is 1.2536409223966636!
-WARNING:pystan:Rhat for parameter z_true[290] is 1.2375640694490493!
-WARNING:pystan:Rhat for parameter z_true[291] is 1.1541758013155636!
-WARNING:pystan:Rhat for parameter z_true[292] is 1.226020100524026!
-WARNING:pystan:Rhat for parameter z_true[294] is 1.2227195351714166!
-WARNING:pystan:Rhat for parameter z_true[295] is 1.61655839484008!
-WARNING:pystan:Rhat for parameter z_true[296] is 1.2225060249503188!
-WARNING:pystan:Rhat for parameter z_true[297] is 1.2371909070884255!
-WARNING:pystan:Rhat for parameter z_true[298] is 1.4028473738651173!
-WARNING:pystan:Rhat for parameter z_true[299] is 1.2160214717453894!
-WARNING:pystan:Rhat for parameter z_true[300] is 1.187414654068823!
-WARNING:pystan:Rhat for parameter z_true[301] is 1.5164056587046202!
-WARNING:pystan:Rhat for parameter z_true[302] is 1.1715469677006458!
-WARNING:pystan:Rhat for parameter z_true[303] is 1.185506795127983!
-WARNING:pystan:Rhat for parameter z_true[304] is 1.148945543091263!
-WARNING:pystan:Rhat for parameter z_true[305] is 1.3999649557617668!
-WARNING:pystan:Rhat for parameter z_true[306] is 1.3675350355524485!
-WARNING:pystan:Rhat for parameter z_true[307] is 1.1504289128427372!
-WARNING:pystan:Rhat for parameter z_true[309] is 1.5421663928864464!
-WARNING:pystan:Rhat for parameter z_true[310] is 1.4492898776423646!
-WARNING:pystan:Rhat for parameter z_true[311] is 1.2233665602247472!
-WARNING:pystan:Rhat for parameter z_true[312] is 1.1819982917489562!
-WARNING:pystan:Rhat for parameter z_true[314] is 1.2246749910441042!
-WARNING:pystan:Rhat for parameter z_true[316] is 1.3567386206830923!
-WARNING:pystan:Rhat for parameter z_true[317] is 1.2083737415114488!
-WARNING:pystan:Rhat for parameter z_true[319] is 1.390112111871749!
-WARNING:pystan:Rhat for parameter z_true[320] is 1.4904219151211664!
-WARNING:pystan:Rhat for parameter z_true[321] is 1.3008064908766948!
-WARNING:pystan:Rhat for parameter z_true[322] is 1.1979900119491853!
-WARNING:pystan:Rhat for parameter z_true[323] is 1.1078781393430626!
-WARNING:pystan:Rhat for parameter z_true[325] is 1.1110229882877545!
-WARNING:pystan:Rhat for parameter z_true[326] is 1.2523214089618284!
-WARNING:pystan:Rhat for parameter z_true[327] is 1.297101066053346!
-WARNING:pystan:Rhat for parameter z_true[328] is 1.1065657554370432!
-WARNING:pystan:Rhat for parameter z_true[329] is 1.1259303411061745!
-WARNING:pystan:Rhat for parameter z_true[330] is 1.2936304544005326!
-WARNING:pystan:Rhat for parameter z_true[331] is 1.20837460045628!
-WARNING:pystan:Rhat for parameter z_true[332] is 1.364048008036415!
-WARNING:pystan:Rhat for parameter z_true[333] is 1.171178519396994!
-WARNING:pystan:Rhat for parameter z_true[335] is 1.3626417645765014!
-WARNING:pystan:Rhat for parameter z_true[336] is 1.3929781167992334!
-WARNING:pystan:Rhat for parameter z_true[337] is 1.2246994908189133!
-WARNING:pystan:Rhat for parameter z_true[339] is 1.3164116316871501!
-WARNING:pystan:Rhat for parameter z_true[340] is 1.2706891532724118!
-WARNING:pystan:Rhat for parameter z_true[341] is 1.1883800342179114!
-WARNING:pystan:Rhat for parameter z_true[344] is 1.1094095271031734!
-WARNING:pystan:Rhat for parameter z_true[345] is 1.2304477347516793!
-WARNING:pystan:Rhat for parameter z_true[346] is 1.1842447462031727!
-WARNING:pystan:Rhat for parameter z_true[347] is 1.2150969715892648!
-WARNING:pystan:Rhat for parameter z_true[349] is 1.706955008088164!
-WARNING:pystan:Rhat for parameter z_true[350] is 1.1336328571368761!
-WARNING:pystan:Rhat for parameter z_true[351] is 1.3974158429190928!
-WARNING:pystan:Rhat for parameter z_true[352] is 1.3021143408243425!
-WARNING:pystan:Rhat for parameter z_true[353] is 1.30645238229255!
-WARNING:pystan:Rhat for parameter z_true[354] is 1.3238587122365861!
-WARNING:pystan:Rhat for parameter z_true[355] is 1.1082804365514582!
-WARNING:pystan:Rhat for parameter z_true[356] is 1.210263397483728!
-WARNING:pystan:Rhat for parameter z_true[357] is 1.4824673844679759!
-WARNING:pystan:Rhat for parameter z_true[358] is 1.174964072475458!
-WARNING:pystan:Rhat for parameter z_true[359] is 1.2357139222528128!
-WARNING:pystan:Rhat for parameter z_true[360] is 1.1193815370616733!
-WARNING:pystan:Rhat for parameter z_true[361] is 1.3353954052543069!
-WARNING:pystan:Rhat for parameter z_true[362] is 1.3203023435533043!
-WARNING:pystan:Rhat for parameter z_true[363] is 1.4765324417036187!
-WARNING:pystan:Rhat for parameter z_true[364] is 1.1638058774912918!
-WARNING:pystan:Rhat for parameter z_true[365] is 1.1784960488026701!
-WARNING:pystan:Rhat for parameter z_true[366] is 1.3898925543749452!
-WARNING:pystan:Rhat for parameter z_true[368] is 1.2084558556186749!
-WARNING:pystan:Rhat for parameter z_true[369] is 1.2379502486379828!
-WARNING:pystan:Rhat for parameter z_true[370] is 1.1865426625898046!
-WARNING:pystan:Rhat for parameter z_true[371] is 1.156278428918575!
-WARNING:pystan:Rhat for parameter z_true[372] is 1.2351040979789347!
-WARNING:pystan:Rhat for parameter z_true[373] is 1.1890577234537991!
-WARNING:pystan:Rhat for parameter z_true[374] is 1.2584676210398285!
-WARNING:pystan:Rhat for parameter z_true[375] is 1.6804853446967165!
-WARNING:pystan:Rhat for parameter z_true[376] is 1.4259745532454369!
-WARNING:pystan:Rhat for parameter z_true[377] is 1.1062572499934962!
-WARNING:pystan:Rhat for parameter z_true[378] is 1.1419253955407227!
-WARNING:pystan:Rhat for parameter z_true[379] is 1.1750488688717504!
-WARNING:pystan:Rhat for parameter z_true[380] is 1.5115512342848183!
-WARNING:pystan:Rhat for parameter z_true[381] is 1.2842407995852576!
-WARNING:pystan:Rhat for parameter z_true[385] is 1.151867168773654!
-WARNING:pystan:Rhat for parameter z_true[386] is 1.126649894305641!
-WARNING:pystan:Rhat for parameter z_true[387] is 1.2956987067597843!
-WARNING:pystan:Rhat for parameter z_true[388] is 1.2457954852930366!
-WARNING:pystan:Rhat for parameter z_true[389] is 1.2112982208668122!
-WARNING:pystan:Rhat for parameter z_true[390] is 1.1127068932949624!
-WARNING:pystan:Rhat for parameter z_true[391] is 1.3698175605860976!
-WARNING:pystan:Rhat for parameter z_true[392] is 1.105089307648434!
-WARNING:pystan:Rhat for parameter z_true[393] is 1.3843529577557172!
-WARNING:pystan:Rhat for parameter z_true[394] is 1.387146524103075!
-WARNING:pystan:Rhat for parameter z_true[395] is 1.17303340322282!
-WARNING:pystan:Rhat for parameter z_true[396] is 1.386387574524638!
-WARNING:pystan:Rhat for parameter z_true[398] is 1.18220195512537!
-WARNING:pystan:Rhat for parameter z_true[400] is 1.29361086646466!
-WARNING:pystan:Rhat for parameter z_true[401] is 1.2741706159745645!
-WARNING:pystan:Rhat for parameter z_true[402] is 1.2007235205728861!
-WARNING:pystan:Rhat for parameter z_true[403] is 1.100761100462799!
-WARNING:pystan:Rhat for parameter z_true[404] is 1.1449158349311361!
-WARNING:pystan:Rhat for parameter z_true[405] is 1.2436516883714577!
-WARNING:pystan:Rhat for parameter z_true[406] is 1.2891681448179644!
-WARNING:pystan:Rhat for parameter z_true[408] is 1.1146406753141767!
-WARNING:pystan:Rhat for parameter z_true[409] is 1.2818584139186266!
-WARNING:pystan:Rhat for parameter z_true[411] is 1.2454838317548929!
-WARNING:pystan:Rhat for parameter z_true[413] is 1.4088576538705004!
-WARNING:pystan:Rhat for parameter z_true[414] is 1.2244723410648302!
-WARNING:pystan:Rhat for parameter z_true[415] is 1.150767400367973!
-WARNING:pystan:Rhat for parameter z_true[416] is 1.3294628736349636!
-WARNING:pystan:Rhat for parameter z_true[418] is 1.3316945996265397!
-WARNING:pystan:Rhat for parameter z_true[419] is 1.1686510224612174!
-WARNING:pystan:Rhat for parameter z_true[420] is 1.4313909907849185!
-WARNING:pystan:Rhat for parameter z_true[421] is 1.129541719819343!
-WARNING:pystan:Rhat for parameter z_true[422] is 1.5040781416281546!
-WARNING:pystan:Rhat for parameter z_true[423] is 1.321113134719146!
-WARNING:pystan:Rhat for parameter z_true[424] is 1.3408239525670258!
-WARNING:pystan:Rhat for parameter z_true[425] is 1.2584908309548541!
-WARNING:pystan:Rhat for parameter z_true[427] is 1.213738532860291!
-WARNING:pystan:Rhat for parameter z_true[429] is 1.4050874191218774!
-WARNING:pystan:Rhat for parameter z_true[430] is 1.1806614973012177!
-WARNING:pystan:Rhat for parameter z_true[431] is 1.3932803617787466!
-WARNING:pystan:Rhat for parameter z_true[432] is 1.2003099283260175!
-WARNING:pystan:Rhat for parameter z_true[433] is 1.3663866385765895!
-WARNING:pystan:Rhat for parameter z_true[435] is 1.632876294821041!
-WARNING:pystan:Rhat for parameter z_true[436] is 1.2184349537606993!
-WARNING:pystan:Rhat for parameter z_true[437] is 1.225901116924784!
-WARNING:pystan:Rhat for parameter z_true[438] is 1.1495766510468362!
-WARNING:pystan:Rhat for parameter z_true[439] is 1.143859218839801!
-WARNING:pystan:Rhat for parameter z_true[440] is 1.142084364745059!
-WARNING:pystan:Rhat for parameter z_true[441] is 1.344223996707663!
-WARNING:pystan:Rhat for parameter z_true[442] is 1.4324903073451833!
-WARNING:pystan:Rhat for parameter z_true[443] is 1.2026504895329841!
-WARNING:pystan:Rhat for parameter z_true[444] is 1.1283275523255!
-WARNING:pystan:Rhat for parameter z_true[445] is 1.4011924364506276!
-WARNING:pystan:Rhat for parameter z_true[446] is 1.1805405766521901!
-WARNING:pystan:Rhat for parameter z_true[447] is 1.1119656748895992!
-WARNING:pystan:Rhat for parameter z_true[448] is 1.1136543533155223!
-WARNING:pystan:Rhat for parameter z_true[449] is 1.14609765147524!
-WARNING:pystan:Rhat for parameter z_true[450] is 1.3991878119864285!
-WARNING:pystan:Rhat for parameter z_true[451] is 1.1935861687605498!
-WARNING:pystan:Rhat for parameter z_true[452] is 1.2286573116567834!
-WARNING:pystan:Rhat for parameter z_true[453] is 1.1442843409123271!
-WARNING:pystan:Rhat for parameter z_true[454] is 1.214422164777306!
-WARNING:pystan:Rhat for parameter z_true[456] is 1.2079241269571332!
-WARNING:pystan:Rhat for parameter z_true[457] is 1.125698047779263!
-WARNING:pystan:Rhat for parameter z_true[458] is 1.2844060074455723!
-WARNING:pystan:Rhat for parameter z_true[459] is 1.309876620377354!
-WARNING:pystan:Rhat for parameter z_true[460] is 1.1737367256145141!
-WARNING:pystan:Rhat for parameter z_true[462] is 1.1918530658931161!
-WARNING:pystan:Rhat for parameter z_true[463] is 1.12303040038339!
-WARNING:pystan:Rhat for parameter z_true[464] is 1.2060361671811697!
-WARNING:pystan:Rhat for parameter z_true[465] is 1.4620303475441292!
-WARNING:pystan:Rhat for parameter z_true[466] is 1.1089599096246392!
-WARNING:pystan:Rhat for parameter z_true[467] is 1.6404188970111802!
-WARNING:pystan:Rhat for parameter z_true[468] is 1.4063916642839933!
-WARNING:pystan:Rhat for parameter z_true[469] is 1.2486203744713271!
-WARNING:pystan:Rhat for parameter z_true[470] is 1.2182108147956012!
-WARNING:pystan:Rhat for parameter z_true[472] is 1.1350256250403543!
-WARNING:pystan:Rhat for parameter z_true[473] is 1.1733785486428454!
-WARNING:pystan:Rhat for parameter z_true[474] is 1.2774985395992446!
-WARNING:pystan:Rhat for parameter z_true[476] is 1.286751144083316!
-WARNING:pystan:Rhat for parameter z_true[477] is 1.3524243212106886!
-WARNING:pystan:Rhat for parameter z_true[478] is 1.1632930157946828!
-WARNING:pystan:Rhat for parameter z_true[479] is 1.15889937667721!
-WARNING:pystan:Rhat for parameter z_true[480] is 1.2723301889670038!
-WARNING:pystan:Rhat for parameter z_true[481] is 1.1408308702792398!
-WARNING:pystan:Rhat for parameter z_true[483] is 1.218037098678476!
-WARNING:pystan:Rhat for parameter z_true[485] is 1.173409130481889!
-WARNING:pystan:Rhat for parameter z_true[486] is 1.349344016106609!
-WARNING:pystan:Rhat for parameter z_true[487] is 1.131764643016658!
-WARNING:pystan:Rhat for parameter z_true[488] is 1.2128991098199264!
-WARNING:pystan:Rhat for parameter z_true[489] is 1.2146281083027424!
-WARNING:pystan:Rhat for parameter z_true[490] is 1.1244818349077228!
-WARNING:pystan:Rhat for parameter z_true[491] is 1.2481625278844994!
-WARNING:pystan:Rhat for parameter z_true[492] is 1.4947398084435584!
-WARNING:pystan:Rhat for parameter z_true[493] is 1.331903199800493!
-WARNING:pystan:Rhat for parameter z_true[495] is 1.3354004611890036!
-WARNING:pystan:Rhat for parameter z_true[496] is 1.2423610673342282!
-WARNING:pystan:Rhat for parameter z_true[497] is 1.26146054568167!
-WARNING:pystan:Rhat for parameter z_true[498] is 1.363259117724879!
-WARNING:pystan:Rhat for parameter z_true[499] is 1.1641718983088565!
-WARNING:pystan:Rhat for parameter z_true[500] is 1.2526186760569793!
-WARNING:pystan:Rhat for parameter z_true[501] is 1.5263406117049771!
-WARNING:pystan:Rhat for parameter z_true[502] is 1.323323899074388!
-WARNING:pystan:Rhat for parameter z_true[504] is 1.233242245573221!
-WARNING:pystan:Rhat for parameter z_true[505] is 1.5203174921052849!
-WARNING:pystan:Rhat for parameter z_true[506] is 1.662761588942153!
-WARNING:pystan:Rhat for parameter z_true[507] is 1.405187531657889!
-WARNING:pystan:Rhat for parameter z_true[508] is 1.6013078654671522!
-WARNING:pystan:Rhat for parameter z_true[509] is 1.2293751801209505!
-WARNING:pystan:Rhat for parameter z_true[512] is 1.259869388731543!
-WARNING:pystan:Rhat for parameter z_true[513] is 1.188318867604968!
-WARNING:pystan:Rhat for parameter z_true[514] is 1.1457295064079263!
-WARNING:pystan:Rhat for parameter z_true[515] is 1.2502684006027496!
-WARNING:pystan:Rhat for parameter z_true[516] is 1.162682084516045!
-WARNING:pystan:Rhat for parameter z_true[517] is 1.2042998563120821!
-WARNING:pystan:Rhat for parameter z_true[518] is 1.562652467881415!
-WARNING:pystan:Rhat for parameter z_true[519] is 1.1911141253888102!
-WARNING:pystan:Rhat for parameter z_true[520] is 1.3126842770298806!
-WARNING:pystan:Rhat for parameter z_true[521] is 1.1854602988493594!
-WARNING:pystan:Rhat for parameter z_true[522] is 1.1921452814569742!
-WARNING:pystan:Rhat for parameter z_true[524] is 1.5061937941574!
-WARNING:pystan:Rhat for parameter z_true[526] is 1.1815231633983554!
-WARNING:pystan:Rhat for parameter z_true[527] is 1.1344511595536868!
-WARNING:pystan:Rhat for parameter z_true[529] is 1.2886839133220804!
-WARNING:pystan:Rhat for parameter z_true[530] is 1.5523170403525388!
-WARNING:pystan:Rhat for parameter z_true[531] is 1.2389630490540815!
-WARNING:pystan:Rhat for parameter z_true[532] is 1.3214043248356298!
-WARNING:pystan:Rhat for parameter z_true[534] is 1.4066183490746837!
-WARNING:pystan:Rhat for parameter z_true[535] is 1.2046859103595364!
-WARNING:pystan:Rhat for parameter z_true[536] is 1.1071132707487241!
-WARNING:pystan:Rhat for parameter z_true[537] is 1.375449565786905!
-WARNING:pystan:Rhat for parameter z_true[538] is 1.270931024605488!
-WARNING:pystan:Rhat for parameter z_true[539] is 1.1902214563831677!
-WARNING:pystan:Rhat for parameter z_true[540] is 1.2653815722297128!
-WARNING:pystan:Rhat for parameter z_true[541] is 1.266126867392869!
-WARNING:pystan:Rhat for parameter z_true[542] is 1.3902582688156273!
-WARNING:pystan:Rhat for parameter z_true[543] is 1.1971712685915563!
-WARNING:pystan:Rhat for parameter z_true[544] is 1.1496556062067531!
-WARNING:pystan:Rhat for parameter z_true[545] is 1.288069877955087!
-WARNING:pystan:Rhat for parameter z_true[546] is 1.318135395739023!
-WARNING:pystan:Rhat for parameter z_true[547] is 1.2068879640056904!
-WARNING:pystan:Rhat for parameter z_true[548] is 1.4382954744320173!
-WARNING:pystan:Rhat for parameter z_true[549] is 1.3763367080484192!
-WARNING:pystan:Rhat for parameter z_true[550] is 1.1712882953110608!
-WARNING:pystan:Rhat for parameter z_true[551] is 1.2421809298138617!
-WARNING:pystan:Rhat for parameter z_true[552] is 1.123591580269776!
-WARNING:pystan:Rhat for parameter z_true[553] is 1.3892932757252872!
-WARNING:pystan:Rhat for parameter z_true[554] is 1.1911739240774832!
-WARNING:pystan:Rhat for parameter z_true[555] is 1.141008115658353!
-WARNING:pystan:Rhat for parameter z_true[556] is 1.5509856572391847!
-WARNING:pystan:Rhat for parameter z_true[558] is 1.254110747799119!
-WARNING:pystan:Rhat for parameter z_true[560] is 1.1455232505580042!
-WARNING:pystan:Rhat for parameter z_true[561] is 1.2894409156919453!
-WARNING:pystan:Rhat for parameter z_true[563] is 1.2397258133974929!
-WARNING:pystan:Rhat for parameter z_true[564] is 1.2690269558463498!
-WARNING:pystan:Rhat for parameter z_true[565] is 1.3703678732299938!
-WARNING:pystan:Rhat for parameter z_true[566] is 1.191020729632231!
-WARNING:pystan:Rhat for parameter z_true[567] is 1.198006234843519!
-WARNING:pystan:Rhat for parameter z_true[568] is 1.311345440793506!
-WARNING:pystan:Rhat for parameter z_true[569] is 1.1876669927878085!
-WARNING:pystan:Rhat for parameter z_true[572] is 1.230822532266565!
-WARNING:pystan:Rhat for parameter z_true[573] is 1.4104844568701125!
-WARNING:pystan:Rhat for parameter z_true[574] is 1.1704857361964802!
-WARNING:pystan:Rhat for parameter z_true[575] is 1.2308091356448183!
-WARNING:pystan:Rhat for parameter z_true[576] is 1.5837200243517098!
-WARNING:pystan:Rhat for parameter z_true[577] is 1.171445893944325!
-WARNING:pystan:Rhat for parameter z_true[578] is 1.1864885093270943!
-WARNING:pystan:Rhat for parameter z_true[579] is 1.4663355421034951!
-WARNING:pystan:Rhat for parameter z_true[580] is 1.4109476987649459!
-WARNING:pystan:Rhat for parameter z_true[581] is 1.1194630738303593!
-WARNING:pystan:Rhat for parameter z_true[583] is 1.1110440459488622!
-WARNING:pystan:Rhat for parameter z_true[584] is 1.2204435480921911!
-WARNING:pystan:Rhat for parameter z_true[585] is 1.2172484153157117!
-WARNING:pystan:Rhat for parameter z_true[586] is 1.2865644833713945!
-WARNING:pystan:Rhat for parameter z_true[587] is 1.2035925285996951!
-WARNING:pystan:Rhat for parameter z_true[588] is 1.1927801171507684!
-WARNING:pystan:Rhat for parameter z_true[591] is 1.172194728945342!
-WARNING:pystan:Rhat for parameter z_true[592] is 1.2863302425954448!
-WARNING:pystan:Rhat for parameter z_true[593] is 1.1731622420094405!
-WARNING:pystan:Rhat for parameter z_true[595] is 1.3220704548202686!
-WARNING:pystan:Rhat for parameter z_true[597] is 1.314936650460279!
-WARNING:pystan:Rhat for parameter z_true[598] is 1.2902840085188843!
-WARNING:pystan:Rhat for parameter z_true[599] is 1.3476095868004894!
-WARNING:pystan:Rhat for parameter z_true[600] is 1.3976935928385683!
-WARNING:pystan:Rhat for parameter z_true[601] is 1.5564724922406505!
-WARNING:pystan:Rhat for parameter z_true[602] is 1.1306124849945602!
-WARNING:pystan:Rhat for parameter z_true[604] is 1.1740854875061504!
-WARNING:pystan:Rhat for parameter z_true[606] is 1.1073546746733818!
-WARNING:pystan:Rhat for parameter z_true[607] is 1.1324468816606237!
-WARNING:pystan:Rhat for parameter z_true[608] is 1.179611015374513!
-WARNING:pystan:Rhat for parameter z_true[609] is 1.1453039546464463!
+WARNING:pystan:Rhat for parameter H0 is 1.2731463104800698!
+WARNING:pystan:Rhat for parameter Om is 1.2067233071290029!
+WARNING:pystan:Rhat for parameter w_p is 2.6366527751235362!
+WARNING:pystan:Rhat for parameter w_a is 1.9645866977104836!
+WARNING:pystan:Rhat for parameter R0 is 1.4098846363651278!
+WARNING:pystan:Rhat for parameter gamma is 1.140356300612704!
+WARNING:pystan:Rhat for parameter MMax is 2.47074692063466!
+WARNING:pystan:Rhat for parameter m1_true[4] is 1.111224538270992!
+WARNING:pystan:Rhat for parameter m1_true[11] is 1.1957899896807946!
+WARNING:pystan:Rhat for parameter m1_true[12] is 1.1911777031079622!
+WARNING:pystan:Rhat for parameter m1_true[21] is 1.2480144284718466!
+WARNING:pystan:Rhat for parameter m1_true[35] is 1.3913912631245935!
+WARNING:pystan:Rhat for parameter m1_true[41] is 1.3228541248088803!
+WARNING:pystan:Rhat for parameter m1_true[45] is 1.257324775915026!
+WARNING:pystan:Rhat for parameter m1_true[46] is 1.1166462226848717!
+WARNING:pystan:Rhat for parameter m1_true[50] is 1.1066539199667491!
+WARNING:pystan:Rhat for parameter m1_true[54] is 1.1423641458569496!
+WARNING:pystan:Rhat for parameter m1_true[56] is 1.1222862053080234!
+WARNING:pystan:Rhat for parameter m1_true[77] is 1.2115244773736973!
+WARNING:pystan:Rhat for parameter m1_true[78] is 1.5709491146960035!
+WARNING:pystan:Rhat for parameter m1_true[79] is 1.1539784685506493!
+WARNING:pystan:Rhat for parameter m1_true[89] is 1.1128092154403437!
+WARNING:pystan:Rhat for parameter m1_true[100] is 1.1126763675940625!
+WARNING:pystan:Rhat for parameter m1_true[102] is 1.12372319918969!
+WARNING:pystan:Rhat for parameter m1_true[103] is 1.596892883651855!
+WARNING:pystan:Rhat for parameter m1_true[104] is 1.2764189415710077!
+WARNING:pystan:Rhat for parameter m1_true[118] is 1.1127047675903605!
+WARNING:pystan:Rhat for parameter m1_true[121] is 1.5705035853991314!
+WARNING:pystan:Rhat for parameter m1_true[129] is 1.1932750072780094!
+WARNING:pystan:Rhat for parameter m1_true[131] is 1.151339017376917!
+WARNING:pystan:Rhat for parameter m1_true[136] is 1.1005590293893062!
+WARNING:pystan:Rhat for parameter m1_true[152] is 1.3179787659392803!
+WARNING:pystan:Rhat for parameter m1_true[154] is 1.444505323546844!
+WARNING:pystan:Rhat for parameter m1_true[157] is 1.4061122075929124!
+WARNING:pystan:Rhat for parameter m1_true[164] is 1.1082144188484522!
+WARNING:pystan:Rhat for parameter m1_true[167] is 1.2138338219129075!
+WARNING:pystan:Rhat for parameter m1_true[172] is 1.2712759122173574!
+WARNING:pystan:Rhat for parameter m1_true[176] is 1.120831995651183!
+WARNING:pystan:Rhat for parameter m1_true[182] is 1.7190181276736476!
+WARNING:pystan:Rhat for parameter m1_true[183] is 1.1071781993661038!
+WARNING:pystan:Rhat for parameter m1_true[187] is 1.2033890353215586!
+WARNING:pystan:Rhat for parameter m1_true[188] is 1.207828094612666!
+WARNING:pystan:Rhat for parameter m1_true[190] is 1.316089552138296!
+WARNING:pystan:Rhat for parameter m1_true[210] is 1.146007092029464!
+WARNING:pystan:Rhat for parameter m1_true[211] is 1.1069068876673898!
+WARNING:pystan:Rhat for parameter m1_true[212] is 1.1101609565332844!
+WARNING:pystan:Rhat for parameter m1_true[220] is 1.2321821413310965!
+WARNING:pystan:Rhat for parameter m1_true[222] is 1.1045505317129192!
+WARNING:pystan:Rhat for parameter m1_true[235] is 1.2668131673870717!
+WARNING:pystan:Rhat for parameter m1_true[252] is 1.289572402823506!
+WARNING:pystan:Rhat for parameter m1_true[270] is 1.1762536529786431!
+WARNING:pystan:Rhat for parameter m1_true[276] is 1.144379862027574!
+WARNING:pystan:Rhat for parameter m1_true[284] is 1.1488348938837365!
+WARNING:pystan:Rhat for parameter m1_true[285] is 1.1144458012122616!
+WARNING:pystan:Rhat for parameter m1_true[287] is 1.2526805351295072!
+WARNING:pystan:Rhat for parameter m1_true[289] is 1.1416853207965834!
+WARNING:pystan:Rhat for parameter m1_true[301] is 1.1643239130623324!
+WARNING:pystan:Rhat for parameter m1_true[306] is 1.1489185433664595!
+WARNING:pystan:Rhat for parameter m1_true[310] is 1.2113916241300844!
+WARNING:pystan:Rhat for parameter m1_true[316] is 1.248396826723232!
+WARNING:pystan:Rhat for parameter m1_true[319] is 1.2442471237095147!
+WARNING:pystan:Rhat for parameter m1_true[320] is 1.2998924817744189!
+WARNING:pystan:Rhat for parameter m1_true[321] is 1.1498013086314398!
+WARNING:pystan:Rhat for parameter m1_true[336] is 1.1383709486368732!
+WARNING:pystan:Rhat for parameter m1_true[339] is 1.2554049679664023!
+WARNING:pystan:Rhat for parameter m1_true[349] is 1.4173094806361493!
+WARNING:pystan:Rhat for parameter m1_true[351] is 1.1702057512483717!
+WARNING:pystan:Rhat for parameter m1_true[352] is 1.1140285853769742!
+WARNING:pystan:Rhat for parameter m1_true[354] is 1.1568169571432614!
+WARNING:pystan:Rhat for parameter m1_true[359] is 1.1365345561405973!
+WARNING:pystan:Rhat for parameter m1_true[363] is 1.1855879925036166!
+WARNING:pystan:Rhat for parameter m1_true[364] is 1.128801654968953!
+WARNING:pystan:Rhat for parameter m1_true[374] is 1.1107723627951234!
+WARNING:pystan:Rhat for parameter m1_true[376] is 1.3324743462121555!
+WARNING:pystan:Rhat for parameter m1_true[380] is 1.343593409773445!
+WARNING:pystan:Rhat for parameter m1_true[388] is 1.1779398567007324!
+WARNING:pystan:Rhat for parameter m1_true[400] is 1.1457023518019633!
+WARNING:pystan:Rhat for parameter m1_true[404] is 1.190188940946053!
+WARNING:pystan:Rhat for parameter m1_true[418] is 1.1790418163659817!
+WARNING:pystan:Rhat for parameter m1_true[427] is 1.133529396811612!
+WARNING:pystan:Rhat for parameter m1_true[429] is 1.3965837289867495!
+WARNING:pystan:Rhat for parameter m1_true[431] is 1.1956483076162716!
+WARNING:pystan:Rhat for parameter m1_true[437] is 1.2377467467167238!
+WARNING:pystan:Rhat for parameter m1_true[459] is 1.2341103308112498!
+WARNING:pystan:Rhat for parameter m1_true[467] is 1.2942340651519415!
+WARNING:pystan:Rhat for parameter m1_true[492] is 1.1841821512815325!
+WARNING:pystan:Rhat for parameter m1_true[493] is 1.1648578372117786!
+WARNING:pystan:Rhat for parameter m1_true[498] is 1.1851437628027361!
+WARNING:pystan:Rhat for parameter m1_true[518] is 1.3252679802848815!
+WARNING:pystan:Rhat for parameter m1_true[521] is 1.1154269939945967!
+WARNING:pystan:Rhat for parameter m1_true[531] is 1.1181976360609234!
+WARNING:pystan:Rhat for parameter m1_true[534] is 1.1092353662275032!
+WARNING:pystan:Rhat for parameter m1_true[548] is 1.2322489376362569!
+WARNING:pystan:Rhat for parameter m1_true[554] is 1.117647686914927!
+WARNING:pystan:Rhat for parameter m1_true[561] is 1.1798147190565118!
+WARNING:pystan:Rhat for parameter m1_true[566] is 1.111547308713897!
+WARNING:pystan:Rhat for parameter m1_true[568] is 1.1156718386095503!
+WARNING:pystan:Rhat for parameter m1_true[575] is 1.10661381353691!
+WARNING:pystan:Rhat for parameter m1_true[576] is 1.182106940376198!
+WARNING:pystan:Rhat for parameter m1_true[578] is 1.1161967249395943!
+WARNING:pystan:Rhat for parameter m1_true[592] is 1.2523604781506987!
+WARNING:pystan:Rhat for parameter m1_true[601] is 1.2002747936741955!
+WARNING:pystan:Rhat for parameter dH is 1.268995705974726!
+WARNING:pystan:Rhat for parameter w0 is 3.417966568034752!
+WARNING:pystan:Rhat for parameter sigma_Nex is 1.1669333861198392!
+WARNING:pystan:Rhat for parameter neff_det is 1.2784043906298999!
+WARNING:pystan:Rhat for parameter m2_true[11] is 1.1437420672830019!
+WARNING:pystan:Rhat for parameter m2_true[12] is 1.227683183442204!
+WARNING:pystan:Rhat for parameter m2_true[21] is 1.2312444621400684!
+WARNING:pystan:Rhat for parameter m2_true[35] is 1.2353657015430817!
+WARNING:pystan:Rhat for parameter m2_true[41] is 1.2232307302551293!
+WARNING:pystan:Rhat for parameter m2_true[45] is 1.2248611302509145!
+WARNING:pystan:Rhat for parameter m2_true[46] is 1.111226522038783!
+WARNING:pystan:Rhat for parameter m2_true[50] is 1.1077339220199163!
+WARNING:pystan:Rhat for parameter m2_true[56] is 1.1181686537167854!
+WARNING:pystan:Rhat for parameter m2_true[78] is 1.1414537152767084!
+WARNING:pystan:Rhat for parameter m2_true[89] is 1.1258113776951186!
+WARNING:pystan:Rhat for parameter m2_true[100] is 1.1506232826589946!
+WARNING:pystan:Rhat for parameter m2_true[102] is 1.1694440236532953!
+WARNING:pystan:Rhat for parameter m2_true[103] is 1.3303975752055657!
+WARNING:pystan:Rhat for parameter m2_true[104] is 1.1140610861788058!
+WARNING:pystan:Rhat for parameter m2_true[121] is 1.350692613742959!
+WARNING:pystan:Rhat for parameter m2_true[125] is 1.109236579370485!
+WARNING:pystan:Rhat for parameter m2_true[129] is 1.111518272083766!
+WARNING:pystan:Rhat for parameter m2_true[131] is 1.1413332498422375!
+WARNING:pystan:Rhat for parameter m2_true[137] is 1.122833347078098!
+WARNING:pystan:Rhat for parameter m2_true[154] is 1.242571568765198!
+WARNING:pystan:Rhat for parameter m2_true[157] is 1.3442960792394694!
+WARNING:pystan:Rhat for parameter m2_true[159] is 1.1003989292202137!
+WARNING:pystan:Rhat for parameter m2_true[164] is 1.1024005752127146!
+WARNING:pystan:Rhat for parameter m2_true[167] is 1.1204138088984215!
+WARNING:pystan:Rhat for parameter m2_true[172] is 1.1998592651365614!
+WARNING:pystan:Rhat for parameter m2_true[182] is 1.6565609405270005!
+WARNING:pystan:Rhat for parameter m2_true[185] is 1.1253572624438897!
+WARNING:pystan:Rhat for parameter m2_true[187] is 1.101413759726124!
+WARNING:pystan:Rhat for parameter m2_true[188] is 1.1116203988059659!
+WARNING:pystan:Rhat for parameter m2_true[190] is 1.1747500315298207!
+WARNING:pystan:Rhat for parameter m2_true[210] is 1.120597713290369!
+WARNING:pystan:Rhat for parameter m2_true[211] is 1.1078231201320627!
+WARNING:pystan:Rhat for parameter m2_true[220] is 1.102500140084955!
+WARNING:pystan:Rhat for parameter m2_true[235] is 1.2303948434317207!
+WARNING:pystan:Rhat for parameter m2_true[270] is 1.1638598872764765!
+WARNING:pystan:Rhat for parameter m2_true[272] is 1.110372183935725!
+WARNING:pystan:Rhat for parameter m2_true[275] is 1.1057204133609968!
+WARNING:pystan:Rhat for parameter m2_true[276] is 1.1293791819205659!
+WARNING:pystan:Rhat for parameter m2_true[285] is 1.1272547855550168!
+WARNING:pystan:Rhat for parameter m2_true[287] is 1.1456562362161724!
+WARNING:pystan:Rhat for parameter m2_true[301] is 1.1380533262992703!
+WARNING:pystan:Rhat for parameter m2_true[310] is 1.2867593453804513!
+WARNING:pystan:Rhat for parameter m2_true[316] is 1.154171754293477!
+WARNING:pystan:Rhat for parameter m2_true[319] is 1.1704019475102045!
+WARNING:pystan:Rhat for parameter m2_true[320] is 1.163146980423802!
+WARNING:pystan:Rhat for parameter m2_true[336] is 1.1371657735226506!
+WARNING:pystan:Rhat for parameter m2_true[339] is 1.1114428398063332!
+WARNING:pystan:Rhat for parameter m2_true[345] is 1.1188693818454922!
+WARNING:pystan:Rhat for parameter m2_true[349] is 1.3605541163595298!
+WARNING:pystan:Rhat for parameter m2_true[351] is 1.110785441643132!
+WARNING:pystan:Rhat for parameter m2_true[352] is 1.1026662210211091!
+WARNING:pystan:Rhat for parameter m2_true[359] is 1.1028194963254225!
+WARNING:pystan:Rhat for parameter m2_true[363] is 1.1107769368474127!
+WARNING:pystan:Rhat for parameter m2_true[380] is 1.2245827540908218!
+WARNING:pystan:Rhat for parameter m2_true[388] is 1.116158090569039!
+WARNING:pystan:Rhat for parameter m2_true[400] is 1.10508974276737!
+WARNING:pystan:Rhat for parameter m2_true[418] is 1.1447721056884428!
+WARNING:pystan:Rhat for parameter m2_true[429] is 1.1752124666936854!
+WARNING:pystan:Rhat for parameter m2_true[431] is 1.177066372112868!
+WARNING:pystan:Rhat for parameter m2_true[459] is 1.177946099885056!
+WARNING:pystan:Rhat for parameter m2_true[467] is 1.215154094422497!
+WARNING:pystan:Rhat for parameter m2_true[489] is 1.1099029200912036!
+WARNING:pystan:Rhat for parameter m2_true[492] is 1.1421199702665619!
+WARNING:pystan:Rhat for parameter m2_true[496] is 1.126204681052246!
+WARNING:pystan:Rhat for parameter m2_true[498] is 1.103103214633086!
+WARNING:pystan:Rhat for parameter m2_true[508] is 1.1242932637169836!
+WARNING:pystan:Rhat for parameter m2_true[518] is 1.1972848772621607!
+WARNING:pystan:Rhat for parameter m2_true[531] is 1.1186101899808099!
+WARNING:pystan:Rhat for parameter m2_true[534] is 1.1492052986271895!
+WARNING:pystan:Rhat for parameter m2_true[537] is 1.127661825091193!
+WARNING:pystan:Rhat for parameter m2_true[548] is 1.162754152056709!
+WARNING:pystan:Rhat for parameter m2_true[561] is 1.1763953572190697!
+WARNING:pystan:Rhat for parameter m2_true[568] is 1.1044300986422095!
+WARNING:pystan:Rhat for parameter m2_true[576] is 1.1932642700511167!
+WARNING:pystan:Rhat for parameter m2_true[592] is 1.1377856460541824!
+WARNING:pystan:Rhat for parameter m2_true[600] is 1.1080357486066366!
+WARNING:pystan:Rhat for parameter m2_true[601] is 1.1398313152407054!
+WARNING:pystan:Rhat for parameter z_true[3] is 1.1071176582181612!
+WARNING:pystan:Rhat for parameter z_true[4] is 1.1860931211195889!
+WARNING:pystan:Rhat for parameter z_true[5] is 1.1979049339734056!
+WARNING:pystan:Rhat for parameter z_true[6] is 1.3148707751139466!
+WARNING:pystan:Rhat for parameter z_true[7] is 1.1066404752805392!
+WARNING:pystan:Rhat for parameter z_true[8] is 1.1254275600885513!
+WARNING:pystan:Rhat for parameter z_true[9] is 1.1343939893967367!
+WARNING:pystan:Rhat for parameter z_true[10] is 1.2188612642269752!
+WARNING:pystan:Rhat for parameter z_true[11] is 1.2718358600037523!
+WARNING:pystan:Rhat for parameter z_true[12] is 1.2812497908625988!
+WARNING:pystan:Rhat for parameter z_true[13] is 1.1026645539195414!
+WARNING:pystan:Rhat for parameter z_true[14] is 1.187678944813851!
+WARNING:pystan:Rhat for parameter z_true[15] is 1.2019001165927294!
+WARNING:pystan:Rhat for parameter z_true[18] is 1.4226488662375734!
+WARNING:pystan:Rhat for parameter z_true[19] is 1.213764569452463!
+WARNING:pystan:Rhat for parameter z_true[20] is 1.14797222864991!
+WARNING:pystan:Rhat for parameter z_true[21] is 1.2835236302991553!
+WARNING:pystan:Rhat for parameter z_true[23] is 1.1199982590999689!
+WARNING:pystan:Rhat for parameter z_true[24] is 1.1549445545732566!
+WARNING:pystan:Rhat for parameter z_true[25] is 1.233358416083438!
+WARNING:pystan:Rhat for parameter z_true[26] is 1.110180314757644!
+WARNING:pystan:Rhat for parameter z_true[27] is 1.117300050873102!
+WARNING:pystan:Rhat for parameter z_true[29] is 1.1430364156422883!
+WARNING:pystan:Rhat for parameter z_true[32] is 1.1116477234437216!
+WARNING:pystan:Rhat for parameter z_true[33] is 1.3071781580125243!
+WARNING:pystan:Rhat for parameter z_true[35] is 1.4826607072767588!
+WARNING:pystan:Rhat for parameter z_true[36] is 1.1586869873179741!
+WARNING:pystan:Rhat for parameter z_true[37] is 1.1086636927499969!
+WARNING:pystan:Rhat for parameter z_true[38] is 1.1874078718570642!
+WARNING:pystan:Rhat for parameter z_true[39] is 1.1131178357625353!
+WARNING:pystan:Rhat for parameter z_true[41] is 1.3709338898868948!
+WARNING:pystan:Rhat for parameter z_true[42] is 1.212271126877675!
+WARNING:pystan:Rhat for parameter z_true[43] is 1.2706981624207927!
+WARNING:pystan:Rhat for parameter z_true[44] is 1.12523025465771!
+WARNING:pystan:Rhat for parameter z_true[45] is 1.3542288272262946!
+WARNING:pystan:Rhat for parameter z_true[46] is 1.2562606802358782!
+WARNING:pystan:Rhat for parameter z_true[47] is 1.244846906075809!
+WARNING:pystan:Rhat for parameter z_true[48] is 1.106122101828094!
+WARNING:pystan:Rhat for parameter z_true[49] is 1.1304970093528437!
+WARNING:pystan:Rhat for parameter z_true[50] is 1.556067396423062!
+WARNING:pystan:Rhat for parameter z_true[51] is 1.140980055293008!
+WARNING:pystan:Rhat for parameter z_true[52] is 1.115314603262968!
+WARNING:pystan:Rhat for parameter z_true[54] is 1.2048948891157922!
+WARNING:pystan:Rhat for parameter z_true[56] is 1.2093310208063663!
+WARNING:pystan:Rhat for parameter z_true[57] is 1.1140454569456748!
+WARNING:pystan:Rhat for parameter z_true[58] is 1.2093862923578496!
+WARNING:pystan:Rhat for parameter z_true[60] is 1.126832180168536!
+WARNING:pystan:Rhat for parameter z_true[61] is 1.1603208093432635!
+WARNING:pystan:Rhat for parameter z_true[66] is 1.2409506210098127!
+WARNING:pystan:Rhat for parameter z_true[67] is 1.2304105758757802!
+WARNING:pystan:Rhat for parameter z_true[69] is 1.331259535018207!
+WARNING:pystan:Rhat for parameter z_true[70] is 1.253041275637988!
+WARNING:pystan:Rhat for parameter z_true[71] is 1.1022410642246252!
+WARNING:pystan:Rhat for parameter z_true[72] is 1.18779944888863!
+WARNING:pystan:Rhat for parameter z_true[74] is 1.177944447503001!
+WARNING:pystan:Rhat for parameter z_true[75] is 1.1393650012066194!
+WARNING:pystan:Rhat for parameter z_true[76] is 1.100651434470517!
+WARNING:pystan:Rhat for parameter z_true[77] is 1.190666152619329!
+WARNING:pystan:Rhat for parameter z_true[78] is 1.3099134515581277!
+WARNING:pystan:Rhat for parameter z_true[79] is 1.1654122817901333!
+WARNING:pystan:Rhat for parameter z_true[81] is 1.1816206381336667!
+WARNING:pystan:Rhat for parameter z_true[84] is 1.2374705182679568!
+WARNING:pystan:Rhat for parameter z_true[85] is 1.148258238202062!
+WARNING:pystan:Rhat for parameter z_true[86] is 1.6543952143148872!
+WARNING:pystan:Rhat for parameter z_true[87] is 1.1470342552311505!
+WARNING:pystan:Rhat for parameter z_true[89] is 1.4617126937750882!
+WARNING:pystan:Rhat for parameter z_true[90] is 1.2197232642172133!
+WARNING:pystan:Rhat for parameter z_true[92] is 1.174278837457973!
+WARNING:pystan:Rhat for parameter z_true[93] is 1.2042394793595779!
+WARNING:pystan:Rhat for parameter z_true[94] is 1.158273931983467!
+WARNING:pystan:Rhat for parameter z_true[96] is 1.1269247858543077!
+WARNING:pystan:Rhat for parameter z_true[97] is 1.181908948200001!
+WARNING:pystan:Rhat for parameter z_true[99] is 1.1092889609909626!
+WARNING:pystan:Rhat for parameter z_true[100] is 1.2575045787806713!
+WARNING:pystan:Rhat for parameter z_true[101] is 1.1340249975381416!
+WARNING:pystan:Rhat for parameter z_true[102] is 1.502177391149855!
+WARNING:pystan:Rhat for parameter z_true[103] is 1.6498853598538927!
+WARNING:pystan:Rhat for parameter z_true[104] is 1.2879435983119374!
+WARNING:pystan:Rhat for parameter z_true[106] is 1.1122160355745085!
+WARNING:pystan:Rhat for parameter z_true[107] is 1.11029341797294!
+WARNING:pystan:Rhat for parameter z_true[108] is 1.1594061147885066!
+WARNING:pystan:Rhat for parameter z_true[110] is 1.1878704516560896!
+WARNING:pystan:Rhat for parameter z_true[112] is 1.2786351499141977!
+WARNING:pystan:Rhat for parameter z_true[113] is 1.181436369996603!
+WARNING:pystan:Rhat for parameter z_true[116] is 1.145289757836021!
+WARNING:pystan:Rhat for parameter z_true[117] is 1.2325478885670298!
+WARNING:pystan:Rhat for parameter z_true[118] is 1.1511708044403943!
+WARNING:pystan:Rhat for parameter z_true[119] is 1.1571306131930021!
+WARNING:pystan:Rhat for parameter z_true[120] is 1.1419488464986103!
+WARNING:pystan:Rhat for parameter z_true[121] is 1.6660093128345415!
+WARNING:pystan:Rhat for parameter z_true[123] is 1.168648427061538!
+WARNING:pystan:Rhat for parameter z_true[125] is 1.2153581227837211!
+WARNING:pystan:Rhat for parameter z_true[128] is 1.235400589935418!
+WARNING:pystan:Rhat for parameter z_true[129] is 1.194988594845428!
+WARNING:pystan:Rhat for parameter z_true[130] is 1.1088440868202865!
+WARNING:pystan:Rhat for parameter z_true[131] is 1.3431195728891956!
+WARNING:pystan:Rhat for parameter z_true[133] is 1.1264767292452689!
+WARNING:pystan:Rhat for parameter z_true[135] is 1.1039685097514678!
+WARNING:pystan:Rhat for parameter z_true[136] is 1.2046870367848235!
+WARNING:pystan:Rhat for parameter z_true[137] is 1.3670044186451054!
+WARNING:pystan:Rhat for parameter z_true[138] is 1.1792171317486604!
+WARNING:pystan:Rhat for parameter z_true[140] is 1.219394557376779!
+WARNING:pystan:Rhat for parameter z_true[141] is 1.1808884330108973!
+WARNING:pystan:Rhat for parameter z_true[142] is 1.4271809133775224!
+WARNING:pystan:Rhat for parameter z_true[143] is 1.2057305417918902!
+WARNING:pystan:Rhat for parameter z_true[144] is 1.2427662556685957!
+WARNING:pystan:Rhat for parameter z_true[145] is 1.1372705359021937!
+WARNING:pystan:Rhat for parameter z_true[146] is 1.410919116090693!
+WARNING:pystan:Rhat for parameter z_true[148] is 1.1412305265041385!
+WARNING:pystan:Rhat for parameter z_true[149] is 1.149541722660766!
+WARNING:pystan:Rhat for parameter z_true[151] is 1.155666261813964!
+WARNING:pystan:Rhat for parameter z_true[152] is 1.2372635871257878!
+WARNING:pystan:Rhat for parameter z_true[153] is 1.1592434510528797!
+WARNING:pystan:Rhat for parameter z_true[154] is 1.5045041791859162!
+WARNING:pystan:Rhat for parameter z_true[155] is 1.1657594577018358!
+WARNING:pystan:Rhat for parameter z_true[156] is 1.255424132501615!
+WARNING:pystan:Rhat for parameter z_true[157] is 1.592984662859068!
+WARNING:pystan:Rhat for parameter z_true[158] is 1.1826688416612645!
+WARNING:pystan:Rhat for parameter z_true[159] is 1.220698301674899!
+WARNING:pystan:Rhat for parameter z_true[160] is 1.1115817539057358!
+WARNING:pystan:Rhat for parameter z_true[161] is 1.439139282712344!
+WARNING:pystan:Rhat for parameter z_true[164] is 1.4189205227966648!
+WARNING:pystan:Rhat for parameter z_true[166] is 1.4212583887317263!
+WARNING:pystan:Rhat for parameter z_true[167] is 1.2637043854974188!
+WARNING:pystan:Rhat for parameter z_true[168] is 1.1758797128482366!
+WARNING:pystan:Rhat for parameter z_true[169] is 1.1240914148970687!
+WARNING:pystan:Rhat for parameter z_true[170] is 1.1183514833023829!
+WARNING:pystan:Rhat for parameter z_true[171] is 1.3429783876672243!
+WARNING:pystan:Rhat for parameter z_true[172] is 1.2655897256226205!
+WARNING:pystan:Rhat for parameter z_true[173] is 1.1418873855196512!
+WARNING:pystan:Rhat for parameter z_true[174] is 1.18266391060192!
+WARNING:pystan:Rhat for parameter z_true[176] is 1.149402769843321!
+WARNING:pystan:Rhat for parameter z_true[179] is 1.1108115733472919!
+WARNING:pystan:Rhat for parameter z_true[181] is 1.1805672191583807!
+WARNING:pystan:Rhat for parameter z_true[182] is 2.1641162876907565!
+WARNING:pystan:Rhat for parameter z_true[183] is 1.2154334843946026!
+WARNING:pystan:Rhat for parameter z_true[185] is 1.1849058899100513!
+WARNING:pystan:Rhat for parameter z_true[187] is 1.586636989819783!
+WARNING:pystan:Rhat for parameter z_true[188] is 1.212559417913066!
+WARNING:pystan:Rhat for parameter z_true[189] is 1.2887319627881857!
+WARNING:pystan:Rhat for parameter z_true[190] is 1.3596474364895381!
+WARNING:pystan:Rhat for parameter z_true[191] is 1.1313841822513842!
+WARNING:pystan:Rhat for parameter z_true[192] is 1.1523556875305123!
+WARNING:pystan:Rhat for parameter z_true[193] is 1.1149152776077333!
+WARNING:pystan:Rhat for parameter z_true[194] is 1.1061239758955326!
+WARNING:pystan:Rhat for parameter z_true[196] is 1.1673784588349172!
+WARNING:pystan:Rhat for parameter z_true[197] is 1.128211587053267!
+WARNING:pystan:Rhat for parameter z_true[198] is 1.1379598953118972!
+WARNING:pystan:Rhat for parameter z_true[199] is 1.1287183462278245!
+WARNING:pystan:Rhat for parameter z_true[200] is 1.1283586100811065!
+WARNING:pystan:Rhat for parameter z_true[202] is 1.1908266442380495!
+WARNING:pystan:Rhat for parameter z_true[203] is 1.141270876923751!
+WARNING:pystan:Rhat for parameter z_true[204] is 1.1631298879893694!
+WARNING:pystan:Rhat for parameter z_true[205] is 1.137089233881975!
+WARNING:pystan:Rhat for parameter z_true[206] is 1.154992817507227!
+WARNING:pystan:Rhat for parameter z_true[207] is 1.1570470001381883!
+WARNING:pystan:Rhat for parameter z_true[208] is 1.1426377806073236!
+WARNING:pystan:Rhat for parameter z_true[210] is 1.4863706609013962!
+WARNING:pystan:Rhat for parameter z_true[211] is 1.1995475507905633!
+WARNING:pystan:Rhat for parameter z_true[212] is 1.1358759207576505!
+WARNING:pystan:Rhat for parameter z_true[213] is 1.132938543768514!
+WARNING:pystan:Rhat for parameter z_true[214] is 1.165448045945629!
+WARNING:pystan:Rhat for parameter z_true[216] is 1.2066575196410851!
+WARNING:pystan:Rhat for parameter z_true[217] is 1.1107298630494453!
+WARNING:pystan:Rhat for parameter z_true[218] is 1.1017528970055368!
+WARNING:pystan:Rhat for parameter z_true[219] is 1.1787589689006261!
+WARNING:pystan:Rhat for parameter z_true[220] is 1.2308447083493093!
+WARNING:pystan:Rhat for parameter z_true[221] is 1.1997616127234203!
+WARNING:pystan:Rhat for parameter z_true[222] is 1.137390561626763!
+WARNING:pystan:Rhat for parameter z_true[223] is 1.2238563239034963!
+WARNING:pystan:Rhat for parameter z_true[224] is 1.1282617362308633!
+WARNING:pystan:Rhat for parameter z_true[225] is 1.100289695735909!
+WARNING:pystan:Rhat for parameter z_true[226] is 1.2102904900677398!
+WARNING:pystan:Rhat for parameter z_true[227] is 1.1515095208287642!
+WARNING:pystan:Rhat for parameter z_true[229] is 1.1107574970227612!
+WARNING:pystan:Rhat for parameter z_true[230] is 1.1026150861155926!
+WARNING:pystan:Rhat for parameter z_true[231] is 1.159684094307973!
+WARNING:pystan:Rhat for parameter z_true[232] is 1.1592462338107705!
+WARNING:pystan:Rhat for parameter z_true[233] is 1.1993043416423188!
+WARNING:pystan:Rhat for parameter z_true[234] is 1.1278451581836848!
+WARNING:pystan:Rhat for parameter z_true[235] is 1.3993833081168845!
+WARNING:pystan:Rhat for parameter z_true[236] is 1.2408368459309589!
+WARNING:pystan:Rhat for parameter z_true[237] is 1.1756850053512296!
+WARNING:pystan:Rhat for parameter z_true[238] is 1.1220446854074522!
+WARNING:pystan:Rhat for parameter z_true[239] is 1.1373848516543736!
+WARNING:pystan:Rhat for parameter z_true[240] is 1.233415032642222!
+WARNING:pystan:Rhat for parameter z_true[241] is 1.1286468690655815!
+WARNING:pystan:Rhat for parameter z_true[242] is 1.322211005387307!
+WARNING:pystan:Rhat for parameter z_true[243] is 1.1664711484520136!
+WARNING:pystan:Rhat for parameter z_true[245] is 1.2287361832510186!
+WARNING:pystan:Rhat for parameter z_true[251] is 1.198826015646998!
+WARNING:pystan:Rhat for parameter z_true[252] is 1.2768673325239726!
+WARNING:pystan:Rhat for parameter z_true[253] is 1.1375148110863738!
+WARNING:pystan:Rhat for parameter z_true[256] is 1.1914212313470829!
+WARNING:pystan:Rhat for parameter z_true[257] is 1.1494562735585643!
+WARNING:pystan:Rhat for parameter z_true[259] is 1.1827624789955502!
+WARNING:pystan:Rhat for parameter z_true[260] is 1.220813409298252!
+WARNING:pystan:Rhat for parameter z_true[261] is 1.1185025201637937!
+WARNING:pystan:Rhat for parameter z_true[265] is 1.1273455605655776!
+WARNING:pystan:Rhat for parameter z_true[266] is 1.1038033393575037!
+WARNING:pystan:Rhat for parameter z_true[267] is 1.1025549684122433!
+WARNING:pystan:Rhat for parameter z_true[268] is 1.1684859739206173!
+WARNING:pystan:Rhat for parameter z_true[270] is 1.3436121049603764!
+WARNING:pystan:Rhat for parameter z_true[271] is 1.133125865169085!
+WARNING:pystan:Rhat for parameter z_true[272] is 1.1802043218643299!
+WARNING:pystan:Rhat for parameter z_true[273] is 1.130236840378585!
+WARNING:pystan:Rhat for parameter z_true[274] is 1.166822829837188!
+WARNING:pystan:Rhat for parameter z_true[275] is 1.1515474253999811!
+WARNING:pystan:Rhat for parameter z_true[276] is 1.2279209528957147!
+WARNING:pystan:Rhat for parameter z_true[277] is 1.1536204904083638!
+WARNING:pystan:Rhat for parameter z_true[278] is 1.12453581122944!
+WARNING:pystan:Rhat for parameter z_true[280] is 1.1065415348125913!
+WARNING:pystan:Rhat for parameter z_true[281] is 1.108471532614897!
+WARNING:pystan:Rhat for parameter z_true[282] is 1.2261404966515363!
+WARNING:pystan:Rhat for parameter z_true[283] is 1.1572282787545332!
+WARNING:pystan:Rhat for parameter z_true[284] is 1.1429092327799528!
+WARNING:pystan:Rhat for parameter z_true[285] is 1.2622317394817801!
+WARNING:pystan:Rhat for parameter z_true[286] is 1.1361045638320488!
+WARNING:pystan:Rhat for parameter z_true[287] is 1.3546931806355724!
+WARNING:pystan:Rhat for parameter z_true[288] is 1.1564513796165203!
+WARNING:pystan:Rhat for parameter z_true[289] is 1.191779487645571!
+WARNING:pystan:Rhat for parameter z_true[290] is 1.1962855749306374!
+WARNING:pystan:Rhat for parameter z_true[291] is 1.108458593567911!
+WARNING:pystan:Rhat for parameter z_true[292] is 1.1890133048285236!
+WARNING:pystan:Rhat for parameter z_true[294] is 1.2208112555028707!
+WARNING:pystan:Rhat for parameter z_true[295] is 1.6215534527217046!
+WARNING:pystan:Rhat for parameter z_true[296] is 1.2275839912931958!
+WARNING:pystan:Rhat for parameter z_true[297] is 1.19388971088373!
+WARNING:pystan:Rhat for parameter z_true[298] is 1.2558976744449812!
+WARNING:pystan:Rhat for parameter z_true[299] is 1.1805688230216584!
+WARNING:pystan:Rhat for parameter z_true[300] is 1.1496409340461025!
+WARNING:pystan:Rhat for parameter z_true[301] is 1.1518868417569177!
+WARNING:pystan:Rhat for parameter z_true[302] is 1.1417545521242567!
+WARNING:pystan:Rhat for parameter z_true[303] is 1.1699764056781163!
+WARNING:pystan:Rhat for parameter z_true[304] is 1.1231515894899409!
+WARNING:pystan:Rhat for parameter z_true[305] is 1.2047019542090218!
+WARNING:pystan:Rhat for parameter z_true[306] is 1.2385035972596312!
+WARNING:pystan:Rhat for parameter z_true[307] is 1.11210613197846!
+WARNING:pystan:Rhat for parameter z_true[309] is 1.408006783275216!
+WARNING:pystan:Rhat for parameter z_true[310] is 1.485550983211896!
+WARNING:pystan:Rhat for parameter z_true[311] is 1.195619798188787!
+WARNING:pystan:Rhat for parameter z_true[312] is 1.1514161216738337!
+WARNING:pystan:Rhat for parameter z_true[314] is 1.1249038044645407!
+WARNING:pystan:Rhat for parameter z_true[316] is 1.262667956631397!
+WARNING:pystan:Rhat for parameter z_true[317] is 1.1770822539013879!
+WARNING:pystan:Rhat for parameter z_true[319] is 1.3481850942437228!
+WARNING:pystan:Rhat for parameter z_true[320] is 1.227647491257186!
+WARNING:pystan:Rhat for parameter z_true[321] is 1.1845658194042346!
+WARNING:pystan:Rhat for parameter z_true[322] is 1.1064993246525325!
+WARNING:pystan:Rhat for parameter z_true[326] is 1.1537643703277212!
+WARNING:pystan:Rhat for parameter z_true[327] is 1.2207762786980605!
+WARNING:pystan:Rhat for parameter z_true[329] is 1.1267391191962892!
+WARNING:pystan:Rhat for parameter z_true[330] is 1.2117678013945297!
+WARNING:pystan:Rhat for parameter z_true[331] is 1.1566091696472418!
+WARNING:pystan:Rhat for parameter z_true[332] is 1.271736769677823!
+WARNING:pystan:Rhat for parameter z_true[335] is 1.2642045403018463!
+WARNING:pystan:Rhat for parameter z_true[336] is 1.2593548096964104!
+WARNING:pystan:Rhat for parameter z_true[337] is 1.1243047287328525!
+WARNING:pystan:Rhat for parameter z_true[338] is 1.126556471710361!
+WARNING:pystan:Rhat for parameter z_true[339] is 1.2037225423247357!
+WARNING:pystan:Rhat for parameter z_true[340] is 1.1819538574045794!
+WARNING:pystan:Rhat for parameter z_true[341] is 1.136589892774548!
+WARNING:pystan:Rhat for parameter z_true[344] is 1.109327576374961!
+WARNING:pystan:Rhat for parameter z_true[345] is 1.1566234074426558!
+WARNING:pystan:Rhat for parameter z_true[346] is 1.1373662366520432!
+WARNING:pystan:Rhat for parameter z_true[347] is 1.1445795682679456!
+WARNING:pystan:Rhat for parameter z_true[349] is 1.5733459790589366!
+WARNING:pystan:Rhat for parameter z_true[350] is 1.109847550216585!
+WARNING:pystan:Rhat for parameter z_true[351] is 1.2900484108307875!
+WARNING:pystan:Rhat for parameter z_true[352] is 1.1851203620305986!
+WARNING:pystan:Rhat for parameter z_true[353] is 1.2254837529041556!
+WARNING:pystan:Rhat for parameter z_true[354] is 1.2501086315971353!
+WARNING:pystan:Rhat for parameter z_true[355] is 1.1023616649412218!
+WARNING:pystan:Rhat for parameter z_true[356] is 1.1886980664195022!
+WARNING:pystan:Rhat for parameter z_true[357] is 1.2793263800372285!
+WARNING:pystan:Rhat for parameter z_true[358] is 1.118526862646993!
+WARNING:pystan:Rhat for parameter z_true[359] is 1.242579805695814!
+WARNING:pystan:Rhat for parameter z_true[361] is 1.148802418911632!
+WARNING:pystan:Rhat for parameter z_true[362] is 1.2091491190602799!
+WARNING:pystan:Rhat for parameter z_true[363] is 1.2084548544634626!
+WARNING:pystan:Rhat for parameter z_true[364] is 1.2104083116317335!
+WARNING:pystan:Rhat for parameter z_true[365] is 1.1354444026287458!
+WARNING:pystan:Rhat for parameter z_true[366] is 1.3598669118615985!
+WARNING:pystan:Rhat for parameter z_true[368] is 1.2382665788952405!
+WARNING:pystan:Rhat for parameter z_true[369] is 1.2093861131411483!
+WARNING:pystan:Rhat for parameter z_true[370] is 1.1584453548664977!
+WARNING:pystan:Rhat for parameter z_true[371] is 1.1241797988517237!
+WARNING:pystan:Rhat for parameter z_true[372] is 1.2266673240407535!
+WARNING:pystan:Rhat for parameter z_true[373] is 1.1754676570080682!
+WARNING:pystan:Rhat for parameter z_true[374] is 1.1433197570680123!
+WARNING:pystan:Rhat for parameter z_true[375] is 1.4950814474120566!
+WARNING:pystan:Rhat for parameter z_true[376] is 1.187021053713233!
+WARNING:pystan:Rhat for parameter z_true[377] is 1.1234559482883006!
+WARNING:pystan:Rhat for parameter z_true[378] is 1.1257829776662225!
+WARNING:pystan:Rhat for parameter z_true[379] is 1.1855090220996392!
+WARNING:pystan:Rhat for parameter z_true[380] is 1.3957494127560455!
+WARNING:pystan:Rhat for parameter z_true[381] is 1.191176083889536!
+WARNING:pystan:Rhat for parameter z_true[385] is 1.1195912039151692!
+WARNING:pystan:Rhat for parameter z_true[387] is 1.2186701305369791!
+WARNING:pystan:Rhat for parameter z_true[388] is 1.2097418915231315!
+WARNING:pystan:Rhat for parameter z_true[389] is 1.1241167180176608!
+WARNING:pystan:Rhat for parameter z_true[390] is 1.1089013824868441!
+WARNING:pystan:Rhat for parameter z_true[391] is 1.3390007210286776!
+WARNING:pystan:Rhat for parameter z_true[393] is 1.2566305204367036!
+WARNING:pystan:Rhat for parameter z_true[394] is 1.3107839053079533!
+WARNING:pystan:Rhat for parameter z_true[395] is 1.1838198750517306!
+WARNING:pystan:Rhat for parameter z_true[396] is 1.26847424194238!
+WARNING:pystan:Rhat for parameter z_true[400] is 1.2132556011316051!
+WARNING:pystan:Rhat for parameter z_true[401] is 1.1927855439203126!
+WARNING:pystan:Rhat for parameter z_true[402] is 1.1423571073260974!
+WARNING:pystan:Rhat for parameter z_true[404] is 1.2362639440067338!
+WARNING:pystan:Rhat for parameter z_true[405] is 1.2002089894650452!
+WARNING:pystan:Rhat for parameter z_true[406] is 1.1426392787932171!
+WARNING:pystan:Rhat for parameter z_true[409] is 1.2220519670807632!
+WARNING:pystan:Rhat for parameter z_true[411] is 1.1033916155111565!
+WARNING:pystan:Rhat for parameter z_true[413] is 1.203762648179552!
+WARNING:pystan:Rhat for parameter z_true[415] is 1.1162030869028494!
+WARNING:pystan:Rhat for parameter z_true[416] is 1.3291812139693753!
+WARNING:pystan:Rhat for parameter z_true[418] is 1.3173523447613114!
+WARNING:pystan:Rhat for parameter z_true[419] is 1.1101089367202113!
+WARNING:pystan:Rhat for parameter z_true[420] is 1.2450032467152075!
+WARNING:pystan:Rhat for parameter z_true[421] is 1.1082612768655322!
+WARNING:pystan:Rhat for parameter z_true[422] is 1.4087472074108625!
+WARNING:pystan:Rhat for parameter z_true[423] is 1.2417778428162902!
+WARNING:pystan:Rhat for parameter z_true[424] is 1.2031721598697676!
+WARNING:pystan:Rhat for parameter z_true[425] is 1.1521202136811666!
+WARNING:pystan:Rhat for parameter z_true[426] is 1.100291295386805!
+WARNING:pystan:Rhat for parameter z_true[427] is 1.2417869682805776!
+WARNING:pystan:Rhat for parameter z_true[429] is 1.2319877940601265!
+WARNING:pystan:Rhat for parameter z_true[430] is 1.1104559736745843!
+WARNING:pystan:Rhat for parameter z_true[431] is 1.354750338649599!
+WARNING:pystan:Rhat for parameter z_true[432] is 1.1578884420337265!
+WARNING:pystan:Rhat for parameter z_true[433] is 1.2714576919596006!
+WARNING:pystan:Rhat for parameter z_true[435] is 1.5101346495570382!
+WARNING:pystan:Rhat for parameter z_true[436] is 1.1409610393695964!
+WARNING:pystan:Rhat for parameter z_true[437] is 1.1239591514883138!
+WARNING:pystan:Rhat for parameter z_true[440] is 1.1605859836217567!
+WARNING:pystan:Rhat for parameter z_true[441] is 1.3074888262689748!
+WARNING:pystan:Rhat for parameter z_true[442] is 1.3896071038014313!
+WARNING:pystan:Rhat for parameter z_true[443] is 1.1521518342035804!
+WARNING:pystan:Rhat for parameter z_true[444] is 1.133262353553836!
+WARNING:pystan:Rhat for parameter z_true[445] is 1.346603091180837!
+WARNING:pystan:Rhat for parameter z_true[446] is 1.1131458739092879!
+WARNING:pystan:Rhat for parameter z_true[447] is 1.1020666274731585!
+WARNING:pystan:Rhat for parameter z_true[448] is 1.1006096949535984!
+WARNING:pystan:Rhat for parameter z_true[449] is 1.1734556152625628!
+WARNING:pystan:Rhat for parameter z_true[450] is 1.2271511215752533!
+WARNING:pystan:Rhat for parameter z_true[451] is 1.2537683125754906!
+WARNING:pystan:Rhat for parameter z_true[452] is 1.1499341386670405!
+WARNING:pystan:Rhat for parameter z_true[453] is 1.1760235379979391!
+WARNING:pystan:Rhat for parameter z_true[454] is 1.1165565782837508!
+WARNING:pystan:Rhat for parameter z_true[456] is 1.1497372348108423!
+WARNING:pystan:Rhat for parameter z_true[457] is 1.117617717187229!
+WARNING:pystan:Rhat for parameter z_true[458] is 1.2080094991320554!
+WARNING:pystan:Rhat for parameter z_true[459] is 1.435200297451405!
+WARNING:pystan:Rhat for parameter z_true[460] is 1.1584500593823945!
+WARNING:pystan:Rhat for parameter z_true[462] is 1.149170091782412!
+WARNING:pystan:Rhat for parameter z_true[463] is 1.1437313904288138!
+WARNING:pystan:Rhat for parameter z_true[464] is 1.1415825281467362!
+WARNING:pystan:Rhat for parameter z_true[465] is 1.5253686265850432!
+WARNING:pystan:Rhat for parameter z_true[467] is 1.3318886040296234!
+WARNING:pystan:Rhat for parameter z_true[468] is 1.3000754127772942!
+WARNING:pystan:Rhat for parameter z_true[469] is 1.2033691091534349!
+WARNING:pystan:Rhat for parameter z_true[470] is 1.210971720602531!
+WARNING:pystan:Rhat for parameter z_true[471] is 1.1000913659517886!
+WARNING:pystan:Rhat for parameter z_true[472] is 1.1074922001816325!
+WARNING:pystan:Rhat for parameter z_true[473] is 1.1049989187092646!
+WARNING:pystan:Rhat for parameter z_true[474] is 1.2451414776385485!
+WARNING:pystan:Rhat for parameter z_true[476] is 1.1570600507030138!
+WARNING:pystan:Rhat for parameter z_true[477] is 1.2243449718671895!
+WARNING:pystan:Rhat for parameter z_true[478] is 1.1114400379693832!
+WARNING:pystan:Rhat for parameter z_true[480] is 1.1849308874209592!
+WARNING:pystan:Rhat for parameter z_true[481] is 1.1113577547857347!
+WARNING:pystan:Rhat for parameter z_true[483] is 1.1801865649496308!
+WARNING:pystan:Rhat for parameter z_true[485] is 1.116855977609877!
+WARNING:pystan:Rhat for parameter z_true[486] is 1.24450183114015!
+WARNING:pystan:Rhat for parameter z_true[487] is 1.1296507432415173!
+WARNING:pystan:Rhat for parameter z_true[488] is 1.1899974552391688!
+WARNING:pystan:Rhat for parameter z_true[489] is 1.1656577292021473!
+WARNING:pystan:Rhat for parameter z_true[491] is 1.1548348267221753!
+WARNING:pystan:Rhat for parameter z_true[492] is 1.344865859890711!
+WARNING:pystan:Rhat for parameter z_true[493] is 1.1554332490851031!
+WARNING:pystan:Rhat for parameter z_true[495] is 1.25616090981759!
+WARNING:pystan:Rhat for parameter z_true[496] is 1.3006366813002919!
+WARNING:pystan:Rhat for parameter z_true[497] is 1.1351567895471126!
+WARNING:pystan:Rhat for parameter z_true[498] is 1.263560818954039!
+WARNING:pystan:Rhat for parameter z_true[499] is 1.1224609733390492!
+WARNING:pystan:Rhat for parameter z_true[500] is 1.1737037105053092!
+WARNING:pystan:Rhat for parameter z_true[501] is 1.456215405886428!
+WARNING:pystan:Rhat for parameter z_true[502] is 1.156290391799944!
+WARNING:pystan:Rhat for parameter z_true[504] is 1.1668211257772136!
+WARNING:pystan:Rhat for parameter z_true[505] is 1.4851211845337693!
+WARNING:pystan:Rhat for parameter z_true[506] is 1.3710904922206022!
+WARNING:pystan:Rhat for parameter z_true[507] is 1.3180908460292415!
+WARNING:pystan:Rhat for parameter z_true[508] is 1.4995163678766485!
+WARNING:pystan:Rhat for parameter z_true[509] is 1.2108424598960768!
+WARNING:pystan:Rhat for parameter z_true[511] is 1.1019487625833546!
+WARNING:pystan:Rhat for parameter z_true[512] is 1.1302175487745816!
+WARNING:pystan:Rhat for parameter z_true[513] is 1.1129876831623227!
+WARNING:pystan:Rhat for parameter z_true[514] is 1.1199463035521617!
+WARNING:pystan:Rhat for parameter z_true[515] is 1.1800871758664817!
+WARNING:pystan:Rhat for parameter z_true[516] is 1.132426534674209!
+WARNING:pystan:Rhat for parameter z_true[517] is 1.1778250379743669!
+WARNING:pystan:Rhat for parameter z_true[518] is 1.4912934298054747!
+WARNING:pystan:Rhat for parameter z_true[519] is 1.1702534980838508!
+WARNING:pystan:Rhat for parameter z_true[520] is 1.1853609022643872!
+WARNING:pystan:Rhat for parameter z_true[521] is 1.1854446342956617!
+WARNING:pystan:Rhat for parameter z_true[522] is 1.1045718641971212!
+WARNING:pystan:Rhat for parameter z_true[524] is 1.2979757107734282!
+WARNING:pystan:Rhat for parameter z_true[526] is 1.1830220333827528!
+WARNING:pystan:Rhat for parameter z_true[527] is 1.1742236918553743!
+WARNING:pystan:Rhat for parameter z_true[529] is 1.1474113141105742!
+WARNING:pystan:Rhat for parameter z_true[530] is 1.3343505729848348!
+WARNING:pystan:Rhat for parameter z_true[531] is 1.2257532260132458!
+WARNING:pystan:Rhat for parameter z_true[532] is 1.1728976811473972!
+WARNING:pystan:Rhat for parameter z_true[534] is 1.3218392568714485!
+WARNING:pystan:Rhat for parameter z_true[535] is 1.1403198970037105!
+WARNING:pystan:Rhat for parameter z_true[536] is 1.101686160398734!
+WARNING:pystan:Rhat for parameter z_true[537] is 1.3293660653600408!
+WARNING:pystan:Rhat for parameter z_true[538] is 1.231986778199512!
+WARNING:pystan:Rhat for parameter z_true[539] is 1.1000665413947768!
+WARNING:pystan:Rhat for parameter z_true[540] is 1.1423222512805324!
+WARNING:pystan:Rhat for parameter z_true[541] is 1.1801670128523531!
+WARNING:pystan:Rhat for parameter z_true[542] is 1.2536056675316114!
+WARNING:pystan:Rhat for parameter z_true[543] is 1.1556115895173362!
+WARNING:pystan:Rhat for parameter z_true[544] is 1.1230775628548932!
+WARNING:pystan:Rhat for parameter z_true[545] is 1.2043275918431233!
+WARNING:pystan:Rhat for parameter z_true[546] is 1.158861933043726!
+WARNING:pystan:Rhat for parameter z_true[547] is 1.154307219914414!
+WARNING:pystan:Rhat for parameter z_true[548] is 1.3483853275062485!
+WARNING:pystan:Rhat for parameter z_true[549] is 1.2799159266507019!
+WARNING:pystan:Rhat for parameter z_true[550] is 1.13942976476484!
+WARNING:pystan:Rhat for parameter z_true[551] is 1.219157997060902!
+WARNING:pystan:Rhat for parameter z_true[552] is 1.1165358256772093!
+WARNING:pystan:Rhat for parameter z_true[553] is 1.3357201091551827!
+WARNING:pystan:Rhat for parameter z_true[554] is 1.150673239565276!
+WARNING:pystan:Rhat for parameter z_true[555] is 1.1617392338533177!
+WARNING:pystan:Rhat for parameter z_true[556] is 1.3090535354147752!
+WARNING:pystan:Rhat for parameter z_true[558] is 1.2068429069250897!
+WARNING:pystan:Rhat for parameter z_true[560] is 1.1149221876794952!
+WARNING:pystan:Rhat for parameter z_true[561] is 1.2131899206150354!
+WARNING:pystan:Rhat for parameter z_true[563] is 1.1642360015152475!
+WARNING:pystan:Rhat for parameter z_true[564] is 1.2277936131621408!
+WARNING:pystan:Rhat for parameter z_true[565] is 1.3725563447502347!
+WARNING:pystan:Rhat for parameter z_true[566] is 1.1748423288185266!
+WARNING:pystan:Rhat for parameter z_true[567] is 1.1507234304023861!
+WARNING:pystan:Rhat for parameter z_true[568] is 1.1851962599454116!
+WARNING:pystan:Rhat for parameter z_true[569] is 1.1710903839736264!
+WARNING:pystan:Rhat for parameter z_true[572] is 1.2346857534748066!
+WARNING:pystan:Rhat for parameter z_true[573] is 1.3991058759022705!
+WARNING:pystan:Rhat for parameter z_true[574] is 1.1693045172767385!
+WARNING:pystan:Rhat for parameter z_true[575] is 1.1636285446879102!
+WARNING:pystan:Rhat for parameter z_true[576] is 1.5494428082386555!
+WARNING:pystan:Rhat for parameter z_true[577] is 1.1486598396178747!
+WARNING:pystan:Rhat for parameter z_true[578] is 1.133881207382318!
+WARNING:pystan:Rhat for parameter z_true[579] is 1.3003244661511826!
+WARNING:pystan:Rhat for parameter z_true[580] is 1.2671257518310581!
+WARNING:pystan:Rhat for parameter z_true[581] is 1.125903523769135!
+WARNING:pystan:Rhat for parameter z_true[583] is 1.1233855474374812!
+WARNING:pystan:Rhat for parameter z_true[584] is 1.157394018157483!
+WARNING:pystan:Rhat for parameter z_true[585] is 1.1340461363310763!
+WARNING:pystan:Rhat for parameter z_true[586] is 1.1313693464302512!
+WARNING:pystan:Rhat for parameter z_true[587] is 1.27240411413077!
+WARNING:pystan:Rhat for parameter z_true[588] is 1.1444360505539855!
+WARNING:pystan:Rhat for parameter z_true[591] is 1.1337091263254968!
+WARNING:pystan:Rhat for parameter z_true[592] is 1.3484691006177034!
+WARNING:pystan:Rhat for parameter z_true[593] is 1.1428254159465758!
+WARNING:pystan:Rhat for parameter z_true[594] is 1.1109416012635065!
+WARNING:pystan:Rhat for parameter z_true[595] is 1.262351238351203!
+WARNING:pystan:Rhat for parameter z_true[597] is 1.2303899704640604!
+WARNING:pystan:Rhat for parameter z_true[598] is 1.3174321182920405!
+WARNING:pystan:Rhat for parameter z_true[599] is 1.2341836388236176!
+WARNING:pystan:Rhat for parameter z_true[600] is 1.286239054037747!
+WARNING:pystan:Rhat for parameter z_true[601] is 1.297629939004887!
+WARNING:pystan:Rhat for parameter z_true[602] is 1.1170096185423584!
+WARNING:pystan:Rhat for parameter z_true[606] is 1.1116627916178632!
+WARNING:pystan:Rhat for parameter z_true[608] is 1.1065423127685807!
 WARNING:pystan:Rhat for parameter zinterp[1] is nan!
-WARNING:pystan:Rhat for parameter zinterp[2] is 3.2344952248246943!
-WARNING:pystan:Rhat for parameter zinterp[3] is 4.339034898193939!
-WARNING:pystan:Rhat for parameter zinterp[4] is 4.744717142795012!
-WARNING:pystan:Rhat for parameter zinterp[5] is 4.897237578678551!
-WARNING:pystan:Rhat for parameter zinterp[6] is 4.958364301740635!
-WARNING:pystan:Rhat for parameter zinterp[7] is 4.9814188943415605!
-WARNING:pystan:Rhat for parameter zinterp[8] is 4.986089522496321!
-WARNING:pystan:Rhat for parameter zinterp[9] is 4.9793339387403215!
-WARNING:pystan:Rhat for parameter zinterp[10] is 4.9637267720431835!
-WARNING:pystan:Rhat for parameter zinterp[11] is 4.939996713150495!
-WARNING:pystan:Rhat for parameter zinterp[12] is 4.908728996394721!
-WARNING:pystan:Rhat for parameter zinterp[13] is 4.870474565691934!
-WARNING:pystan:Rhat for parameter zinterp[14] is 4.825779555020874!
-WARNING:pystan:Rhat for parameter zinterp[15] is 4.775100665260524!
-WARNING:pystan:Rhat for parameter zinterp[16] is 4.718983428525953!
-WARNING:pystan:Rhat for parameter zinterp[17] is 4.65811584688545!
-WARNING:pystan:Rhat for parameter zinterp[18] is 4.593168403213807!
-WARNING:pystan:Rhat for parameter zinterp[19] is 4.524796565922035!
-WARNING:pystan:Rhat for parameter zinterp[20] is 4.4536749899498265!
-WARNING:pystan:Rhat for parameter zinterp[21] is 4.380468512741985!
-WARNING:pystan:Rhat for parameter zinterp[22] is 4.305801327394201!
-WARNING:pystan:Rhat for parameter zinterp[23] is 4.230239159646166!
-WARNING:pystan:Rhat for parameter zinterp[24] is 4.154282047990096!
-WARNING:pystan:Rhat for parameter zinterp[25] is 4.078369034309937!
-WARNING:pystan:Rhat for parameter zinterp[26] is 4.002877059443987!
-WARNING:pystan:Rhat for parameter zinterp[27] is 3.9281196069985875!
-WARNING:pystan:Rhat for parameter zinterp[28] is 3.854352097534408!
-WARNING:pystan:Rhat for parameter zinterp[29] is 3.781782863013267!
-WARNING:pystan:Rhat for parameter zinterp[30] is 3.71058167494934!
-WARNING:pystan:Rhat for parameter zinterp[31] is 3.640886653946307!
-WARNING:pystan:Rhat for parameter zinterp[32] is 3.5728061621091403!
-WARNING:pystan:Rhat for parameter zinterp[33] is 3.5064209627673932!
-WARNING:pystan:Rhat for parameter zinterp[34] is 3.4417869033463293!
-WARNING:pystan:Rhat for parameter zinterp[35] is 3.3789395125589996!
-WARNING:pystan:Rhat for parameter zinterp[36] is 3.3178965211804914!
-WARNING:pystan:Rhat for parameter zinterp[37] is 3.258660786628073!
-WARNING:pystan:Rhat for parameter zinterp[38] is 3.201221974542328!
-WARNING:pystan:Rhat for parameter zinterp[39] is 3.1455598605445165!
-WARNING:pystan:Rhat for parameter zinterp[40] is 3.0916463972708663!
-WARNING:pystan:Rhat for parameter zinterp[41] is 3.039447469626126!
-WARNING:pystan:Rhat for parameter zinterp[42] is 2.9889238737113737!
-WARNING:pystan:Rhat for parameter zinterp[43] is 2.940033094092345!
-WARNING:pystan:Rhat for parameter zinterp[44] is 2.892730484045085!
-WARNING:pystan:Rhat for parameter zinterp[45] is 2.8469689646854452!
-WARNING:pystan:Rhat for parameter zinterp[46] is 2.802701456738248!
-WARNING:pystan:Rhat for parameter zinterp[47] is 2.759880518412793!
-WARNING:pystan:Rhat for parameter zinterp[48] is 2.7184589506025154!
-WARNING:pystan:Rhat for parameter zinterp[49] is 2.678389978776919!
-WARNING:pystan:Rhat for parameter zinterp[50] is 2.6396272681436423!
-WARNING:pystan:Rhat for parameter zinterp[51] is 2.602125290826166!
-WARNING:pystan:Rhat for parameter zinterp[52] is 2.565839380962257!
-WARNING:pystan:Rhat for parameter zinterp[53] is 2.5307257628511084!
-WARNING:pystan:Rhat for parameter zinterp[54] is 2.496741763923518!
-WARNING:pystan:Rhat for parameter zinterp[55] is 2.4638458725046815!
-WARNING:pystan:Rhat for parameter zinterp[56] is 2.4319977026327613!
-WARNING:pystan:Rhat for parameter zinterp[57] is 2.4011581619932496!
-WARNING:pystan:Rhat for parameter zinterp[58] is 2.371289406056638!
-WARNING:pystan:Rhat for parameter zinterp[59] is 2.342354831088578!
-WARNING:pystan:Rhat for parameter zinterp[60] is 2.314319252477893!
-WARNING:pystan:Rhat for parameter zinterp[61] is 2.2871487953783283!
-WARNING:pystan:Rhat for parameter zinterp[62] is 2.2608109652559603!
-WARNING:pystan:Rhat for parameter zinterp[63] is 2.235274482588622!
-WARNING:pystan:Rhat for parameter zinterp[64] is 2.210509329230756!
-WARNING:pystan:Rhat for parameter zinterp[65] is 2.1864867302425206!
-WARNING:pystan:Rhat for parameter zinterp[66] is 2.1631791616923115!
-WARNING:pystan:Rhat for parameter zinterp[67] is 2.1405602866687126!
-WARNING:pystan:Rhat for parameter zinterp[68] is 2.1186048496829524!
-WARNING:pystan:Rhat for parameter zinterp[69] is 2.097288649084252!
-WARNING:pystan:Rhat for parameter zinterp[70] is 2.0765884910978776!
-WARNING:pystan:Rhat for parameter zinterp[71] is 2.0564821529765687!
-WARNING:pystan:Rhat for parameter zinterp[72] is 2.036948312353328!
-WARNING:pystan:Rhat for parameter zinterp[73] is 2.0179664984615053!
-WARNING:pystan:Rhat for parameter zinterp[74] is 1.9995170966357867!
-WARNING:pystan:Rhat for parameter zinterp[75] is 1.9815812880781916!
-WARNING:pystan:Rhat for parameter zinterp[76] is 1.9641410183771164!
-WARNING:pystan:Rhat for parameter zinterp[77] is 1.9471789554136805!
-WARNING:pystan:Rhat for parameter zinterp[78] is 1.9306784516299142!
-WARNING:pystan:Rhat for parameter zinterp[79] is 1.9146235044934066!
-WARNING:pystan:Rhat for parameter zinterp[80] is 1.8989987719193893!
-WARNING:pystan:Rhat for parameter zinterp[81] is 1.883789512427845!
-WARNING:pystan:Rhat for parameter zinterp[82] is 1.8689815524699782!
-WARNING:pystan:Rhat for parameter zinterp[83] is 1.854561292992613!
-WARNING:pystan:Rhat for parameter zinterp[84] is 1.8405156947739705!
-WARNING:pystan:Rhat for parameter zinterp[85] is 1.8268322491365707!
-WARNING:pystan:Rhat for parameter zinterp[86] is 1.813498945913415!
-WARNING:pystan:Rhat for parameter zinterp[87] is 1.8005042485972536!
-WARNING:pystan:Rhat for parameter zinterp[88] is 1.7878370766136775!
-WARNING:pystan:Rhat for parameter zinterp[89] is 1.7754867874140967!
-WARNING:pystan:Rhat for parameter zinterp[90] is 1.7634431634472063!
-WARNING:pystan:Rhat for parameter zinterp[91] is 1.7516963855629823!
-WARNING:pystan:Rhat for parameter zinterp[92] is 1.7402370108896492!
-WARNING:pystan:Rhat for parameter zinterp[93] is 1.7290559596735733!
-WARNING:pystan:Rhat for parameter zinterp[94] is 1.718144487740273!
-WARNING:pystan:Rhat for parameter zinterp[95] is 1.7074941840080695!
-WARNING:pystan:Rhat for parameter zinterp[96] is 1.6970969537267795!
-WARNING:pystan:Rhat for parameter zinterp[97] is 1.6869449923793236!
-WARNING:pystan:Rhat for parameter zinterp[98] is 1.6770307725829194!
-WARNING:pystan:Rhat for parameter zinterp[99] is 1.6673470396375067!
-WARNING:pystan:Rhat for parameter zinterp[100] is 1.6578867959353483!
-WARNING:pystan:Rhat for parameter lp__ is 1.104922206445413!
-WARNING:pystan:Rhat above 1.1 or below 0.9 indicates that the chains very likely have not mixed
-WARNING:pystan:Deprecation warning. In future, use ArviZ library (`pip install arviz`)
-WARNING:pystan:n_eff / iter for parameter H0 is 0.0008476401022371123!
-WARNING:pystan:n_eff / iter for parameter Om is 0.0006916840091770201!
-WARNING:pystan:n_eff / iter for parameter MMax is 0.0008487675882228731!
-WARNING:pystan:n_eff / iter for parameter m1_true[157] is 0.0009786134888240437!
-WARNING:pystan:n_eff / iter for parameter dH is 0.0007297564526963461!
-WARNING:pystan:n_eff / iter for parameter zinterp[1] is nan!
-WARNING:pystan:n_eff / iter for parameter zinterp[2] is 0.0008408640418462586!
-WARNING:pystan:n_eff / iter for parameter zinterp[3] is 0.000835867683598876!
-WARNING:pystan:n_eff / iter for parameter zinterp[4] is 0.0008321132105516079!
-WARNING:pystan:n_eff / iter for parameter zinterp[5] is 0.0008292292405820854!
-WARNING:pystan:n_eff / iter for parameter zinterp[6] is 0.000826999001360702!
-WARNING:pystan:n_eff / iter for parameter zinterp[7] is 0.0008252653301444985!
-WARNING:pystan:n_eff / iter for parameter zinterp[8] is 0.0008238984637249836!
-WARNING:pystan:n_eff / iter for parameter zinterp[9] is 0.0008228453928959442!
-WARNING:pystan:n_eff / iter for parameter zinterp[10] is 0.0008220179751619558!
-WARNING:pystan:n_eff / iter for parameter zinterp[11] is 0.0008214056778893405!
-WARNING:pystan:n_eff / iter for parameter zinterp[12] is 0.000820958359480753!
-WARNING:pystan:n_eff / iter for parameter zinterp[13] is 0.0008206272110720875!
-WARNING:pystan:n_eff / iter for parameter zinterp[14] is 0.000820394051829914!
-WARNING:pystan:n_eff / iter for parameter zinterp[15] is 0.0008202519920942682!
-WARNING:pystan:n_eff / iter for parameter zinterp[16] is 0.0008201809792169995!
-WARNING:pystan:n_eff / iter for parameter zinterp[17] is 0.0008201785428325358!
-WARNING:pystan:n_eff / iter for parameter zinterp[18] is 0.0008202415848090008!
-WARNING:pystan:n_eff / iter for parameter zinterp[19] is 0.0008203534180113657!
-WARNING:pystan:n_eff / iter for parameter zinterp[20] is 0.0008204980707512784!
-WARNING:pystan:n_eff / iter for parameter zinterp[21] is 0.0008206661205391006!
-WARNING:pystan:n_eff / iter for parameter zinterp[22] is 0.0008208562183074719!
-WARNING:pystan:n_eff / iter for parameter zinterp[23] is 0.0008210662383226858!
-WARNING:pystan:n_eff / iter for parameter zinterp[24] is 0.0008212948293357283!
-WARNING:pystan:n_eff / iter for parameter zinterp[25] is 0.0008215390899376846!
-WARNING:pystan:n_eff / iter for parameter zinterp[26] is 0.0008217980262440591!
-WARNING:pystan:n_eff / iter for parameter zinterp[27] is 0.0008220721283083327!
-WARNING:pystan:n_eff / iter for parameter zinterp[28] is 0.000822359247782858!
-WARNING:pystan:n_eff / iter for parameter zinterp[29] is 0.0008226546843815619!
-WARNING:pystan:n_eff / iter for parameter zinterp[30] is 0.0008229535455826332!
-WARNING:pystan:n_eff / iter for parameter zinterp[31] is 0.0008232525233581675!
-WARNING:pystan:n_eff / iter for parameter zinterp[32] is 0.0008235549821252675!
-WARNING:pystan:n_eff / iter for parameter zinterp[33] is 0.0008238576436674281!
-WARNING:pystan:n_eff / iter for parameter zinterp[34] is 0.0008241598002202396!
-WARNING:pystan:n_eff / iter for parameter zinterp[35] is 0.0008244610751165181!
-WARNING:pystan:n_eff / iter for parameter zinterp[36] is 0.0008247618558678146!
-WARNING:pystan:n_eff / iter for parameter zinterp[37] is 0.0008250621154970101!
-WARNING:pystan:n_eff / iter for parameter zinterp[38] is 0.0008253616487102475!
-WARNING:pystan:n_eff / iter for parameter zinterp[39] is 0.0008256606067210524!
-WARNING:pystan:n_eff / iter for parameter zinterp[40] is 0.0008259592437307616!
-WARNING:pystan:n_eff / iter for parameter zinterp[41] is 0.0008262572443081842!
-WARNING:pystan:n_eff / iter for parameter zinterp[42] is 0.0008265537108600905!
-WARNING:pystan:n_eff / iter for parameter zinterp[43] is 0.000826847456043294!
-WARNING:pystan:n_eff / iter for parameter zinterp[44] is 0.0008271372878508617!
-WARNING:pystan:n_eff / iter for parameter zinterp[45] is 0.0008274222386879341!
-WARNING:pystan:n_eff / iter for parameter zinterp[46] is 0.000827701767477512!
-WARNING:pystan:n_eff / iter for parameter zinterp[47] is 0.0008279757101045423!
-WARNING:pystan:n_eff / iter for parameter zinterp[48] is 0.0008282441434076395!
-WARNING:pystan:n_eff / iter for parameter zinterp[49] is 0.0008285073401867641!
-WARNING:pystan:n_eff / iter for parameter zinterp[50] is 0.000828765699654994!
-WARNING:pystan:n_eff / iter for parameter zinterp[51] is 0.0008290197459348969!
-WARNING:pystan:n_eff / iter for parameter zinterp[52] is 0.0008292698706523899!
-WARNING:pystan:n_eff / iter for parameter zinterp[53] is 0.0008295163890141701!
-WARNING:pystan:n_eff / iter for parameter zinterp[54] is 0.0008297595052691453!
-WARNING:pystan:n_eff / iter for parameter zinterp[55] is 0.0008299993184640573!
-WARNING:pystan:n_eff / iter for parameter zinterp[56] is 0.0008302359365716946!
-WARNING:pystan:n_eff / iter for parameter zinterp[57] is 0.0008304695671192853!
-WARNING:pystan:n_eff / iter for parameter zinterp[58] is 0.0008307003409599899!
-WARNING:pystan:n_eff / iter for parameter zinterp[59] is 0.0008309282519682775!
-WARNING:pystan:n_eff / iter for parameter zinterp[60] is 0.0008311531517387056!
-WARNING:pystan:n_eff / iter for parameter zinterp[61] is 0.0008313789032407472!
-WARNING:pystan:n_eff / iter for parameter zinterp[62] is 0.0008316023233947308!
-WARNING:pystan:n_eff / iter for parameter zinterp[63] is 0.0008318219278462797!
-WARNING:pystan:n_eff / iter for parameter zinterp[64] is 0.0008320374722207819!
-WARNING:pystan:n_eff / iter for parameter zinterp[65] is 0.0008322487799929736!
-WARNING:pystan:n_eff / iter for parameter zinterp[66] is 0.0008324557637424092!
-WARNING:pystan:n_eff / iter for parameter zinterp[67] is 0.0008326584275668475!
-WARNING:pystan:n_eff / iter for parameter zinterp[68] is 0.0008328568281164048!
-WARNING:pystan:n_eff / iter for parameter zinterp[69] is 0.0008330510916104023!
-WARNING:pystan:n_eff / iter for parameter zinterp[70] is 0.000833241379604082!
-WARNING:pystan:n_eff / iter for parameter zinterp[71] is 0.0008334278840916521!
-WARNING:pystan:n_eff / iter for parameter zinterp[72] is 0.000833610854006998!
-WARNING:pystan:n_eff / iter for parameter zinterp[73] is 0.0008337905460025225!
-WARNING:pystan:n_eff / iter for parameter zinterp[74] is 0.0008339671753462485!
-WARNING:pystan:n_eff / iter for parameter zinterp[75] is 0.0008341409777972583!
-WARNING:pystan:n_eff / iter for parameter zinterp[76] is 0.0008343123590472109!
-WARNING:pystan:n_eff / iter for parameter zinterp[77] is 0.0008344814005527405!
-WARNING:pystan:n_eff / iter for parameter zinterp[78] is 0.000834648039303583!
-WARNING:pystan:n_eff / iter for parameter zinterp[79] is 0.0008348123279220313!
-WARNING:pystan:n_eff / iter for parameter zinterp[80] is 0.0008349743068588127!
-WARNING:pystan:n_eff / iter for parameter zinterp[81] is 0.0008351340040236154!
-WARNING:pystan:n_eff / iter for parameter zinterp[82] is 0.0008352914320800025!
-WARNING:pystan:n_eff / iter for parameter zinterp[83] is 0.0008354465741368045!
-WARNING:pystan:n_eff / iter for parameter zinterp[84] is 0.0008355993973686557!
-WARNING:pystan:n_eff / iter for parameter zinterp[85] is 0.0008357498649233438!
-WARNING:pystan:n_eff / iter for parameter zinterp[86] is 0.0008358979441050025!
-WARNING:pystan:n_eff / iter for parameter zinterp[87] is 0.000836043602899695!
-WARNING:pystan:n_eff / iter for parameter zinterp[88] is 0.0008361868252872895!
-WARNING:pystan:n_eff / iter for parameter zinterp[89] is 0.0008363276042290601!
-WARNING:pystan:n_eff / iter for parameter zinterp[90] is 0.0008364659498695821!
-WARNING:pystan:n_eff / iter for parameter zinterp[91] is 0.0008366018929871304!
-WARNING:pystan:n_eff / iter for parameter zinterp[92] is 0.0008367354771996118!
-WARNING:pystan:n_eff / iter for parameter zinterp[93] is 0.0008368667644917302!
-WARNING:pystan:n_eff / iter for parameter zinterp[94] is 0.0008369958345728797!
-WARNING:pystan:n_eff / iter for parameter zinterp[95] is 0.000837122778359356!
-WARNING:pystan:n_eff / iter for parameter zinterp[96] is 0.0008372476935366962!
-WARNING:pystan:n_eff / iter for parameter zinterp[97] is 0.0008373706872416523!
-WARNING:pystan:n_eff / iter for parameter zinterp[98] is 0.0008374918648349972!
-WARNING:pystan:n_eff / iter for parameter zinterp[99] is 0.0008376113273127577!
-WARNING:pystan:n_eff / iter for parameter zinterp[100] is 0.0008377291672616044!
-WARNING:pystan:n_eff / iter below 0.001 indicates that the effective sample size has likely been overestimated
-WARNING:pystan:Rhat for parameter H0 is 1.5442997962807974!
-WARNING:pystan:Rhat for parameter Om is 1.8553751068390492!
-WARNING:pystan:Rhat for parameter MMax is 1.5411265841086799!
-WARNING:pystan:Rhat for parameter m1_true[21] is 1.1262322494317742!
-WARNING:pystan:Rhat for parameter m1_true[35] is 1.2047302790214942!
-WARNING:pystan:Rhat for parameter m1_true[41] is 1.1433038003647642!
-WARNING:pystan:Rhat for parameter m1_true[78] is 1.3797729297224581!
-WARNING:pystan:Rhat for parameter m1_true[103] is 1.2060207994387266!
-WARNING:pystan:Rhat for parameter m1_true[121] is 1.1663428469257873!
-WARNING:pystan:Rhat for parameter m1_true[152] is 1.1241367565384555!
-WARNING:pystan:Rhat for parameter m1_true[154] is 1.1379647814272527!
-WARNING:pystan:Rhat for parameter m1_true[157] is 1.414597487947412!
-WARNING:pystan:Rhat for parameter m1_true[182] is 1.2955517860421029!
-WARNING:pystan:Rhat for parameter m1_true[235] is 1.105350043156813!
-WARNING:pystan:Rhat for parameter m1_true[252] is 1.1314920210308819!
-WARNING:pystan:Rhat for parameter m1_true[287] is 1.1047426781605179!
-WARNING:pystan:Rhat for parameter m1_true[289] is 1.1030035718095461!
-WARNING:pystan:Rhat for parameter m1_true[301] is 1.1061025184135598!
-WARNING:pystan:Rhat for parameter m1_true[319] is 1.1046986802263628!
-WARNING:pystan:Rhat for parameter m1_true[320] is 1.1105744187653201!
-WARNING:pystan:Rhat for parameter m1_true[349] is 1.1225231521310821!
-WARNING:pystan:Rhat for parameter m1_true[380] is 1.1464789183869517!
-WARNING:pystan:Rhat for parameter m1_true[427] is 1.1103207614260335!
-WARNING:pystan:Rhat for parameter m1_true[459] is 1.2307988964308134!
-WARNING:pystan:Rhat for parameter m1_true[467] is 1.1506718250818868!
-WARNING:pystan:Rhat for parameter m1_true[478] is 1.1018195625049865!
-WARNING:pystan:Rhat for parameter m1_true[518] is 1.129492860071272!
-WARNING:pystan:Rhat for parameter m2_frac[259] is 1.1048268305871638!
-WARNING:pystan:Rhat for parameter m2_frac[514] is 1.1736747212993723!
-WARNING:pystan:Rhat for parameter dl_true[478] is 1.11239412770552!
-WARNING:pystan:Rhat for parameter dH is 1.74760116870933!
-WARNING:pystan:Rhat for parameter m2_true[78] is 1.2039352347971135!
-WARNING:pystan:Rhat for parameter m2_true[103] is 1.1034096140856449!
-WARNING:pystan:Rhat for parameter m2_true[121] is 1.1122982765531186!
-WARNING:pystan:Rhat for parameter m2_true[182] is 1.1874154905758103!
-WARNING:pystan:Rhat for parameter m2_true[459] is 1.1259854519556582!
-WARNING:pystan:Rhat for parameter z_true[5] is 1.105045195575971!
-WARNING:pystan:Rhat for parameter z_true[6] is 1.1193093388959992!
-WARNING:pystan:Rhat for parameter z_true[18] is 1.2349067170043708!
-WARNING:pystan:Rhat for parameter z_true[21] is 1.1069657587917647!
-WARNING:pystan:Rhat for parameter z_true[23] is 1.1052813283290832!
-WARNING:pystan:Rhat for parameter z_true[25] is 1.1157621580485!
-WARNING:pystan:Rhat for parameter z_true[33] is 1.1984512583273497!
-WARNING:pystan:Rhat for parameter z_true[35] is 1.160346296766988!
-WARNING:pystan:Rhat for parameter z_true[36] is 1.1916745969995044!
-WARNING:pystan:Rhat for parameter z_true[41] is 1.1592310234371748!
-WARNING:pystan:Rhat for parameter z_true[43] is 1.163042973562926!
-WARNING:pystan:Rhat for parameter z_true[44] is 1.1425238897105265!
-WARNING:pystan:Rhat for parameter z_true[47] is 1.1038949222052403!
-WARNING:pystan:Rhat for parameter z_true[49] is 1.1527138078070056!
-WARNING:pystan:Rhat for parameter z_true[50] is 1.2885152810800373!
-WARNING:pystan:Rhat for parameter z_true[58] is 1.1117453167294087!
-WARNING:pystan:Rhat for parameter z_true[59] is 1.1099838701921534!
-WARNING:pystan:Rhat for parameter z_true[61] is 1.1763233814522367!
-WARNING:pystan:Rhat for parameter z_true[66] is 1.2005300914555008!
-WARNING:pystan:Rhat for parameter z_true[70] is 1.123368228285369!
-WARNING:pystan:Rhat for parameter z_true[75] is 1.1081014211345703!
-WARNING:pystan:Rhat for parameter z_true[78] is 1.26706732522631!
-WARNING:pystan:Rhat for parameter z_true[86] is 1.2019931168221194!
-WARNING:pystan:Rhat for parameter z_true[89] is 1.1681707162389847!
-WARNING:pystan:Rhat for parameter z_true[96] is 1.1539332512969414!
-WARNING:pystan:Rhat for parameter z_true[102] is 1.2029352115718748!
-WARNING:pystan:Rhat for parameter z_true[103] is 1.1978500489397226!
-WARNING:pystan:Rhat for parameter z_true[104] is 1.101603314176844!
-WARNING:pystan:Rhat for parameter z_true[110] is 1.1143840424950964!
-WARNING:pystan:Rhat for parameter z_true[112] is 1.108687679525188!
-WARNING:pystan:Rhat for parameter z_true[117] is 1.1588113696741753!
-WARNING:pystan:Rhat for parameter z_true[121] is 1.2146248748337798!
-WARNING:pystan:Rhat for parameter z_true[142] is 1.2155841210414544!
-WARNING:pystan:Rhat for parameter z_true[143] is 1.1058189468738007!
-WARNING:pystan:Rhat for parameter z_true[146] is 1.1475571079218883!
-WARNING:pystan:Rhat for parameter z_true[151] is 1.118465051727053!
-WARNING:pystan:Rhat for parameter z_true[156] is 1.1063346917083703!
-WARNING:pystan:Rhat for parameter z_true[160] is 1.2867215952838507!
-WARNING:pystan:Rhat for parameter z_true[161] is 1.2149765092630307!
-WARNING:pystan:Rhat for parameter z_true[164] is 1.1705548868750986!
-WARNING:pystan:Rhat for parameter z_true[166] is 1.1172702464610698!
-WARNING:pystan:Rhat for parameter z_true[171] is 1.160038909105284!
-WARNING:pystan:Rhat for parameter z_true[182] is 1.2737310606833327!
-WARNING:pystan:Rhat for parameter z_true[187] is 1.2017843583047387!
-WARNING:pystan:Rhat for parameter z_true[194] is 1.1296899850805662!
-WARNING:pystan:Rhat for parameter z_true[203] is 1.1223660325277875!
-WARNING:pystan:Rhat for parameter z_true[206] is 1.126548631274498!
-WARNING:pystan:Rhat for parameter z_true[207] is 1.1098484708202108!
-WARNING:pystan:Rhat for parameter z_true[210] is 1.235941600824501!
-WARNING:pystan:Rhat for parameter z_true[216] is 1.103770653545283!
-WARNING:pystan:Rhat for parameter z_true[235] is 1.1221439837396467!
-WARNING:pystan:Rhat for parameter z_true[240] is 1.2295076575072272!
-WARNING:pystan:Rhat for parameter z_true[242] is 1.126895996894759!
-WARNING:pystan:Rhat for parameter z_true[265] is 1.1318902321900188!
-WARNING:pystan:Rhat for parameter z_true[268] is 1.2729555112321835!
-WARNING:pystan:Rhat for parameter z_true[282] is 1.129185713697335!
-WARNING:pystan:Rhat for parameter z_true[294] is 1.1433206019522975!
-WARNING:pystan:Rhat for parameter z_true[295] is 1.3548894470918855!
-WARNING:pystan:Rhat for parameter z_true[297] is 1.1083355646831166!
-WARNING:pystan:Rhat for parameter z_true[298] is 1.2622139245844937!
-WARNING:pystan:Rhat for parameter z_true[300] is 1.1413891953909039!
-WARNING:pystan:Rhat for parameter z_true[302] is 1.2144327729647801!
-WARNING:pystan:Rhat for parameter z_true[309] is 1.15881423997087!
-WARNING:pystan:Rhat for parameter z_true[310] is 1.1088963294297378!
-WARNING:pystan:Rhat for parameter z_true[311] is 1.1818034650921074!
-WARNING:pystan:Rhat for parameter z_true[312] is 1.1073956420197413!
-WARNING:pystan:Rhat for parameter z_true[313] is 1.2067034071612628!
-WARNING:pystan:Rhat for parameter z_true[318] is 1.1206631874119717!
-WARNING:pystan:Rhat for parameter z_true[319] is 1.121742143430309!
-WARNING:pystan:Rhat for parameter z_true[324] is 1.1084083982234487!
-WARNING:pystan:Rhat for parameter z_true[335] is 1.1307534194240332!
-WARNING:pystan:Rhat for parameter z_true[340] is 1.2736054380221822!
-WARNING:pystan:Rhat for parameter z_true[346] is 1.1561601187583381!
-WARNING:pystan:Rhat for parameter z_true[349] is 1.1323726806753514!
-WARNING:pystan:Rhat for parameter z_true[351] is 1.148222039584132!
-WARNING:pystan:Rhat for parameter z_true[356] is 1.1554612502347974!
-WARNING:pystan:Rhat for parameter z_true[366] is 1.1074793017505113!
-WARNING:pystan:Rhat for parameter z_true[369] is 1.1268364756732518!
-WARNING:pystan:Rhat for parameter z_true[373] is 1.1505811218262991!
-WARNING:pystan:Rhat for parameter z_true[375] is 1.2563004615797448!
-WARNING:pystan:Rhat for parameter z_true[380] is 1.1535614046798879!
-WARNING:pystan:Rhat for parameter z_true[382] is 1.111583343228011!
-WARNING:pystan:Rhat for parameter z_true[385] is 1.1142076473835267!
-WARNING:pystan:Rhat for parameter z_true[387] is 1.1151211504008083!
-WARNING:pystan:Rhat for parameter z_true[393] is 1.2518622725775197!
-WARNING:pystan:Rhat for parameter z_true[394] is 1.1649402345658206!
-WARNING:pystan:Rhat for parameter z_true[396] is 1.156146406590568!
-WARNING:pystan:Rhat for parameter z_true[404] is 1.11472026728213!
-WARNING:pystan:Rhat for parameter z_true[409] is 1.1095659532637285!
-WARNING:pystan:Rhat for parameter z_true[413] is 1.268763559634094!
-WARNING:pystan:Rhat for parameter z_true[416] is 1.1241897053472976!
-WARNING:pystan:Rhat for parameter z_true[417] is 1.1036048242248895!
-WARNING:pystan:Rhat for parameter z_true[420] is 1.1189625013998634!
-WARNING:pystan:Rhat for parameter z_true[422] is 1.2179694566972763!
-WARNING:pystan:Rhat for parameter z_true[423] is 1.257254034012149!
-WARNING:pystan:Rhat for parameter z_true[424] is 1.1584998358569902!
-WARNING:pystan:Rhat for parameter z_true[427] is 1.1028536955366044!
-WARNING:pystan:Rhat for parameter z_true[433] is 1.146010383007606!
-WARNING:pystan:Rhat for parameter z_true[435] is 1.2991630949979154!
-WARNING:pystan:Rhat for parameter z_true[441] is 1.1484650283508264!
-WARNING:pystan:Rhat for parameter z_true[442] is 1.314920619872796!
-WARNING:pystan:Rhat for parameter z_true[445] is 1.1523347139334956!
-WARNING:pystan:Rhat for parameter z_true[450] is 1.1579215627469948!
-WARNING:pystan:Rhat for parameter z_true[454] is 1.1296667441383426!
-WARNING:pystan:Rhat for parameter z_true[456] is 1.19168829343847!
-WARNING:pystan:Rhat for parameter z_true[459] is 1.157607600925256!
-WARNING:pystan:Rhat for parameter z_true[465] is 1.1939351151726283!
-WARNING:pystan:Rhat for parameter z_true[467] is 1.1483747172529168!
-WARNING:pystan:Rhat for parameter z_true[468] is 1.2159043014677011!
-WARNING:pystan:Rhat for parameter z_true[474] is 1.242554142552428!
-WARNING:pystan:Rhat for parameter z_true[476] is 1.1440560093998116!
-WARNING:pystan:Rhat for parameter z_true[477] is 1.1524629474793762!
-WARNING:pystan:Rhat for parameter z_true[478] is 1.1300205737270816!
-WARNING:pystan:Rhat for parameter z_true[485] is 1.1820853422664597!
-WARNING:pystan:Rhat for parameter z_true[486] is 1.2191004344078982!
-WARNING:pystan:Rhat for parameter z_true[500] is 1.106336768950609!
-WARNING:pystan:Rhat for parameter z_true[501] is 1.1850858479326414!
-WARNING:pystan:Rhat for parameter z_true[502] is 1.1001136426586675!
-WARNING:pystan:Rhat for parameter z_true[505] is 1.1252469308693136!
-WARNING:pystan:Rhat for parameter z_true[506] is 1.2103070273017373!
-WARNING:pystan:Rhat for parameter z_true[507] is 1.2083018270724561!
-WARNING:pystan:Rhat for parameter z_true[508] is 1.1676413260318845!
-WARNING:pystan:Rhat for parameter z_true[520] is 1.1175406941014254!
-WARNING:pystan:Rhat for parameter z_true[522] is 1.195582046232708!
-WARNING:pystan:Rhat for parameter z_true[524] is 1.3756252923515986!
-WARNING:pystan:Rhat for parameter z_true[529] is 1.12631253788072!
-WARNING:pystan:Rhat for parameter z_true[530] is 1.354891306262329!
-WARNING:pystan:Rhat for parameter z_true[542] is 1.1060231965951821!
-WARNING:pystan:Rhat for parameter z_true[547] is 1.1488091507295526!
-WARNING:pystan:Rhat for parameter z_true[548] is 1.1014249623220176!
-WARNING:pystan:Rhat for parameter z_true[549] is 1.1199461675926676!
-WARNING:pystan:Rhat for parameter z_true[550] is 1.172092755235915!
-WARNING:pystan:Rhat for parameter z_true[553] is 1.2292214615312138!
-WARNING:pystan:Rhat for parameter z_true[556] is 1.253694812176911!
-WARNING:pystan:Rhat for parameter z_true[558] is 1.111668641251823!
-WARNING:pystan:Rhat for parameter z_true[567] is 1.1565396418068377!
-WARNING:pystan:Rhat for parameter z_true[569] is 1.1632285791180015!
-WARNING:pystan:Rhat for parameter z_true[573] is 1.1668564018723095!
-WARNING:pystan:Rhat for parameter z_true[576] is 1.125093845494318!
-WARNING:pystan:Rhat for parameter z_true[579] is 1.283771949323121!
-WARNING:pystan:Rhat for parameter z_true[585] is 1.1313640081832295!
-WARNING:pystan:Rhat for parameter z_true[587] is 1.1154075743503082!
-WARNING:pystan:Rhat for parameter z_true[588] is 1.109682034346909!
-WARNING:pystan:Rhat for parameter z_true[591] is 1.1117412466974708!
-WARNING:pystan:Rhat for parameter z_true[595] is 1.10334519438812!
-WARNING:pystan:Rhat for parameter z_true[596] is 1.1186319046598265!
-WARNING:pystan:Rhat for parameter z_true[597] is 1.107577232586465!
-WARNING:pystan:Rhat for parameter z_true[598] is 1.1266483825978897!
-WARNING:pystan:Rhat for parameter z_true[599] is 1.1987642703745804!
-WARNING:pystan:Rhat for parameter z_true[601] is 1.117707980871348!
-WARNING:pystan:Rhat for parameter z_true[602] is 1.1287754007247015!
-WARNING:pystan:Rhat for parameter z_true[603] is 1.1892743776124142!
-WARNING:pystan:Rhat for parameter z_true[608] is 1.102811098307496!
-WARNING:pystan:Rhat for parameter zinterp[1] is nan!
-WARNING:pystan:Rhat for parameter zinterp[2] is 1.5530800808210667!
-WARNING:pystan:Rhat for parameter zinterp[3] is 1.5597836264473826!
-WARNING:pystan:Rhat for parameter zinterp[4] is 1.5649597796061945!
-WARNING:pystan:Rhat for parameter zinterp[5] is 1.56902151007112!
-WARNING:pystan:Rhat for parameter zinterp[6] is 1.572218667616398!
-WARNING:pystan:Rhat for parameter zinterp[7] is 1.5747409672530586!
-WARNING:pystan:Rhat for parameter zinterp[8] is 1.5767625238220615!
-WARNING:pystan:Rhat for parameter zinterp[9] is 1.578343831996612!
-WARNING:pystan:Rhat for parameter zinterp[10] is 1.5795997199650624!
-WARNING:pystan:Rhat for parameter zinterp[11] is 1.5805435753704036!
-WARNING:pystan:Rhat for parameter zinterp[12] is 1.5812446005259393!
-WARNING:pystan:Rhat for parameter zinterp[13] is 1.581771224211097!
-WARNING:pystan:Rhat for parameter zinterp[14] is 1.5821501245794216!
-WARNING:pystan:Rhat for parameter zinterp[15] is 1.58239169715148!
-WARNING:pystan:Rhat for parameter zinterp[16] is 1.5825248681086608!
-WARNING:pystan:Rhat for parameter zinterp[17] is 1.5825554263880384!
-WARNING:pystan:Rhat for parameter zinterp[18] is 1.5824874846480672!
-WARNING:pystan:Rhat for parameter zinterp[19] is 1.5823449411175765!
-WARNING:pystan:Rhat for parameter zinterp[20] is 1.5821518426325942!
-WARNING:pystan:Rhat for parameter zinterp[21] is 1.5819221368913472!
-WARNING:pystan:Rhat for parameter zinterp[22] is 1.5816599397249533!
-WARNING:pystan:Rhat for parameter zinterp[23] is 1.5813663791916484!
-WARNING:pystan:Rhat for parameter zinterp[24] is 1.5810437647526907!
-WARNING:pystan:Rhat for parameter zinterp[25] is 1.5806967041554858!
-WARNING:pystan:Rhat for parameter zinterp[26] is 1.5803270942318939!
-WARNING:pystan:Rhat for parameter zinterp[27] is 1.5799345215755916!
-WARNING:pystan:Rhat for parameter zinterp[28] is 1.5795223221601544!
-WARNING:pystan:Rhat for parameter zinterp[29] is 1.5790973522642633!
-WARNING:pystan:Rhat for parameter zinterp[30] is 1.578666670537178!
-WARNING:pystan:Rhat for parameter zinterp[31] is 1.5782350455479124!
-WARNING:pystan:Rhat for parameter zinterp[32] is 1.5778048154574482!
-WARNING:pystan:Rhat for parameter zinterp[33] is 1.5773764908471875!
-WARNING:pystan:Rhat for parameter zinterp[34] is 1.5769497562825536!
-WARNING:pystan:Rhat for parameter zinterp[35] is 1.5765237950686382!
-WARNING:pystan:Rhat for parameter zinterp[36] is 1.5760981492006205!
-WARNING:pystan:Rhat for parameter zinterp[37] is 1.5756729764421755!
-WARNING:pystan:Rhat for parameter zinterp[38] is 1.5752487060776033!
-WARNING:pystan:Rhat for parameter zinterp[39] is 1.5748252082310699!
-WARNING:pystan:Rhat for parameter zinterp[40] is 1.5744021794164023!
-WARNING:pystan:Rhat for parameter zinterp[41] is 1.5739801104971671!
-WARNING:pystan:Rhat for parameter zinterp[42] is 1.5735602704065028!
-WARNING:pystan:Rhat for parameter zinterp[43] is 1.5731443291460445!
-WARNING:pystan:Rhat for parameter zinterp[44] is 1.5727339458175726!
-WARNING:pystan:Rhat for parameter zinterp[45] is 1.5723304450125501!
-WARNING:pystan:Rhat for parameter zinterp[46] is 1.5719346010909687!
-WARNING:pystan:Rhat for parameter zinterp[47] is 1.571546657040527!
-WARNING:pystan:Rhat for parameter zinterp[48] is 1.5711664962299554!
-WARNING:pystan:Rhat for parameter zinterp[49] is 1.5707937547404933!
-WARNING:pystan:Rhat for parameter zinterp[50] is 1.5704279052274375!
-WARNING:pystan:Rhat for parameter zinterp[51] is 1.570068233220416!
-WARNING:pystan:Rhat for parameter zinterp[52] is 1.5697141939765924!
-WARNING:pystan:Rhat for parameter zinterp[53] is 1.569365378023634!
-WARNING:pystan:Rhat for parameter zinterp[54] is 1.5690215085920023!
-WARNING:pystan:Rhat for parameter zinterp[55] is 1.5686824728953932!
-WARNING:pystan:Rhat for parameter zinterp[56] is 1.5683481339253424!
-WARNING:pystan:Rhat for parameter zinterp[57] is 1.5680182041785995!
-WARNING:pystan:Rhat for parameter zinterp[58] is 1.5676925035962725!
-WARNING:pystan:Rhat for parameter zinterp[59] is 1.5673710296448466!
-WARNING:pystan:Rhat for parameter zinterp[60] is 1.5670539585049599!
-WARNING:pystan:Rhat for parameter zinterp[61] is 1.5667415357566545!
-WARNING:pystan:Rhat for parameter zinterp[62] is 1.5664341216485074!
-WARNING:pystan:Rhat for parameter zinterp[63] is 1.566132021331607!
-WARNING:pystan:Rhat for parameter zinterp[64] is 1.5658355601936118!
-WARNING:pystan:Rhat for parameter zinterp[65] is 1.565544969781705!
-WARNING:pystan:Rhat for parameter zinterp[66] is 1.5652603598811239!
-WARNING:pystan:Rhat for parameter zinterp[67] is 1.5649817217221824!
-WARNING:pystan:Rhat for parameter zinterp[68] is 1.5647089640293765!
-WARNING:pystan:Rhat for parameter zinterp[69] is 1.5644419125726743!
-WARNING:pystan:Rhat for parameter zinterp[70] is 1.5641803447522347!
-WARNING:pystan:Rhat for parameter zinterp[71] is 1.5639239961436988!
-WARNING:pystan:Rhat for parameter zinterp[72] is 1.5636725354124656!
-WARNING:pystan:Rhat for parameter zinterp[73] is 1.5634256097216799!
-WARNING:pystan:Rhat for parameter zinterp[74] is 1.5631829198117195!
-WARNING:pystan:Rhat for parameter zinterp[75] is 1.5629441601104317!
-WARNING:pystan:Rhat for parameter zinterp[76] is 1.5627090971379538!
-WARNING:pystan:Rhat for parameter zinterp[77] is 1.5624775245687725!
-WARNING:pystan:Rhat for parameter zinterp[78] is 1.5622493101986532!
-WARNING:pystan:Rhat for parameter zinterp[79] is 1.5620243859503211!
-WARNING:pystan:Rhat for parameter zinterp[80] is 1.5618026951490227!
-WARNING:pystan:Rhat for parameter zinterp[81] is 1.5615841951447644!
-WARNING:pystan:Rhat for parameter zinterp[82] is 1.5613688647685708!
-WARNING:pystan:Rhat for parameter zinterp[83] is 1.5611567200267606!
-WARNING:pystan:Rhat for parameter zinterp[84] is 1.5609477922198725!
-WARNING:pystan:Rhat for parameter zinterp[85] is 1.5607421228880052!
-WARNING:pystan:Rhat for parameter zinterp[86] is 1.5605397496249485!
-WARNING:pystan:Rhat for parameter zinterp[87] is 1.5603407074063136!
-WARNING:pystan:Rhat for parameter zinterp[88] is 1.5601450104591386!
-WARNING:pystan:Rhat for parameter zinterp[89] is 1.5599526603662375!
-WARNING:pystan:Rhat for parameter zinterp[90] is 1.5597636403717914!
-WARNING:pystan:Rhat for parameter zinterp[91] is 1.5595779056206365!
-WARNING:pystan:Rhat for parameter zinterp[92] is 1.5593953938548135!
-WARNING:pystan:Rhat for parameter zinterp[93] is 1.559216020303794!
-WARNING:pystan:Rhat for parameter zinterp[94] is 1.5590396785155254!
-WARNING:pystan:Rhat for parameter zinterp[95] is 1.5588662462201606!
-WARNING:pystan:Rhat for parameter zinterp[96] is 1.5586955910069595!
-WARNING:pystan:Rhat for parameter zinterp[97] is 1.5585275713106819!
-WARNING:pystan:Rhat for parameter zinterp[98] is 1.5583620476927365!
-WARNING:pystan:Rhat for parameter zinterp[99] is 1.558198884411139!
-WARNING:pystan:Rhat for parameter zinterp[100] is 1.5580379572513683!
-WARNING:pystan:Rhat above 1.1 or below 0.9 indicates that the chains very likely have not mixed
-WARNING:pystan:1 of 4000 iterations ended with a divergence (0.025%).
-WARNING:pystan:Try running with adapt_delta larger than 0.8 to remove the divergences.
-WARNING:pystan:Deprecation warning. In future, use ArviZ library (`pip install arviz`)
-WARNING:pystan:n_eff / iter for parameter zinterp[1] is nan!
-WARNING:pystan:n_eff / iter below 0.001 indicates that the effective sample size has likely been overestimated
-WARNING:pystan:Rhat for parameter dl_true[10] is 1.1247887152305724!
-WARNING:pystan:Rhat for parameter m2_true[10] is 1.102773175872938!
-WARNING:pystan:Rhat for parameter z_true[10] is 1.1042902444341365!
-WARNING:pystan:Rhat for parameter zinterp[1] is nan!
+WARNING:pystan:Rhat for parameter zinterp[2] is 3.080830262809529!
+WARNING:pystan:Rhat for parameter zinterp[3] is 3.931465239848345!
+WARNING:pystan:Rhat for parameter zinterp[4] is 4.272046552776574!
+WARNING:pystan:Rhat for parameter zinterp[5] is 4.442328639944989!
+WARNING:pystan:Rhat for parameter zinterp[6] is 4.5455657052217315!
+WARNING:pystan:Rhat for parameter zinterp[7] is 4.613445489538993!
+WARNING:pystan:Rhat for parameter zinterp[8] is 4.659670759400441!
+WARNING:pystan:Rhat for parameter zinterp[9] is 4.691710923580556!
+WARNING:pystan:Rhat for parameter zinterp[10] is 4.713330806079347!
+WARNING:pystan:Rhat for parameter zinterp[11] is 4.726174428711552!
+WARNING:pystan:Rhat for parameter zinterp[12] is 4.731838474649719!
+WARNING:pystan:Rhat for parameter zinterp[13] is 4.7316023878073015!
+WARNING:pystan:Rhat for parameter zinterp[14] is 4.726674430805396!
+WARNING:pystan:Rhat for parameter zinterp[15] is 4.717808631415365!
+WARNING:pystan:Rhat for parameter zinterp[16] is 4.705483896353986!
+WARNING:pystan:Rhat for parameter zinterp[17] is 4.690175596640658!
+WARNING:pystan:Rhat for parameter zinterp[18] is 4.672350272915869!
+WARNING:pystan:Rhat for parameter zinterp[19] is 4.652405317422232!
+WARNING:pystan:Rhat for parameter zinterp[20] is 4.630756868904291!
+WARNING:pystan:Rhat for parameter zinterp[21] is 4.607783912169834!
+WARNING:pystan:Rhat for parameter zinterp[22] is 4.583781821267758!
+WARNING:pystan:Rhat for parameter zinterp[23] is 4.5589756370518835!
+WARNING:pystan:Rhat for parameter zinterp[24] is 4.533554599051409!
+WARNING:pystan:Rhat for parameter zinterp[25] is 4.507689051262025!
+WARNING:pystan:Rhat for parameter zinterp[26] is 4.481546367943833!
+WARNING:pystan:Rhat for parameter zinterp[27] is 4.455263873051694!
+WARNING:pystan:Rhat for parameter zinterp[28] is 4.428956167769827!
+WARNING:pystan:Rhat for parameter zinterp[29] is 4.402732127182418!
+WARNING:pystan:Rhat for parameter zinterp[30] is 4.376689721650989!
+WARNING:pystan:Rhat for parameter zinterp[31] is 4.350911394896122!
+WARNING:pystan:Rhat for parameter zinterp[32] is 4.325457997379345!
+WARNING:pystan:Rhat for parameter zinterp[33] is 4.300372581494889!
+WARNING:pystan:Rhat for parameter zinterp[34] is 4.2756890703313415!
+WARNING:pystan:Rhat for parameter zinterp[35] is 4.251435673749705!
+WARNING:pystan:Rhat for parameter zinterp[36] is 4.227635109922887!
+WARNING:pystan:Rhat for parameter zinterp[37] is 4.204308891781239!
+WARNING:pystan:Rhat for parameter zinterp[38] is 4.181476104708544!
+WARNING:pystan:Rhat for parameter zinterp[39] is 4.159149087195838!
+WARNING:pystan:Rhat for parameter zinterp[40] is 4.137334283113559!
+WARNING:pystan:Rhat for parameter zinterp[41] is 4.116036640829743!
+WARNING:pystan:Rhat for parameter zinterp[42] is 4.095259047905859!
+WARNING:pystan:Rhat for parameter zinterp[43] is 4.075002061153236!
+WARNING:pystan:Rhat for parameter zinterp[44] is 4.055263095419251!
+WARNING:pystan:Rhat for parameter zinterp[45] is 4.036037450405904!
+WARNING:pystan:Rhat for parameter zinterp[46] is 4.0173186548842725!
+WARNING:pystan:Rhat for parameter zinterp[47] is 3.9990983167868954!
+WARNING:pystan:Rhat for parameter zinterp[48] is 3.981366563164366!
+WARNING:pystan:Rhat for parameter zinterp[49] is 3.9641122039997483!
+WARNING:pystan:Rhat for parameter zinterp[50] is 3.9473237991422296!
+WARNING:pystan:Rhat for parameter zinterp[51] is 3.9309898974888626!
+WARNING:pystan:Rhat for parameter zinterp[52] is 3.915099593668925!
+WARNING:pystan:Rhat for parameter zinterp[53] is 3.899641770234089!
+WARNING:pystan:Rhat for parameter zinterp[54] is 3.884605593170077!
+WARNING:pystan:Rhat for parameter zinterp[55] is 3.869980037048238!
+WARNING:pystan:Rhat for parameter zinterp[56] is 3.85575332920459!
+WARNING:pystan:Rhat for parameter zinterp[57] is 3.8419131966294437!
+WARNING:pystan:Rhat for parameter zinterp[58] is 3.8284485335377894!
+WARNING:pystan:Rhat for parameter zinterp[59] is 3.8153484376125846!
+WARNING:pystan:Rhat for parameter zinterp[60] is 3.8026024073740627!
+WARNING:pystan:Rhat for parameter zinterp[61] is 3.790200566713972!
+WARNING:pystan:Rhat for parameter zinterp[62] is 3.7781329803859163!
+WARNING:pystan:Rhat for parameter zinterp[63] is 3.7663900084429986!
+WARNING:pystan:Rhat for parameter zinterp[64] is 3.7549620228956293!
+WARNING:pystan:Rhat for parameter zinterp[65] is 3.743839584616956!
+WARNING:pystan:Rhat for parameter zinterp[66] is 3.733013302708015!
+WARNING:pystan:Rhat for parameter zinterp[67] is 3.722473835114088!
+WARNING:pystan:Rhat for parameter zinterp[68] is 3.7122119555452944!
+WARNING:pystan:Rhat for parameter zinterp[69] is 3.702218266429327!
+WARNING:pystan:Rhat for parameter zinterp[70] is 3.6924838230456225!
+WARNING:pystan:Rhat for parameter zinterp[71] is 3.683000246367694!
+WARNING:pystan:Rhat for parameter zinterp[72] is 3.6737594110029863!
+WARNING:pystan:Rhat for parameter zinterp[73] is 3.664753258076243!
+WARNING:pystan:Rhat for parameter zinterp[74] is 3.6559741272321067!
+WARNING:pystan:Rhat for parameter zinterp[75] is 3.6474147191072643!
+WARNING:pystan:Rhat for parameter zinterp[76] is 3.639068072233806!
+WARNING:pystan:Rhat for parameter zinterp[77] is 3.630927480338023!
+WARNING:pystan:Rhat for parameter zinterp[78] is 3.6229864093531168!
+WARNING:pystan:Rhat for parameter zinterp[79] is 3.6152385898723454!
+WARNING:pystan:Rhat for parameter zinterp[80] is 3.607678032038718!
+WARNING:pystan:Rhat for parameter zinterp[81] is 3.6002987343894235!
+WARNING:pystan:Rhat for parameter zinterp[82] is 3.5930949654088535!
+WARNING:pystan:Rhat for parameter zinterp[83] is 3.586061259716603!
+WARNING:pystan:Rhat for parameter zinterp[84] is 3.57919251338096!
+WARNING:pystan:Rhat for parameter zinterp[85] is 3.572483689550899!
+WARNING:pystan:Rhat for parameter zinterp[86] is 3.565929987492962!
+WARNING:pystan:Rhat for parameter zinterp[87] is 3.5595268119687717!
+WARNING:pystan:Rhat for parameter zinterp[88] is 3.553269685639933!
+WARNING:pystan:Rhat for parameter zinterp[89] is 3.5471542759163404!
+WARNING:pystan:Rhat for parameter zinterp[90] is 3.5411763899459023!
+WARNING:pystan:Rhat for parameter zinterp[91] is 3.5353319832634353!
+WARNING:pystan:Rhat for parameter zinterp[92] is 3.5296171088321864!
+WARNING:pystan:Rhat for parameter zinterp[93] is 3.524027905559637!
+WARNING:pystan:Rhat for parameter zinterp[94] is 3.518560613445849!
+WARNING:pystan:Rhat for parameter zinterp[95] is 3.513211532975442!
+WARNING:pystan:Rhat for parameter zinterp[96] is 3.507977024109023!
+WARNING:pystan:Rhat for parameter zinterp[97] is 3.5028536009146185!
+WARNING:pystan:Rhat for parameter zinterp[98] is 3.4978379044841765!
+WARNING:pystan:Rhat for parameter zinterp[99] is 3.4929266752300436!
+WARNING:pystan:Rhat for parameter zinterp[100] is 3.4881167706128298!
 WARNING:pystan:Rhat above 1.1 or below 0.9 indicates that the chains very likely have not mixed
 WARNING:pystan:Deprecation warning. In future, use ArviZ library (`pip install arviz`)
 WARNING:pystan:n_eff / iter for parameter zinterp[1] is nan!
 WARNING:pystan:n_eff / iter below 0.001 indicates that the effective sample size has likely been overestimated
-WARNING:pystan:Rhat for parameter m2_frac[236] is 1.2436725667604298!
-WARNING:pystan:Rhat for parameter m2_true[236] is 1.204229222508022!
+WARNING:pystan:Rhat for parameter m1_true[412] is 1.5490732173514412!
+WARNING:pystan:Rhat for parameter m2_frac[412] is 1.9785961821315874!
+WARNING:pystan:Rhat for parameter dl_true[412] is 1.470816849959927!
+WARNING:pystan:Rhat for parameter m2_true[412] is 1.3423535851082276!
+WARNING:pystan:Rhat for parameter z_true[412] is 1.3896712053735953!
 WARNING:pystan:Rhat for parameter zinterp[1] is nan!
 WARNING:pystan:Rhat above 1.1 or below 0.9 indicates that the chains very likely have not mixed
 WARNING:pystan:Deprecation warning. In future, use ArviZ library (`pip install arviz`)
