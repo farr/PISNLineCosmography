@@ -112,9 +112,6 @@ elif args.prior == 'H0-Planck-Om':
 else:
     raise ValueError('unrecognized cosmology prior option')
 
-MMin = 5
-MMax = 40
-
 chain = {}
 with h5py.File(args.sampfile, 'r') as inp:
     for n in ['m1s', 'm2s', 'dLs']:
@@ -158,11 +155,6 @@ for i in range(nobs):
     m2[i,:] = chain['m2s'][i,inds]
     dl[i,:] = chain['dLs'][i,inds]
 
-bws = []
-for i in range(nobs):
-    bws.append(cov(column_stack((m1[i,:], m2[i,:], dl[i,:])), rowvar=False)/nsamp**(2.0/7.0))
-m1_m2_dl = stack((m1, m2, dl), axis=2)
-
 model = pystan.StanModel(file=args.stanfile)
 
 ndet = m1s_det.shape[0]
@@ -171,8 +163,9 @@ data = {
     'nsamp': nsamp,
     'ndet': ndet,
     'ninterp': 100,
-    'm1obs_m2obs_dl': m1_m2_dl,
-    'bw': bws,
+    'm1obs': m1,
+    'm2obs': m2,
+    'dlobs': dl,
     'm1obs_det': m1s_det,
     'm2obs_det': m2s_det,
     'dlobs_det': dls_det,
@@ -183,85 +176,10 @@ data = {
     'smooth_low': args.smooth_low,
     'smooth_high': args.smooth_high,
     'z_p': 0.5, # Pivot redshift from perfect mass fits
-    'MMin': MMin
 }
 data.update(data_prior) # Add in the prior
 
-def init(chain_id=0):
-    m1_init = zeros(nobs)
-    m2_init = zeros(nobs)
-    m2_frac_init = zeros(nobs)
-    dl_init = zeros(nobs)
-    z_init = zeros(nobs)
-
-    H0 = data['mu_H0'] + data['sigma_H0']*randn()
-
-    # Reflect to H0 \in [50, 100]
-    while (H0 < 50) or (H0 > 100):
-        if H0 < 50:
-            H0 = 100 - H0
-        elif H0 > 100:
-            H0 = 200 - H0
-
-    if data['use_Om_h2']:
-        Omh2 = data['mu_Om_h2'] + data['sigma_Om_h2']*randn()
-        Om = Omh2 / (H0/100.0)**2
-    else:
-        Om = data['mu_Om'] + data['sigma_Om']*randn()
-
-    # Reflect to Om \in [0,1]
-    while (Om < 0) or (Om > 1):
-        if Om < 0:
-            Om = -Om
-        elif Om > 1:
-            Om = 2.0 - Om
-
-    w = data['mu_wp'] + data['sigma_wp']*randn()
-    wa = 0.0 # We don't disperse here, because we don't want to get caught out with wrong masses in cosmology
-    R0 = 100 + 10*randn()
-
-    c = cosmo.FlatwCDM(H0=H0, Om0=Om, w0=w)
-
-    j = randint(m1.shape[1])
-
-    for i in range(nobs):
-        dl_init[i] = dl[i,j]
-        z_init[i] = cosmo.z_at_value(c.luminosity_distance, dl[i,j]*u.Gpc)
-        m1_init[i] = m1[i,j]/(1+z_init[i])
-        m2_init[i] = m2[i,j]/(1+z_init[i])
-
-        if m1_init[i] < MMin:
-            m2_init[i] = MMin + 0.1*rand()
-            m1_init[i] = m2_init[i] + 0.1*rand()
-
-        if m2_init[i] < MMin:
-            m2_init[i] = MMin + 0.1*rand()
-
-    MMax = np.max(m1_init) + 0.5*rand()
-
-    for i in range(nobs):
-        m2_frac_init[i] = (m2_init[i] - MMin)/(m1_init[i] - MMin)
-
-    alpha = 0.75 + 0.1*randn()
-    beta = 0.0 + 0.1*randn()
-    gamma = 3 + 0.1*randn()
-
-    return {
-        'H0': H0,
-        'Om': Om,
-        'w_p': w,
-        'w_a': wa,
-        'R0': R0,
-        'MMax': MMax,
-        'alpha': alpha,
-        'beta': beta,
-        'gamma': gamma,
-        'm1_true': m1_init,
-        'm2_frac': m2_frac_init,
-        'dl_true': dl_init
-    }
-
-fit = model.sampling(data=data, iter=2*args.iter, thin=args.thin, chains=4, n_jobs=4, init=init)
+fit = model.sampling(data=data, iter=2*args.iter, thin=args.thin, chains=4, n_jobs=4, control={'metric': 'dense_e'})
 
 print(fit)
 
@@ -273,5 +191,5 @@ t = fit.extract(permuted=True)
 with h5py.File(args.chainfile, 'w') as out:
     out.attrs['nsamp'] = nsamp
 
-    for n in ['H0', 'Om', 'w0', 'w_p', 'w_a', 'R0', 'MMax', 'alpha', 'beta', 'gamma', 'dH', 'Nex', 'sigma_Nex', 'neff_det', 'm1_true', 'm2_true', 'dl_true', 'z_true']:
+    for n in ['H0', 'Om', 'w0', 'w_p', 'w_a', 'R0', 'MMax', 'alpha', 'beta', 'gamma', 'dH', 'Nex', 'sigma_Nex', 'neff_det']:
         out.create_dataset(n, data=t[n], compression='gzip', shuffle=True)
