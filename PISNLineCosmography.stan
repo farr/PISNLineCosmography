@@ -142,7 +142,7 @@ data {
   real sigma_wp;
   real mu_wa;
   real sigma_wa;
-  int use_Om_h2; /* 1 if you want to set the prior on Om_h2, so Om ignored */
+  int use_Om_h2; /* 1 if you want to set the prior on Om_h2, so Om ignored; otherwise Om_h2 ignored */
 
   /* Pivot redshift */
   real z_p;
