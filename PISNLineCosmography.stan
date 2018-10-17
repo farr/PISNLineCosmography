@@ -74,36 +74,45 @@ functions {
     return dstatedDL;
   }
 
-  real log_dNdm1dm2ddLdt(real m1, real m2, real dl, real z, real R0, real MMin, real MMax, real alpha, real beta, real gamma, real dH, real Om, real z_p, real w_p, real w_a, real smooth_low, real smooth_high) {
+  real[] log_dNdm1dm2ddLdt(real[] m1, real[] m2, real[] dl, real[] z, real R0, real MMin, real MMax, real alpha, real beta, real gamma, real dH, real Om, real z_p, real w_p, real w_a, real[] smooth_low, real[] smooth_high) {
+    int N = size(m1);
+    real log_dNs[N];
+
     real log_m1norm = log((1.0-alpha)/(MMax^(1-alpha) - MMin^(1-alpha)));
 
-    /* In the event that this function is called with m1 < MMin, then this can
-       go negative (obv this is "out of bounds", but can happen in the selection
-       function). */
-    real m2norm_neg = (1.0+beta)/(m1^(1+beta) - MMin^(1+beta));
-    real log_m2norm = log((m2norm_neg < 0 ? -m2norm_neg : m2norm_neg));
+    real log_dN_prefactor = log(R0) + log_m1norm;
 
-    real log_dNdm1dm2dVdt = log(R0) - alpha*log(m1) + beta*log(m2) + log_m1norm + log_m2norm + (gamma-1)*log1p(z);
+    for (i in 1:N) {
+      /* In the event that this function is called with m1 < MMin, then this can
+         go negative (obv this is "out of bounds", but can happen in the selection
+         function). */
+      real m2norm_neg = (1.0+beta)/(m1[i]^(1+beta) - MMin^(1+beta));
+      real log_m2norm = log((m2norm_neg < 0 ? -m2norm_neg : m2norm_neg));
 
-    real log_dVdz = log(4.0*pi()) + 2.0*log(dl/(1+z)) + log(dH) - log(Ez(z,Om,z_p,w_p,w_a));
-    real log_dzddL = log(dzddL(dl, z, dH, Om, z_p, w_p, w_a));
+      real log_dNdm1dm2dVdt = log_dN_prefactor + log_m2norm - alpha*log(m1[i]) + beta*log(m2[i]) + (gamma-1)*log1p(z[i]);
 
-    real log_sl;
-    real log_sh;
+      real log_dVdz = log(4.0*pi()) + 2.0*log(dl[i]/(1+z[i])) + log(dH) - log(Ez(z[i],Om,z_p,w_p,w_a));
+      real log_dzddL = log(dzddL(dl[i], z[i], dH, Om, z_p, w_p, w_a));
 
-    if (m1 > MMax) {
-      log_sh = -0.5*(m1-MMax)^2/smooth_high^2;
-    } else {
-      log_sh = 0.0;
+      real log_sl;
+      real log_sh;
+
+      if (m1[i] > MMax) {
+        log_sh = -0.5*(m1[i]-MMax)^2/smooth_high[i]^2;
+      } else {
+        log_sh = 0.0;
+      }
+
+      if (m2[i] < MMin) {
+        log_sl = -0.5*(m2[i]-MMin)^2/smooth_low[i]^2;
+      } else {
+        log_sl = 0.0;
+      }
+
+      log_dNs[i] = log_dNdm1dm2dVdt + log_dVdz + log_dzddL + log_sh + log_sl;
     }
 
-    if (m2 < MMin) {
-      log_sl = -0.5*(m2-MMin)^2/smooth_low^2;
-    } else {
-      log_sl = 0.0;
-    }
-
-    return log_dNdm1dm2dVdt + log_dVdz + log_dzddL + log_sh + log_sl;
+    return log_dNs;
   }
 }
 
@@ -221,18 +230,26 @@ transformed parameters {
     real fsum2;
     real fs[ndet];
     real fs2[ndet];
+    real zobs[ndet];
+    real m1[ndet];
+    real m2[ndet];
+    real dNs[ndet];
+    real sls[ndet];
+    real shs[ndet];
 
     for (i in 1:ndet) {
-      real zobs;
-      real m1;
-      real m2;
+      zobs[i] = interp1d(dlobs_det[i], dlinterp, zinterp);
+      m1[i] = m1obs_det[i]/(1+zobs[i]);
+      m2[i] = m2obs_det[i]/(1+zobs[i]);
 
-      zobs = interp1d(dlobs_det[i], dlinterp, zinterp);
+      sls[i] = smooth_low;
+      shs[i] = smooth_high;
+    }
 
-      m1 = m1obs_det[i]/(1+zobs);
-      m2 = m2obs_det[i]/(1+zobs);
+    dNs = log_dNdm1dm2ddLdt(m1, m2, dlobs_det, zobs, R0, MMin, MMax, alpha, beta, gamma, dH, Om, z_p, w_p, w_a, sls, shs);
 
-      fs[i] = log_dNdm1dm2ddLdt(m1, m2, dlobs_det[i], zobs, R0, MMin, MMax, alpha, beta, gamma, dH, Om, z_p, w_p, w_a, smooth_low, smooth_high) - 2.0*log1p(zobs) - log(wts_det[i]);
+    for (i in 1:ndet) {
+      fs[i] = dNs[i] - 2.0*log1p(zobs[i]) - log(wts_det[i]);
 
       fs2[i] = 2.0*fs[i];
     }
@@ -270,11 +287,22 @@ model {
 
   for (i in 1:nobs) {
     real log_fs[nsamp];
+    real m1[nsamp];
+    real m2[nsamp];
+    real z[nsamp];
+    real bl[nsamp];
+    real bh[nsamp];
 
     for (j in 1:nsamp) {
-      real z = interp1d(dlobs[i,j], dlinterp, zinterp);
-      log_fs[j] = log_dNdm1dm2ddLdt(m1obs[i,j]/(1+z), m2obs[i,j]/(1+z), dlobs[i,j], z, R0, MMin, MMax, alpha, beta, gamma, dH, Om, z_p, w_p, w_a, bw_low[i]/(1+z), bw_high[i]/(1+z)) - 2.0*log1p(z);
+      z[j] = interp1d(dlobs[i,j], dlinterp, zinterp);
+      m1[j] = m1obs[i,j]/(1+z[j]);
+      m2[j] = m2obs[i,j]/(1+z[j]);
+
+      bl[j] = bw_low[i]/(1+z[j]);
+      bh[j] = bw_high[i]/(1+z[j]);
     }
+
+    log_fs = log_dNdm1dm2ddLdt(m1, m2, dlobs[i,:], z, R0, MMin, MMax, alpha, beta, gamma, dH, Om, z_p, w_p, w_a, bl, bh);
 
     target += log_sum_exp(log_fs) - log(nsamp);
   }
