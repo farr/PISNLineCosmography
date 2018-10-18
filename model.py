@@ -75,7 +75,10 @@ def make_model(m1s, m2s, dls, m1s_det, m2s_det, dls_det, wts_det, N_gen, T_obs, 
     bw_low = std(m2s, axis=1)/m2s.shape[1]**0.2
 
     bw_high = bw_high[:,newaxis]
+    bw_high = np.where(bw_high < 0.5, 0.5, bw_high)
+
     bw_low = bw_low[:,newaxis]
+    bw_low = np.where(bw_low < 0.05, 0.05, bw_low)
 
     N_obs = m1s.shape[0]
     N_samp = m1s.shape[1]
@@ -157,7 +160,7 @@ def get_step_for_trace(trace=None, model=None,
     # Use the sample covariance as the inverse metric
     return pm.NUTS(scaling=cov, is_cov=True, **kwargs)
 
-def sample(model, n_tune, n_draw, n_jobs):
+def sample(model, n_tune, n_draw, n_jobs, *sampler_args, **sampler_kwargs):
     assert n_tune >= 100, 'cannot tune for fewer than 100 steps!'
     n_start = 25
 
@@ -170,10 +173,10 @@ def sample(model, n_tune, n_draw, n_jobs):
         burnin_trace = None
         for steps in n_window[:-1]:
             step = get_step_for_trace(burnin_trace)
-            burnin_trace = pm.sample(start=start, tune=steps, draws=2, step=step, compute_convergence_checks=False, discard_tuned_samples=False, njobs=n_jobs)
+            burnin_trace = pm.sample(start=start, tune=steps, draws=2, step=step, compute_convergence_checks=False, discard_tuned_samples=False, njobs=n_jobs, *sampler_args, **sampler_kwargs)
             start = [t[-1] for t in burnin_trace._straces.values()]
 
         step = get_step_for_trace(burnin_trace)
-        dense_trace = pm.sample(draws=n_draw, tune=n_window[-1], step=step, start=start, njobs=n_jobs)
+        dense_trace = pm.sample(draws=n_draw, tune=n_window[-1], step=step, start=start, njobs=n_jobs, *sampler_args, **sampler_kwargs)
 
     return dense_trace

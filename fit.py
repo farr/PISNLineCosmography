@@ -24,7 +24,7 @@ post.add_argument('--samp', metavar='N', type=int, default=100, help='number of 
 sel = p.add_argument_group('Selection Function Options')
 sel.add_argument('--selfile', metavar='FILE.h5', default='selected.h5', help='file containing records of successful injections for VT estimation (default: %(default)s)')
 sel.add_argument('--nsel', metavar='N', type=int, help='number of selected systems to include (default: all)')
-sel.add_argument('--smooth-low', metavar='dM', type=float, default=0.1, help='smoothing mass scale at low-mass cutoff (default: %(default)s)')
+sel.add_argument('--smooth-low', metavar='dM', type=float, default=0.05, help='smoothing mass scale at low-mass cutoff (default: %(default)s)')
 sel.add_argument('--smooth-high', metavar='dM', type=float, default=0.5, help='smoothing mass scale at high-mass cutoff (default: %(default)s)')
 
 samp = p.add_argument_group('Sampling Options')
