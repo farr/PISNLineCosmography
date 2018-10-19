@@ -25,9 +25,7 @@ def log_dNdm1dm2ddLdt(m1s, m2s, dls, zs, R0, MMin, MMax, alpha, beta, gamma, dH,
     log_m1norm = tt.log(oma/(MMax**oma - MMin**oma))
 
     opb = 1+beta
-    m2norm = opb/(m1s**opb - MMin**opb)
-    m2norm = tt.switch(m2norm < 0, -m2norm, m2norm)
-    log_m2norm = tt.log(m2norm)
+    log_m2norm = tt.log(opb) - opb*tt.log(m1s) # Ignoring MMin in this; constrain beta > -1
 
     log_dNdm1dm2dVdt = tt.log(R0) - alpha*tt.log(m1s) + beta*tt.log(m2s) + log_m1norm + log_m2norm + (gamma-1)*tt.log1p(zs)
 
@@ -93,7 +91,7 @@ def make_model(m1s, m2s, dls, m1s_det, m2s_det, dls_det, wts_det, N_gen, T_obs, 
         R0 = pm.Lognormal('R0', mu=log(100), sd=1)
 
         alpha = pm.Bound(pm.Normal, lower=-3, upper=3)('alpha', mu=1, sd=1)
-        beta = pm.Bound(pm.Normal, lower=-3, upper=3)('beta', mu=0, sd=1)
+        beta = pm.Bound(pm.Normal, lower=-1, upper=3)('beta', mu=0, sd=1)
         gamma = pm.Bound(pm.Normal, lower=0, upper=6)('gamma', mu=3, sd=2)
 
         Om = pm.Bound(pm.Normal, lower=0, upper=1)('Om', mu=0.3, sd=0.1)
