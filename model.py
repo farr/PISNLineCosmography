@@ -60,7 +60,7 @@ def interp1d(xs, xi, yi):
 
     return yl*(1-r) + yh*r
 
-def make_model(m1s, m2s, dls, m1s_det, m2s_det, dls_det, wts_det, N_gen, T_obs, z_safety_factor=10, n_interp=1000, smooth_low=0.1, smooth_high=0.5):
+def make_model(m1s, m2s, dls, m1s_det, m2s_det, dls_det, wts_det, N_gen, T_obs, z_safety_factor=10, n_interp=1000, smooth_low=0.1, smooth_high=0.5, cosmo_constraints=False):
     dmax = max(np.max(dls), np.max(dls_det))
     zmax = cosmo.z_at_value(Planck15.luminosity_distance, dmax*u.Gpc)
 
@@ -94,8 +94,13 @@ def make_model(m1s, m2s, dls, m1s_det, m2s_det, dls_det, wts_det, N_gen, T_obs, 
         beta = pm.Bound(pm.Normal, lower=-1, upper=3)('beta', mu=0, sd=1)
         gamma = pm.Bound(pm.Normal, lower=0, upper=6)('gamma', mu=3, sd=2)
 
-        Om = pm.Bound(pm.Normal, lower=0, upper=1)('Om', mu=0.3, sd=0.1)
-        H0 = pm.Bound(pm.Normal, lower=50, upper=100)('H0', mu=70, sd=15)
+        if cosmo_constraints:
+            H0 = pm.Bound(pm.Normal, lower=50, upper=100)('H0', mu=Planck15.H0.to(u.km/u.s/u.Mpc).value, sd=0.01*Planck15.H0.to(u.km/u.s/u.Mpc).value)
+            Om_h2 = pm.Bound(pm.Normal, lower=0, upper=0.5)('Om_h2', mu=0.02225+0.1198, sd=sqrt(0.00016**2 + 0.0015**2))
+            Om = pm.Deterministic('Om', Om_h2/(H0/100)**2)
+        else:
+            Om = pm.Bound(pm.Normal, lower=0, upper=1)('Om', mu=0.3, sd=0.1)
+            H0 = pm.Bound(pm.Normal, lower=50, upper=100)('H0', mu=70, sd=15)
         w = pm.Bound(pm.Normal, lower=-2, upper=0)('w', mu=-1, sd=0.5)
 
         dH = 4.42563416002 * (67.74/H0);

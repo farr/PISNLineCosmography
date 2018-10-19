@@ -27,6 +27,9 @@ sel.add_argument('--nsel', metavar='N', type=int, help='number of selected syste
 sel.add_argument('--smooth-low', metavar='dM', type=float, default=0.05, help='smoothing mass scale at low-mass cutoff (default: %(default)s)')
 sel.add_argument('--smooth-high', metavar='dM', type=float, default=0.5, help='smoothing mass scale at high-mass cutoff (default: %(default)s)')
 
+cos = p.add_argument_group('Cosmology Prior Options')
+cos.add_argument('--cosmo-constraints', action='store_true', help='implement constraints from BNS H0 and Planck Om*h^2')
+
 samp = p.add_argument_group('Sampling Options')
 samp.add_argument('--iter', metavar='N', type=int, default=1000, help='number of sampling iterations (equal amount of tuning; default: %(default)s)')
 samp.add_argument('--njobs', metavar='N', type=int, default=4, help='number of chains/jobs to run (default: %(default)s)')
@@ -83,7 +86,7 @@ for i in range(nobs):
     m2[i,:] = chain['m2s'][i,inds]
     dl[i,:] = chain['dLs'][i,inds]
 
-m = model.make_model(m1, m2, dl, m1s_det, m2s_det, dls_det, wts_det, N_gen, Tobs, smooth_low=args.smooth_low, smooth_high=args.smooth_high)
+m = model.make_model(m1, m2, dl, m1s_det, m2s_det, dls_det, wts_det, N_gen, Tobs, smooth_low=args.smooth_low, smooth_high=args.smooth_high, cosmo_constraints=args.cosmo_constraints)
 
 fit = model.sample(m, args.iter, args.iter, args.njobs)
 
