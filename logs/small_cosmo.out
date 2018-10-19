@@ -1,0 +1,16 @@
+Called with the following command line:
+./fit.py --cosmo-constraints --sampfile parameters_small.h5 --samp 256 --selfile selected.h5 --nsel 8192 --chainfile population_small_cosmo.h5 --tracefile traceplot_small_cosmo.pdf
+                   mean         sd    ...           n_eff      Rhat
+MMax          36.462599   1.889572    ...     3416.816160  1.000236
+R0           160.873727  77.354764    ...     1693.197333  0.999830
+alpha          0.734848   0.480292    ...     3619.133546  1.000276
+beta           0.146657   0.457778    ...     2802.442521  1.000519
+gamma          2.588818   0.939028    ...     2520.705531  0.999609
+H0            67.746897   0.679456    ...     4489.885562  0.999949
+Om_h2          0.142054   0.001500    ...     5528.782619  0.999762
+Om             0.309602   0.006958    ...     4660.501376  0.999650
+w             -0.895425   0.434573    ...     3345.662336  1.000342
+Nex__0        50.616983   7.162778    ...     5140.398553  0.999760
+neff_det__0  471.188953  59.203415    ...     3069.981855  0.999762
+
+[11 rows x 7 columns]
