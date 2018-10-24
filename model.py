@@ -9,6 +9,13 @@ import theano
 import theano.tensor as tt
 import theano.tensor.extra_ops as te
 
+def softened_power_law_pdf_unnorm(xs, alpha, xmin, xmax, sigma_min, sigma_max):
+    return xs**alpha*where(xs > xmin,
+                           where(xs < xmax,
+                                 1,
+                                 exp(-0.5*(log(xs)-log(xmax))**2/sigma_max**2)),
+                           exp(-0.5*(log(xs)-log(xmin))**2/sigma_min**2))
+
 def Ez(zs, Om, w):
     opz = 1 + zs
     opz2 = opz*opz
