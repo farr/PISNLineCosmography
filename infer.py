@@ -112,6 +112,8 @@ def sample(i, progressbar=False, njobs=1):
     sigma_rho.set_value(srhs[i])
     sigma_theta.set_value(sths[i])
 
+    retries = 0
+
     with m:
         factor = 1
         while True:
@@ -121,7 +123,17 @@ def sample(i, progressbar=False, njobs=1):
                 'dl': 2.0,
                 'theta': thetaobs[i]
             }
-            trace = pm.sample(draws=1000*factor, tune=1000*factor, init='adapt_diag', start=start, njobs=njobs, chains=4, progressbar=progressbar, nuts_kwargs={'target_accept': 0.95})
+
+            while retries < 5:
+                try:
+                    trace = pm.sample(draws=1000*factor, tune=1000*factor, init='adapt_diag', start=start, njobs=njobs, chains=4, progressbar=progressbar, nuts_kwargs={'target_accept': 0.95})
+                    break
+                except ValueError:
+                    retries += 1
+                    if retries >= 5:
+                        raise
+                    else:
+                        print('Re-trying sampling due to ValueError')
 
             nef = pm.effective_n(trace)
             ne_min = min([nef[k] for k in ['m1det', 'm2det', 'dl', 'theta']])
