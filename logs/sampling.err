@@ -1,0 +1,888 @@
+/mnt/home/wfarr/anaconda3/lib/python3.6/site-packages/h5py/__init__.py:36: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  from ._conv import register_converters as _register_converters
+Auto-assigning NUTS sampler...
+Auto-assigning NUTS sampler...
+Auto-assigning NUTS sampler...
+Auto-assigning NUTS sampler...
+Auto-assigning NUTS sampler...
+Auto-assigning NUTS sampler...
+Auto-assigning NUTS sampler...
+Initializing NUTS using adapt_diag...
+Initializing NUTS using adapt_diag...
+Auto-assigning NUTS sampler...
+Initializing NUTS using adapt_diag...
+Initializing NUTS using adapt_diag...
+Initializing NUTS using adapt_diag...
+Initializing NUTS using adapt_diag...
+Auto-assigning NUTS sampler...
+Initializing NUTS using adapt_diag...
+Initializing NUTS using adapt_diag...
+Initializing NUTS using adapt_diag...
+Auto-assigning NUTS sampler...
+Initializing NUTS using adapt_diag...
+Auto-assigning NUTS sampler...
+Auto-assigning NUTS sampler...
+Initializing NUTS using adapt_diag...
+Initializing NUTS using adapt_diag...
+Auto-assigning NUTS sampler...
+Auto-assigning NUTS sampler...
+Initializing NUTS using adapt_diag...
+Auto-assigning NUTS sampler...
+Auto-assigning NUTS sampler...
+Initializing NUTS using adapt_diag...
+Initializing NUTS using adapt_diag...
+Auto-assigning NUTS sampler...
+Auto-assigning NUTS sampler...
+Auto-assigning NUTS sampler...
+Initializing NUTS using adapt_diag...
+Initializing NUTS using adapt_diag...
+Initializing NUTS using adapt_diag...
+Initializing NUTS using adapt_diag...
+Auto-assigning NUTS sampler...
+Auto-assigning NUTS sampler...
+Initializing NUTS using adapt_diag...
+Auto-assigning NUTS sampler...
+Initializing NUTS using adapt_diag...
+Initializing NUTS using adapt_diag...
+Auto-assigning NUTS sampler...
+Auto-assigning NUTS sampler...
+Auto-assigning NUTS sampler...
+Initializing NUTS using adapt_diag...
+Initializing NUTS using adapt_diag...
+Initializing NUTS using adapt_diag...
+Auto-assigning NUTS sampler...
+Auto-assigning NUTS sampler...
+Auto-assigning NUTS sampler...
+Auto-assigning NUTS sampler...
+Initializing NUTS using adapt_diag...
+Initializing NUTS using adapt_diag...
+Auto-assigning NUTS sampler...
+Auto-assigning NUTS sampler...
+Initializing NUTS using adapt_diag...
+Initializing NUTS using adapt_diag...
+Initializing NUTS using adapt_diag...
+Auto-assigning NUTS sampler...
+Initializing NUTS using adapt_diag...
+Initializing NUTS using adapt_diag...
+Auto-assigning NUTS sampler...
+Initializing NUTS using adapt_diag...
+Auto-assigning NUTS sampler...
+Initializing NUTS using adapt_diag...
+Auto-assigning NUTS sampler...
+Auto-assigning NUTS sampler...
+Initializing NUTS using adapt_diag...
+Initializing NUTS using adapt_diag...
+Auto-assigning NUTS sampler...
+Auto-assigning NUTS sampler...
+Auto-assigning NUTS sampler...
+Auto-assigning NUTS sampler...
+Initializing NUTS using adapt_diag...
+Initializing NUTS using adapt_diag...
+Initializing NUTS using adapt_diag...
+Initializing NUTS using adapt_diag...
+  0%|          | 0/4285 [00:00<?, ?it/s]Sequential sampling (4 chains in 1 job)
+NUTS: [theta, dl, eta, mcdet]
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183113' (I am process '183097')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183113' (I am process '183122')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183113' (I am process '183116')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183113' (I am process '183098')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183113' (I am process '183105')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183113' (I am process '183089')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183113' (I am process '183110')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183113' (I am process '183090')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183113' (I am process '183121')
+INFO (theano.gof.compilelock): Waiting for existing lock by unknown process (I am process '183114')
+INFO (theano.gof.compilelock): Waiting for existing lock by unknown process (I am process '183092')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by unknown process (I am process '183088')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183093' (I am process '183124')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183093' (I am process '183108')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183093' (I am process '183115')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183093' (I am process '183125')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183093' (I am process '183109')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183093' (I am process '183102')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183093' (I am process '183123')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183093' (I am process '183103')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183093' (I am process '183096')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183093' (I am process '183118')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183093' (I am process '183112')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183093' (I am process '183095')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183093' (I am process '183091')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183093' (I am process '183107')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183093' (I am process '183119')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183093' (I am process '183106')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183093' (I am process '183126')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183093' (I am process '183101')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183093' (I am process '183104')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183093' (I am process '183100')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183093' (I am process '183111')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183093' (I am process '183127')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183093' (I am process '183120')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183093' (I am process '183117')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183093' (I am process '183094')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183093' (I am process '183099')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+Sequential sampling (4 chains in 1 job)
+NUTS: [theta, dl, eta, mcdet]
+INFO (theano.gof.compilelock): Waiting for existing lock by unknown process (I am process '183103')
+INFO (theano.gof.compilelock): Waiting for existing lock by unknown process (I am process '183114')
+INFO (theano.gof.compilelock): Waiting for existing lock by unknown process (I am process '183109')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183089' (I am process '183091')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183089' (I am process '183095')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183089' (I am process '183105')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183089' (I am process '183097')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183089' (I am process '183110')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183089' (I am process '183108')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183089' (I am process '183116')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183089' (I am process '183122')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183089' (I am process '183088')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183089' (I am process '183098')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183089' (I am process '183115')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183089' (I am process '183107')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183089' (I am process '183121')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183089' (I am process '183092')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183089' (I am process '183090')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183089' (I am process '183102')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183089' (I am process '183112')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183089' (I am process '183124')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183089' (I am process '183123')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183089' (I am process '183106')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183089' (I am process '183111')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183089' (I am process '183126')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183089' (I am process '183104')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183089' (I am process '183117')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183089' (I am process '183120')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183089' (I am process '183101')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183089' (I am process '183100')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183089' (I am process '183096')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183089' (I am process '183127')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183089' (I am process '183094')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183089' (I am process '183118')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183089' (I am process '183125')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183089' (I am process '183119')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183089' (I am process '183099')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+Sequential sampling (4 chains in 1 job)
+NUTS: [theta, dl, eta, mcdet]
+INFO (theano.gof.compilelock): Waiting for existing lock by unknown process (I am process '183107')
+INFO (theano.gof.compilelock): Waiting for existing lock by unknown process (I am process '183115')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183114' (I am process '183109')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183114' (I am process '183103')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183114' (I am process '183123')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183114' (I am process '183105')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183114' (I am process '183095')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183114' (I am process '183091')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183114' (I am process '183102')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183114' (I am process '183110')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183114' (I am process '183108')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183114' (I am process '183116')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183114' (I am process '183121')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183114' (I am process '183097')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183114' (I am process '183088')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183114' (I am process '183104')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183114' (I am process '183098')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183114' (I am process '183124')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183114' (I am process '183122')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183114' (I am process '183094')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183114' (I am process '183118')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183114' (I am process '183117')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183114' (I am process '183092')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183114' (I am process '183101')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183114' (I am process '183120')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183114' (I am process '183090')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183114' (I am process '183111')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183114' (I am process '183112')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183114' (I am process '183126')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183114' (I am process '183106')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183114' (I am process '183100')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183114' (I am process '183096')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183114' (I am process '183127')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183114' (I am process '183125')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183114' (I am process '183119')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183114' (I am process '183099')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+Sequential sampling (4 chains in 1 job)
+NUTS: [theta, dl, eta, mcdet]
+INFO (theano.gof.compilelock): Waiting for existing lock by unknown process (I am process '183108')
+INFO (theano.gof.compilelock): Waiting for existing lock by unknown process (I am process '183104')
+INFO (theano.gof.compilelock): Waiting for existing lock by unknown process (I am process '183109')
+INFO (theano.gof.compilelock): Waiting for existing lock by unknown process (I am process '183123')
+INFO (theano.gof.compilelock): Waiting for existing lock by unknown process (I am process '183094')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by unknown process (I am process '183110')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183095' (I am process '183105')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183095' (I am process '183115')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183095' (I am process '183107')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183095' (I am process '183103')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183095' (I am process '183121')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183095' (I am process '183091')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183095' (I am process '183102')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183095' (I am process '183116')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183095' (I am process '183111')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183095' (I am process '183097')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183095' (I am process '183098')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183095' (I am process '183088')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183095' (I am process '183124')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183095' (I am process '183122')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183095' (I am process '183106')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183095' (I am process '183118')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183095' (I am process '183117')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183095' (I am process '183126')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183095' (I am process '183090')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183095' (I am process '183092')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183095' (I am process '183120')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183095' (I am process '183100')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183095' (I am process '183101')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183095' (I am process '183096')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183095' (I am process '183127')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183095' (I am process '183112')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183095' (I am process '183125')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183095' (I am process '183119')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183095' (I am process '183099')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+There was 1 divergence after tuning. Increase `target_accept` or reparameterize.
+There was 1 divergence after tuning. Increase `target_accept` or reparameterize.
+There was 1 divergence after tuning. Increase `target_accept` or reparameterize.
+There was 1 divergence after tuning. Increase `target_accept` or reparameterize.
+Auto-assigning NUTS sampler...
+Initializing NUTS using adapt_diag...
+  0%|          | 1/4285 [00:32<38:07:35, 32.04s/it]Sequential sampling (4 chains in 1 job)
+NUTS: [theta, dl, eta, mcdet]
+There were 36 divergences after tuning. Increase `target_accept` or reparameterize.
+The acceptance probability does not match the target. It is 0.7586308160792389, but should be close to 0.95. Try to increase the number of tuning steps.
+There were 38 divergences after tuning. Increase `target_accept` or reparameterize.
+The acceptance probability does not match the target. It is 0.8511833629912502, but should be close to 0.95. Try to increase the number of tuning steps.
+There were 776 divergences after tuning. Increase `target_accept` or reparameterize.
+The acceptance probability does not match the target. It is 0.6993015809707838, but should be close to 0.95. Try to increase the number of tuning steps.
+There were 792 divergences after tuning. Increase `target_accept` or reparameterize.
+The acceptance probability does not match the target. It is 0.7368281589109203, but should be close to 0.95. Try to increase the number of tuning steps.
+The gelman-rubin statistic is larger than 1.05 for some parameters. This indicates slight problems during sampling.
+The estimated number of effective samples is smaller than 200 for some parameters.
+Auto-assigning NUTS sampler...
+Initializing NUTS using adapt_diag...
+Auto-assigning NUTS sampler...
+Initializing NUTS using adapt_diag...
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183094' (I am process '183116')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183094' (I am process '183097')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183094' (I am process '183118')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183094' (I am process '183126')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183094' (I am process '183109')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183094' (I am process '183110')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183094' (I am process '183108')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183094' (I am process '183104')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183094' (I am process '183123')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183094' (I am process '183121')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183094' (I am process '183105')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183094' (I am process '183115')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183094' (I am process '183103')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183094' (I am process '183107')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183094' (I am process '183102')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183094' (I am process '183091')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183094' (I am process '183098')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183094' (I am process '183111')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183094' (I am process '183106')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183094' (I am process '183096')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183094' (I am process '183088')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183094' (I am process '183122')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183094' (I am process '183117')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183094' (I am process '183124')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183094' (I am process '183090')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183094' (I am process '183100')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183094' (I am process '183127')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183094' (I am process '183092')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183094' (I am process '183101')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183094' (I am process '183120')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183094' (I am process '183119')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183094' (I am process '183125')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183094' (I am process '183112')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183094' (I am process '183099')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+Sequential sampling (4 chains in 1 job)
+NUTS: [theta, dl, eta, mcdet]
+Sequential sampling (4 chains in 1 job)
+NUTS: [theta, dl, eta, mcdet]
+Sequential sampling (4 chains in 1 job)
+NUTS: [theta, dl, eta, mcdet]
+Sequential sampling (4 chains in 1 job)
+NUTS: [theta, dl, eta, mcdet]
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183108' (I am process '183104')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183108' (I am process '183091')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183108' (I am process '183107')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183108' (I am process '183097')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183108' (I am process '183116')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183108' (I am process '183118')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183108' (I am process '183123')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183108' (I am process '183109')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183108' (I am process '183121')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183108' (I am process '183105')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183108' (I am process '183115')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183108' (I am process '183110')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183108' (I am process '183126')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183108' (I am process '183098')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183108' (I am process '183103')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183108' (I am process '183117')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183108' (I am process '183102')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183108' (I am process '183096')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183108' (I am process '183088')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183108' (I am process '183122')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183108' (I am process '183111')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183108' (I am process '183106')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183108' (I am process '183100')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183108' (I am process '183127')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183108' (I am process '183090')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183108' (I am process '183120')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183108' (I am process '183124')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183108' (I am process '183101')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183108' (I am process '183092')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183108' (I am process '183125')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183108' (I am process '183119')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183108' (I am process '183112')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183108' (I am process '183099')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+There was 1 divergence after tuning. Increase `target_accept` or reparameterize.
+There was 1 divergence after tuning. Increase `target_accept` or reparameterize.
+There were 2 divergences after tuning. Increase `target_accept` or reparameterize.
+There were 2 divergences after tuning. Increase `target_accept` or reparameterize.
+Auto-assigning NUTS sampler...
+Initializing NUTS using adapt_diag...
+  0%|          | 2/4285 [00:43<25:51:34, 21.74s/it]Sequential sampling (4 chains in 1 job)
+NUTS: [theta, dl, eta, mcdet]
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183091' (I am process '183115')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183091' (I am process '183103')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183091' (I am process '183110')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183091' (I am process '183104')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183091' (I am process '183118')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183091' (I am process '183122')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183091' (I am process '183116')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183091' (I am process '183097')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183091' (I am process '183107')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183091' (I am process '183123')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183091' (I am process '183121')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183091' (I am process '183105')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183091' (I am process '183098')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183091' (I am process '183117')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183091' (I am process '183109')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183091' (I am process '183102')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183091' (I am process '183096')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183091' (I am process '183126')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183091' (I am process '183124')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183091' (I am process '183092')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183091' (I am process '183127')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183091' (I am process '183088')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183091' (I am process '183119')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183091' (I am process '183120')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183091' (I am process '183101')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183091' (I am process '183090')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183091' (I am process '183100')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183091' (I am process '183125')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183091' (I am process '183111')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183091' (I am process '183106')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183091' (I am process '183112')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+Sequential sampling (4 chains in 1 job)
+NUTS: [theta, dl, eta, mcdet]
+Sequential sampling (4 chains in 1 job)
+NUTS: [theta, dl, eta, mcdet]
+There were 5 divergences after tuning. Increase `target_accept` or reparameterize.
+There were 5 divergences after tuning. Increase `target_accept` or reparameterize.
+There were 5 divergences after tuning. Increase `target_accept` or reparameterize.
+The number of effective samples is smaller than 25% for some parameters.
+Auto-assigning NUTS sampler...
+Initializing NUTS using adapt_diag...
+There were 2 divergences after tuning. Increase `target_accept` or reparameterize.
+The number of effective samples is smaller than 25% for some parameters.
+Auto-assigning NUTS sampler...
+Initializing NUTS using adapt_diag...
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183110' (I am process '183115')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183110' (I am process '183121')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183110' (I am process '183097')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183110' (I am process '183107')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183110' (I am process '183103')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183110' (I am process '183104')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183110' (I am process '183118')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183110' (I am process '183123')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183110' (I am process '183105')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183110' (I am process '183102')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183110' (I am process '183116')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183110' (I am process '183117')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183110' (I am process '183098')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183110' (I am process '183096')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183110' (I am process '183109')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183110' (I am process '183126')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183110' (I am process '183122')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183110' (I am process '183124')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183110' (I am process '183127')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183110' (I am process '183125')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183110' (I am process '183119')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183110' (I am process '183120')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183110' (I am process '183101')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183110' (I am process '183088')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183110' (I am process '183090')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183110' (I am process '183092')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183110' (I am process '183111')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183110' (I am process '183100')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183110' (I am process '183112')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183110' (I am process '183106')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+Sequential sampling (4 chains in 1 job)
+NUTS: [theta, dl, eta, mcdet]
+There was 1 divergence after tuning. Increase `target_accept` or reparameterize.
+There was 1 divergence after tuning. Increase `target_accept` or reparameterize.
+There was 1 divergence after tuning. Increase `target_accept` or reparameterize.
+Auto-assigning NUTS sampler...
+Initializing NUTS using adapt_diag...
+  0%|          | 3/4285 [00:57<22:51:08, 19.21s/it]Sequential sampling (4 chains in 1 job)
+NUTS: [theta, dl, eta, mcdet]
+Sequential sampling (4 chains in 1 job)
+NUTS: [theta, dl, eta, mcdet]
+Sequential sampling (4 chains in 1 job)
+NUTS: [theta, dl, eta, mcdet]
+There was 1 divergence after tuning. Increase `target_accept` or reparameterize.
+There were 3 divergences after tuning. Increase `target_accept` or reparameterize.
+There were 5 divergences after tuning. Increase `target_accept` or reparameterize.
+There were 5 divergences after tuning. Increase `target_accept` or reparameterize.
+Auto-assigning NUTS sampler...
+Initializing NUTS using adapt_diag...
+  0%|          | 4/4285 [01:04<19:05:16, 16.05s/it]INFO (theano.gof.compilelock): Waiting for existing lock by unknown process (I am process '183105')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183121')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183125')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183104')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183118')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183107')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183102')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183123')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183116')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183097')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183103')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183117')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183098')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183126')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183090')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183096')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183109')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183122')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183120')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183124')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183127')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183112')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183119')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183088')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183101')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183092')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183111')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183100')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183106')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+Sequential sampling (4 chains in 1 job)
+NUTS: [theta, dl, eta, mcdet]
+Sequential sampling (4 chains in 1 job)
+NUTS: [theta, dl, eta, mcdet]
+Sequential sampling (4 chains in 1 job)
+NUTS: [theta, dl, eta, mcdet]
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183105')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183121')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183118')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183116')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183104')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183097')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183107')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183123')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183103')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183102')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183098')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183122')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183125')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183120')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183117')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183126')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183096')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183090')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183109')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183101')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183124')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183119')
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183112')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183088')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183127')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183092')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183111')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183100')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '183115' (I am process '183106')
+INFO (theano.gof.compilelock): To manually release the lock, delete /mnt/home/wfarr/.theano/compiledir_Linux-3.10-el7.x86_64-x86_64-with-centos-7.4.1708-Core-x86_64-3.6.5-64/lock_dir
+There was 1 divergence after tuning. Increase `target_accept` or reparameterize.
+There were 2 divergences after tuning. Increase `target_accept` or reparameterize.
+There were 5 divergences after tuning. Increase `target_accept` or reparameterize.
+There were 5 divergences after tuning. Increase `target_accept` or reparameterize.
+Auto-assigning NUTS sampler...
+Initializing NUTS using adapt_diag...
+Auto-assigning NUTS sampler...
+Initializing NUTS using adapt_diag...
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/mnt/home/wfarr/anaconda3/lib/python3.6/multiprocessing/pool.py", line 119, in worker
+    result = (True, func(*args, **kwds))
+  File "/cm/local/apps/slurm/var/spool/job137348/slurm_script", line 124, in sample
+    trace = pm.sample(draws=1000*factor, tune=1000*factor, init='adapt_diag', start=start, njobs=njobs, chains=4, progressbar=progressbar, nuts_kwargs={'target_accept': 0.95})
+  File "/mnt/home/wfarr/anaconda3/lib/python3.6/site-packages/pymc3/sampling.py", line 469, in sample
+    trace = _sample_many(**sample_args)
+  File "/mnt/home/wfarr/anaconda3/lib/python3.6/site-packages/pymc3/sampling.py", line 515, in _sample_many
+    step=step, random_seed=random_seed[i], **kwargs)
+  File "/mnt/home/wfarr/anaconda3/lib/python3.6/site-packages/pymc3/sampling.py", line 559, in _sample
+    for it, strace in enumerate(sampling):
+  File "/mnt/home/wfarr/anaconda3/lib/python3.6/site-packages/pymc3/sampling.py", line 655, in _iter_sample
+    point, states = step.step(point)
+  File "/mnt/home/wfarr/anaconda3/lib/python3.6/site-packages/pymc3/step_methods/arraystep.py", line 247, in step
+    apoint, stats = self.astep(array)
+  File "/mnt/home/wfarr/anaconda3/lib/python3.6/site-packages/pymc3/step_methods/hmc/base_hmc.py", line 115, in astep
+    self.potential.raise_ok(self._logp_dlogp_func._ordering.vmap)
+  File "/mnt/home/wfarr/anaconda3/lib/python3.6/site-packages/pymc3/step_methods/hmc/quadpotential.py", line 201, in raise_ok
+    raise ValueError('\n'.join(errmsg))
+ValueError: Mass matrix contains zeros on the diagonal. 
+The derivative of RV `theta_interval__`.ravel()[0] is zero.
+The derivative of RV `dl_interval__`.ravel()[0] is zero.
+The derivative of RV `eta_interval__`.ravel()[0] is zero.
+The derivative of RV `mcdet_interval__`.ravel()[0] is zero.
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/cm/local/apps/slurm/var/spool/job137348/slurm_script", line 168, in <module>
+    for i, t in tqdm(p.imap_unordered(sample, to_process), total=len(to_process)):
+  File "/mnt/home/wfarr/anaconda3/lib/python3.6/site-packages/tqdm/_tqdm.py", line 933, in __iter__
+    for obj in iterable:
+  File "/mnt/home/wfarr/anaconda3/lib/python3.6/multiprocessing/pool.py", line 735, in next
+    raise value
+ValueError: Mass matrix contains zeros on the diagonal. 
+The derivative of RV `theta_interval__`.ravel()[0] is zero.
+The derivative of RV `dl_interval__`.ravel()[0] is zero.
+The derivative of RV `eta_interval__`.ravel()[0] is zero.
+The derivative of RV `mcdet_interval__`.ravel()[0] is zero.
+Exception ignored in: <bound method tqdm.__del__ of   0%|          | 4/4285 [01:15<22:28:37, 18.90s/it]>
+Traceback (most recent call last):
+  File "/mnt/home/wfarr/anaconda3/lib/python3.6/site-packages/tqdm/_tqdm.py", line 885, in __del__
+  File "/mnt/home/wfarr/anaconda3/lib/python3.6/site-packages/tqdm/_tqdm.py", line 1090, in close
+  File "/mnt/home/wfarr/anaconda3/lib/python3.6/site-packages/tqdm/_tqdm.py", line 441, in _decr_instances
+  File "/mnt/home/wfarr/anaconda3/lib/python3.6/_weakrefset.py", line 109, in remove
+KeyError: <weakref at 0x2aaae8222c28; to 'tqdm' at 0x2aaae8afb048>
