@@ -118,14 +118,7 @@ def sample(i, progressbar=False, njobs=1):
             retries = 0
             while True:
                 try:
-                    start = {
-                        'mcdet': mcobs[i] + smcs[i]*randn(),
-                        'eta': max(0.01, min(etaobs[i] + sets[i]*randn(), 0.24)),
-                        'dl': np.random.uniform(low=0.5, high=2),
-                        'theta': max(0.01, min(thetaobs[i] + sths[i]*randn(), 0.99))
-                    }
-
-                    trace = pm.sample(draws=1000*factor, tune=1000*factor, init='adapt_diag', start=start, njobs=njobs, chains=4, progressbar=progressbar, nuts_kwargs={'target_accept': 0.95})
+                    trace = pm.sample(draws=1000*factor, tune=1000*factor, njobs=njobs, chains=4, progressbar=progressbar, nuts_kwargs={'target_accept': 0.95})
                     break
                 except ValueError:
                     retries += 1
@@ -173,7 +166,7 @@ if __name__ == '__main__':
 
         to_process = []
         for i in range(nobs):
-            if np.any(array(f['posteriors']['m1det'][i,:]) == 0):
+            if np.any(array(f['posteriors']['theta'][i,:]) == 0):
                 to_process.append(i)
 
         for i, t in tqdm(p.imap_unordered(sample, to_process), total=len(to_process)):
