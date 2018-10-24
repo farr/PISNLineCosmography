@@ -101,7 +101,7 @@ with h5py.File('observations.h5', 'r') as inp:
     srhs = array(inp['sigma_rho'])
     sths = array(inp['sigma_t'])
 
-def sample(i, progressbar=False):
+def sample(i, progressbar=False, njobs=1):
     mco.set_value(mcobs[i])
     eto.set_value(etaobs[i])
     ro.set_value(rhoobs[i])
@@ -115,7 +115,13 @@ def sample(i, progressbar=False):
     with m:
         factor = 1
         while True:
-            trace = pm.sample(draws=1000*factor, tune=1000*factor, njobs=1, chains=4, progressbar=progressbar, nuts_kwargs={'target_accept': 0.95})
+            start = {
+                'mcdet': mcobs[i],
+                'eta': etaobs[i],
+                'dl': 2.0,
+                'theta': thetaobs[i]
+            }
+            trace = pm.sample(draws=1000*factor, tune=1000*factor, init='adapt_diag', start=start, njobs=njobs, chains=4, progressbar=progressbar, nuts_kwargs={'target_accept': 0.95})
 
             nef = pm.effective_n(trace)
             ne_min = min([nef[k] for k in ['m1det', 'm2det', 'dl', 'theta']])
@@ -140,7 +146,6 @@ def thin(arr):
     return arr[::t]
 
 if __name__ == '__main__':
-    sample(0, progressbar=True)
     p = multi.Pool()
 
     nobs = len(m1s)
