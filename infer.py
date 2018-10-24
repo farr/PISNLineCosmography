@@ -112,20 +112,19 @@ def sample(i, progressbar=False, njobs=1):
     sigma_rho.set_value(srhs[i])
     sigma_theta.set_value(sths[i])
 
-    retries = 0
-
     with m:
         factor = 1
         while True:
-            start = {
-                'mcdet': mcobs[i] + smcs[i]*randn(),
-                'eta': max(0.0001, min(etaobs[i] + sets[i]*randn(), 0.2499)),
-                'dl': np.random.uniform(low=0.5, high=2),
-                'theta': max(0.0001, min(thetaobs[i] + sths[i]*randn(), 0.9999))
-            }
-
-            while retries < 5:
+            retries = 0
+            while True:
                 try:
+                    start = {
+                        'mcdet': mcobs[i] + smcs[i]*randn(),
+                        'eta': max(0.01, min(etaobs[i] + sets[i]*randn(), 0.24)),
+                        'dl': np.random.uniform(low=0.5, high=2),
+                        'theta': max(0.01, min(thetaobs[i] + sths[i]*randn(), 0.99))
+                    }
+
                     trace = pm.sample(draws=1000*factor, tune=1000*factor, init='adapt_diag', start=start, njobs=njobs, chains=4, progressbar=progressbar, nuts_kwargs={'target_accept': 0.95})
                     break
                 except ValueError:
@@ -133,7 +132,7 @@ def sample(i, progressbar=False, njobs=1):
                     if retries >= 5:
                         raise
                     else:
-                        print('Re-trying sampling due to ValueError')
+                        print('Re-trying ({:d} times) sampling due to ValueError.  Analysis on event {:d}.  Starting point was '.format(retries, i), start, flush=True)
 
             nef = pm.effective_n(trace)
             ne_min = min([nef[k] for k in ['m1det', 'm2det', 'dl', 'theta']])
