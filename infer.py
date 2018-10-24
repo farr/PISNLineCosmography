@@ -118,10 +118,10 @@ def sample(i, progressbar=False, njobs=1):
         factor = 1
         while True:
             start = {
-                'mcdet': mcobs[i],
-                'eta': etaobs[i],
-                'dl': 2.0,
-                'theta': thetaobs[i]
+                'mcdet': mcobs[i] + smcs[i]*randn(),
+                'eta': max(0.0001, min(etaobs[i] + sets[i]*randn(), 0.2499)),
+                'dl': random.uniform(low=0.5, high=2),
+                'theta': max(0.0001, min(thetaobs[i] + sths[i]*randn(), 0.9999))
             }
 
             while retries < 5:
