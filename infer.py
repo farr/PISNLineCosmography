@@ -60,7 +60,7 @@ sigma_theta = theano.shared(1.0)
 
 with m:
     mcdet = pm.Uniform('mcdet', lower=3, upper=120)
-    eta = pm.Uniform('eta', lower=0, upper=0.25)
+    eta = pm.Uniform('eta', lower=0, upper=0.24999) # Restrict to three nines because of (integrable) singularity at 0.25
 
     disc = eta**(4.0/5.0)*mcdet**2 - 4.0*eta**(9.0/5.0)*mcdet**2
 
@@ -116,16 +116,18 @@ def sample(i, progressbar=False, njobs=1):
         factor = 1
         while True:
             retries = 0
+            max_retries = 10
             while True:
                 try:
                     trace = pm.sample(draws=1000*factor, tune=1000*factor, njobs=njobs, chains=4, progressbar=progressbar, nuts_kwargs={'target_accept': 0.95})
                     break
                 except ValueError:
                     retries += 1
-                    if retries >= 5:
+                    if retries >= max_retries:
+                        print("Dying on event {:d} after {:d} tries!".format(i, retries), flush=True)
                         raise
                     else:
-                        print('Re-trying ({:d} times) sampling due to ValueError.  Analysis on event {:d}.  Starting point was '.format(retries, i), start, flush=True)
+                        print('Re-trying analysis on event {:d} ({:d} times) due to ValueError.'.format(i, retries), flush=True)
 
             nef = pm.effective_n(trace)
             ne_min = min([nef[k] for k in ['m1det', 'm2det', 'dl', 'theta']])
