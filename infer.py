@@ -101,7 +101,7 @@ with h5py.File('observations.h5', 'r') as inp:
     srhs = array(inp['sigma_rho'])
     sths = array(inp['sigma_t'])
 
-def sample(i):
+def sample(i, progressbar=False):
     mco.set_value(mcobs[i])
     eto.set_value(etaobs[i])
     ro.set_value(rhoobs[i])
@@ -115,7 +115,7 @@ def sample(i):
     with m:
         factor = 1
         while True:
-            trace = pm.sample(draws=1000*factor, tune=1000*factor, njobs=1, chains=4, progressbar=False)
+            trace = pm.sample(draws=1000*factor, tune=1000*factor, njobs=1, chains=4, progressbar=progressbar, nuts_kwargs={'target_accept': 0.95})
 
             nef = pm.effective_n(trace)
             ne_min = min([nef[k] for k in ['m1det', 'm2det', 'dl', 'theta']])
@@ -127,43 +127,39 @@ def sample(i):
 
     print(pm.summary(trace))
 
-    return trace
+    return i, trace
 
 def thin(arr):
     l = len(arr)
 
     if l > 4000:
-        t = int(round(len(l)/4000.0))
+        t = int(round(len(arr)/4000.0))
+    else:
+        t = 1
 
-    return l[::t]
+    return arr[::t]
 
 if __name__ == '__main__':
-    sample(0)
+    sample(0, progressbar=True)
     p = multi.Pool()
-    traces = list(tqdm(p.imap(sample, range(len(m1s))), total=len(m1s)))
 
     nobs = len(m1s)
 
-    m1dets = zeros((nobs, 4000))
-    m2dets = zeros((nobs, 4000))
-    dls = zeros((nobs, 4000))
-    thetas = zeros((nobs, 4000))
-
-    for i, t in enumerate(traces):
-        m1dets[i,:] = t['m1det']
-        m2dets[i,:] = t['m2det']
-        dls[i,:] = t['dl']
-        thetas[i,:] = t['theta']
-
     with h5py.File('observations.h5', 'a') as f:
         try:
-            del f['posteriors']
+            f['posteriors']
         except:
-            pass
+            g = f.create_group('posteriors')
+            g.create_dataset('m1det', data=zeros((nobs, 4000)), compression='gzip', shuffle=True)
+            g.create_dataset('m2det', data=zeros((nobs, 4000)), compression='gzip', shuffle=True)
+            g.create_dataset('dl', data=zeros((nobs, 4000)), compression='gzip', shuffle=True)
+            g.create_dataset('theta', data=zeros((nobs, 4000)), compression='gzip', shuffle=True)
 
-        g = f.create_group('posteriors')
+        to_process = []
+        for i in range(nobs):
+            if np.any(array(f['posteriors']['m1det'][i,:]) == 0):
+                to_process.append(i)
 
-        g.create_dataset('m1det', data=m1dets, compression='gzip', shuffle=True)
-        g.create_dataset('m2det', data=m2dets, compression='gzip', shuffle=True)
-        g.create_dataset('dl', data=dls, compression='gzip', shuffle=True)
-        g.create_dataset('theta', data=thetas, compression='gzip', shuffle=True)
+        for i, t in tqdm(p.imap_unordered(sample, to_process), total=len(to_process)):
+            for k in ['m1det', 'm2det', 'dl', 'theta']:
+                f['posteriors'][k][i,:] = thin(t[k])
