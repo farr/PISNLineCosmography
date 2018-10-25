@@ -10,11 +10,11 @@ import theano.tensor as tt
 import theano.tensor.extra_ops as te
 
 def softened_power_law_pdf_unnorm(xs, alpha, xmin, xmax, sigma_min, sigma_max):
-    return xs**alpha*where(xs > xmin,
-                           where(xs < xmax,
-                                 1,
-                                 exp(-0.5*(log(xs)-log(xmax))**2/sigma_max**2)),
-                           exp(-0.5*(log(xs)-log(xmin))**2/sigma_min**2))
+    return xs**alpha*tt.switch(xs > xmin,
+                               tt.switch(xs < xmax,
+                                         1,
+                                         tt.exp(-0.5*(tt.log(xs)-tt.log(xmax))**2/sigma_max**2)),
+                               tt.exp(-0.5*(tt.log(xs)-tt.log(xmin))**2/sigma_min**2))
 
 def Ez(zs, Om, w):
     opz = 1 + zs
@@ -26,40 +26,6 @@ def Ez(zs, Om, w):
 def dzddL(dls, zs, dH, Om, w):
     opz = 1+zs
     return 1/(dls/opz + opz*dH/Ez(zs, Om, w))
-
-def log_dNdm1dm2ddLdt(m1s, m2s, dls, zs, R0, MMin, MMax, alpha, beta, gamma, dH, Om, w, smooth_low, smooth_high):
-    oma = 1-alpha
-    log_m1norm = tt.log(oma/(MMax**oma - MMin**oma))
-
-    # This term is a bear---sometimes, for small masses, m1 > MMin; but we need to normalize it.
-    # We approximate the exponential integral against the power law using just the zero-order term,
-    # and smoothly transition to the standard power-law norm.
-    log_m2_integral = tt.switch(m1s < MMin, # Small
-                                tt.switch(m1s < MMin - 5.0*smooth_low, # Very small, use series for erf!
-                                          beta*tt.log(MMin) + 2.0*tt.log(smooth_low) - tt.log(MMin-m1s) - 0.5*(m1s-MMin)**2/smooth_low**2,
-                                          beta*tt.log(MMin) + 0.5*tt.log(pi/2) + tt.log(smooth_low) + tt.log1p(tt.erf((m1s-MMin)/(smooth_low*tt.sqrt(2))))),
-                                tt.log(MMin**beta*tt.sqrt(pi/2)*smooth_low + (m1s**(1+beta) - MMin**(1+beta))/(1+beta)))
-    log_m2norm = -log_m2_integral
-
-    log_dNdm1dm2dVdt = tt.log(R0) - alpha*tt.log(m1s) + beta*tt.log(m2s) + log_m1norm + log_m2norm + (gamma-1)*tt.log1p(zs)
-
-    log_dVdz = tt.log(4.0*pi) + 2*tt.log(dls/(1+zs)) + tt.log(dH) - tt.log(Ez(zs, Om, w))
-    log_dzddL = tt.log(dzddL(dls, zs, dH, Om, w))
-
-    log_sl = tt.switch(m2s < MMin, -0.5*(m2s-MMin)**2/smooth_low**2, 0.0)
-    log_sh = tt.switch(m1s > MMax, -0.5*(m1s-MMax)**2/smooth_high**2, 0.0)
-
-    return log_dNdm1dm2dVdt + log_dVdz + log_dzddL + log_sl + log_sh
-
-def dls_of_zs(zs, dH, Om, w):
-    ddcdz = dH/Ez(zs, Om, w)
-
-    dzs = (zs[1:] - zs[:-1])
-    ddcdz_ave = 0.5*(ddcdz[1:] + ddcdz[:-1])
-
-    dcs = tt.concatenate((tt.zeros(1), te.cumsum(dzs*ddcdz_ave)))
-
-    return dcs*(1+zs)
 
 def interp1d(xs, xi, yi):
     inds = te.searchsorted(xi, xs)
@@ -74,12 +40,41 @@ def interp1d(xs, xi, yi):
 
     return yl*(1-r) + yh*r
 
-def make_model(m1s, m2s, dls, m1s_det, m2s_det, dls_det, wts_det, N_gen, T_obs, z_safety_factor=10, n_interp=1000, smooth_low=0.1, smooth_high=0.5, cosmo_constraints=False):
+def log_dNdm1dm2ddLdt(m1s, m2s, dls, zs, R0, MMin, MMax, alpha, beta, gamma, dH, Om, w, smooth_low, smooth_high, ms_norm):
+    dms = tt.diff(ms_norm)
+    pms_alpha = softened_power_law_pdf_unnorm(ms_norm, -alpha, MMin, MMax, smooth_low, smooth_high)
+    pms_beta = softened_power_law_pdf_unnorm(ms_norm, beta, MMin, MMax, smooth_low, smooth_high)
+
+    cum_beta = tt.concatenate((tt.zeros(1), tt.cumsum(0.5*dms*(pms_beta[1:] + pms_beta[:-1]))))
+
+    log_norm_alpha = tt.log(tt.sum(0.5*dms*(pms_alpha[1:] + pms_alpha[:-1])))
+    log_norm_beta = tt.log(interp1d(m1s, ms_norm, cum_beta))
+
+    log_dNdm1dm2dVdt = tt.log(R0) + tt.log(softened_power_law_pdf_unnorm(m1s, -alpha, MMin, MMax, smooth_low, smooth_high)) + tt.log(softened_power_law_pdf_unnorm(m2s, beta, MMin, MMax, smooth_low, smooth_high)) - log_norm_alpha - log_norm_beta + (gamma-1)*tt.log1p(zs)
+
+    log_dVdz = tt.log(4.0*pi) + 2*tt.log(dls/(1+zs)) + tt.log(dH) - tt.log(Ez(zs, Om, w))
+    log_dzddL = tt.log(dzddL(dls, zs, dH, Om, w))
+
+    return log_dNdm1dm2dVdt + log_dVdz + log_dzddL
+
+def dls_of_zs(zs, dH, Om, w):
+    ddcdz = dH/Ez(zs, Om, w)
+
+    dzs = (zs[1:] - zs[:-1])
+    ddcdz_ave = 0.5*(ddcdz[1:] + ddcdz[:-1])
+
+    dcs = tt.concatenate((tt.zeros(1), te.cumsum(dzs*ddcdz_ave)))
+
+    return dcs*(1+zs)
+
+def make_model(m1s, m2s, dls, m1s_det, m2s_det, dls_det, wts_det, N_gen, T_obs, z_safety_factor=10, n_interp=1000, cosmo_constraints=False):
     dmax = max(np.max(dls), np.max(dls_det))
     zmax = cosmo.z_at_value(Planck15.luminosity_distance, dmax*u.Gpc)
 
     zs_interp = linspace(0, zmax*z_safety_factor, n_interp)
     zs_interp = tt.as_tensor_variable(zs_interp)
+
+    ms_interp = tt.as_tensor_variable(np.exp(np.arange(log(3), log(75), 0.01)))
 
     log_wts_det = np.log(wts_det)
 
@@ -99,7 +94,10 @@ def make_model(m1s, m2s, dls, m1s_det, m2s_det, dls_det, wts_det, N_gen, T_obs, 
     m = pm.Model()
 
     with m:
-        MMin = 5.0 #pm.Bound(pm.Normal, lower=3, upper=10)('MMin', mu=5, sd=2)
+        smooth_low = pm.Lognormal('sigma_low', mu=log(0.1), sd=1)
+        smooth_high = pm.Lognormal('sigma_high', mu=log(0.1), sd=1)
+
+        MMin = pm.Bound(pm.Normal, lower=3, upper=10)('MMin', mu=5, sd=2)
         MMax = pm.Bound(pm.Normal, lower=30, upper=70)('MMax', mu=40, sd=10)
 
         R0 = pm.Lognormal('R0', mu=log(100), sd=1)
@@ -123,7 +121,7 @@ def make_model(m1s, m2s, dls, m1s_det, m2s_det, dls_det, wts_det, N_gen, T_obs, 
         zs = interp1d(dls, ds_interp, zs_interp)
         zs_det = interp1d(dls_det, ds_interp, zs_interp)
 
-        log_dN_det = log_dNdm1dm2ddLdt(m1s_det/(1+zs_det), m2s_det/(1+zs_det), dls_det, zs_det, R0, MMin, MMax, alpha, beta, gamma, dH, Om, w, smooth_low, smooth_high) - log_wts_det - 2*tt.log1p(zs_det)
+        log_dN_det = log_dNdm1dm2ddLdt(m1s_det/(1+zs_det), m2s_det/(1+zs_det), dls_det, zs_det, R0, MMin, MMax, alpha, beta, gamma, dH, Om, w, smooth_low, smooth_high, ms_interp) - log_wts_det - 2*tt.log1p(zs_det)
 
         N_sum = tt.exp(pm.logsumexp(log_dN_det))
         N2_sum = tt.exp(pm.logsumexp(2*log_dN_det))
