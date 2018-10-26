@@ -8,7 +8,7 @@ source activate
 export PYTHONPATH="$PYTHONPATH:/mnt/home/wfarr/PISNLineCosmography"
 
 NSAMP=64
-NSEL=16384
+NSEL=32768
 ./fit.py --sampfile observations.h5 --subset small --samp $NSAMP --selfile selected.h5 --nsel $NSEL --chainfile population_small.h5 --tracefile traceplot_small.pdf > logs/small.out 2> logs/small.err &
 ./fit.py --cosmo-constraints --sampfile observations.h5 --subset small --samp $NSAMP --selfile selected.h5 --nsel $NSEL --chainfile population_small_cosmo.h5 --tracefile traceplot_small_cosmo.pdf > logs/small_cosmo.out 2> logs/small_cosmo.err &
 
