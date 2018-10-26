@@ -10,11 +10,14 @@ import theano.tensor as tt
 import theano.tensor.extra_ops as te
 
 def softened_power_law_pdf_unnorm(xs, alpha, xmin, xmax, sigma_min, sigma_max):
-    return xs**alpha*tt.switch(xs > xmin,
-                               tt.switch(xs < xmax,
-                                         1,
-                                         tt.exp(-0.5*(tt.log(xs)-tt.log(xmax))**2/sigma_max**2)),
-                               tt.exp(-0.5*(tt.log(xs)-tt.log(xmin))**2/sigma_min**2))
+    return tt.exp(softened_power_law_logpdf_unnorm(xs, alpha, xmin, xmax, sigma_min, sigma_max))
+
+def softened_power_law_logpdf_unnorm(xs, alpha, xmin, xmax, sigma_min, sigma_max):
+    return alpha*tt.log(xs) + tt.switch(xs > xmin,
+                                        tt.switch(xs < xmax,
+                                                  0.0,
+                                                  -0.5*(tt.log(xs)-tt.log(xmax))**2/sigma_max**2),
+                                        -0.5*(tt.log(xs)-tt.log(xmin))**2/sigma_min**2)
 
 def Ez(zs, Om, w):
     opz = 1 + zs
@@ -41,7 +44,7 @@ def interp1d(xs, xi, yi):
     return yl*(1-r) + yh*r
 
 def log_dNdm1dm2ddLdt(m1s, m2s, dls, zs, R0, MMin, MMax, alpha, beta, gamma, dH, Om, w, smooth_low, smooth_high, ms_norm):
-    dms = tt.diff(ms_norm)
+    dms = ms_norm[1:] - ms_norm[:-1]
     pms_alpha = softened_power_law_pdf_unnorm(ms_norm, -alpha, MMin, MMax, smooth_low, smooth_high)
     pms_beta = softened_power_law_pdf_unnorm(ms_norm, beta, MMin, MMax, smooth_low, smooth_high)
 
@@ -50,7 +53,7 @@ def log_dNdm1dm2ddLdt(m1s, m2s, dls, zs, R0, MMin, MMax, alpha, beta, gamma, dH,
     log_norm_alpha = tt.log(tt.sum(0.5*dms*(pms_alpha[1:] + pms_alpha[:-1])))
     log_norm_beta = tt.log(interp1d(m1s, ms_norm, cum_beta))
 
-    log_dNdm1dm2dVdt = tt.log(R0) + tt.log(softened_power_law_pdf_unnorm(m1s, -alpha, MMin, MMax, smooth_low, smooth_high)) + tt.log(softened_power_law_pdf_unnorm(m2s, beta, MMin, MMax, smooth_low, smooth_high)) - log_norm_alpha - log_norm_beta + (gamma-1)*tt.log1p(zs)
+    log_dNdm1dm2dVdt = tt.log(R0) + softened_power_law_logpdf_unnorm(m1s, -alpha, MMin, MMax, smooth_low, smooth_high) + softened_power_law_logpdf_unnorm(m2s, beta, MMin, MMax, smooth_low, smooth_high) - log_norm_alpha - log_norm_beta + (gamma-1)*tt.log1p(zs)
 
     log_dVdz = tt.log(4.0*pi) + 2*tt.log(dls/(1+zs)) + tt.log(dH) - tt.log(Ez(zs, Om, w))
     log_dzddL = tt.log(dzddL(dls, zs, dH, Om, w))
@@ -74,18 +77,9 @@ def make_model(m1s, m2s, dls, m1s_det, m2s_det, dls_det, wts_det, N_gen, T_obs, 
     zs_interp = linspace(0, zmax*z_safety_factor, n_interp)
     zs_interp = tt.as_tensor_variable(zs_interp)
 
-    ms_interp = tt.as_tensor_variable(np.exp(np.arange(log(3), log(75), 0.01)))
+    ms_interp = tt.as_tensor_variable(np.exp(np.arange(log(1), log(200), 0.01)))
 
     log_wts_det = np.log(wts_det)
-
-    bw_high = std(m1s, axis=1)/m1s.shape[1]**0.2
-    bw_low = std(m2s, axis=1)/m2s.shape[1]**0.2
-
-    bw_high = bw_high[:,newaxis]
-    bw_high = np.where(bw_high < 0.5, 0.5, bw_high)
-
-    bw_low = bw_low[:,newaxis]
-    bw_low = np.where(bw_low < 0.05, 0.05, bw_low)
 
     N_obs = m1s.shape[0]
     N_samp = m1s.shape[1]
@@ -131,7 +125,7 @@ def make_model(m1s, m2s, dls, m1s_det, m2s_det, dls_det, wts_det, N_gen, T_obs, 
 
         Neff_det = pm.Deterministic('neff_det', Nex*Nex/(sigma_Nex*sigma_Nex))
 
-        log_dN_likelihood = log_dNdm1dm2ddLdt(m1s/(1+zs), m2s/(1+zs), dls, zs, R0, MMin, MMax, alpha, beta, gamma, dH, Om, w, bw_low, bw_high) - 2*tt.log1p(zs)
+        log_dN_likelihood = log_dNdm1dm2ddLdt(m1s/(1+zs), m2s/(1+zs), dls, zs, R0, MMin, MMax, alpha, beta, gamma, dH, Om, w, smooth_low, smooth_high, ms_interp) - 2*tt.log1p(zs)
 
         pm.Potential('log-likelihood', tt.sum(pm.logsumexp(log_dN_likelihood, axis=1) - tt.log(N_samp)))
         pm.Potential('Poisson-norm', -Nex)
