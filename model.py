@@ -70,14 +70,14 @@ def dls_of_zs(zs, dH, Om, w):
 
     return dcs*(1+zs)
 
-def make_model(m1s, m2s, dls, m1s_det, m2s_det, dls_det, wts_det, N_gen, T_obs, z_safety_factor=10, n_interp=1000, cosmo_constraints=False):
+def make_model(m1s, m2s, dls, m1s_det, m2s_det, dls_det, wts_det, N_gen, T_obs, z_safety_factor=10, n_interp=1000, cosmo_constraints=False, dlogm_interp=1e-3):
     dmax = max(np.max(dls), np.max(dls_det))
     zmax = cosmo.z_at_value(Planck15.luminosity_distance, dmax*u.Gpc)
 
     zs_interp = linspace(0, zmax*z_safety_factor, n_interp)
     zs_interp = tt.as_tensor_variable(zs_interp)
 
-    ms_interp = tt.as_tensor_variable(np.exp(np.arange(log(1), log(200), 0.01)))
+    ms_interp = tt.as_tensor_variable(np.exp(np.arange(log(1), log(200), dlogm_interp)))
 
     log_wts_det = np.log(wts_det)
 
@@ -121,7 +121,7 @@ def make_model(m1s, m2s, dls, m1s_det, m2s_det, dls_det, wts_det, N_gen, T_obs, 
         N2_sum = tt.exp(pm.logsumexp(2*log_dN_det))
 
         Nex = pm.Deterministic('Nex', T_obs/N_gen*N_sum)
-        sigma_Nex = T_obs/N_gen*tt.sqrt(N2_sum - N_sum*N_sum/N_det)
+        sigma_Nex = T_obs/N_gen*tt.sqrt(N2_sum - N_sum*N_sum/N_gen)
 
         Neff_det = pm.Deterministic('neff_det', Nex*Nex/(sigma_Nex*sigma_Nex))
 
