@@ -152,6 +152,10 @@ def thin(arr):
     return arr[::t]
 
 if __name__ == '__main__':
+    # Run one fake sampling just so that everything compiles
+    with m:
+        pm.sample(1, njobs=1)
+
     p = multi.Pool()
 
     nobs = len(m1s)
