@@ -96,6 +96,8 @@ def make_model(m1s, m2s, dls, m1s_det, m2s_det, dls_det, wts_det, N_gen, T_obs, 
 
         R0 = pm.Lognormal('R0', mu=log(100), sd=1)
 
+        unit_normal = pm.Normal('unit_normal', mu=0, sd=1)
+
         alpha = pm.Bound(pm.Normal, lower=-3, upper=3)('alpha', mu=0.75, sd=1)
         beta = pm.Bound(pm.Normal, lower=-3, upper=3)('beta', mu=0, sd=1)
         gamma = pm.Bound(pm.Normal, lower=0, upper=6)('gamma', mu=3, sd=2)
@@ -120,15 +122,18 @@ def make_model(m1s, m2s, dls, m1s_det, m2s_det, dls_det, wts_det, N_gen, T_obs, 
         N_sum = tt.exp(pm.logsumexp(log_dN_det))
         N2_sum = tt.exp(pm.logsumexp(2*log_dN_det))
 
-        Nex = pm.Deterministic('Nex', T_obs/N_gen*N_sum)
-        sigma_Nex = T_obs/N_gen*tt.sqrt(N2_sum - N_sum*N_sum/N_gen)
+        mu_N_det = pm.Deterministic('mu_N_det', T_obs/N_gen*N_sum)
+        sigma_N_det2 = (T_obs/N_gen)**2*(N2_sum - N_sum*N_sum/N_gen)
+        sigma_N_det = pm.Deterministic('sigma_N_det', tt.sqrt(sigma_N_det2))
 
-        Neff_det = pm.Deterministic('neff_det', Nex*Nex/(sigma_Nex*sigma_Nex))
+        Neff_det = pm.Deterministic('neff_det', mu_N_det*mu_N_det/sigma_N_det2)
+
+        N_det = pm.Deterministic('N_det', mu_N_det*tt.exp(sigma_N_det/mu_N_det*unit_normal))
 
         log_dN_likelihood = log_dNdm1dm2ddLdt(m1s/(1+zs), m2s/(1+zs), dls, zs, R0, MMin, MMax, alpha, beta, gamma, dH, Om, w, smooth_low, smooth_high, ms_interp) - 2*tt.log1p(zs)
 
-        pm.Potential('log-likelihood', tt.sum(pm.logsumexp(log_dN_likelihood, axis=1) - tt.log(N_samp)))
-        pm.Potential('Poisson-norm', -Nex)
+        pm.Potential('log_likelihood', tt.sum(pm.logsumexp(log_dN_likelihood, axis=1) - tt.log(N_samp)))
+        pm.Potential('Poisson_norm', -N_det)
 
     return m
 
