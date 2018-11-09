@@ -128,12 +128,12 @@ def make_model(m1s, m2s, dls, m1s_det, m2s_det, dls_det, wts_det, N_gen, T_obs, 
 
         Neff_det = pm.Deterministic('neff_det', mu_N_det*mu_N_det/sigma_N_det2)
 
-        N_det = pm.Deterministic('N_det', mu_N_det*tt.exp(sigma_N_det/mu_N_det*unit_normal))
+        Nex = pm.Deterministic('Nex', mu_N_det*tt.exp(sigma_N_det/mu_N_det*unit_normal))
 
         log_dN_likelihood = log_dNdm1dm2ddLdt(m1s/(1+zs), m2s/(1+zs), dls, zs, R0, MMin, MMax, alpha, beta, gamma, dH, Om, w, smooth_low, smooth_high, ms_interp) - 2*tt.log1p(zs)
 
         pm.Potential('log_likelihood', tt.sum(pm.logsumexp(log_dN_likelihood, axis=1) - tt.log(N_samp)))
-        pm.Potential('Poisson_norm', -N_det)
+        pm.Potential('norm', -Nex)
 
     return m
 
