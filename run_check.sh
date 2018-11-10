@@ -12,8 +12,8 @@ NSEL=2048
 ./fit.py --sampfile observations.h5 --subset small --samp $NSAMP --selfile selected.h5 --nsel $NSEL --chainfile population_small_check.h5 --tracefile traceplot_small_check.pdf > logs/small_check.out 2> logs/small_check.err &
 ./fit.py --cosmo-constraints --sampfile observations.h5 --subset small --samp $NSAMP --selfile selected.h5 --nsel $NSEL --chainfile population_small_cosmo_check.h5 --tracefile traceplot_small_cosmo_check.pdf > logs/small_cosmo_check.out 2> logs/small_cosmo_check.err &
 
-NSAMP=256
-NSEL=65536
+NSAMP=512
+NSEL=131072
 ./fit.py --sampfile observations.h5 --subset 1yr --samp $NSAMP --selfile selected.h5 --nsel $NSEL --chainfile population_1yr_check.h5 --tracefile traceplot_1yr_check.pdf > logs/1yr_check.out 2>logs/1yr_check.err &
 ./fit.py --cosmo-constraints --sampfile observations.h5 --subset 1yr --samp $NSAMP --selfile selected.h5 --nsel $NSEL --chainfile population_1yr_cosmo_check.h5 --tracefile traceplot_1yr_cosmo_check.pdf > logs/1yr_cosmo_check.out 2>logs/1yr_cosmo_check.err &
 
