@@ -115,6 +115,7 @@ pm.traceplot(fit)
 savefig(args.tracefile)
 
 with h5py.File(args.chainfile, 'w') as out:
+    out.attrs['nobs'] = nobs
     out.attrs['nsamp'] = nsamp
     out.attrs['nsel'] = ndet
 
