@@ -18,7 +18,7 @@ then
 
   # Build the paper using tectonic
   cd $LATEXDIR
-  tectonic $LATEXFILE --print
+  tectonic $LATEXFILE --web-bundle "https://tectonic.newton.cx/bundles/tlextras-2018.1r0/bundle.tar" --print
 
   # Force push the paper to GitHub
   cd $TRAVIS_BUILD_DIR
