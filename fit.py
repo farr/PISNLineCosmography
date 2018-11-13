@@ -21,6 +21,7 @@ post = p.add_argument_group('Event Options')
 post.add_argument('--sampfile', metavar='FILE.h5', default='observations.h5', help='posterior samples file (default: %(default)s)')
 post.add_argument('--subset', metavar='DESIGNATOR', help='name of the attribute giving the number of detection to analyze (default: all)')
 post.add_argument('--samp', metavar='N', type=int, default=100, help='number of posterior samples used for each event (default: %(default)s)')
+post.add_argument('--zero-uncert', action='store_true', help='treat the observations as having no uncertainty (default: %(default)s)')
 
 sel = p.add_argument_group('Selection Function Options')
 sel.add_argument('--selfile', metavar='FILE.h5', default='selected.h5', help='file containing records of successful injections for VT estimation (default: %(default)s)')
@@ -87,6 +88,22 @@ for i in range(nobs):
     m1[i,:] = chain['m1det'][i,inds]
     m2[i,:] = chain['m2det'][i,inds]
     dl[i,:] = chain['dl'][i,inds]
+
+if args.zero_uncert:
+    # If we have zero uncertainty, then we throw away all the samples, and just use the true values
+    with h5py.File(args.sampfile, 'r') as f:
+        m1 = reshape(array(f['m1s']), (-1, 1))
+        m2 = reshape(array(f['m2s']), (-1, 1))
+        z = reshape(array(f['zs']), (-1, 1))
+
+        m1 = m1*(1+z)
+        m2 = m2*(1+z)
+
+        dl = Planck15.luminosity_distance(z).to(u.Gpc).value
+
+        m1 = m1[:nobs, :]
+        m2 = m2[:nobs, :]
+        dl = dl[:nobs, :]
 
 m = model.make_model(m1, m2, dl, m1s_det, m2s_det, dls_det, wts_det, N_gen, Tobs, cosmo_constraints=args.cosmo_constraints)
 
