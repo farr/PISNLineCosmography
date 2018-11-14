@@ -96,7 +96,7 @@ def make_model(m1s, m2s, dls, m1s_det, m2s_det, dls_det, wts_det, N_gen, T_obs, 
 
         R0 = pm.Lognormal('R0', mu=log(100), sd=1)
 
-        unit_normal = pm.Normal('unit_normal', mu=0, sd=1)
+        #unit_normal = pm.Normal('unit_normal', mu=0, sd=1)
 
         alpha = pm.Bound(pm.Normal, lower=-3, upper=3)('alpha', mu=0.75, sd=1)
         beta = pm.Bound(pm.Normal, lower=-3, upper=3)('beta', mu=0, sd=1)
@@ -117,18 +117,22 @@ def make_model(m1s, m2s, dls, m1s_det, m2s_det, dls_det, wts_det, N_gen, T_obs, 
         zs = interp1d(dls, ds_interp, zs_interp)
         zs_det = interp1d(dls_det, ds_interp, zs_interp)
 
-        log_dN_det = log_dNdm1dm2ddLdt(m1s_det/(1+zs_det), m2s_det/(1+zs_det), dls_det, zs_det, R0, MMin, MMax, alpha, beta, gamma, dH, Om, w, smooth_low, smooth_high, ms_interp) - log_wts_det - 2*tt.log1p(zs_det)
+        # Set R0 = 1.0; we will put the scale back in later
+        log_dN_det = log_dNdm1dm2ddLdt(m1s_det/(1+zs_det), m2s_det/(1+zs_det), dls_det, zs_det, 1.0, MMin, MMax, alpha, beta, gamma, dH, Om, w, smooth_low, smooth_high, ms_interp) - log_wts_det - 2*tt.log1p(zs_det)
 
         N_sum = tt.exp(pm.logsumexp(log_dN_det))
         N2_sum = tt.exp(pm.logsumexp(2*log_dN_det))
 
-        mu_N_det = pm.Deterministic('mu_N_det', T_obs/N_gen*N_sum)
-        sigma_N_det2 = (T_obs/N_gen)**2*(N2_sum - N_sum*N_sum/N_gen)
-        sigma_N_det = pm.Deterministic('sigma_N_det', tt.sqrt(sigma_N_det2))
+        # Note: R0 put back in by hand here
+        mu_N_det = R0*T_obs/N_gen*N_sum
 
-        Neff_det = pm.Deterministic('neff_det', mu_N_det*mu_N_det/sigma_N_det2)
+        # ...but not here, where the uncertainty is the relative uncertainty
+        sigma_rel_det2 = N2_sum/(N_sum*N_sum) - 1.0/N_gen
+        sigma_rel_det = tt.sqrt(sigma_rel_det2)
 
-        Nex = pm.Deterministic('Nex', mu_N_det*tt.exp(sigma_N_det/mu_N_det*unit_normal))
+        Neff_det = pm.Deterministic('neff_det', 1.0/sigma_rel_det2)
+
+        Nex = pm.Deterministic('Nex', mu_N_det)
 
         log_dN_likelihood = log_dNdm1dm2ddLdt(m1s/(1+zs), m2s/(1+zs), dls, zs, R0, MMin, MMax, alpha, beta, gamma, dH, Om, w, smooth_low, smooth_high, ms_interp) - 2*tt.log1p(zs)
 
