@@ -112,7 +112,7 @@ fit = model.sample(m, args.iter, args.iter, args.njobs)
 print(pm.summary(fit))
 
 print('Just completed sampling.')
-print('  D(ln(pi)) due to selection Monte-Carlo is {:.2f}'.format(std(nobs**2/(2*fit['neff_det']))))
+print('  Fraction of D(ln(pi)) due to selection Monte-Carlo is {:.2f}'.format(std(nobs**2/(2*fit['neff_det'])) / (nobs*std(log(fit['Nex'])-log(fit['R0'])))))
 print('  Mean fractional bias in R is {:.2f}'.format(mean(nobs/fit['neff_det'])))
 print('  Mean fractional increase in sigma_R is {:.2f}'.format(mean(sqrt((1 - 4*nobs + 3*nobs**2)/(fit['neff_det']*(nobs-1))))))
 
