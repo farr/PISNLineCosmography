@@ -7,15 +7,15 @@ source ~/.bashrc
 source activate
 export PYTHONPATH="$PYTHONPATH:/mnt/home/wfarr/PISNLineCosmography"
 
-NSEL=8192
+NSEL=4096
 ./fit.py --sampfile observations.h5 --subset small --zero-uncert --selfile selected.h5 --nsel $NSEL --chainfile population_small_zerou_check.h5 --tracefile traceplot_small_zerou_check.pdf > logs/small_zerou_check.out 2> logs/small_zerou_check.err &
 ./fit.py --cosmo-constraints --sampfile observations.h5 --subset small --zero-uncert --selfile selected.h5 --nsel $NSEL --chainfile population_small_cosmo_zerou_check.h5 --tracefile traceplot_small_cosmo_zerou_check.pdf > logs/small_cosmo_zerou_check.out 2> logs/small_cosmo_zerou_check.err &
 
-NSEL=131080
+NSEL=65536
 ./fit.py --sampfile observations.h5 --subset 1yr --zero-uncert --selfile selected.h5 --nsel $NSEL --chainfile population_1yr_zerou_check.h5 --tracefile traceplot_1yr_zerou_check.pdf > logs/1yr_zerou_check.out 2>logs/1yr_zerou_check.err &
 ./fit.py --cosmo-constraints --sampfile observations.h5 --subset 1yr --zero-uncert --selfile selected.h5 --nsel $NSEL --chainfile population_1yr_cosmo_zerou_check.h5 --tracefile traceplot_1yr_cosmo_zerou_check.pdf > logs/1yr_cosmo_zerou_check.out 2>logs/1yr_cosmo_zerou_check.err &
 
-NSEL=1048640
+NSEL=262144
 ./fit.py --sampfile observations.h5 --zero-uncert --selfile selected.h5 --nsel $NSEL --chainfile population_5yr_zerou_check.h5 --tracefile traceplot_5yr_zerou_check.pdf > logs/5yr_zerou_check.out 2> logs/5yr_zerou_check.err &
 ./fit.py --cosmo-constraints --sampfile observations.h5 --zero-uncert --selfile selected.h5 --nsel $NSEL --chainfile population_5yr_cosmo_zerou_check.h5 --tracefile traceplot_5yr_cosmo_zerou_check.pdf > logs/5yr_cosmo_zerou_check.out 2> logs/5yr_cosmo_zerou_check.err &
 
