@@ -124,6 +124,25 @@ d = {
     'ms_norm': mnorm
 }
 
+if args.cosmo_constraints:
+    d['use_cosmo_prior'] = 1
+
+    H0 = Planck15.H0.to(u.km/u.s/u.Mpc).value
+    d['mu_H0'] = H0
+    d['sigma_H0'] = 0.01*H0
+
+    d['mu_Omh2'] = Planck15.Om0*(H0/100.0)**2
+    d['sigma_Omh2'] = sqrt(0.00016**2 + 0.0015**2) # From Planck paper
+else:
+    d['use_cosmo_prior'] = 0
+
+    # These values will be ignored when above set to zero anyway!
+    d['mu_H0'] = 70.0
+    d['sigma_H0'] = 15.0
+
+    d['mu_Omh2'] = 0.3*0.7**2
+    d['sigma_Omh2'] = 0.3*0.7**2*0.3
+
 fit_object = model.sampling(data=d, iter=2*args.iter, n_jobs=args.njobs)
 
 fit = fit_object.extract(permuted=True)
