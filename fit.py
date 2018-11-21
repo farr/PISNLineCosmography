@@ -162,5 +162,5 @@ with h5py.File(args.chainfile, 'w') as out:
     out.attrs['nsamp'] = nsamp
     out.attrs['nsel'] = ndet
 
-    for n in ['H0', 'Om', 'w', 'R0', 'MMin', 'MMax', 'sigma_low', 'sigma_high', 'alpha', 'beta', 'gamma', 'Nex', 'neff_det']:
+    for n in ['m1s', 'm2s', 'dls', 'zs', 'H0', 'Om', 'w', 'R0', 'MMin', 'MMax', 'sigma_low', 'sigma_high', 'alpha', 'beta', 'gamma', 'Nex', 'neff_det']:
         out.create_dataset(n, data=fit[n], compression='gzip', shuffle=True)

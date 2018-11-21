@@ -93,6 +93,7 @@ functions {
     real cum_beta[nm];
     real log_norm_alpha;
     real log_dN[n];
+    real log_R0 = log(R0);
 
     for (i in 1:nm) {
       pms_alpha[i] = exp(softened_power_law_logpdf_unnorm(ms_norm[i], -alpha, MMin, MMax, smooth_low, smooth_high));
@@ -109,7 +110,7 @@ functions {
       real log_dVdz = log(4.0*pi()) + 2.0*log(dls[i]/(1+zs[i])) + log(dH) - log(Ez(zs[i], Om, w));
       real log_dzddl = log(dzddL(dls[i], zs[i], dH, Om, w));
 
-      log_dN[i] = log_dNdm1dm2dVdt + log_dVdz + log_dzddl;
+      log_dN[i] = log_R0 + log_dNdm1dm2dVdt + log_dVdz + log_dzddl;
     }
 
     return log_dN;
@@ -296,8 +297,8 @@ model {
   gamma ~ normal(3, 2);
 
   log_dN = log_dNdm1dm2ddldt(m1s, m2s, dls, zs, R0, MMin, MMax, alpha, beta, gamma, dH, Om, w, sigma_low, sigma_high, ms_norm);
+  target += sum(log_dN);
   for (i in 1:nobs) {
-    target += log_dN[i];
     target += log(m1s[i]-absolute_MMin); // Jacobian: dm2/dm2_frac
   }
 
