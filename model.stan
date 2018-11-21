@@ -85,7 +85,7 @@ functions {
     return 1.0/(dl/opz + opz*dH/Ez(z, Om, w));
   }
 
-  real[] log_dNdm1dm2ddldt(real[] m1s, real[] m2s, real[] dls, real[] zs, real R0, real MMin, real MMax, real alpha, real beta, real gamma, real dH, real Om, real w, real smooth_low, real smooth_high, real[] ms_norm) {
+  real[] log_dNdm1dm2ddldt_norm(real[] m1s, real[] m2s, real[] dls, real[] zs, real MMin, real MMax, real alpha, real beta, real gamma, real dH, real Om, real w, real smooth_low, real smooth_high, real[] ms_norm) {
     int nm = size(ms_norm);
     int n = size(m1s);
     real pms_alpha[nm];
@@ -93,7 +93,7 @@ functions {
     real cum_beta[nm];
     real log_norm_alpha;
     real log_dN[n];
-    real log_R0 = log(R0);
+    real log_4pi_dH = log(4.0*pi()*dH);
 
     for (i in 1:nm) {
       pms_alpha[i] = exp(softened_power_law_logpdf_unnorm(ms_norm[i], -alpha, MMin, MMax, smooth_low, smooth_high));
@@ -107,10 +107,10 @@ functions {
     for (i in 1:n) {
       real log_norm_beta = log(interp1d(m1s[i], ms_norm, cum_beta));
       real log_dNdm1dm2dVdt = softened_power_law_logpdf_unnorm(m1s[i], -alpha, MMin, MMax, smooth_low, smooth_high) + softened_power_law_logpdf_unnorm(m2s[i], beta, MMin, MMax, smooth_low, smooth_high) - log_norm_alpha - log_norm_beta + (gamma-1)*log1p(zs[i]);
-      real log_dVdz = log(4.0*pi()) + 2.0*log(dls[i]/(1+zs[i])) + log(dH) - log(Ez(zs[i], Om, w));
+      real log_dVdz = log_4pi_dH + log(dls[i]*dls[i]/((1+zs[i])*(1+zs[i]))/Ez(zs[i], Om, w));
       real log_dzddl = log(dzddL(dls[i], zs[i], dH, Om, w));
 
-      log_dN[i] = log_R0 + log_dNdm1dm2dVdt + log_dVdz + log_dzddl;
+      log_dN[i] = log_dNdm1dm2dVdt + log_dVdz + log_dzddl;
     }
 
     return log_dN;
@@ -245,8 +245,7 @@ transformed parameters {
         m2sel_source[i] = m2sel[i]/(1+zsel[i]);
       }
 
-      // Will put R0 back in by hand later.
-      log_dN_m_unwt = log_dNdm1dm2ddldt(m1sel_source, m2sel_source, dlsel, zsel, 1.0, MMin, MMax, alpha, beta, gamma, dH, Om, w, sigma_low, sigma_high, ms_norm);
+      log_dN_m_unwt = log_dNdm1dm2ddldt_norm(m1sel_source, m2sel_source, dlsel, zsel, MMin, MMax, alpha, beta, gamma, dH, Om, w, sigma_low, sigma_high, ms_norm);
       for (i in 1:nsel) {
         log_dN[i] = log_dN_m_unwt[i] - 2.0*log1p(zsel[i]) - log_wtsel[i];
       }
@@ -296,8 +295,9 @@ model {
   beta ~ normal(0, 2);
   gamma ~ normal(3, 2);
 
-  log_dN = log_dNdm1dm2ddldt(m1s, m2s, dls, zs, R0, MMin, MMax, alpha, beta, gamma, dH, Om, w, sigma_low, sigma_high, ms_norm);
+  log_dN = log_dNdm1dm2ddldt_norm(m1s, m2s, dls, zs, MMin, MMax, alpha, beta, gamma, dH, Om, w, sigma_low, sigma_high, ms_norm);
   target += sum(log_dN);
+  target += nobs*log(R0); # Put the R0 term in
   for (i in 1:nobs) {
     target += log(m1s[i]-absolute_MMin); // Jacobian: dm2/dm2_frac
   }
