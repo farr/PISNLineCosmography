@@ -16,8 +16,6 @@ import pymc3 as pm
 import theano
 import sys
 
-theano.config.gcc.cxxflags="-fbracket-depth=65536"
-
 p = ArgumentParser()
 
 post = p.add_argument_group('Event Options')
