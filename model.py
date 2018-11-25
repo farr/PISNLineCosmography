@@ -70,8 +70,8 @@ def dls_of_zs(zs, dH, Om, w):
 
     return dcs*(1+zs)
 
-def make_model(m1s, m2s, dls, m1s_det, m2s_det, dls_det, wts_det, N_gen, T_obs, z_safety_factor=10, n_interp=1000, cosmo_constraints=False, dlogm_interp=1e-3):
-    dmax = max(np.max(dls), np.max(dls_det))
+def make_model(m1s_data, m2s_data, dls_data, m1s_det, m2s_det, dls_det, wts_det, N_gen, T_obs, z_safety_factor=10, n_interp=1000, cosmo_constraints=False, dlogm_interp=1e-3):
+    dmax = max(np.max(dls_data), np.max(dls_det))
     zmax = cosmo.z_at_value(Planck15.luminosity_distance, dmax*u.Gpc)
 
     zs_interp = linspace(0, zmax*z_safety_factor, n_interp)
@@ -81,11 +81,19 @@ def make_model(m1s, m2s, dls, m1s_det, m2s_det, dls_det, wts_det, N_gen, T_obs, 
 
     log_wts_det = np.log(wts_det)
 
-    N_obs = m1s.shape[0]
-    N_samp = m1s.shape[1]
+    N_obs = m1s_data.shape[0]
+    N_samp = m1s_data.shape[1]
     N_det = wts_det.shape[0]
 
     m = pm.Model()
+
+    bws = []
+    for i in range(N_obs):
+        pts = column_stack((m1s_data[i,:], m2s_data[i,:], dls_data[i,:]))
+        cm = cov(pts, rowvar=False)
+        bws.append(cm / N_samp**(2.0/7.0))
+
+    chol_bws = [np.linalg.cholesky(b) for b in bws]
 
     with m:
         smooth_low = pm.Lognormal('sigma_low', mu=log(0.1), sd=1)
@@ -111,10 +119,16 @@ def make_model(m1s, m2s, dls, m1s_det, m2s_det, dls_det, wts_det, N_gen, T_obs, 
             H0 = pm.Bound(pm.Normal, lower=50, upper=100)('H0', mu=70, sd=15)
         w = pm.Bound(pm.Normal, lower=-2, upper=0)('w', mu=-1, sd=0.5)
 
+        m1s = pm.Uniform('m1s', 3.0, 100.0, shape=(N_obs,))
+        m2_fracs = pm.Uniform('m2_fracs', 0, 1, shape=(N_obs,))
+        m2s = pm.Deterministic('m2s', 3.0 + (m1s-3.0)*m2_fracs)
+        pm.Potential('m2fracjacobian', tt.sum(tt.log(m1s-3.0)))
+        dls = pm.Uniform('dls', 0.0, 2.0*dmax, shape=(N_obs,))
+
         dH = 4.42563416002 * (67.74/H0);
         ds_interp = dls_of_zs(zs_interp, dH, Om, w)
 
-        zs = interp1d(dls, ds_interp, zs_interp)
+        zs = pm.Deterministic('zs', interp1d(dls, ds_interp, zs_interp))
         zs_det = interp1d(dls_det, ds_interp, zs_interp)
 
         # Set R0 = 1.0; we will put the scale back in later
@@ -134,9 +148,19 @@ def make_model(m1s, m2s, dls, m1s_det, m2s_det, dls_det, wts_det, N_gen, T_obs, 
 
         Nex = pm.Deterministic('Nex', mu_N_det)
 
-        log_dN_likelihood = log_dNdm1dm2ddLdt(m1s/(1+zs), m2s/(1+zs), dls, zs, R0, MMin, MMax, alpha, beta, gamma, dH, Om, w, smooth_low, smooth_high, ms_interp) - 2*tt.log1p(zs)
+        log_dN_population = log_dNdm1dm2ddLdt(m1s, m2s, dls, zs, R0, MMin, MMax, alpha, beta, gamma, dH, Om, w, smooth_low, smooth_high, ms_interp)
+        pm.Potential('population', tt.sum(log_dN_population))
 
-        pm.Potential('log_likelihood', tt.sum(pm.logsumexp(log_dN_likelihood, axis=1) - tt.log(N_samp)))
+        for i in range(N_obs):
+            cbw = chol_bws[i]
+            mu = tt.as_tensor_variable([m1s[i]*(1+zs[i]), m2s[i]*(1+zs[i]), dls[i]])
+
+            dx = tt.slinalg.solve_lower_triangular(cbw, (column_stack((m1s_data[i,:], m2s_data[i,:], dls_data[i,:]))-mu).T)
+
+            lls = -0.5*tt.dot(dx.T, dx)
+
+            pm.Potential('log-likelihood-{:d}'.format(i), pm.logsumexp(lls))
+
         pm.Potential('norm', -Nex)
 
     return m

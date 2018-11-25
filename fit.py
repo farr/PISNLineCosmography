@@ -11,8 +11,12 @@ import astropy.cosmology as cosmo
 from astropy.cosmology import Planck15
 import astropy.units as u
 import h5py
-import pystan
+import model
+import pymc3 as pm
+import theano
 import sys
+
+theano.config.gcc.cxxflags="-fbracket-depth=65536"
 
 p = ArgumentParser()
 
@@ -29,7 +33,6 @@ cos = p.add_argument_group('Cosmology Prior Options')
 cos.add_argument('--cosmo-constraints', action='store_true', help='implement constraints from BNS H0 and Planck Om*h^2')
 
 samp = p.add_argument_group('Sampling Options')
-samp.add_argument('--stanfile', metavar='F', default='model.stan', help='stan file (default: %(default)s)')
 samp.add_argument('--iter', metavar='N', type=int, default=1000, help='number of sampling iterations (equal amount of tuning; default: %(default)s)')
 samp.add_argument('--njobs', metavar='N', type=int, default=4, help='number of chains/jobs to run (default: %(default)s)')
 
@@ -88,73 +91,19 @@ for i in range(nobs):
     m2[i,:] = chain['m2det'][i,inds]
     dl[i,:] = chain['dl'][i,inds]
 
-bws = []
-for i in range(nobs):
-    pts = zeros((nsamp, 3))
-    pts[:,0] = m1[i,:]
-    pts[:,1] = m2[i,:]
-    pts[:,2] = dl[i,:]
+m = model.make_model(m1, m2, dl, m1s_det, m2s_det, dls_det, wts_det, N_gen, Tobs)
 
-    c = cov(pts, rowvar=False)
-    bws.append(c/nsamp**(2.0/7.0))
+with m:
+    fit = pm.sample(args.iter, tune=args.iter, cores=args.njobs)
 
-model = pystan.StanModel(file=args.stanfile)
-
-mnorm = exp(arange(log(1), log(200), 0.01))
-zinterp = linspace(0, 10, 1000)
-
-d = {
-    'nobs': nobs,
-    'nsamp': nsamp,
-    'nsel': ndet,
-    'ninterp': len(zinterp),
-    'nnorm': len(mnorm),
-    'Tobs': Tobs,
-    'N_gen': N_gen,
-    'm1obs': m1,
-    'm2obs': m2,
-    'dlobs': dl,
-    'bws': bws,
-    'm1sel': m1s_det,
-    'm2sel': m2s_det,
-    'dlsel': dls_det,
-    'wtsel': wts_det,
-    'zinterp': zinterp,
-    'dl_max': Planck15.luminosity_distance(zinterp[-1]).to(u.Gpc).value,
-    'ms_norm': mnorm
-}
-
-if args.cosmo_constraints:
-    d['use_cosmo_prior'] = 1
-
-    H0 = Planck15.H0.to(u.km/u.s/u.Mpc).value
-    d['mu_H0'] = H0
-    d['sigma_H0'] = 0.01*H0
-
-    d['mu_Omh2'] = Planck15.Om0*(H0/100.0)**2
-    d['sigma_Omh2'] = sqrt(0.00016**2 + 0.0015**2) # From Planck paper
-else:
-    d['use_cosmo_prior'] = 0
-
-    # These values will be ignored when above set to zero anyway!
-    d['mu_H0'] = 70.0
-    d['sigma_H0'] = 15.0
-
-    d['mu_Omh2'] = 0.3*0.7**2
-    d['sigma_Omh2'] = 0.3*0.7**2*0.3
-
-fit_object = model.sampling(data=d, iter=2*args.iter, n_jobs=args.njobs)
-
-fit = fit_object.extract(permuted=True)
-
-print(fit_object)
+print(pm.summary(fit))
 
 print('Just completed sampling.')
 print('  Fraction of D(ln(pi)) due to selection Monte-Carlo is {:.2f}'.format(std(nobs**2/(2*fit['neff_det'])) / (nobs*std(log(fit['Nex'])-log(fit['R0'])))))
 print('  Mean fractional bias in R is {:.2f}'.format(mean(nobs/fit['neff_det'])))
 print('  Mean fractional increase in sigma_R is {:.2f}'.format(mean((1 - 4*nobs + 3*nobs**2)/(2*fit['neff_det']*(nobs-1)))))
 
-fit_object.plot(['H0', 'Om', 'w', 'R0', 'MMin', 'MMax', 'alpha', 'beta', 'gamma', 'sigma_low', 'sigma_high'])
+pm.traceplot(fit)
 savefig(args.tracefile)
 
 with h5py.File(args.chainfile, 'w') as out:
