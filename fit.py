@@ -89,7 +89,7 @@ for i in range(nobs):
     m2[i,:] = chain['m2det'][i,inds]
     dl[i,:] = chain['dl'][i,inds]
 
-m = model.make_model(m1, m2, dl, m1s_det, m2s_det, dls_det, wts_det, N_gen, Tobs)
+m = model.make_model(m1, m2, dl, m1s_det, m2s_det, dls_det, wts_det, N_gen, Tobs, cosmo_constraints=args.cosmo_constraints)
 
 with m:
     fit = pm.sample(args.iter, tune=args.iter, cores=args.njobs)
