@@ -137,19 +137,19 @@ functions {
 
 data {
   int nobs;
-  int nsamp;
   int nsel;
   int ninterp;
   int nnorm;
 
+  int nsamp[nobs]; /* Number of samples assigned to each observation */
+  int nsamp_total; /* Total number of samples to all observations */
+
   real Tobs;
   int N_gen;
 
-  real m1obs[nobs, nsamp];
-  real m2obs[nobs, nsamp];
-  real dlobs[nobs, nsamp];
-
-  matrix[3,3] bws[nobs];
+  real m1obs[nsamp_total];
+  real m2obs[nsamp_total];
+  real dlobs[nsamp_total];
 
   real m1sel[nsel];
   real m2sel[nsel];
@@ -157,8 +157,6 @@ data {
   real wtsel[nsel];
 
   real zinterp[ninterp];
-
-  real dl_max;
 
   real ms_norm[nnorm];
 
@@ -170,21 +168,7 @@ data {
 }
 
 transformed data {
-  real absolute_MMin = 3.0;
-  real absolute_MMax = 100.0;
-  vector[3] pts[nobs, nsamp];
-  matrix[3,3] chol_bws[nobs];
   real log_wtsel[nsel];
-
-  for (i in 1:nobs) {
-    for (j in 1:nsamp) {
-      pts[i,j][1] = m1obs[i,j];
-      pts[i,j][2] = m2obs[i,j];
-      pts[i,j][3] = dlobs[i,j];
-    }
-
-    chol_bws[i] = cholesky_decompose(bws[i]);
-  }
 
   for (i in 1:nsel) {
     log_wtsel[i] = log(wtsel[i]);
@@ -204,71 +188,64 @@ parameters {
   real gamma;
   real<lower=0> sigma_low;
   real<lower=0> sigma_high;
-
-  real<lower=absolute_MMin, upper=absolute_MMax> m1s[nobs];
-  real<lower=0, upper=1> m2_frac[nobs];
-  real<lower=0, upper=dl_max> dls[nobs];
 }
 
 transformed parameters {
   real dH = 4.42563416002 * (67.74/H0);
   real Nex;
   real neff_det;
-  real m2s[nobs];
-  real zs[nobs];
 
   {
-    real dlinterp[ninterp] = dls_of_zs(zinterp, dH, Om, w);
+    real dlinterp[ninterp];
+    real zsel[nsel];
+    real log_dN_m_unwt[nsel];
+    real log_dN[nsel];
+    real log_dN2[nsel];
+    real m1sel_source[nsel];
+    real m2sel_source[nsel];
 
-    for (i in 1:nobs) {
-      m2s[i] = absolute_MMin + m2_frac[i]*(m1s[i] - absolute_MMin);
-      zs[i] = interp1d(dls[i], dlinterp, zinterp);
+    real Nsum;
+    real N2sum;
+
+    real sigma_rel2;
+    real sigma_rel;
+
+    dlinterp = dls_of_zs(zinterp, dH, Om, w);
+
+    for (i in 1:nsel) {
+      zsel[i] = interp1d(dlsel[i], dlinterp, zinterp);
+      m1sel_source[i] = m1sel[i]/(1+zsel[i]);
+      m2sel_source[i] = m2sel[i]/(1+zsel[i]);
     }
 
-    {
-      real zsel[nsel];
-      real log_dN_m_unwt[nsel];
-      real log_dN[nsel];
-      real log_dN2[nsel];
-      real m1sel_source[nsel];
-      real m2sel_source[nsel];
-
-      real Nsum;
-      real N2sum;
-
-      real sigma_rel2;
-      real sigma_rel;
-
-      for (i in 1:nsel) {
-        zsel[i] = interp1d(dlsel[i], dlinterp, zinterp);
-        m1sel_source[i] = m1sel[i]/(1+zsel[i]);
-        m2sel_source[i] = m2sel[i]/(1+zsel[i]);
-      }
-
-      log_dN_m_unwt = log_dNdm1dm2ddldt_norm(m1sel_source, m2sel_source, dlsel, zsel, MMin, MMax, alpha, beta, gamma, dH, Om, w, sigma_low, sigma_high, ms_norm);
-      for (i in 1:nsel) {
-        log_dN[i] = log_dN_m_unwt[i] - 2.0*log1p(zsel[i]) - log_wtsel[i];
-      }
-
-      for (i in 1:nsel) {
-        log_dN2[i] = log_dN[i]*2.0;
-      }
-
-      Nsum = exp(log_sum_exp(log_dN));
-      N2sum = exp(log_sum_exp(log_dN2));
-
-      Nex = R0*Tobs/N_gen*Nsum;
-
-      sigma_rel2 = N2sum/(Nsum*Nsum) - 1.0/N_gen;
-      sigma_rel = sqrt(sigma_rel2);
-
-      neff_det = 1.0/sigma_rel2;
+    log_dN_m_unwt = log_dNdm1dm2ddldt_norm(m1sel_source, m2sel_source, dlsel, zsel, MMin, MMax, alpha, beta, gamma, dH, Om, w, sigma_low, sigma_high, ms_norm);
+    for (i in 1:nsel) {
+      log_dN[i] = log_dN_m_unwt[i] - 2.0*log1p(zsel[i]) - log_wtsel[i];
     }
+
+    for (i in 1:nsel) {
+      log_dN2[i] = log_dN[i]*2.0;
+    }
+
+    Nsum = exp(log_sum_exp(log_dN));
+    N2sum = exp(log_sum_exp(log_dN2));
+
+    Nex = R0*Tobs/N_gen*Nsum;
+
+    sigma_rel2 = N2sum/(Nsum*Nsum) - 1.0/N_gen;
+    sigma_rel = sqrt(sigma_rel2);
+
+    neff_det = 1.0/sigma_rel2;
   }
 }
 
 model {
-  real log_dN[nobs];
+  real log_dN_nojac[nsamp_total];
+  real log_dN[nsamp_total];
+  real m1s_source[nsamp_total];
+  real m2s_source[nsamp_total];
+  real zs[nsamp_total];
+  real dlinterp[ninterp];
 
   sigma_low ~ lognormal(log(0.1), 1);
   sigma_high ~ lognormal(log(0.1), 1);
@@ -295,27 +272,94 @@ model {
   beta ~ normal(0, 2);
   gamma ~ normal(3, 2);
 
-  log_dN = log_dNdm1dm2ddldt_norm(m1s, m2s, dls, zs, MMin, MMax, alpha, beta, gamma, dH, Om, w, sigma_low, sigma_high, ms_norm);
-  target += sum(log_dN);
-  target += nobs*log(R0); # Put the R0 term in
-  for (i in 1:nobs) {
-    target += log(m1s[i]-absolute_MMin); // Jacobian: dm2/dm2_frac
+  dlinterp = dls_of_zs(zinterp, dH, Om, w);
+
+  for (i in 1:nsamp_total) {
+    zs[i] = interp1d(dlobs[i], dlinterp, zinterp);
+    m1s_source[i] = m1obs[i]/(1+zs[i]);
+    m2s_source[i] = m2obs[i]/(1+zs[i]);
   }
 
-  for (i in 1:nobs) {
-    real lp[nsamp];
-    vector[3] mu;
+  log_dN_nojac = log_dNdm1dm2ddldt_norm(m1s_source, m2s_source, dlobs, zs, MMin, MMax, alpha, beta, gamma, dH, Om, w, sigma_low, sigma_high, ms_norm);
 
-    mu[1] = m1s[i]*(1+zs[i]);
-    mu[2] = m2s[i]*(1+zs[i]);
-    mu[3] = dls[i];
-    for (j in 1:nsamp) {
-      lp[j] = multi_normal_cholesky_lpdf(pts[i,j] | mu, chol_bws[i]);
+  for (i in 1:nsamp_total) {
+    log_dN[i] = log_dN_nojac[i] - 2.0*log1p(zs[i]);
+  }
+
+  /* Now we marginalize over the samples for each event */
+  {
+    int istart = 1;
+    for (i in 1:nobs) {
+      target += log_sum_exp(log_dN[istart:istart+nsamp[i]-1]) - log(nsamp[i]);
+      istart = istart + nsamp[i];
     }
-
-    target += log_sum_exp(lp) - log(nsamp);
   }
+
+  /* Include the R0 term */
+  target += nobs*log(R0);
 
   // Poisson norm
   target += -Nex;
+}
+
+generated quantities {
+  real neff[nobs];
+  real m1_source[nobs];
+  real m2_source[nobs];
+  real dl_source[nobs];
+  real z_source[nobs];
+
+  {
+    real dlinterp[ninterp];
+    real log_dN_nojac[nsamp_total];
+    real log_dN[nsamp_total];
+    real m1s_source[nsamp_total];
+    real m2s_source[nsamp_total];
+    real zs[nsamp_total];
+
+    int istart;
+
+    dlinterp = dls_of_zs(zinterp, dH, Om, w);
+
+    for (i in 1:nsamp_total) {
+      zs[i] = interp1d(dlobs[i], dlinterp, zinterp);
+      m1s_source[i] = m1obs[i]/(1+zs[i]);
+      m2s_source[i] = m2obs[i]/(1+zs[i]);
+    }
+
+    log_dN_nojac = log_dNdm1dm2ddldt_norm(m1s_source, m2s_source, dlobs, zs, MMin, MMax, alpha, beta, gamma, dH, Om, w, sigma_low, sigma_high, ms_norm);
+
+    for (i in 1:nsamp_total) {
+      log_dN[i] = log_dN_nojac[i] - 2.0*log1p(zs[i]);
+    }
+
+    istart = 1;
+    for (i in 1:nobs) {
+      real wts[nsamp[i]];
+      real max_log_dN;
+      real r;
+
+      max_log_dN = max(log_dN[istart:istart+nsamp[i]-1]);
+      for (j in 1:nsamp[i]) {
+        wts[j] = exp(log_dN[istart+j-1]-max_log_dN);
+      }
+
+      neff[i] = sum(wts);
+
+      r = uniform_rng(0,1);
+      for (j in 1:nsamp[i]) {
+        if (r < wts[j]) {
+          m1_source[i] = m1s_source[istart + j - 1];
+          m2_source[i] = m2s_source[istart + j - 1];
+          dl_source[i] = dlobs[istart + j - 1];
+          z_source[i] = zs[istart + j - 1];
+          break;
+        } else {
+          r = r - wts[j];
+        }
+      }
+
+      istart = istart + nsamp[i];
+    }
+  }
 }

@@ -7,13 +7,12 @@ matplotlib.use('PDF')
 from pylab import *
 
 from argparse import ArgumentParser
+import arviz as az
 import astropy.cosmology as cosmo
 from astropy.cosmology import Planck15
 import astropy.units as u
 import h5py
-import model
-import pymc3 as pm
-import theano
+import pystan
 import sys
 
 p = ArgumentParser()
@@ -21,7 +20,6 @@ p = ArgumentParser()
 post = p.add_argument_group('Event Options')
 post.add_argument('--sampfile', metavar='FILE.h5', default='observations.h5', help='posterior samples file (default: %(default)s)')
 post.add_argument('--subset', metavar='DESIGNATOR', help='name of the attribute giving the number of detection to analyze (default: all)')
-post.add_argument('--samp', metavar='N', type=int, default=100, help='number of posterior samples used for each event (default: %(default)s)')
 
 sel = p.add_argument_group('Selection Function Options')
 sel.add_argument('--selfile', metavar='FILE.h5', default='selected.h5', help='file containing records of successful injections for VT estimation (default: %(default)s)')
@@ -32,7 +30,6 @@ cos.add_argument('--cosmo-constraints', action='store_true', help='implement con
 
 samp = p.add_argument_group('Sampling Options')
 samp.add_argument('--iter', metavar='N', type=int, default=1000, help='number of sampling iterations (equal amount of tuning; default: %(default)s)')
-samp.add_argument('--njobs', metavar='N', type=int, default=4, help='number of chains/jobs to run (default: %(default)s)')
 
 oop = p.add_argument_group('Output Options')
 oop.add_argument('--chainfile', metavar='F', default='population.h5', help='output file (default: %(default)s)')
@@ -47,11 +44,13 @@ chain = {}
 with h5py.File(args.sampfile, 'r') as inp:
     for n in ['m1det', 'm2det', 'dl']:
         chain[n] = array(inp['posteriors'][n])
+    nsamp = array(inp['posteriors']['nsamp'], dtype=np.int)
     if args.subset is not None:
         nn, Tobs = inp.attrs[args.subset]
         nn = int(round(nn))
         for k in chain.keys():
             chain[k] = chain[k][:nn,:]
+        nsamp = nsamp[:nn]
     else:
         Tobs = inp.attrs['Tobs']
 
@@ -77,37 +76,79 @@ if args.nsel is not None:
 ndet = m1s_det.shape[0]
 
 nobs = chain['m1det'].shape[0]
-nsamp = args.samp
 
-m1 = zeros((nobs, nsamp))
-m2 = zeros((nobs, nsamp))
-dl = zeros((nobs, nsamp))
+m1 = np.zeros((0,))
+m2 = np.zeros((0,))
+dl = np.zeros((0,))
 
 for i in range(nobs):
-    inds = np.random.choice(chain['m1det'].shape[1], replace=False, size=nsamp)
-    m1[i,:] = chain['m1det'][i,inds]
-    m2[i,:] = chain['m2det'][i,inds]
-    dl[i,:] = chain['dl'][i,inds]
+    inds = np.random.choice(chain['m1det'].shape[1], replace=False, size=nsamp[i])
+    m1 = np.concatenate((m1, chain['m1det'][i,inds]))
+    m2 = np.concatenate((m2, chain['m2det'][i,inds]))
+    dl = np.concatenate((dl, chain['dl'][i,inds]))
 
-m = model.make_model(m1, m2, dl, m1s_det, m2s_det, dls_det, wts_det, N_gen, Tobs, cosmo_constraints=args.cosmo_constraints)
+model = pystan.StanModel(file='model.stan')
 
-with m:
-    fit = pm.sample(args.iter, tune=args.iter, cores=args.njobs)
+ninterp = 500
+zinterp = expm1(linspace(log(1), log(11), ninterp))
 
-print(pm.summary(fit))
+mnorm = exp(arange(log(1), log(200), 0.01))
+nnorm = len(mnorm)
+
+if args.cosmo_constraints:
+    cosmo_flag = 1
+else:
+    cosmo_flag = 0
+
+data = {
+    'nobs': nobs,
+    'nsel': ndet,
+    'ninterp': ninterp,
+    'nnorm': nnorm,
+
+    'nsamp': nsamp,
+    'nsamp_total': np.sum(nsamp),
+
+    'Tobs': Tobs,
+    'N_gen': N_gen,
+
+    'm1obs': m1,
+    'm2obs': m2,
+    'dlobs': dl,
+
+    'm1sel': m1s_det,
+    'm2sel': m2s_det,
+    'dlsel': dls_det,
+    'wtsel': wts_det,
+
+    'zinterp': zinterp,
+
+    'ms_norm': mnorm,
+
+    'use_cosmo_prior': cosmo_flag,
+    'mu_H0': Planck15.H0.to(u.km/u.s/u.Mpc).value,
+    'sigma_H0': 0.01*Planck15.H0.to(u.km/u.s/u.Mpc).value,
+    'mu_Omh2': 0.02225+0.1198,
+    'sigma_Omh2': sqrt(0.00016**2 + 0.0015**2)
+}
+
+fit_obj = model.sampling(data=data, iter=2*args.iter, control={'metric': 'dense_e'})
+print(fit_obj)
+
+fit = fit_obj.extract(permuted=True)
 
 print('Just completed sampling.')
 print('  Fraction of D(ln(pi)) due to selection Monte-Carlo is {:.2f}'.format(std(nobs**2/(2*fit['neff_det'])) / (nobs*std(log(fit['Nex'])-log(fit['R0'])))))
 print('  Mean fractional bias in R is {:.2f}'.format(mean(nobs/fit['neff_det'])))
 print('  Mean fractional increase in sigma_R is {:.2f}'.format(mean((1 - 4*nobs + 3*nobs**2)/(2*fit['neff_det']*(nobs-1)))))
 
-pm.traceplot(fit)
+az.plot_trace(fit_obj, var_names=['H0', 'Om', 'w', 'R0', 'alpha', 'beta', 'gamma', 'MMin', 'MMax', 'sigma_low', 'sigma_high'])
 savefig(args.tracefile)
 
 with h5py.File(args.chainfile, 'w') as out:
     out.attrs['nobs'] = nobs
-    out.attrs['nsamp'] = nsamp
     out.attrs['nsel'] = ndet
 
-    for n in ['m1s', 'm2s', 'dls', 'zs', 'H0', 'Om', 'w', 'R0', 'MMin', 'MMax', 'sigma_low', 'sigma_high', 'alpha', 'beta', 'gamma', 'Nex', 'neff_det']:
+    out.create_dataset('nsamp', data=nsamp, compression='gzip', shuffle=True)
+    for n in ['H0', 'Om', 'w', 'R0', 'MMin', 'MMax', 'sigma_low', 'sigma_high', 'alpha', 'beta', 'gamma', 'Nex', 'neff_det', 'neff', 'm1_source', 'm2_source', 'dl_source', 'z_source']:
         out.create_dataset(n, data=fit[n], compression='gzip', shuffle=True)
