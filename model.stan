@@ -176,18 +176,18 @@ transformed data {
 }
 
 parameters {
-  real<lower=0> H0;
+  real<lower=35, upper=140> H0;
   real<lower=0,upper=1> Om;
-  real w;
+  real<lower=-2, upper=0> w;
 
   real<lower=0> R0;
   real<lower=3, upper=10> MMin;
   real<lower=30, upper=100> MMax;
-  real alpha;
-  real beta;
-  real gamma;
-  real<lower=0> sigma_low;
-  real<lower=0> sigma_high;
+  real<lower=-5, upper=3> alpha;
+  real<lower=-3, upper=3> beta;
+  real<lower=-1, upper=7> gamma;
+  real<lower=0.01> sigma_low;
+  real<lower=0.01> sigma_high;
 }
 
 transformed parameters {
