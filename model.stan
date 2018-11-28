@@ -186,8 +186,8 @@ parameters {
   real<lower=-5, upper=3> alpha;
   real<lower=-3, upper=3> beta;
   real<lower=-1, upper=7> gamma;
-  real<lower=0.01> sigma_low;
-  real<lower=0.01> sigma_high;
+  real<lower=0.01, upper=1> sigma_low;
+  real<lower=0.01, upper=1> sigma_high;
 }
 
 transformed parameters {
