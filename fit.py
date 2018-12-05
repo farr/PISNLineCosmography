@@ -11,7 +11,9 @@ import arviz as az
 import astropy.cosmology as cosmo
 from astropy.cosmology import Planck15
 import astropy.units as u
+import bz2
 import h5py
+import pickle
 import pystan
 import sys
 
@@ -34,6 +36,7 @@ samp.add_argument('--iter', metavar='N', type=int, default=1000, help='number of
 oop = p.add_argument_group('Output Options')
 oop.add_argument('--chainfile', metavar='F', default='population.h5', help='output file (default: %(default)s)')
 oop.add_argument('--tracefile', metavar='F', default='traceplot.pdf', help='traceplot file (default: %(default)s)')
+oop.add_argument('--fitfile', metavar='F', default='fit.pkl.bz2', help='pickled model and fit object (default: %(default)s)')
 
 args = p.parse_args()
 
@@ -42,7 +45,7 @@ print(' '.join(sys.argv))
 
 chain = {}
 with h5py.File(args.sampfile, 'r') as inp:
-    for n in ['m1det', 'm2det', 'dl']:
+    for n in ['m1det', 'm2det', 'dl', 'log_m1m2dl_prior']:
         chain[n] = array(inp['posteriors'][n])
     nsamp = array(inp['posteriors']['nsamp'], dtype=np.int)
     if args.subset is not None:
@@ -80,12 +83,14 @@ nobs = chain['m1det'].shape[0]
 m1 = np.zeros((0,))
 m2 = np.zeros((0,))
 dl = np.zeros((0,))
+logwt = np.zeros((0,))
 
 for i in range(nobs):
     inds = np.random.choice(chain['m1det'].shape[1], replace=False, size=nsamp[i])
     m1 = np.concatenate((m1, chain['m1det'][i,inds]))
     m2 = np.concatenate((m2, chain['m2det'][i,inds]))
     dl = np.concatenate((dl, chain['dl'][i,inds]))
+    logwt = np.concatenate((logwt, chain['log_m1m2dl_prior'][i,inds]))
 
 model = pystan.StanModel(file='model.stan')
 
@@ -115,6 +120,7 @@ data = {
     'm1obs': m1,
     'm2obs': m2,
     'dlobs': dl,
+    'log_samp_wts': logwt,
 
     'm1sel': m1s_det,
     'm2sel': m2s_det,
@@ -132,7 +138,12 @@ data = {
     'sigma_Omh2': sqrt(0.00016**2 + 0.0015**2)
 }
 
-fit_obj = model.sampling(data=data, iter=2*args.iter, control={'metric': 'dense_e'})
+fit_obj = model.sampling(data=data, iter=2*args.iter)
+
+with bz2.BZ2File(args.fitfile, 'w') as f:
+    pickle.dump(model, f)
+    pickle.dump(fit_obj, f)
+
 print(fit_obj)
 
 fit = fit_obj.extract(permuted=True)
@@ -142,9 +153,6 @@ print('  Fraction of D(ln(pi)) due to selection Monte-Carlo is {:.2f}'.format(st
 print('  Mean fractional bias in R is {:.2f}'.format(mean(nobs/fit['neff_det'])))
 print('  Mean fractional increase in sigma_R is {:.2f}'.format(mean((1 - 4*nobs + 3*nobs**2)/(2*fit['neff_det']*(nobs-1)))))
 
-az.plot_trace(fit_obj, var_names=['H0', 'Om', 'w', 'R0', 'alpha', 'beta', 'gamma', 'MMin', 'MMax', 'sigma_low', 'sigma_high'])
-savefig(args.tracefile)
-
 with h5py.File(args.chainfile, 'w') as out:
     out.attrs['nobs'] = nobs
     out.attrs['nsel'] = ndet
@@ -152,3 +160,6 @@ with h5py.File(args.chainfile, 'w') as out:
     out.create_dataset('nsamp', data=nsamp, compression='gzip', shuffle=True)
     for n in ['H0', 'Om', 'w', 'R0', 'MMin', 'MMax', 'sigma_low', 'sigma_high', 'alpha', 'beta', 'gamma', 'Nex', 'neff_det', 'neff', 'm1_source', 'm2_source', 'dl_source', 'z_source']:
         out.create_dataset(n, data=fit[n], compression='gzip', shuffle=True)
+
+az.plot_trace(fit_obj, var_names=['H0', 'Om', 'w', 'R0', 'alpha', 'beta', 'gamma', 'MMin', 'MMax', 'sigma_low', 'sigma_high'])
+savefig(args.tracefile)

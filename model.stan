@@ -150,6 +150,7 @@ data {
   real m1obs[nsamp_total];
   real m2obs[nsamp_total];
   real dlobs[nsamp_total];
+  real log_samp_wts[nsamp_total];
 
   real m1sel[nsel];
   real m2sel[nsel];
@@ -282,8 +283,9 @@ model {
 
   log_dN_nojac = log_dNdm1dm2ddldt_norm(m1s_source, m2s_source, dlobs, zs, MMin, MMax, alpha, beta, gamma, dH, Om, w, sigma_low, sigma_high, ms_norm);
 
+  /* Here we compute dN/d(m1det)d(m2det)d(dL) / p(m1det, m2det, dL) */
   for (i in 1:nsamp_total) {
-    log_dN[i] = log_dN_nojac[i] - 2.0*log1p(zs[i]);
+    log_dN[i] = log_dN_nojac[i] - 2.0*log1p(zs[i]) - log_samp_wts[i];
   }
 
   /* Now we marginalize over the samples for each event */
