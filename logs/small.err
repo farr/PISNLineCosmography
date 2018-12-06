@@ -1,18 +1,9 @@
 DIAGNOSTIC(S) FROM PARSER:
 Warning: integer division implicitly rounds to integer. Found int division: (h - l) / 2
  Positive values rounded down, negative values rounded up or down in platform-dependent way.
-Warning: left-hand side variable (name=istart) occurs on right-hand side of assignment, causing inefficient deep copy to avoid aliasing.
-Warning: left-hand side variable (name=r) occurs on right-hand side of assignment, causing inefficient deep copy to avoid aliasing.
-Warning: left-hand side variable (name=istart) occurs on right-hand side of assignment, causing inefficient deep copy to avoid aliasing.
 
-INFO:pystan:COMPILING THE C++ CODE FOR MODEL anon_model_657eb8b19ef7b131fff6223e6e9091e2 NOW.
-/mnt/home/wfarr/anaconda3/lib/python3.6/site-packages/Cython/Compiler/Main.py:367: FutureWarning: Cython directive 'language_level' not set, using 2 for now (Py2). This will change in a later release! File: /tmp/tmptbbob2l7/stanfit4anon_model_657eb8b19ef7b131fff6223e6e9091e2_4349673391482033868.pyx
+INFO:pystan:COMPILING THE C++ CODE FOR MODEL anon_model_37e0c037fa76d60383d498e05a0d5faf NOW.
+/mnt/home/wfarr/anaconda3/lib/python3.6/site-packages/Cython/Compiler/Main.py:367: FutureWarning: Cython directive 'language_level' not set, using 2 for now (Py2). This will change in a later release! File: /tmp/tmpdt2e6b7v/stanfit4anon_model_37e0c037fa76d60383d498e05a0d5faf_2015665720845108077.pyx
   tree = Parsing.p_module(s, pxd, full_module_name)
-WARNING:pystan:5 of 4000 iterations ended with a divergence (0.125%).
-WARNING:pystan:Try running with adapt_delta larger than 0.8 to remove the divergences.
-./fit.py:145: UserWarning: Pickling fit objects is an experimental feature!
-The relevant StanModel instance must be pickled along with this fit object.
-When unpickling the StanModel must be unpickled first.
-  pickle.dump(fit_obj, f)
 /mnt/home/wfarr/anaconda3/lib/python3.6/site-packages/matplotlib/tight_layout.py:231: UserWarning: tight_layout : falling back to Agg renderer
   warnings.warn("tight_layout : falling back to Agg renderer")
