@@ -6,10 +6,10 @@ Warning: left-hand side variable (name=r) occurs on right-hand side of assignmen
 Warning: left-hand side variable (name=istart) occurs on right-hand side of assignment, causing inefficient deep copy to avoid aliasing.
 
 INFO:pystan:COMPILING THE C++ CODE FOR MODEL anon_model_657eb8b19ef7b131fff6223e6e9091e2 NOW.
-/mnt/home/wfarr/anaconda3/lib/python3.6/site-packages/Cython/Compiler/Main.py:367: FutureWarning: Cython directive 'language_level' not set, using 2 for now (Py2). This will change in a later release! File: /tmp/tmpfe_fr8df/stanfit4anon_model_657eb8b19ef7b131fff6223e6e9091e2_7390494701632223638.pyx
+/mnt/home/wfarr/anaconda3/lib/python3.6/site-packages/Cython/Compiler/Main.py:367: FutureWarning: Cython directive 'language_level' not set, using 2 for now (Py2). This will change in a later release! File: /tmp/tmptbbob2l7/stanfit4anon_model_657eb8b19ef7b131fff6223e6e9091e2_4349673391482033868.pyx
   tree = Parsing.p_module(s, pxd, full_module_name)
-WARNING:pystan:n_eff / iter for parameter dl_source[61] is 0.0005007511266900306!
-WARNING:pystan:n_eff / iter below 0.001 indicates that the effective sample size has likely been overestimated
+WARNING:pystan:5 of 4000 iterations ended with a divergence (0.125%).
+WARNING:pystan:Try running with adapt_delta larger than 0.8 to remove the divergences.
 ./fit.py:145: UserWarning: Pickling fit objects is an experimental feature!
 The relevant StanModel instance must be pickled along with this fit object.
 When unpickling the StanModel must be unpickled first.
