@@ -11,10 +11,9 @@ import arviz as az
 import astropy.cosmology as cosmo
 from astropy.cosmology import Planck15
 import astropy.units as u
-import bz2
 import h5py
-import pickle
 import pystan
+from sklearn.mixture import GaussianMixture
 import sys
 
 p = ArgumentParser()
@@ -22,6 +21,7 @@ p = ArgumentParser()
 post = p.add_argument_group('Event Options')
 post.add_argument('--sampfile', metavar='FILE.h5', default='observations.h5', help='posterior samples file (default: %(default)s)')
 post.add_argument('--subset', metavar='DESIGNATOR', help='name of the attribute giving the number of detection to analyze (default: all)')
+post.add_argument('--ncomp', metavar='N', type=int, default=4, help='number of Gaussian components in mixture model for event likelihood (default: %(default)s)')
 
 sel = p.add_argument_group('Selection Function Options')
 sel.add_argument('--selfile', metavar='FILE.h5', default='selected.h5', help='file containing records of successful injections for VT estimation (default: %(default)s)')
@@ -36,7 +36,6 @@ samp.add_argument('--iter', metavar='N', type=int, default=1000, help='number of
 oop = p.add_argument_group('Output Options')
 oop.add_argument('--chainfile', metavar='F', default='population.h5', help='output file (default: %(default)s)')
 oop.add_argument('--tracefile', metavar='F', default='traceplot.pdf', help='traceplot file (default: %(default)s)')
-oop.add_argument('--fitfile', metavar='F', default='fit.pkl.bz2', help='pickled model and fit object (default: %(default)s)')
 
 args = p.parse_args()
 
@@ -80,17 +79,27 @@ ndet = m1s_det.shape[0]
 
 nobs = chain['m1det'].shape[0]
 
-m1 = np.zeros((0,))
-m2 = np.zeros((0,))
-dl = np.zeros((0,))
-logwt = np.zeros((0,))
+dl_max = 1.25*np.max(dls_det)
 
+mus = []
+covs = []
+wts = []
+nmin = np.inf
 for i in range(nobs):
-    inds = np.random.choice(chain['m1det'].shape[1], replace=False, size=nsamp[i])
-    m1 = np.concatenate((m1, chain['m1det'][i,inds]))
-    m2 = np.concatenate((m2, chain['m2det'][i,inds]))
-    dl = np.concatenate((dl, chain['dl'][i,inds]))
-    logwt = np.concatenate((logwt, chain['log_m1m2dl_prior'][i,inds]))
+    # First, re-sample to likelihood
+    w = exp(-(chain['log_m1m2dl_prior'][i,:] - np.min(chain['log_m1m2dl_prior'][i,:])))
+    r = np.random.uniform(size=len(w))
+    s = r < w
+    nmin = min(nmin, count_nonzero(s))
+    pts = column_stack((chain['m1det'][i,s], chain['m2det'][i,s], chain['dl'][i,s]))
+    gmm = GaussianMixture(args.ncomp)
+    gmm.fit(pts)
+
+    mus.append(gmm.means_)
+    covs.append(gmm.covariances_)
+    wts.append(gmm.weights_)
+
+print('Minimum number of samples used to fit GMM is {:d}'.format(nmin))
 
 model = pystan.StanModel(file='model.stan')
 
@@ -110,17 +119,14 @@ data = {
     'nsel': ndet,
     'ninterp': ninterp,
     'nnorm': nnorm,
-
-    'nsamp': nsamp,
-    'nsamp_total': np.sum(nsamp),
+    'ncomp': args.ncomp,
 
     'Tobs': Tobs,
     'N_gen': N_gen,
 
-    'm1obs': m1,
-    'm2obs': m2,
-    'dlobs': dl,
-    'log_samp_wts': logwt,
+    'mu': mus,
+    'cov': covs,
+    'wts': wts,
 
     'm1sel': m1s_det,
     'm2sel': m2s_det,
@@ -130,6 +136,7 @@ data = {
     'zinterp': zinterp,
 
     'ms_norm': mnorm,
+    'dl_max': dl_max,
 
     'use_cosmo_prior': cosmo_flag,
     'mu_H0': Planck15.H0.to(u.km/u.s/u.Mpc).value,
@@ -139,10 +146,6 @@ data = {
 }
 
 fit_obj = model.sampling(data=data, iter=2*args.iter)
-
-with bz2.BZ2File(args.fitfile, 'w') as f:
-    pickle.dump(model, f)
-    pickle.dump(fit_obj, f)
 
 print(fit_obj)
 
@@ -158,7 +161,7 @@ with h5py.File(args.chainfile, 'w') as out:
     out.attrs['nsel'] = ndet
 
     out.create_dataset('nsamp', data=nsamp, compression='gzip', shuffle=True)
-    for n in ['H0', 'Om', 'w', 'R0', 'MMin', 'MMax', 'sigma_low', 'sigma_high', 'alpha', 'beta', 'gamma', 'Nex', 'neff_det', 'neff', 'm1_source', 'm2_source', 'dl_source', 'z_source']:
+    for n in ['H0', 'Om', 'w', 'R0', 'MMin', 'MMax', 'sigma_low', 'sigma_high', 'alpha', 'beta', 'gamma', 'Nex', 'neff_det', 'm1', 'm2', 'dl', 'z']:
         out.create_dataset(n, data=fit[n], compression='gzip', shuffle=True)
 
 az.plot_trace(fit_obj, var_names=['H0', 'Om', 'w', 'R0', 'alpha', 'beta', 'gamma', 'MMin', 'MMax', 'sigma_low', 'sigma_high'])
