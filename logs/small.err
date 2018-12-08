@@ -1,9 +1,14 @@
 DIAGNOSTIC(S) FROM PARSER:
 Warning: integer division implicitly rounds to integer. Found int division: (h - l) / 2
  Positive values rounded down, negative values rounded up or down in platform-dependent way.
+Warning: left-hand side variable (name=istart) occurs on right-hand side of assignment, causing inefficient deep copy to avoid aliasing.
+Warning: left-hand side variable (name=r) occurs on right-hand side of assignment, causing inefficient deep copy to avoid aliasing.
+Warning: left-hand side variable (name=istart) occurs on right-hand side of assignment, causing inefficient deep copy to avoid aliasing.
 
-INFO:pystan:COMPILING THE C++ CODE FOR MODEL anon_model_37e0c037fa76d60383d498e05a0d5faf NOW.
-/mnt/home/wfarr/anaconda3/lib/python3.6/site-packages/Cython/Compiler/Main.py:367: FutureWarning: Cython directive 'language_level' not set, using 2 for now (Py2). This will change in a later release! File: /tmp/tmpdt2e6b7v/stanfit4anon_model_37e0c037fa76d60383d498e05a0d5faf_2015665720845108077.pyx
+INFO:pystan:COMPILING THE C++ CODE FOR MODEL anon_model_657eb8b19ef7b131fff6223e6e9091e2 NOW.
+/mnt/home/wfarr/anaconda3/lib/python3.6/site-packages/Cython/Compiler/Main.py:367: FutureWarning: Cython directive 'language_level' not set, using 2 for now (Py2). This will change in a later release! File: /tmp/tmps3xdwgz7/stanfit4anon_model_657eb8b19ef7b131fff6223e6e9091e2_149909424135935599.pyx
   tree = Parsing.p_module(s, pxd, full_module_name)
+WARNING:pystan:n_eff / iter for parameter dl_source[56] is 0.0005007511266900308!
+WARNING:pystan:n_eff / iter below 0.001 indicates that the effective sample size has likely been overestimated
 /mnt/home/wfarr/anaconda3/lib/python3.6/site-packages/matplotlib/tight_layout.py:231: UserWarning: tight_layout : falling back to Agg renderer
   warnings.warn("tight_layout : falling back to Agg renderer")
