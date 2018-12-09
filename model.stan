@@ -332,7 +332,7 @@ generated quantities {
     log_dN_nojac = log_dNdm1dm2ddldt_norm(m1s_source, m2s_source, dlobs, zs, MMin, MMax, alpha, beta, gamma, dH, Om, w, sigma_low, sigma_high, ms_norm);
 
     for (i in 1:nsamp_total) {
-      log_dN[i] = log_dN_nojac[i] - 2.0*log1p(zs[i]);
+      log_dN[i] = log_dN_nojac[i] - 2.0*log1p(zs[i]) - log_samp_wts[i];
     }
 
     istart = 1;
@@ -348,7 +348,7 @@ generated quantities {
 
       neff[i] = sum(wts);
 
-      r = uniform_rng(0,1);
+      r = uniform_rng(0,neff[i]); /* Uniform in cumulative distribution */
       for (j in 1:nsamp[i]) {
         if (r < wts[j]) {
           m1_source[i] = m1s_source[istart + j - 1];
