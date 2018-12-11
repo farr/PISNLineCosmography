@@ -12,6 +12,7 @@ from astropy.cosmology import Planck15
 import astropy.units as u
 import h5py
 import model
+import pandas as pd
 import pymc3 as pm
 import theano
 import sys
@@ -100,7 +101,8 @@ m = model.make_model(m1, m2, dl, log_prior, chain['nsamp'], m1s_det, m2s_det, dl
 with m:
     fit = model.sample(m, args.iter, args.iter, args.njobs)
 
-print(pm.summary(fit))
+with pd.option_context('display.max_rows', 999, 'display.max_columns', 999):
+    print(pm.summary(fit))
 
 print('Just completed sampling.')
 print('  Fraction of D(ln(pi)) due to selection Monte-Carlo is {:.2f}'.format(std(nobs**2/(2*fit['neff_det'])) / (nobs*std(log(fit['Nex'])-log(fit['R0'])))))
@@ -114,5 +116,5 @@ with h5py.File(args.chainfile, 'w') as out:
     out.attrs['nobs'] = nobs
     out.attrs['nsel'] = ndet
 
-    for n in ['H0', 'Om', 'w', 'R0', 'MMin', 'MMax', 'sigma_low', 'sigma_high', 'alpha', 'beta', 'gamma', 'Nex', 'neff_det']:
+    for n in ['H0', 'Om', 'w', 'R0', 'MMax', 'sigma_high', 'alpha', 'beta', 'gamma', 'Nex', 'neff_det']:
         out.create_dataset(n, data=fit[n], compression='gzip', shuffle=True)

@@ -9,6 +9,8 @@ import theano
 import theano.tensor as tt
 import theano.tensor.extra_ops as te
 
+from true_params import true_params
+
 def softened_power_law_pdf_unnorm(xs, alpha, xmin, xmax, sigma_min, sigma_max):
     return tt.exp(softened_power_law_logpdf_unnorm(xs, alpha, xmin, xmax, sigma_min, sigma_max))
 
@@ -87,10 +89,10 @@ def make_model(m1s, m2s, dls, log_prior, nsamps, m1s_det, m2s_det, dls_det, wts_
     m = pm.Model()
 
     with m:
-        smooth_low = pm.Lognormal('sigma_low', mu=log(0.1), sd=1)
+        smooth_low = true_params['sigma_low'] # pm.Lognormal('sigma_low', mu=log(0.1), sd=1)
         smooth_high = pm.Lognormal('sigma_high', mu=log(0.1), sd=1)
 
-        MMin = pm.Bound(pm.Normal, lower=3, upper=10)('MMin', mu=5, sd=2)
+        MMin = true_params['MMin'] #pm.Bound(pm.Normal, lower=3, upper=10)('MMin', mu=5, sd=2)
         MMax = pm.Bound(pm.Normal, lower=30, upper=70)('MMax', mu=40, sd=10)
 
         R0 = pm.Lognormal('R0', mu=log(100), sd=1)
