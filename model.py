@@ -89,10 +89,10 @@ def make_model(m1s, m2s, dls, log_prior, nsamps, m1s_det, m2s_det, dls_det, wts_
     m = pm.Model()
 
     with m:
-        smooth_low = true_params['sigma_low'] # pm.Lognormal('sigma_low', mu=log(0.1), sd=1)
+        smooth_low = pm.Lognormal('sigma_low', mu=log(0.1), sd=1)
         smooth_high = pm.Lognormal('sigma_high', mu=log(0.1), sd=1)
 
-        MMin = true_params['MMin'] #pm.Bound(pm.Normal, lower=3, upper=10)('MMin', mu=5, sd=2)
+        MMin = pm.Bound(pm.Normal, lower=3, upper=10)('MMin', mu=5, sd=2)
         MMax = pm.Bound(pm.Normal, lower=30, upper=70)('MMax', mu=40, sd=10)
 
         R0 = pm.Lognormal('R0', mu=log(100), sd=1)
@@ -129,16 +129,30 @@ def make_model(m1s, m2s, dls, log_prior, nsamps, m1s_det, m2s_det, dls_det, wts_
         sigma_rel_det2 = N2_sum/(N_sum*N_sum) - 1.0/N_gen
         sigma_rel_det = tt.sqrt(sigma_rel_det2)
 
-        Neff_det = pm.Deterministic('neff_det', 1.0/sigma_rel_det2)
+        Neff_det = pm.Deterministic('neff_det', 1.0/sigma_rel_det2[0])
 
-        Nex = pm.Deterministic('Nex', mu_N_det)
+        Nex = pm.Deterministic('Nex', mu_N_det[0])
 
         log_dN_population = log_dNdm1dm2ddLdt(m1s/(1+zs), m2s/(1+zs), dls, zs, R0, MMin, MMax, alpha, beta, gamma, dH, Om, w, smooth_low, smooth_high, ms_interp) - 2.0*tt.log1p(zs) - log_prior
 
-        ind = 0
+        # # Now we play a trick with scan.
+        # ind_starts = concatenate(([0], cumsum(nsamps)[:-1]))
+        # oinfo = tt.as_tensor_variable(np.asarray(0.0, dtype=np.float))
+        # result, updates = theano.scan(fn=(lambda istart, ns, logl: (logl + pm.logsumexp(log_dN_population[istart:istart+ns])-tt.log(ns))[0]),
+        #                               outputs_info=oinfo,
+        #                               sequences=[tt.as_tensor_variable(ind_starts), tt.as_tensor_variable(nsamps)])
+        # pm.Potential('marginal-likelihood', result[-1])
+
+        istart = 0
+        lls = []
+        neffs = []
         for i in range(N_obs):
-            pm.Potential('likelihood-{:d}'.format(i), pm.logsumexp(log_dN_population[ind:ind+nsamps[i]]) - tt.log(nsamps[i]))
-            ind += nsamps[i]
+            log_dN = log_dN_population[istart:istart+nsamps[i]]
+            neffs.append(tt.sum(tt.exp(log_dN-tt.max(log_dN))))
+            lls.append(pm.logsumexp(log_dN_population[istart:istart+nsamps[i]]) - tt.log(nsamps[i]))
+            istart = istart + nsamps[i]
+        pm.Potential('marginal-likelihood', tt.sum(tt.stack(lls)))
+        pm.Deterministic('neff', tt.stack(neffs))
 
         pm.Potential('norm', -Nex)
 

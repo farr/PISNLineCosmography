@@ -109,12 +109,12 @@ print('  Fraction of D(ln(pi)) due to selection Monte-Carlo is {:.2f}'.format(st
 print('  Mean fractional bias in R is {:.2f}'.format(mean(nobs/fit['neff_det'])))
 print('  Mean fractional increase in sigma_R is {:.2f}'.format(mean((1 - 4*nobs + 3*nobs**2)/(2*fit['neff_det']*(nobs-1)))))
 
-pm.traceplot(fit)
+pm.traceplot(fit, varnames=['H0', 'Om', 'w', 'R0', 'MMin', 'MMax', 'sigma_low', 'sigma_high', 'alpha', 'beta', 'gamma', 'Nex'])
 savefig(args.tracefile)
 
 with h5py.File(args.chainfile, 'w') as out:
     out.attrs['nobs'] = nobs
     out.attrs['nsel'] = ndet
 
-    for n in ['H0', 'Om', 'w', 'R0', 'MMax', 'sigma_high', 'alpha', 'beta', 'gamma', 'Nex', 'neff_det']:
+    for n in ['H0', 'Om', 'w', 'R0', 'MMin', 'MMax', 'sigma_low', 'sigma_high', 'alpha', 'beta', 'gamma', 'Nex', 'neff_det', 'neff']:
         out.create_dataset(n, data=fit[n], compression='gzip', shuffle=True)
