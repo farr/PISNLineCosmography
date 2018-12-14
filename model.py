@@ -79,7 +79,7 @@ def make_model(m1s, m2s, dls, log_prior, nsamps, m1s_det, m2s_det, dls_det, wts_
     zs_interp = linspace(0, zmax*z_safety_factor, n_interp)
     zs_interp = tt.as_tensor_variable(zs_interp)
 
-    ms_interp = tt.as_tensor_variable(np.exp(np.arange(log(1), log(200), dlogm_interp)))
+    ms_interp = tt.as_tensor_variable(np.exp(np.arange(log(1), log(300), dlogm_interp)))
 
     log_wts_det = np.log(wts_det)
 
