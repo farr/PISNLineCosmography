@@ -97,7 +97,7 @@ ninterp = 500
 zMax = 10
 zinterp = expm1(linspace(log(1), log(zMax+1), ninterp))
 
-msnorm = exp(arange(log(1), log(300), 0.01))
+msnorm = exp(arange(log(1), log(max(np.max(m1), np.max(m1s_det))*1.1), 0.01))
 nnorm = len(msnorm)
 
 m = pystan.StanModel(file='model.stan')
@@ -134,7 +134,7 @@ d = {
     'sigma_Omh2': sqrt(0.00016**2 + 0.0015**2)
 }
 
-f = m.sampling(data=d, iter=2*args.iter)
+f = m.sampling(data=d, iter=2*args.iter, control={'metric': 'dense_e'})
 fit = f.extract(permuted=True)
 
 print(f)
