@@ -7,14 +7,12 @@ matplotlib.use('PDF')
 from pylab import *
 
 from argparse import ArgumentParser
+import arviz as az
 import astropy.cosmology as cosmo
 from astropy.cosmology import Planck15
 import astropy.units as u
 import h5py
-import model
-import pandas as pd
-import pymc3 as pm
-import theano
+import pystan
 import sys
 
 p = ArgumentParser()
@@ -32,7 +30,6 @@ cos.add_argument('--cosmo-constraints', action='store_true', help='implement con
 
 samp = p.add_argument_group('Sampling Options')
 samp.add_argument('--iter', metavar='N', type=int, default=1000, help='number of sampling iterations (equal amount of tuning; default: %(default)s)')
-samp.add_argument('--njobs', metavar='N', type=int, default=4, help='number of chains/jobs to run (default: %(default)s)')
 
 oop = p.add_argument_group('Output Options')
 oop.add_argument('--chainfile', metavar='F', default='population.h5', help='output file (default: %(default)s)')
@@ -96,25 +93,63 @@ m2 = concatenate(m2)
 dl = concatenate(dl)
 log_prior = concatenate(log_prior)
 
-m = model.make_model(m1, m2, dl, log_prior, chain['nsamp'], m1s_det, m2s_det, dls_det, wts_det, N_gen, Tobs, cosmo_constraints=args.cosmo_constraints)
+ninterp = 500
+zMax = 10
+zinterp = expm1(linspace(log(1), log(zMax+1), ninterp))
 
-with m:
-    fit = model.sample(m, args.iter, args.iter, args.njobs)
+msnorm = exp(arange(log(1), log(300), 0.01))
+nnorm = len(msnorm)
 
-with pd.option_context('display.max_rows', 999, 'display.max_columns', 999):
-    print(pm.summary(fit))
+m = pystan.StanModel(file='model.stan')
+d = {
+    'nobs': nobs,
+    'nsel': ndet,
+    'ninterp': ninterp,
+    'nnorm': nnorm,
+
+    'nsamp': chain['nsamp'],
+    'nsamp_total': np.sum(chain['nsamp']),
+
+    'Tobs': Tobs,
+    'N_gen': N_gen,
+
+    'm1obs': m1,
+    'm2obs': m2,
+    'dlobs': dl,
+    'log_samp_wts': log_prior,
+
+    'm1sel': m1s_det,
+    'm2sel': m2s_det,
+    'dlsel': dls_det,
+    'wtsel': wts_det,
+
+    'zinterp': zinterp,
+
+    'ms_norm': msnorm,
+
+    'use_cosmo_prior': 0 if not args.cosmo_constraints else 1,
+    'mu_H0': Planck15.H0.to(u.km/u.s/u.Mpc).value,
+    'sigma_H0': 0.01*Planck15.H0.to(u.km/u.s/u.Mpc).value,
+    'mu_Omh2': 0.02225+0.1198,
+    'sigma_Omh2': sqrt(0.00016**2 + 0.0015**2)
+}
+
+f = m.sampling(data=d, iter=2*args.iter)
+fit = f.extract(permuted=True)
+
+print(f)
 
 print('Just completed sampling.')
 print('  Fraction of D(ln(pi)) due to selection Monte-Carlo is {:.2f}'.format(std(nobs**2/(2*fit['neff_det'])) / (nobs*std(log(fit['Nex'])-log(fit['R0'])))))
 print('  Mean fractional bias in R is {:.2f}'.format(mean(nobs/fit['neff_det'])))
 print('  Mean fractional increase in sigma_R is {:.2f}'.format(mean((1 - 4*nobs + 3*nobs**2)/(2*fit['neff_det']*(nobs-1)))))
 
-pm.traceplot(fit, varnames=['H0', 'Om', 'w', 'R0', 'MMin', 'MMax', 'sigma_low', 'sigma_high', 'alpha', 'beta', 'gamma', 'Nex'])
+az.plot_trace(f, var_names=['H0', 'Om', 'w', 'R0', 'MMin', 'MMax', 'sigma_low', 'sigma_high', 'alpha', 'beta', 'gamma', 'Nex'])
 savefig(args.tracefile)
 
 with h5py.File(args.chainfile, 'w') as out:
     out.attrs['nobs'] = nobs
     out.attrs['nsel'] = ndet
 
-    for n in ['H0', 'Om', 'w', 'R0', 'MMin', 'MMax', 'sigma_low', 'sigma_high', 'alpha', 'beta', 'gamma', 'Nex', 'neff_det', 'neff']:
+    for n in ['H0', 'Om', 'w', 'R0', 'MMin', 'MMax', 'sigma_low', 'sigma_high', 'alpha', 'beta', 'gamma', 'Nex', 'neff_det', 'neff', 'm1_source', 'm2_source', 'dl_source', 'z_source']:
         out.create_dataset(n, data=fit[n], compression='gzip', shuffle=True)
