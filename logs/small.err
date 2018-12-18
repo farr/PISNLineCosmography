@@ -6,7 +6,9 @@ Warning: left-hand side variable (name=r) occurs on right-hand side of assignmen
 Warning: left-hand side variable (name=istart) occurs on right-hand side of assignment, causing inefficient deep copy to avoid aliasing.
 
 INFO:pystan:COMPILING THE C++ CODE FOR MODEL anon_model_bd491f29d8b4ce6b335a05b26e2ddc24 NOW.
-WARNING:pystan:302 of 4000 iterations ended with a divergence (7.55 %).
+/mnt/home/wfarr/anaconda3/lib/python3.6/site-packages/Cython/Compiler/Main.py:367: FutureWarning: Cython directive 'language_level' not set, using 2 for now (Py2). This will change in a later release! File: /tmp/tmpo29rnftq/stanfit4anon_model_bd491f29d8b4ce6b335a05b26e2ddc24_372852722006590357.pyx
+  tree = Parsing.p_module(s, pxd, full_module_name)
+WARNING:pystan:137 of 4000 iterations ended with a divergence (3.425%).
 WARNING:pystan:Try running with adapt_delta larger than 0.8 to remove the divergences.
-/Users/wfarr/anaconda3/lib/python3.6/site-packages/matplotlib/tight_layout.py:228: UserWarning: tight_layout : falling back to Agg renderer
+/mnt/home/wfarr/anaconda3/lib/python3.6/site-packages/matplotlib/tight_layout.py:231: UserWarning: tight_layout : falling back to Agg renderer
   warnings.warn("tight_layout : falling back to Agg renderer")
