@@ -5,23 +5,10 @@ Warning: left-hand side variable (name=istart) occurs on right-hand side of assi
 Warning: left-hand side variable (name=r) occurs on right-hand side of assignment, causing inefficient deep copy to avoid aliasing.
 Warning: left-hand side variable (name=istart) occurs on right-hand side of assignment, causing inefficient deep copy to avoid aliasing.
 
-INFO:pystan:COMPILING THE C++ CODE FOR MODEL anon_model_657eb8b19ef7b131fff6223e6e9091e2 NOW.
-/mnt/home/wfarr/anaconda3/lib/python3.6/site-packages/Cython/Compiler/Main.py:367: FutureWarning: Cython directive 'language_level' not set, using 2 for now (Py2). This will change in a later release! File: /tmp/tmp_c55mtzl/stanfit4anon_model_657eb8b19ef7b131fff6223e6e9091e2_1851430487060788542.pyx
+INFO:pystan:COMPILING THE C++ CODE FOR MODEL anon_model_bd491f29d8b4ce6b335a05b26e2ddc24 NOW.
+/mnt/home/wfarr/anaconda3/lib/python3.6/site-packages/Cython/Compiler/Main.py:367: FutureWarning: Cython directive 'language_level' not set, using 2 for now (Py2). This will change in a later release! File: /tmp/tmpkbyudtds/stanfit4anon_model_bd491f29d8b4ce6b335a05b26e2ddc24_7902023053528447496.pyx
   tree = Parsing.p_module(s, pxd, full_module_name)
-WARNING:pystan:n_eff / iter for parameter dl_source[21] is 0.0005007511266900306!
-WARNING:pystan:n_eff / iter for parameter dl_source[110] is 0.0005007511266900306!
-WARNING:pystan:n_eff / iter for parameter dl_source[112] is 0.0005007511266900308!
-WARNING:pystan:n_eff / iter for parameter dl_source[137] is 0.0005007511266900306!
-WARNING:pystan:n_eff / iter for parameter dl_source[235] is 0.0005007511266900306!
-WARNING:pystan:n_eff / iter for parameter dl_source[245] is 0.0005007511266900306!
-WARNING:pystan:n_eff / iter for parameter dl_source[316] is nan!
-WARNING:pystan:n_eff / iter for parameter dl_source[501] is 0.0005007511266900306!
-WARNING:pystan:n_eff / iter for parameter dl_source[533] is 0.0005007511266900306!
-WARNING:pystan:n_eff / iter for parameter dl_source[557] is 0.0005007511266900306!
-WARNING:pystan:n_eff / iter for parameter dl_source[754] is 0.0005007511266900306!
-WARNING:pystan:n_eff / iter for parameter dl_source[786] is 0.0005007511266900306!
-WARNING:pystan:n_eff / iter below 0.001 indicates that the effective sample size has likely been overestimated
-WARNING:pystan:6 of 4000 iterations ended with a divergence (0.15%).
+WARNING:pystan:248 of 4000 iterations ended with a divergence (6.2%).
 WARNING:pystan:Try running with adapt_delta larger than 0.8 to remove the divergences.
 /mnt/home/wfarr/anaconda3/lib/python3.6/site-packages/matplotlib/tight_layout.py:231: UserWarning: tight_layout : falling back to Agg renderer
   warnings.warn("tight_layout : falling back to Agg renderer")
