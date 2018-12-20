@@ -160,12 +160,6 @@ data {
   real zinterp[ninterp];
 
   real ms_norm[nnorm];
-
-  int use_cosmo_prior; /* Override hard-coded priors */
-  real mu_H0;
-  real sigma_H0;
-  real mu_Omh2;
-  real sigma_Omh2;
 }
 
 transformed data {
@@ -256,17 +250,8 @@ model {
   MMin ~ normal(5, 2);
   MMax ~ normal(40, 15);
 
-  if (use_cosmo_prior == 0) {
-    H0 ~ normal(70, 15);
-    Om ~ normal(0.3, 0.15);
-  } else {
-    real Omh2 = Om*(H0/100)^2;
-
-    H0 ~ normal(mu_H0, sigma_H0);
-    target += normal_lpdf(Omh2 | mu_Omh2, sigma_Omh2);
-    target += 2.0*log(H0/100.0); /* Jacobian d(Om*h^2)/d(Om) */
-  }
-
+  H0 ~ normal(70, 15);
+  Om ~ normal(0.3, 0.15);
   w ~ normal(-1, 0.5);
 
   alpha ~ normal(-1, 2);
