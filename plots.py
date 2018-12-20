@@ -38,8 +38,8 @@ class PubContextManager(object):
         # Don't squash exception
         return None
 
-def pub_plots():
-    return PubContextManager()
+def pub_plots(figsize=None):
+    return PubContextManager(figsize=figsize)
 
 def spd_interval(samps, p):
     samps = sort(samps)
