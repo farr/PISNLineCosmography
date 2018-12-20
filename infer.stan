@@ -1,6 +1,6 @@
 functions {
   real approx_dVddl(real dl) {
-    return dl*dl/(0.07705049 + dl*(0.0742648 + dl*(0.00836159 + dl*0.00033334)));
+    return dl*dl/(8.53711241e-02 + dl*(2.67687745e-02 + dl*(-1.61983233e-05 + dl*4.46065498e-06)));
   }
 
   int bisect_index(real x, real[] xs) {
@@ -72,9 +72,6 @@ data {
   real opt_snrs[nm,nm];
 
   real dL_max;
-
-  real mu_theta;
-  real sig_theta;
 }
 
 transformed data {
@@ -86,13 +83,25 @@ parameters {
   real<lower=minterp_min, upper=minterp_max> m1;
   real<lower=minterp_min, upper=m1> m2;
   real<lower=0, upper=dL_max> dL;
-  real<lower=0, upper=1> theta;
+
+  /* These are the vectors that go into Theta.  We employ a trick for the
+     azimuthal angles: we generate a unit-vector uniformly on the circle, and
+     then the angle is just atan2(...) of the components.  Also, we restrict the
+     range of both cos_theta and cos_iota to avoid double-covering the space of
+     polar angles.  (We still double-cover the asizmuthal space, since we only
+     depend on double-angles, but the sampler doesn't choke as much on that.) */
+  unit_vector[2] azimuth_v;
+  real<lower=0,upper=1> cos_theta;
+  unit_vector[2] pol_v;
+  real<lower=0,upper=1> cos_iota;
 }
 
 transformed parameters {
   real mc;
   real eta;
   real opt_snr;
+
+  real theta;
 
   {
     real mt = m1+m2;
@@ -102,6 +111,23 @@ transformed parameters {
   }
 
   opt_snr = interp2d(m1, m2, ms, ms, opt_snrs)/dL;
+
+  {
+    real az = atan2(azimuth_v[2], azimuth_v[1]);
+    real pol = atan2(pol_v[2], pol_v[1]);
+
+    real c2p = cos(2*pol);
+    real s2p = sin(2*pol);
+
+    real c2a = cos(2*az);
+    real s2a = sin(2*az);
+
+    real Fp = 0.5*c2p*(1+cos_theta*cos_theta)*c2a - s2p*cos_theta*s2a;
+    real Fc = 0.5*s2p*(1+cos_theta*cos_theta)*c2a + c2p*cos_theta*s2a;
+
+    /* theta \in [0,1], uniform angles above give the right prior. */
+    theta = sqrt(Fp*Fp*(1+cos_iota*cos_iota)*(1+cos_iota*cos_iota) + 4.0*Fc*Fc*cos_iota*cos_iota)/2.0;
+  }
 }
 
 model {
@@ -112,8 +138,6 @@ model {
 
   /* Mocked-up dVdz prior on */
   target += log(approx_dVddl(dL));
-
-  theta ~ normal(mu_theta, sig_theta);
 
   // Observations; for some reason the ``T[a,b]`` truncation statements cause trouble.
   mc_obs ~ lognormal(log(mc), sigma_mc);
