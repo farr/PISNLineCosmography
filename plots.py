@@ -12,6 +12,35 @@ from true_params import true_params
 colwidth = 433.62/72.0
 figsize_pub=(colwidth, colwidth)
 
+class PubContextManager(object):
+    def __init__(self, figsize=None):
+        if figsize is None:
+            self._figsize = figsize_pub
+        else:
+            self._figsize = figsize
+
+        pass
+
+    def __enter__(self):
+        self._ctx = sns.plotting_context()
+        self._rc = mpl.rcParams.copy()
+
+        sns.set_context('paper')
+        mpl.rcParams.update({
+            'figure.figsize': self._figsize,
+            'text.usetex': True
+        })
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        sns.set_context(self._ctx)
+        mpl.rcParams.update(self._rc)
+
+        # Don't squash exception
+        return None
+
+def pub_plots():
+    return PubContextManager()
+
 def spd_interval(samps, p):
     samps = sort(samps)
     N = samps.shape[0]
