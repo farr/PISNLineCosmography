@@ -135,7 +135,9 @@ model {
 
   // Observations; for some reason the ``T[a,b]`` truncation statements cause trouble.
   mc_obs ~ lognormal(log(mc), sigma_mc);
-  eta_obs ~ normal(eta, sigma_eta) T[0.0, 0.25];
+  eta_obs ~ normal(eta, sigma_eta);
+  target += -log(normal_cdf(0.25, eta, sigma_eta) - normal_cdf(0.0, eta, sigma_eta));
   rho_obs ~ normal(theta .* opt_snr, 1.0);
-  theta_obs ~ normal(theta, sigma_theta) T[0.0, 1.0];
+  theta_obs ~ normal(theta, sigma_theta);
+  target += -log(normal_cdf(1.0, theta, sigma_theta) - normal_cdf(0.0, theta, sigma_theta));
 }
