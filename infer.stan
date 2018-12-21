@@ -1,8 +1,4 @@
 functions {
-  real approx_dVddl(real dl) {
-    return dl*dl/(8.53711241e-02 + dl*(2.67687745e-02 + dl*(-1.61983233e-05 + dl*4.46065498e-06)));
-  }
-
   int bisect_index(real x, real[] xs) {
     int n = size(xs);
     int i = 1;
@@ -26,19 +22,6 @@ functions {
     }
 
     return j;
-  }
-
-  real interp1d(real x, real[] xs, real[] ys) {
-    int i = bisect_index(x, xs);
-
-    real x0 = xs[i-1];
-    real x1 = xs[i];
-    real y0 = ys[i-1];
-    real y1 = ys[i];
-
-    real r = (x-x0)/(x1-x0);
-
-    return r*y1 + (1.0-r)*y0;
   }
 
   real interp2d(real x, real y, real[] xs, real[] ys, real[,] zs) {
