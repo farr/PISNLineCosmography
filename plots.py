@@ -158,7 +158,10 @@ def MMax_plot(c, *args, **kwargs):
     ylabel(r'$p\left( M_\mathrm{max} \right)$')
     axvline(true_params['MMax'], color='k')
 
-def Hz_plot(c, *args, **kwargs):
+def Hz_plot(c, *args, color=None, draw_tracks=True, label=None, **kwargs):
+    if color is None:
+        color = sns.color_palette()[0]
+
     zs = linspace(0, 2, 1000)
 
     plot(zs, Hz(zs, Planck15.H0.to(u.km/u.s/u.Mpc).value, Planck15.Om0, -1), '-k')
@@ -174,22 +177,25 @@ def Hz_plot(c, *args, **kwargs):
     imin = argmin(rel_err)
     print('Redshift at which 1-sigma fractional H(z) interval min of {:.2f} is {:.2f}'.format(rel_err[imin], zs[imin]))
 
-    plot(zs, m, color=sns.color_palette()[0])
-    fill_between(zs, h, l, color=sns.color_palette()[0], alpha=0.25)
-    fill_between(zs, hh, ll, color=sns.color_palette()[0], alpha=0.25)
+    plot(zs, m, color=color, label=label)
+    fill_between(zs, h, l, color=color, alpha=0.25)
+    fill_between(zs, hh, ll, color=color, alpha=0.25)
 
-    hs = c['H0'].flatten()
-    Oms = c['Om'].flatten()
-    ws = c['w'].flatten()
-    for i in np.random.choice(len(hs), size=10, replace=False):
-        h = hs[i]
-        Om = Oms[i]
-        w = ws[i]
+    if draw_tracks:
+        hs = c['H0'].flatten()
+        Oms = c['Om'].flatten()
+        ws = c['w'].flatten()
+        for i in np.random.choice(len(hs), size=10, replace=False):
+            h = hs[i]
+            Om = Oms[i]
+            w = ws[i]
 
-        plot(zs, Hz(zs, h, Om, w), color=sns.color_palette()[0], alpha=0.25)
+            plot(zs, Hz(zs, h, Om, w), color=color, alpha=0.25)
 
     xlabel(r'$z$')
     ylabel(r'$H(z)$ ($\mathrm{km} \, \mathrm{s}^{-1} \, \mathrm{Mpc}^{-1}$)')
+
+    return zs, Hs
 
 def neff_plot(c):
     nchain, nsamp, nobs = c['neff'].shape
@@ -228,12 +234,12 @@ def rewt_w_samples(c):
         sel = r < wts
 
         if count_nonzero(sel) > 4000:
-            return pts[sel,2][:4000]
+            return pts[sel,:][:4000, :]
         else:
             ndraw = ndraw*2
 
 def rewt_w_plot(c):
-    w = rewt_w_samples(c)
+    w = rewt_w_samples(c)[:,2]
 
     m = median(w)
     l, h = spd_interval(w, 0.68)
