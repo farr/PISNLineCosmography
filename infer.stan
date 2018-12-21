@@ -131,25 +131,11 @@ transformed parameters {
 }
 
 model {
-  /* flat-in-log prior on m1 */
-  target += -log(m1);
-
-  /* Flat prior on m2 */
-
-  /* Mocked-up dVdz prior on */
-  target += log(approx_dVddl(dL));
+  /* Flat prior on m1, m2, dL; correct prior on theta. */
 
   // Observations; for some reason the ``T[a,b]`` truncation statements cause trouble.
   mc_obs ~ lognormal(log(mc), sigma_mc);
-  eta_obs ~ normal(eta, sigma_eta);
-  target += -log(normal_cdf(0.25, eta, sigma_eta) - normal_cdf(0, eta, sigma_eta)); // Truncated between 0 and 1/4
+  eta_obs ~ normal(eta, sigma_eta) T[0.0, 0.25];
   rho_obs ~ normal(theta .* opt_snr, 1.0);
-  theta_obs ~ normal(theta, sigma_theta);
-  target += -log(normal_cdf(1, theta, sigma_theta) - normal_cdf(0, theta, sigma_theta)); // Truncated 0, 1
-}
-
-generated quantities {
-  real log_m1m2dl_prior;
-
-  log_m1m2dl_prior = -log(m1) + log(approx_dVddl(dL));
+  theta_obs ~ normal(theta, sigma_theta) T[0.0, 1.0];
 }
