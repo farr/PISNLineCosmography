@@ -59,6 +59,53 @@ functions {
     return sum(terms);
   }
 
+  real x_to_unconstrained(real x, real l, real h) {
+    return log((x-l)/(h-x));
+  }
+
+  real unconstrained_to_x(real u, real l, real h) {
+    if (u > 0.0) {
+      real r = exp(-u);
+      return (l*r + h)/(r+1.0);
+    } else {
+      real r = exp(u);
+      return (l + h*r)/(1.0+r);
+    }
+  }
+
+  /* log(dx/du) */
+  real x_unconstrained_logjac(real x, real u, real l, real h) {
+    return -log(1.0/(h-x) + 1.0/(x-l));
+  }
+
+  vector m1m2dl_to_unconstrained(real m1, real m2, real dl, real MLow, real MHigh, real dLmax) {
+    vector[3] v;
+
+    v[1] = x_to_unconstrained(m1, MLow, MHigh);
+    v[2] = x_to_unconstrained(m2, MLow, m1);
+    v[3] = x_to_unconstrained(dl, 0.0, dLmax);
+
+    return v;
+  }
+
+  vector unconstrained_to_m1m2dl(vector v, real MLow, real MHigh, real dLmax) {
+    vector[3] m1m2dl;
+
+    m1m2dl[1] = unconstrained_to_x(v[1], MLow, MHigh);
+    m1m2dl[2] = unconstrained_to_x(v[2], MLow, m1m2dl[1]);
+    m1m2dl[3] = unconstrained_to_x(v[3], 0.0, dLmax);
+
+    return m1m2dl;
+  }
+
+  real m1m2dl_unconstrained_logjac(real m1, real m2, real dl, vector v, real MLow, real MHigh, real dLmax) {
+    real j1 = x_unconstrained_logjac(m1, v[1], MLow, MHigh);
+    real j2 = x_unconstrained_logjac(m2, v[2], MLow, m1);
+    real j3 = x_unconstrained_logjac(dl, v[3], 0.0, dLmax);
+
+    return j1 + j2 + j3;
+  }
+
   real softened_power_law_logpdf_unnorm(real x, real alpha, real xmin, real xmax, real sigma_min, real sigma_max) {
     real logx = log(x);
     real pl = alpha*logx;
@@ -166,16 +213,53 @@ data {
 
 transformed data {
   real log_wtsel[nsel];
-  matrix[3,3] chol_bw[nobs];
+
   real MLow = 3.0;
-  real MHigh = 100.0;
+  real MHigh = 300.0;
+
+  vector[3] mu_u[nobs];
+  matrix[3,3] chol_ucov[nobs];
+
+  matrix[3,3] chol_bw[nobs];
 
   for (i in 1:nsel) {
     log_wtsel[i] = log(wtsel[i]);
   }
 
   for (i in 1:nobs) {
-    chol_bw[i] = cholesky_decompose(bw[i]);
+    vector[3] mu = rep_vector(0.0, 3);
+    chol_bw[i] = rep_matrix(0.0, 3, 3);
+    mu_u[i] = rep_vector(0.0, 3);
+    chol_ucov[i] = rep_matrix(0.0, 3, 3);
+
+    for (j in 1:nsamp) {
+      vector[3] u = m1m2dl_to_unconstrained(m1obs[i,j], m2obs[i,j], dlobs[i,j], MLow, MHigh, dLmax);
+      mu_u[i] = mu_u[i] + u;
+    }
+    mu_u[i] = mu_u[i] / nsamp;
+
+    for (j in 1:nsamp) {
+      vector[3] u = m1m2dl_to_unconstrained(m1obs[i,j], m2obs[i,j], dlobs[i,j], MLow, MHigh, dLmax);
+      vector[3] x = (u - mu_u[i]);
+      chol_ucov[i] = chol_ucov[i] + x*x';
+    }
+    chol_ucov[i] = chol_ucov[i] / nsamp;
+    chol_ucov[i] = cholesky_decompose(chol_ucov[i]);
+
+    for (j in 1:nsamp) {
+      mu[1] = mu[1] + m1obs[i,j];
+      mu[2] = mu[2] + m2obs[i,j];
+      mu[3] = mu[3] + dlobs[i,j];
+    }
+    mu = mu/nsamp;
+
+    for (j in 1:nsamp) {
+      vector[3] x = (to_vector({m1obs[i,j], m2obs[i,j], dlobs[i,j]}) - mu);
+      chol_bw[i] = chol_bw[i] + x*x';
+    }
+    chol_bw[i] = chol_bw[i] / nsamp;
+    chol_bw[i] = chol_bw[i] / nsamp^(2.0/7.0); /* Shrink bw by Scott's rule */
+    chol_bw[i] = cholesky_decompose(chol_bw[i]);
   }
 }
 
@@ -193,16 +277,17 @@ parameters {
   real<lower=0.01, upper=1> sigma_low;
   real<lower=0.01, upper=1> sigma_high;
 
-  real<lower=MLow, upper=MHigh> m1[nobs];
-  real<lower=0, upper=1> m2_frac[nobs];
-  real<lower=0, upper=dLmax> dl[nobs];
+  vector[3] u_unit[nobs];
 }
 
 transformed parameters {
   real dH = 4.42563416002 * (67.74/H0);
   real Nex;
   real neff_det;
+  vector[3] u[nobs];
+  real m1[nobs];
   real m2[nobs];
+  real dl[nobs];
   real z[nobs];
 
   {
@@ -248,8 +333,15 @@ transformed parameters {
     neff_det = 1.0/sigma_rel2;
 
     for (i in 1:nobs) {
-      m2[i] = MLow + (m1[i]-MLow)*m2_frac[i];
+      vector[3] m1m2dl;
+
+      u[i] = chol_ucov[i]*u_unit[i] + mu_u[i];
+      m1m2dl = unconstrained_to_m1m2dl(u[i], MLow, MHigh, dLmax);
+
+      dl[i] = m1m2dl[3];
       z[i] = interp1d(dl[i], dlinterp, zinterp);
+      m1[i] = m1m2dl[1]/(1+z[i]);
+      m2[i] = m1m2dl[2]/(1+z[i]);
     }
   }
 }
@@ -278,7 +370,7 @@ model {
   log_pop_nojac = log_dNdm1dm2ddldt_norm(m1, m2, dl, z, MMin, MMax, alpha, beta, gamma, dH, Om, w, sigma_low, sigma_high, ms_norm);
   for (i in 1:nobs) {
     /* Jacobian: since we sample in m2_frac, need d(m2)/d(m2_frac) = (m1 - MMin)*/
-    log_pop_jac[i] = log_pop_nojac[i] + log(m1[i]-MLow);
+    log_pop_jac[i] = log_pop_nojac[i] + m1m2dl_unconstrained_logjac(m1[i], m2[i], dl[i], u[i], MLow, MHigh, dLmax);
   }
   target += nobs*log(R0) + sum(log_pop_jac);
 

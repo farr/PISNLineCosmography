@@ -90,7 +90,7 @@ ninterp = 500
 zMax = 10
 zinterp = expm1(linspace(log(1), log(zMax+1), ninterp))
 
-msnorm = exp(arange(log(1), log(max(np.max(m1), np.max(m1s_det))*1.1), 0.01))
+msnorm = exp(arange(log(1), log(300), 0.01))
 nnorm = len(msnorm)
 
 bws = []
