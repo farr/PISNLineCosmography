@@ -208,14 +208,13 @@ data {
 
   real ms_norm[nnorm];
 
+  real MLow;
+  real MHigh;
   real dLmax;
 }
 
 transformed data {
   real log_wtsel[nsel];
-
-  real MLow = 3.0;
-  real MHigh = 300.0;
 
   vector[3] mu_u[nobs];
   matrix[3,3] chol_ucov[nobs];
