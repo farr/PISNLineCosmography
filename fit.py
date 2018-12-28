@@ -127,7 +127,7 @@ d = {
 
     'MLow': 1.0,
     'MHigh': 3.0,
-    'dLmax': Planck15.luminosity_distance(3).to(u.Gpc).value
+    'dLmax': Planck15.luminosity_distance(4).to(u.Gpc).value
 }
 
 f = m.sampling(data=d, iter=2*args.iter)
