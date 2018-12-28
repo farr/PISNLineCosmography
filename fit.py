@@ -126,7 +126,7 @@ d = {
     'ms_norm': msnorm,
 
     'MLow': 1.0,
-    'MHigh': 3.0,
+    'MHigh': 300.0,
     'dLmax': Planck15.luminosity_distance(4).to(u.Gpc).value
 }
 
