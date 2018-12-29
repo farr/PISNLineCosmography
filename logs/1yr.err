@@ -1,14 +1,159 @@
 DIAGNOSTIC(S) FROM PARSER:
 Warning: integer division implicitly rounds to integer. Found int division: (h - l) / 2
  Positive values rounded down, negative values rounded up or down in platform-dependent way.
-Warning: left-hand side variable (name=istart) occurs on right-hand side of assignment, causing inefficient deep copy to avoid aliasing.
-Warning: left-hand side variable (name=r) occurs on right-hand side of assignment, causing inefficient deep copy to avoid aliasing.
-Warning: left-hand side variable (name=istart) occurs on right-hand side of assignment, causing inefficient deep copy to avoid aliasing.
+Warning: left-hand side variable (name=m1m2dl) occurs on right-hand side of assignment, causing inefficient deep copy to avoid aliasing.
+Warning: left-hand side variable (name=mu_u) occurs on right-hand side of assignment, causing inefficient deep copy to avoid aliasing.
+Warning: left-hand side variable (name=mu_u) occurs on right-hand side of assignment, causing inefficient deep copy to avoid aliasing.
+Warning: left-hand side variable (name=chol_ucov) occurs on right-hand side of assignment, causing inefficient deep copy to avoid aliasing.
+Warning: left-hand side variable (name=chol_ucov) occurs on right-hand side of assignment, causing inefficient deep copy to avoid aliasing.
+Warning: left-hand side variable (name=chol_ucov) occurs on right-hand side of assignment, causing inefficient deep copy to avoid aliasing.
+Warning: left-hand side variable (name=mu) occurs on right-hand side of assignment, causing inefficient deep copy to avoid aliasing.
+Warning: left-hand side variable (name=mu) occurs on right-hand side of assignment, causing inefficient deep copy to avoid aliasing.
+Warning: left-hand side variable (name=mu) occurs on right-hand side of assignment, causing inefficient deep copy to avoid aliasing.
+Warning: left-hand side variable (name=mu) occurs on right-hand side of assignment, causing inefficient deep copy to avoid aliasing.
+Warning: left-hand side variable (name=chol_bw) occurs on right-hand side of assignment, causing inefficient deep copy to avoid aliasing.
+Warning: left-hand side variable (name=chol_bw) occurs on right-hand side of assignment, causing inefficient deep copy to avoid aliasing.
+Warning: left-hand side variable (name=chol_bw) occurs on right-hand side of assignment, causing inefficient deep copy to avoid aliasing.
+Warning: left-hand side variable (name=chol_bw) occurs on right-hand side of assignment, causing inefficient deep copy to avoid aliasing.
 
-INFO:pystan:COMPILING THE C++ CODE FOR MODEL anon_model_bd491f29d8b4ce6b335a05b26e2ddc24 NOW.
-/mnt/home/wfarr/anaconda3/lib/python3.6/site-packages/Cython/Compiler/Main.py:367: FutureWarning: Cython directive 'language_level' not set, using 2 for now (Py2). This will change in a later release! File: /tmp/tmpkbyudtds/stanfit4anon_model_bd491f29d8b4ce6b335a05b26e2ddc24_7902023053528447496.pyx
+INFO:pystan:COMPILING THE C++ CODE FOR MODEL anon_model_05786f9f3b80404c8eccfade795b33a4 NOW.
+/mnt/home/wfarr/anaconda3/lib/python3.6/site-packages/Cython/Compiler/Main.py:367: FutureWarning: Cython directive 'language_level' not set, using 2 for now (Py2). This will change in a later release! File: /tmp/tmpb4dfwvl9/stanfit4anon_model_05786f9f3b80404c8eccfade795b33a4_7606383906987787770.pyx
   tree = Parsing.p_module(s, pxd, full_module_name)
-WARNING:pystan:248 of 4000 iterations ended with a divergence (6.2%).
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: cannot search outside bounds  (in 'model.stan' at line 7)
+  (in 'model.stan' at line 25)
+  (in 'model.stan' at line 155)
+  (in 'model.stan' at line 370)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: cannot search outside bounds  (in 'model.stan' at line 7)
+  (in 'model.stan' at line 25)
+  (in 'model.stan' at line 155)
+  (in 'model.stan' at line 370)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: cannot search outside bounds  (in 'model.stan' at line 7)
+  (in 'model.stan' at line 25)
+  (in 'model.stan' at line 155)
+  (in 'model.stan' at line 370)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: cannot search outside bounds  (in 'model.stan' at line 7)
+  (in 'model.stan' at line 25)
+  (in 'model.stan' at line 155)
+  (in 'model.stan' at line 370)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: cannot search outside bounds  (in 'model.stan' at line 7)
+  (in 'model.stan' at line 25)
+  (in 'model.stan' at line 155)
+  (in 'model.stan' at line 370)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: cannot search outside bounds  (in 'model.stan' at line 7)
+  (in 'model.stan' at line 25)
+  (in 'model.stan' at line 155)
+  (in 'model.stan' at line 370)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: cannot search outside bounds  (in 'model.stan' at line 7)
+  (in 'model.stan' at line 25)
+  (in 'model.stan' at line 155)
+  (in 'model.stan' at line 370)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: cannot search outside bounds  (in 'model.stan' at line 7)
+  (in 'model.stan' at line 25)
+  (in 'model.stan' at line 155)
+  (in 'model.stan' at line 370)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: cannot search outside bounds  (in 'model.stan' at line 7)
+  (in 'model.stan' at line 25)
+  (in 'model.stan' at line 155)
+  (in 'model.stan' at line 370)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: cannot search outside bounds  (in 'model.stan' at line 7)
+  (in 'model.stan' at line 25)
+  (in 'model.stan' at line 155)
+  (in 'model.stan' at line 370)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: cannot search outside bounds  (in 'model.stan' at line 7)
+  (in 'model.stan' at line 25)
+  (in 'model.stan' at line 155)
+  (in 'model.stan' at line 370)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: cannot search outside bounds  (in 'model.stan' at line 7)
+  (in 'model.stan' at line 25)
+  (in 'model.stan' at line 155)
+  (in 'model.stan' at line 370)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: cannot search outside bounds  (in 'model.stan' at line 7)
+  (in 'model.stan' at line 25)
+  (in 'model.stan' at line 155)
+  (in 'model.stan' at line 370)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: cannot search outside bounds  (in 'model.stan' at line 7)
+  (in 'model.stan' at line 25)
+  (in 'model.stan' at line 155)
+  (in 'model.stan' at line 370)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+WARNING:pystan:Rhat for parameter u_unit[793,2] is 1.134230630239466!
+WARNING:pystan:Rhat for parameter u_unit[794,3] is 1.2947385346434281!
+WARNING:pystan:Rhat for parameter u[794,3] is 1.2976719320382986!
+WARNING:pystan:Rhat for parameter m1[794] is 1.1010479885011606!
+WARNING:pystan:Rhat for parameter m2[794] is 1.1105470921336074!
+WARNING:pystan:Rhat for parameter dl[794] is 1.3919124519543642!
+WARNING:pystan:Rhat for parameter z[794] is 1.3370369703001554!
+WARNING:pystan:Rhat above 1.1 or below 0.9 indicates that the chains very likely have not mixed
+WARNING:pystan:151 of 4000 iterations ended with a divergence (3.775%).
 WARNING:pystan:Try running with adapt_delta larger than 0.8 to remove the divergences.
 /mnt/home/wfarr/anaconda3/lib/python3.6/site-packages/matplotlib/tight_layout.py:231: UserWarning: tight_layout : falling back to Agg renderer
   warnings.warn("tight_layout : falling back to Agg renderer")
