@@ -13,14 +13,16 @@ from astropy.cosmology import Planck15
 import astropy.units as u
 import h5py
 import pystan
+from sklearn.mixture import GaussianMixture
 import sys
+from tqdm import tqdm
 
 p = ArgumentParser()
 
 post = p.add_argument_group('Event Options')
 post.add_argument('--sampfile', metavar='FILE.h5', default='observations.h5', help='posterior samples file (default: %(default)s)')
 post.add_argument('--subset', metavar='DESIGNATOR', help='name of the attribute giving the number of detection to analyze (default: all)')
-post.add_argument('--nsamp', metavar='N', default=128, type=int, help='number of samples to us (default: %(default)s)')
+post.add_argument('--ngmm', metavar='N', default=6, type=int, help='number of components in GMM likelihood (default: %(default)s)')
 
 sel = p.add_argument_group('Selection Function Options')
 sel.add_argument('--selfile', metavar='FILE.h5', default='selected.h5', help='file containing records of successful injections for VT estimation (default: %(default)s)')
@@ -72,19 +74,10 @@ if args.nsel is not None:
 ndet = m1s_det.shape[0]
 
 nobs = chain['m1det'].shape[0]
-
-m1 = []
-m2 = []
-dl = []
-
-for i in range(nobs):
-    inds = np.random.choice(chain['m1det'].shape[1], replace=False, size=args.nsamp)
-    m1.append(chain['m1det'][i,inds])
-    m2.append(chain['m2det'][i,inds])
-    dl.append(chain['dl'][i,inds])
-m1 = array(m1)
-m2 = array(m2)
-dl = array(dl)
+nsamp = chain['m1det'].shape[1]
+m1 = chain['m1det']
+m2 = chain['m2det']
+dl = chain['dl']
 
 ninterp = 500
 zMax = 10
@@ -93,10 +86,18 @@ zinterp = expm1(linspace(log(1), log(zMax+1), ninterp))
 msnorm = exp(arange(log(1), log(300), 0.01))
 nnorm = len(msnorm)
 
-bws = []
-for i in range(nobs):
-    cm = cov(column_stack((m1[i,:], m2[i,:], dl[i,:])), rowvar=False)
-    bws.append(cm / args.nsamp**(2.0/7.0))
+print('Fitting GMMs to likelihood samples.')
+gmm_wts = []
+gmm_means = []
+gmm_covs = []
+gmm = GaussianMixture(args.ngmm)
+for i in tqdm(range(nobs)):
+    pts = column_stack((m1[i,:], m2[i,:], dl[i,:]))
+    gmm.fit(pts)
+
+    gmm_wts.append(gmm.weights_)
+    gmm_means.append(gmm.means_)
+    gmm_covs.append(gmm.covariances_)
 
 m = pystan.StanModel(file='model.stan')
 d = {
@@ -105,7 +106,9 @@ d = {
     'ninterp': ninterp,
     'nnorm': nnorm,
 
-    'nsamp': args.nsamp,
+    'nsamp': nsamp,
+
+    'ngmm': args.ngmm,
 
     'Tobs': Tobs,
     'N_gen': N_gen,
@@ -114,7 +117,9 @@ d = {
     'm2obs': m2,
     'dlobs': dl,
 
-    'bw': bws,
+    'gmm_wts': gmm_wts,
+    'gmm_means': gmm_means,
+    'gmm_cov': gmm_covs,
 
     'm1sel': m1s_det,
     'm2sel': m2s_det,
@@ -146,7 +151,7 @@ savefig(args.tracefile)
 with h5py.File(args.chainfile, 'w') as out:
     out.attrs['nobs'] = nobs
     out.attrs['nsel'] = ndet
-    out.attrs['nsamp'] = args.nsamp
+    out.attrs['nsamp'] = nsamp
 
     for n in ['H0', 'Om', 'w', 'R0', 'MMin', 'MMax', 'sigma_low', 'sigma_high', 'alpha', 'beta', 'gamma', 'Nex', 'neff_det', 'm1', 'm2', 'dl', 'z']:
         out.create_dataset(n, data=fit[n], compression='gzip', shuffle=True)

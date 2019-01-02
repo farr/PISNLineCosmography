@@ -190,14 +190,20 @@ data {
 
   int nsamp;
 
+  int ngmm;
+
   real Tobs;
   int N_gen;
 
+  /* These are used only to estimate the covariance matrix for sampling over the
+  /* true masses and distances. */
   real m1obs[nobs, nsamp];
   real m2obs[nobs, nsamp];
   real dlobs[nobs, nsamp];
 
-  matrix[3,3] bw[nobs];
+  real gmm_wts[nobs, ngmm];
+  vector[3] gmm_means[nobs, ngmm];
+  matrix[3,3] gmm_cov[nobs, ngmm];
 
   real m1sel[nsel];
   real m2sel[nsel];
@@ -219,7 +225,8 @@ transformed data {
   vector[3] mu_u[nobs];
   matrix[3,3] chol_ucov[nobs];
 
-  matrix[3,3] chol_bw[nobs];
+  real log_gmm_wts[nobs, ngmm];
+  matrix[3,3] gmm_chol_cov[nobs, ngmm];
 
   for (i in 1:nsel) {
     log_wtsel[i] = log(wtsel[i]);
@@ -227,7 +234,6 @@ transformed data {
 
   for (i in 1:nobs) {
     vector[3] mu = rep_vector(0.0, 3);
-    chol_bw[i] = rep_matrix(0.0, 3, 3);
     mu_u[i] = rep_vector(0.0, 3);
     chol_ucov[i] = rep_matrix(0.0, 3, 3);
 
@@ -244,21 +250,13 @@ transformed data {
     }
     chol_ucov[i] = chol_ucov[i] / nsamp;
     chol_ucov[i] = cholesky_decompose(chol_ucov[i]);
-
-    for (j in 1:nsamp) {
-      mu[1] = mu[1] + m1obs[i,j];
-      mu[2] = mu[2] + m2obs[i,j];
-      mu[3] = mu[3] + dlobs[i,j];
+  }
+  
+  for (i in 1:nobs) {
+    for (j in 1:ngmm) {
+      log_gmm_wts[i,j] = log(gmm_wts[i,j]);
+      gmm_chol_cov[i,j] = cholesky_decompose(gmm_cov[i,j]);
     }
-    mu = mu/nsamp;
-
-    for (j in 1:nsamp) {
-      vector[3] x = (to_vector({m1obs[i,j], m2obs[i,j], dlobs[i,j]}) - mu);
-      chol_bw[i] = chol_bw[i] + x*x';
-    }
-    chol_bw[i] = chol_bw[i] / nsamp;
-    chol_bw[i] = chol_bw[i] / nsamp^(2.0/7.0); /* Shrink bw by Scott's rule */
-    chol_bw[i] = cholesky_decompose(chol_bw[i]);
   }
 }
 
@@ -375,14 +373,14 @@ model {
 
   /* Likelihood */
   for (i in 1:nobs) {
-    vector[3] mu = to_vector({m1[i]*(1+z[i]), m2[i]*(1+z[i]), dl[i]});
-    real logps[nsamp];
+    vector[3] x = to_vector({m1[i]*(1+z[i]), m2[i]*(1+z[i]), dl[i]});
+    real logp[ngmm];
 
-    for (j in 1:nsamp) {
-      vector[3] x = to_vector({m1obs[i,j], m2obs[i,j], dlobs[i,j]});
-      logps[j] = multi_normal_cholesky_lpdf(x | mu, chol_bw[i]);
+    for (j in 1:ngmm) {
+      logp[j] = log_gmm_wts[i,j] + multi_normal_cholesky_lpdf(gmm_means[i,j] | x, gmm_chol_cov[i,j]);
     }
-    target += log_sum_exp(logps) - log(nsamp);
+
+    target += log_sum_exp(logp);
   }
 
   // Poisson norm
