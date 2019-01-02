@@ -77,7 +77,7 @@ def Hz(z, H0, Om, w):
     return H0*np.sqrt(Om*(1+z)**3 + (1.0-Om)*(1+z)**(3*(1+w)))
 
 def load_chains(f):
-    names = ['H0', 'Om', 'w', 'R0', 'MMin', 'MMax', 'alpha', 'beta', 'gamma', 'sigma_low', 'sigma_high', 'Nex', 'neff_det', 'neff', 'm1_source', 'm2_source', 'dl_source', 'z_source']
+    names = ['H0', 'Om', 'w', 'R0', 'MMin', 'MMax', 'alpha', 'beta', 'gamma', 'sigma_low', 'sigma_high', 'Nex', 'neff_det', 'm1', 'm2', 'dl', 'z']
 
     c = {}
     with h5py.File(f, 'r') as inp:
@@ -197,13 +197,9 @@ def Hz_plot(c, *args, color=None, draw_tracks=True, label=None, **kwargs):
 
     return zs, Hs
 
-def neff_plot(c):
-    nchain, nsamp, nobs = c['neff'].shape
-    errorbar(arange(nobs), mean(c['neff'], axis=(0,1)), yerr=std(c['neff'], axis=(0,1)), fmt='.')
-
 def mass_correction_plot(c):
-    errorbar(mean(c['z_source'], axis=(0,1)), mean(c['m1_source'],axis=(0,1)), yerr=std(c['m1_source'], axis=(0,1)), xerr=std(c['z_source'], axis=(0,1)), fmt='.')
-    zs = linspace(0, np.max(c['z_source']), 100)
+    errorbar(mean(c['z'], axis=(0,1)), mean(c['m1'],axis=(0,1)), yerr=std(c['m1'], axis=(0,1)), xerr=std(c['z'], axis=(0,1)), fmt='.')
+    zs = linspace(0, np.max(c['z']), 100)
     plot(zs, median(c['MMax'])*ones_like(zs), color=sns.color_palette()[0])
     fill_between(zs, percentile(c['MMax'], 84)*ones_like(zs), percentile(c['MMax'], 16)*ones_like(zs), color=sns.color_palette()[0], alpha=0.25)
     fill_between(zs, percentile(c['MMax'], 97.5)*ones_like(zs), percentile(c['MMax'], 2.5)*ones_like(zs), color=sns.color_palette()[0], alpha=0.25)
@@ -254,9 +250,6 @@ def post_process(f):
     c = load_chains(f)
 
     traceplot(c)
-
-    figure()
-    neff_plot(c)
 
     figure()
     Hz_plot(c)
