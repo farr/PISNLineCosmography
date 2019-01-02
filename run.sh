@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH -n 1 --ntasks 3 --cpus-per-task 4 -p cca -o logs/run.out -e logs/run.err
+#SBATCH -n 1 --ntasks 3 --cpus-per-task 4 -t 14-00:00:00 -o logs/run.out -e logs/run.err
 
 set -e
 
