@@ -10,7 +10,7 @@ export PYTHONPATH="$PYTHONPATH:/mnt/home/wfarr/PISNLineCosmography"
 NSEL=2048
 ./fit.py --sampfile observations.h5 --subset small --selfile selected.h5 --nsel $NSEL --chainfile population_small.h5 --tracefile traceplot_small.pdf > logs/small.out 2> logs/small.err &
 
-NSEL=32768
+NSEL=65536
 ./fit.py --sampfile observations.h5 --subset 1yr --selfile selected.h5 --nsel $NSEL --chainfile population_1yr.h5 --tracefile traceplot_1yr.pdf > logs/1yr.out 2>logs/1yr.err &
 
 NSEL=131072
