@@ -251,7 +251,7 @@ transformed data {
     chol_ucov[i] = chol_ucov[i] / nsamp;
     chol_ucov[i] = cholesky_decompose(chol_ucov[i]);
   }
-  
+
   for (i in 1:nobs) {
     for (j in 1:ngmm) {
       log_gmm_wts[i,j] = log(gmm_wts[i,j]);
@@ -271,13 +271,15 @@ parameters {
   real<lower=-5, upper=3> alpha;
   real<lower=-3, upper=3> beta;
   real<lower=-1, upper=7> gamma;
-  real<lower=0.01, upper=1> sigma_low;
-  real<lower=0.01, upper=1> sigma_high;
+  real<lower=1.5, upper=0.98*MMin> MLow2Sigma; /* Two sigma lower limit on the cutoff part of the masses. */
+  real<lower=1.02*MMax, upper=200> MHigh2Sigma; /* Two sigma upper limit on cutoff part of masses. */
 
   vector[3] u_unit[nobs];
 }
 
 transformed parameters {
+  real sigma_low = 0.5*(log(MMin)-log(MLow2Sigma));
+  real sigma_high = 0.5*(log(MHigh2Sigma) - log(MMax));
   real dH = 4.42563416002 * (67.74/H0);
   real Nex;
   real neff_det;
@@ -348,7 +350,10 @@ model {
   real log_pop_jac[nobs];
 
   sigma_low ~ lognormal(log(0.1), 1);
+  target += -log(MLow2Sigma);
+
   sigma_high ~ lognormal(log(0.1), 1);
+  target += -log(MHigh2Sigma);
 
   R0 ~ lognormal(log(100), 1);
 
