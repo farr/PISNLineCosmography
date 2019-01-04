@@ -140,12 +140,7 @@ fit = f.extract(permuted=True)
 
 print(f)
 
-print('Just completed sampling.')
-print('  Fraction of D(ln(pi)) due to selection Monte-Carlo is {:.2f}'.format(std(nobs**2/(2*fit['neff_det'])) / (nobs*std(log(fit['Nex'])-log(fit['R0'])))))
-print('  Mean fractional bias in R is {:.2f}'.format(mean(nobs/fit['neff_det'])))
-print('  Mean fractional increase in sigma_R is {:.2f}'.format(mean((1 - 4*nobs + 3*nobs**2)/(2*fit['neff_det']*(nobs-1)))))
-
-az.plot_trace(f, var_names=['H0', 'Om', 'w', 'R0', 'MMin', 'MMax', 'sigma_low', 'sigma_high', 'alpha', 'beta', 'gamma', 'Nex'])
+az.plot_trace(f, var_names=['H0', 'Om', 'w', 'R0', 'MMin', 'MMax', 'sigma_low', 'sigma_high', 'alpha', 'beta', 'gamma'])
 savefig(args.tracefile)
 
 with h5py.File(args.chainfile, 'w') as out:
@@ -153,5 +148,5 @@ with h5py.File(args.chainfile, 'w') as out:
     out.attrs['nsel'] = ndet
     out.attrs['nsamp'] = nsamp
 
-    for n in ['H0', 'Om', 'w', 'R0', 'MMin', 'MMax', 'sigma_low', 'sigma_high', 'alpha', 'beta', 'gamma', 'Nex', 'neff_det', 'm1', 'm2', 'dl', 'z']:
+    for n in ['H0', 'Om', 'w', 'R0', 'MMin', 'MMax', 'sigma_low', 'sigma_high', 'alpha', 'beta', 'gamma', 'neff_det', 'm1', 'm2', 'dl', 'z']:
         out.create_dataset(n, data=fit[n], compression='gzip', shuffle=True)

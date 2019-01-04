@@ -265,7 +265,6 @@ parameters {
   real<lower=0,upper=1> Om;
   real<lower=-2, upper=0> w;
 
-  real<lower=0> R0;
   real<lower=3, upper=10> MMin;
   real<lower=30, upper=100> MMax;
   real<lower=-5, upper=3> alpha;
@@ -281,7 +280,7 @@ transformed parameters {
   real sigma_low = 0.5*(log(MMin)-log(MLow2Sigma));
   real sigma_high = 0.5*(log(MHigh2Sigma) - log(MMax));
   real dH = 4.42563416002 * (67.74/H0);
-  real Nex;
+  real mu_det;
   real neff_det;
   vector[3] u[nobs];
   real m1[nobs];
@@ -324,7 +323,7 @@ transformed parameters {
     Nsum = exp(log_sum_exp(log_dN));
     N2sum = exp(log_sum_exp(log_dN2));
 
-    Nex = R0*Tobs/N_gen*Nsum;
+    mu_det = Tobs/N_gen*Nsum;
 
     sigma_rel2 = N2sum/(Nsum*Nsum) - 1.0/N_gen;
     sigma_rel = sqrt(sigma_rel2);
@@ -355,8 +354,6 @@ model {
   sigma_high ~ lognormal(log(0.1), 1);
   target += -log(MHigh2Sigma);
 
-  R0 ~ lognormal(log(100), 1);
-
   MMin ~ normal(5, 2);
   MMax ~ normal(40, 15);
 
@@ -374,7 +371,7 @@ model {
     /* Jacobian: since we sample in m2_frac, need d(m2)/d(m2_frac) = (m1 - MMin)*/
     log_pop_jac[i] = log_pop_nojac[i] + m1m2dl_unconstrained_logjac(m1[i], m2[i], dl[i], u[i], MLow, MHigh, dLmax);
   }
-  target += nobs*log(R0) + sum(log_pop_jac);
+  target += sum(log_pop_jac);
 
   /* Likelihood */
   for (i in 1:nobs) {
@@ -388,6 +385,17 @@ model {
     target += log_sum_exp(logp);
   }
 
-  // Poisson norm
-  target += -Nex;
+  // Normalization term
+  target += -nobs*log(mu_det) - 2.0*log(neff_det) + log((2.0*neff_det + 3.0*nobs)*(2*neff_det + nobs*nobs)/mu_det);
+}
+
+generated quantities {
+  real R0;
+
+  {
+    real mu_R0 = nobs/mu_det*(1.0 + nobs/neff_det);
+    real sigma_R0 = sqrt(nobs)/mu_det*(1.0 + 1.5*nobs/neff_det);
+
+    R0 = normal_rng(mu_R0, sigma_R0);
+  }
 }
