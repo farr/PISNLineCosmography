@@ -77,7 +77,7 @@ def Hz(z, H0, Om, w):
     return H0*np.sqrt(Om*(1+z)**3 + (1.0-Om)*(1+z)**(3*(1+w)))
 
 def load_chains(f):
-    names = ['H0', 'Om', 'w', 'R0', 'MMin', 'MMax', 'alpha', 'beta', 'gamma', 'sigma_low', 'sigma_high', 'Nex', 'neff_det', 'm1', 'm2', 'dl', 'z']
+    names = ['H0', 'Om', 'w', 'R0', 'MMin', 'MMax', 'alpha', 'beta', 'gamma', 'sigma_low', 'sigma_high', 'mu_det', 'neff_det', 'm1', 'm2', 'dl', 'z']
 
     c = {}
     with h5py.File(f, 'r') as inp:
@@ -86,19 +86,9 @@ def load_chains(f):
             arr = squeeze(array(inp[n]))
 
             if len(arr.shape) == 1:
-                c[n] = reshape(arr, (4, 1000))
+                c[n] = reshape(arr, (4, -1))
             else:
-                c[n] = reshape(arr, (4, 1000) + arr.shape[1:])
-
-    mu_term = nobs*(log(c['Nex'])-log(c['R0']))
-    sigma_term = nobs**2/(2*c['neff_det'])
-
-    R0_dsigma_term = (1 - 4*nobs + 3*nobs**2)/c['neff_det']
-    R0_sigma_term = nobs-1
-
-    print('Fractional bias in parameter estimates due to selection uncertainty is {:.2f}'.format(std(sigma_term)/std(mu_term)))
-    print('Fractional bias in R0 is {:.2f}'.format(mean(nobs/c['neff_det'])))
-    print('Fracitonal expansion in sigma_R0 is {:.2f}'.format(mean(R0_dsigma_term/(2*R0_sigma_term))))
+                c[n] = reshape(arr, (4, -1) + arr.shape[1:])
 
     return c
 
@@ -117,7 +107,18 @@ def traceplot(c):
              ('sigma_low', {}, true_params['sigma_low']),
              ('sigma_high', {}, true_params['sigma_high']))
 
-    az.plot_trace(fit, var_names=['H0', 'Om', 'w', 'R0', 'MMin', 'MMax', 'alpha', 'beta', 'gamma', 'sigma_low', 'sigma_high', 'Nex'], lines=lines)
+    az.plot_trace(fit, var_names=['H0', 'Om', 'w', 'R0', 'MMin', 'MMax', 'alpha', 'beta', 'gamma', 'sigma_low', 'sigma_high'], lines=lines)
+
+def neff_check_plot(c):
+    fit = az.convert_to_inference_data(c)
+
+    az.plot_density(fit, var_names=['neff_det'], credible_interval=0.99)
+
+    xlabel(r'$N_\mathrm{eff}$')
+    ylabel(r'$p\left( N_\mathrm{eff} \right)$')
+
+    nobs = c['m1'].shape[2]
+    axvline(4*nobs)
 
 def cosmo_corner_plot(c, *args, **kwargs):
     fit = az.convert_to_inference_data(c)
@@ -250,6 +251,9 @@ def post_process(f):
     c = load_chains(f)
 
     traceplot(c)
+
+    figure()
+    neff_check_plot(c)
 
     figure()
     Hz_plot(c)
