@@ -22,6 +22,9 @@ p = ArgumentParser()
 post = p.add_argument_group('Event Options')
 post.add_argument('--sampfile', metavar='FILE.h5', default='observations.h5', help='posterior samples file (default: %(default)s)')
 post.add_argument('--subset', metavar='DESIGNATOR', help='name of the attribute giving the number of detection to analyze (default: all)')
+post.add_argument('--event-begin', metavar='N', type=int, help='beginning of range of event indices to analyze')
+post.add_argument('--event-end', metavar='N', type=int, help='end of range of event indices to analyze (not inclusive)')
+post.add_argument('--livetime', metavar='T', type=float, help='live time of event range')
 post.add_argument('--ngmm', metavar='N', default=6, type=int, help='number of components in GMM likelihood (default: %(default)s)')
 
 sel = p.add_argument_group('Selection Function Options')
@@ -37,6 +40,16 @@ oop.add_argument('--tracefile', metavar='F', default='traceplot.pdf', help='trac
 
 args = p.parse_args()
 
+# Check consistency among event selection options:
+if args.subset is not None:
+    if args.event_begin is not None or args.event_end is not None:
+        raise ValueError('--subset and --event-begin or --event-end are mutually exclusive')
+    if args.livetime is not None:
+        raise ValueError('--subset and --livetime are mutually exclusive')
+if args.event_begin is not None or args.event_end is not None:
+    if args.livetime is None:
+        raise ValueError('require --livetime with --event-begin or --event-end')
+
 print('Called with the following command line:')
 print(' '.join(sys.argv))
 
@@ -50,7 +63,25 @@ with h5py.File(args.sampfile, 'r') as inp:
         for k in ['m1det', 'm2det', 'dl']:
             chain[k] = chain[k][:nn,:]
     else:
-        Tobs = inp.attrs['Tobs']
+        if args.event_begin is not None:
+            istart = args.event_begin
+        else:
+            istart = 0
+
+        if args.event_end is not None:
+            iend = args.event_end
+        else:
+            iend = chain['m1det'].shape[0]
+
+        for k in ['m1det', 'm2det', 'dl']:
+            chain[k] = chain[k][istart:iend, :]
+
+        if args.livetime is not None:
+            Tobs = args.livetime
+        else:
+            Tobs = inp.attrs['Tobs']
+
+print('Running on {:d} events with {:d} posterior samples per event'.format(chain['m1det'].shape[0], chain['m1det'].shape[1]))
 
 with h5py.File(args.selfile, 'r') as inp:
     N_gen = inp.attrs['N_gen']
