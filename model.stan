@@ -386,7 +386,7 @@ model {
   }
 
   // Normalization term
-  target += -nobs*log(mu_det) - 2.0*log(neff_det) + log((2.0*neff_det + 3.0*nobs)*(2*neff_det + nobs*nobs)/mu_det);
+  target += -(nobs+1)*log(mu_det) + nobs*(3 + nobs)/(2*neff_det);
 }
 
 generated quantities {
