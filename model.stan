@@ -73,39 +73,6 @@ functions {
     }
   }
 
-  /* log(dx/du) */
-  real x_unconstrained_logjac(real x, real u, real l, real h) {
-    return -log(1.0/(h-x) + 1.0/(x-l));
-  }
-
-  vector m1m2dl_to_unconstrained(real m1, real m2, real dl, real MLow, real MHigh, real dLmax) {
-    vector[3] v;
-
-    v[1] = x_to_unconstrained(m1, MLow, MHigh);
-    v[2] = x_to_unconstrained(m2, MLow, m1);
-    v[3] = x_to_unconstrained(dl, 0.0, dLmax);
-
-    return v;
-  }
-
-  vector unconstrained_to_m1m2dl(vector v, real MLow, real MHigh, real dLmax) {
-    vector[3] m1m2dl;
-
-    m1m2dl[1] = unconstrained_to_x(v[1], MLow, MHigh);
-    m1m2dl[2] = unconstrained_to_x(v[2], MLow, m1m2dl[1]);
-    m1m2dl[3] = unconstrained_to_x(v[3], 0.0, dLmax);
-
-    return m1m2dl;
-  }
-
-  real m1m2dl_unconstrained_logjac(real m1, real m2, real dl, vector v, real MLow, real MHigh, real dLmax) {
-    real j1 = x_unconstrained_logjac(m1, v[1], MLow, MHigh);
-    real j2 = x_unconstrained_logjac(m2, v[2], MLow, m1);
-    real j3 = x_unconstrained_logjac(dl, v[3], 0.0, dLmax);
-
-    return j1 + j2 + j3;
-  }
-
   real softened_power_law_logpdf_unnorm(real x, real alpha, real xmin, real xmax, real sigma_min, real sigma_max) {
     real logx = log(x);
     real pl = alpha*logx;
@@ -190,20 +157,12 @@ data {
 
   int nsamp;
 
-  int ngmm;
-
   real Tobs;
   int N_gen;
 
-  /* These are used only to estimate the covariance matrix for sampling over the
-  /* true masses and distances. */
   real m1obs[nobs, nsamp];
   real m2obs[nobs, nsamp];
   real dlobs[nobs, nsamp];
-
-  real gmm_wts[nobs, ngmm];
-  vector[3] gmm_means[nobs, ngmm];
-  matrix[3,3] gmm_cov[nobs, ngmm];
 
   real m1sel[nsel];
   real m2sel[nsel];
@@ -213,50 +172,13 @@ data {
   real zinterp[ninterp];
 
   real ms_norm[nnorm];
-
-  real MLow;
-  real MHigh;
-  real dLmax;
 }
 
 transformed data {
   real log_wtsel[nsel];
 
-  vector[3] mu_u[nobs];
-  matrix[3,3] chol_ucov[nobs];
-
-  real log_gmm_wts[nobs, ngmm];
-  matrix[3,3] gmm_chol_cov[nobs, ngmm];
-
   for (i in 1:nsel) {
     log_wtsel[i] = log(wtsel[i]);
-  }
-
-  for (i in 1:nobs) {
-    vector[3] mu = rep_vector(0.0, 3);
-    mu_u[i] = rep_vector(0.0, 3);
-    chol_ucov[i] = rep_matrix(0.0, 3, 3);
-
-    for (j in 1:nsamp) {
-      vector[3] u = m1m2dl_to_unconstrained(m1obs[i,j], m2obs[i,j], dlobs[i,j], MLow, MHigh, dLmax);
-      mu_u[i] = mu_u[i] + u;
-    }
-    mu_u[i] = mu_u[i] / nsamp;
-
-    for (j in 1:nsamp) {
-      vector[3] u = m1m2dl_to_unconstrained(m1obs[i,j], m2obs[i,j], dlobs[i,j], MLow, MHigh, dLmax);
-      vector[3] x = (u - mu_u[i]);
-      chol_ucov[i] = chol_ucov[i] + x*x';
-    }
-    chol_ucov[i] = chol_ucov[i] / nsamp;
-    chol_ucov[i] = cholesky_decompose(chol_ucov[i]);
-  }
-
-  for (i in 1:nobs) {
-    for (j in 1:ngmm) {
-      log_gmm_wts[i,j] = log(gmm_wts[i,j]);
-      gmm_chol_cov[i,j] = cholesky_decompose(gmm_cov[i,j]);
-    }
   }
 }
 
@@ -272,8 +194,6 @@ parameters {
   real<lower=-1, upper=7> gamma;
   real<lower=1.5, upper=0.98*MMin> MLow2Sigma; /* Two sigma lower limit on the cutoff part of the masses. */
   real<lower=1.02*MMax, upper=200> MHigh2Sigma; /* Two sigma upper limit on cutoff part of masses. */
-
-  vector[3] u_unit[nobs];
 }
 
 transformed parameters {
@@ -282,14 +202,9 @@ transformed parameters {
   real dH = 4.42563416002 * (67.74/H0);
   real mu_det;
   real neff_det;
-  vector[3] u[nobs];
-  real m1[nobs];
-  real m2[nobs];
-  real dl[nobs];
-  real z[nobs];
+  real dlinterp[ninterp];
 
   {
-    real dlinterp[ninterp];
     real zsel[nsel];
     real log_dN_m_unwt[nsel];
     real log_dN[nsel];
@@ -330,17 +245,7 @@ transformed parameters {
 
     neff_det = 1.0/sigma_rel2;
 
-    for (i in 1:nobs) {
-      vector[3] m1m2dl;
-
-      u[i] = chol_ucov[i]*u_unit[i] + mu_u[i];
-      m1m2dl = unconstrained_to_m1m2dl(u[i], MLow, MHigh, dLmax);
-
-      dl[i] = m1m2dl[3];
-      z[i] = interp1d(dl[i], dlinterp, zinterp);
-      m1[i] = m1m2dl[1]/(1+z[i]);
-      m2[i] = m1m2dl[2]/(1+z[i]);
-    }
+    if (neff_det < 4.0*nobs) reject("need more samples for selection integral");
   }
 }
 
@@ -365,24 +270,40 @@ model {
   beta ~ normal(0, 2);
   gamma ~ normal(3, 2);
 
-  /* Population prior. */
-  log_pop_nojac = log_dNdm1dm2ddldt_norm(m1, m2, dl, z, MMin, MMax, alpha, beta, gamma, dH, Om, w, sigma_low, sigma_high, ms_norm);
-  for (i in 1:nobs) {
-    /* Jacobian: since we sample in m2_frac, need d(m2)/d(m2_frac) = (m1 - MMin)*/
-    log_pop_jac[i] = log_pop_nojac[i] + m1m2dl_unconstrained_logjac(m1[i], m2[i], dl[i], u[i], MLow, MHigh, dLmax);
-  }
-  target += sum(log_pop_jac);
+  {
+    real m1s_flat[nobs*nsamp];
+    real m2s_flat[nobs*nsamp];
+    real dls_flat[nobs*nsamp];
+    real zs_flat[nobs*nsamp];
+    real log_dNs_flat_nojac[nobs*nsamp];
+    real log_dNs_flat[nobs*nsamp];
+    real log_dNs[nobs, nsamp];
 
-  /* Likelihood */
-  for (i in 1:nobs) {
-    vector[3] x = to_vector({m1[i]*(1+z[i]), m2[i]*(1+z[i]), dl[i]});
-    real logp[ngmm];
+    for (i in 1:nobs) {
+      for (j in 1:nsamp) {
+        int k = (i-1)*nsamp + j;
 
-    for (j in 1:ngmm) {
-      logp[j] = log_gmm_wts[i,j] + multi_normal_cholesky_lpdf(gmm_means[i,j] | x, gmm_chol_cov[i,j]);
+        dls_flat[k] = dlobs[i,j];
+        zs_flat[k] = interp1d(dls_flat[k], dlinterp, zinterp);
+        m1s_flat[k] = m1obs[i,j]/(1+zs_flat[k]);
+        m2s_flat[k] = m2obs[i,j]/(1+zs_flat[k]);
+      }
     }
 
-    target += log_sum_exp(logp);
+    log_dNs_flat_nojac = log_dNdm1dm2ddldt_norm(m1s_flat, m2s_flat, dls_flat, zs_flat, MMin, MMax, alpha, beta, gamma, dH, Om, w, sigma_low, sigma_high, ms_norm);
+    for (k in 1:nobs*nsamp) {
+      log_dNs_flat[k] = log_dNs_flat_nojac[k] - 2.0*log1p(zs_flat[k]);
+    }
+
+    for (i in 1:nobs) {
+      for (j in 1:nsamp) {
+        log_dNs[i,j] = log_dNs_flat[(i-1)*nsamp + j];
+      }
+    }
+
+    for (i in 1:nobs) {
+      target += log_sum_exp(log_dNs[i,:]) - log(nsamp);
+    }
   }
 
   // Normalization term
@@ -391,11 +312,86 @@ model {
 
 generated quantities {
   real R0;
+  real m1[nobs];
+  real m2[nobs];
+  real z[nobs];
+  real dl[nobs];
+  real neff[nobs];
 
   {
     real mu_R0 = nobs/mu_det*(1.0 + nobs/neff_det);
     real sigma_R0 = sqrt(nobs)/mu_det*(1.0 + 1.5*nobs/neff_det);
 
     R0 = normal_rng(mu_R0, sigma_R0);
+  }
+
+  {
+    real m1s_flat[nobs*nsamp];
+    real m1s[nobs, nsamp];
+
+    real m2s_flat[nobs*nsamp];
+    real m2s[nobs, nsamp];
+
+    real dls_flat[nobs*nsamp];
+
+    real zs_flat[nobs*nsamp];
+    real zs[nobs, nsamp];
+
+    real log_wts_flat_nojac[nobs*nsamp];
+    real log_wts_flat[nobs*nsamp];
+    real log_wts[nobs, nsamp];
+
+    for (i in 1:nobs) {
+      for (j in 1:nsamp) {
+        int k = (i-1)*nsamp + j;
+
+        dls_flat[k] = dlobs[i,j];
+        zs_flat[k] = interp1d(dlobs[i,j], dlinterp, zinterp);
+
+        m1s_flat[k] = m1obs[i,j]/(1+zs_flat[k]);
+        m2s_flat[k] = m2obs[i,j]/(1+zs_flat[k]);
+      }
+    }
+
+    log_wts_flat_nojac = log_dNdm1dm2ddldt_norm(m1s_flat, m2s_flat, dls_flat, zs_flat, MMin, MMax, alpha, beta, gamma, dH, Om, w, sigma_low, sigma_high, ms_norm);
+    for (k in 1:nobs*nsamp) {
+      log_wts_flat[k] = log_wts_flat_nojac[k] - 2.0*log1p(zs_flat[k]);
+    }
+
+    for (i in 1:nobs) {
+      for (j in 1:nsamp) {
+        int k = (i-1)*nsamp + j;
+
+        m1s[i,j] = m1s_flat[k];
+        m2s[i,j] = m2s_flat[k];
+        zs[i,j] = zs_flat[k];
+
+        log_wts[i,j] = log_wts_flat[k];
+      }
+    }
+
+    for (i in 1:nobs) {
+      real log_wt_max = max(log_wts[i,:]);
+      real csum = exp(log_sum_exp(log_wts[i,:]) - log_wt_max);
+      real r = uniform_rng(0, csum);
+      int k = 1;
+
+      for (j in 1:nsamp) {
+        real wt = exp(log_wts[i,j] - log_wt_max);
+
+        if (r < wt) {
+          break;
+        } else {
+          r = r - wt;
+          k = k + 1;
+        }
+      }
+
+      neff[i] = csum;
+      m1[i] = m1s[i,k];
+      m2[i] = m2s[i,k];
+      z[i] = zs[i,k];
+      dl[i] = dlobs[i,k];
+    }
   }
 }

@@ -25,7 +25,7 @@ post.add_argument('--subset', metavar='DESIGNATOR', help='name of the attribute 
 post.add_argument('--event-begin', metavar='N', type=int, help='beginning of range of event indices to analyze')
 post.add_argument('--event-end', metavar='N', type=int, help='end of range of event indices to analyze (not inclusive)')
 post.add_argument('--livetime', metavar='T', type=float, help='live time of event range')
-post.add_argument('--ngmm', metavar='N', default=6, type=int, help='number of components in GMM likelihood (default: %(default)s)')
+post.add_argument('--nsamp', metavar='N', type=int, default=32, help='number of samples per event (default: %(default)s)')
 
 sel = p.add_argument_group('Selection Function Options')
 sel.add_argument('--selfile', metavar='FILE.h5', default='selected.h5', help='file containing records of successful injections for VT estimation (default: %(default)s)')
@@ -81,8 +81,6 @@ with h5py.File(args.sampfile, 'r') as inp:
         else:
             Tobs = inp.attrs['Tobs']
 
-print('Running on {:d} events with {:d} posterior samples per event'.format(chain['m1det'].shape[0], chain['m1det'].shape[1]))
-
 with h5py.File(args.selfile, 'r') as inp:
     N_gen = inp.attrs['N_gen']
 
@@ -105,10 +103,16 @@ if args.nsel is not None:
 ndet = m1s_det.shape[0]
 
 nobs = chain['m1det'].shape[0]
-nsamp = chain['m1det'].shape[1]
-m1 = chain['m1det']
-m2 = chain['m2det']
-dl = chain['dl']
+
+m1 = zeros((nobs, args.nsamp))
+m2 = zeros((nobs, args.nsamp))
+dl = zeros((nobs, args.nsamp))
+
+for i in range(nobs):
+    s = np.random.choice(chain['m1det'].shape[1], args.nsamp, replace=False)
+    m1[i,:] = chain['m1det'][i,s]
+    m2[i,:] = chain['m2det'][i,s]
+    dl[i,:] = chain['dl'][i,s]
 
 ninterp = 500
 zMax = 10
@@ -117,19 +121,6 @@ zinterp = expm1(linspace(log(1), log(zMax+1), ninterp))
 msnorm = exp(arange(log(1), log(300), 0.01))
 nnorm = len(msnorm)
 
-print('Fitting GMMs to likelihood samples.')
-gmm_wts = []
-gmm_means = []
-gmm_covs = []
-gmm = GaussianMixture(args.ngmm)
-for i in tqdm(range(nobs)):
-    pts = column_stack((m1[i,:], m2[i,:], dl[i,:]))
-    gmm.fit(pts)
-
-    gmm_wts.append(gmm.weights_)
-    gmm_means.append(gmm.means_)
-    gmm_covs.append(gmm.covariances_)
-
 m = pystan.StanModel(file='model.stan')
 d = {
     'nobs': nobs,
@@ -137,9 +128,7 @@ d = {
     'ninterp': ninterp,
     'nnorm': nnorm,
 
-    'nsamp': nsamp,
-
-    'ngmm': args.ngmm,
+    'nsamp': args.nsamp,
 
     'Tobs': Tobs,
     'N_gen': N_gen,
@@ -147,10 +136,6 @@ d = {
     'm1obs': m1,
     'm2obs': m2,
     'dlobs': dl,
-
-    'gmm_wts': gmm_wts,
-    'gmm_means': gmm_means,
-    'gmm_cov': gmm_covs,
 
     'm1sel': m1s_det,
     'm2sel': m2s_det,
@@ -160,24 +145,35 @@ d = {
     'zinterp': zinterp,
 
     'ms_norm': msnorm,
-
-    'MLow': 1.0,
-    'MHigh': 300.0,
-    'dLmax': Planck15.luminosity_distance(4).to(u.Gpc).value
 }
 
-f = m.sampling(data=d, iter=2*args.iter)
+f = m.sampling(data=d, iter=2*args.iter, control={'metric': 'dense_e'})
 fit = f.extract(permuted=True)
 
 print(f)
 
-az.plot_trace(f, var_names=['H0', 'Om', 'w', 'R0', 'MMin', 'MMax', 'sigma_low', 'sigma_high', 'alpha', 'beta', 'gamma'])
+# Now that we're done with sampling, let's draw some pretty lines.
+from true_params import true_params
+lines = (('H0', {}, true_params['H0']),
+         ('Om', {}, true_params['Om']),
+         ('w', {}, true_params['w']),
+         ('R0', {}, true_params['R0']),
+         ('MMin', {}, true_params['MMin']),
+         ('MMax', {}, true_params['MMax']),
+         ('alpha', {}, true_params['alpha']),
+         ('beta', {}, true_params['beta']),
+         ('gamma', {}, true_params['gamma']),
+         ('sigma_low', {}, true_params['sigma_low']),
+         ('sigma_high', {}, true_params['sigma_high']),
+         ('neff_det', {}, 4*nobs))
+
+az.plot_trace(f, var_names=['H0', 'Om', 'w', 'R0', 'MMin', 'MMax', 'sigma_low', 'sigma_high', 'alpha', 'beta', 'gamma', 'neff_det'], lines=lines)
 savefig(args.tracefile)
 
 with h5py.File(args.chainfile, 'w') as out:
     out.attrs['nobs'] = nobs
     out.attrs['nsel'] = ndet
-    out.attrs['nsamp'] = nsamp
+    out.attrs['nsamp'] = args.nsamp
 
     for n in ['H0', 'Om', 'w', 'R0', 'MMin', 'MMax', 'sigma_low', 'sigma_high', 'alpha', 'beta', 'gamma', 'mu_det', 'neff_det', 'm1', 'm2', 'dl', 'z']:
         out.create_dataset(n, data=fit[n], compression='gzip', shuffle=True)
