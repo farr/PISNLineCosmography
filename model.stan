@@ -163,6 +163,7 @@ data {
   real m1obs[nobs, nsamp];
   real m2obs[nobs, nsamp];
   real dlobs[nobs, nsamp];
+  real log_m1m2dl_wt[nobs, nsamp];
 
   real m1sel[nsel];
   real m2sel[nsel];
@@ -297,7 +298,7 @@ model {
 
     for (i in 1:nobs) {
       for (j in 1:nsamp) {
-        log_dNs[i,j] = log_dNs_flat[(i-1)*nsamp + j];
+        log_dNs[i,j] = log_dNs_flat[(i-1)*nsamp + j] - log_m1m2dl_wt[i,j];
       }
     }
 
@@ -366,7 +367,7 @@ generated quantities {
         m2s[i,j] = m2s_flat[k];
         zs[i,j] = zs_flat[k];
 
-        log_wts[i,j] = log_wts_flat[k];
+        log_wts[i,j] = log_wts_flat[k] - log_m1m2dl_wt[i,j];
       }
     }
 

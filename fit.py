@@ -55,12 +55,12 @@ print(' '.join(sys.argv))
 
 chain = {}
 with h5py.File(args.sampfile, 'r') as inp:
-    for n in ['m1det', 'm2det', 'dl']:
+    for n in ['m1det', 'm2det', 'dl', 'log_m1m2dl_wt']:
         chain[n] = array(inp['posteriors'][n])
     if args.subset is not None:
         nn, Tobs = inp.attrs[args.subset]
         nn = int(round(nn))
-        for k in ['m1det', 'm2det', 'dl']:
+        for k in ['m1det', 'm2det', 'dl', 'log_m1m2dl_wt']:
             chain[k] = chain[k][:nn,:]
     else:
         if args.event_begin is not None:
@@ -73,7 +73,7 @@ with h5py.File(args.sampfile, 'r') as inp:
         else:
             iend = chain['m1det'].shape[0]
 
-        for k in ['m1det', 'm2det', 'dl']:
+        for k in ['m1det', 'm2det', 'dl', 'log_m1m2dl_wt']:
             chain[k] = chain[k][istart:iend, :]
 
         if args.livetime is not None:
@@ -107,12 +107,14 @@ nobs = chain['m1det'].shape[0]
 m1 = zeros((nobs, args.nsamp))
 m2 = zeros((nobs, args.nsamp))
 dl = zeros((nobs, args.nsamp))
+log_m1m2dl_wt = zeros((nobs, args.nsamp))
 
 for i in range(nobs):
     s = np.random.choice(chain['m1det'].shape[1], args.nsamp, replace=False)
     m1[i,:] = chain['m1det'][i,s]
     m2[i,:] = chain['m2det'][i,s]
     dl[i,:] = chain['dl'][i,s]
+    log_m1m2dl_wt[i,:] = chain['log_m1m2dl_wt'][i,s]
 
 ninterp = 500
 zMax = 10
@@ -136,6 +138,7 @@ d = {
     'm1obs': m1,
     'm2obs': m2,
     'dlobs': dl,
+    'log_m1m2dl_wt': log_m1m2dl_wt,
 
     'm1sel': m1s_det,
     'm2sel': m2s_det,
@@ -175,5 +178,5 @@ with h5py.File(args.chainfile, 'w') as out:
     out.attrs['nsel'] = ndet
     out.attrs['nsamp'] = args.nsamp
 
-    for n in ['H0', 'Om', 'w', 'R0', 'MMin', 'MMax', 'sigma_low', 'sigma_high', 'alpha', 'beta', 'gamma', 'mu_det', 'neff_det', 'm1', 'm2', 'dl', 'z']:
+    for n in ['H0', 'Om', 'w', 'R0', 'MMin', 'MMax', 'sigma_low', 'sigma_high', 'alpha', 'beta', 'gamma', 'mu_det', 'neff_det', 'm1', 'm2', 'dl', 'z', 'neff']:
         out.create_dataset(n, data=fit[n], compression='gzip', shuffle=True)
