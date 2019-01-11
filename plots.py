@@ -77,7 +77,7 @@ def Hz(z, H0, Om, w):
     return H0*np.sqrt(Om*(1+z)**3 + (1.0-Om)*(1+z)**(3*(1+w)))
 
 def load_chains(f):
-    names = ['H0', 'Om', 'w', 'R0', 'MMin', 'MMax', 'alpha', 'beta', 'gamma', 'sigma_low', 'sigma_high', 'mu_det', 'neff_det', 'm1', 'm2', 'dl', 'z']
+    names = ['H0', 'Om', 'w', 'R0', 'MMin', 'MMax', 'alpha', 'beta', 'gamma', 'sigma_low', 'sigma_high', 'mu_det', 'neff_det', 'm1', 'm2', 'dl', 'z', 'neff']
 
     c = {}
     with h5py.File(f, 'r') as inp:
@@ -109,7 +109,7 @@ def traceplot(c):
 
     az.plot_trace(fit, var_names=['H0', 'Om', 'w', 'R0', 'MMin', 'MMax', 'alpha', 'beta', 'gamma', 'sigma_low', 'sigma_high'], lines=lines)
 
-def neff_check_plot(c):
+def neff_det_check_plot(c):
     fit = az.convert_to_inference_data(c)
 
     az.plot_density(fit, var_names=['neff_det'], credible_interval=0.99)
@@ -120,20 +120,28 @@ def neff_check_plot(c):
     nobs = c['m1'].shape[2]
     axvline(4*nobs)
 
+def neff_check_plot(c):
+    fit = az.convert_to_inference_data(c)
+
+    az.plot_forest(c, var_names=['neff'])
+
+    xlabel(r'Effective Posterior Samples')
+    axvline(10)
+
 def cosmo_corner_plot(c, *args, **kwargs):
     fit = az.convert_to_inference_data(c)
 
-    az.plot_pair(fit, var_names=['H0', 'Om', 'w'], kind='kde')
+    az.plot_pair(fit, var_names=['H0', 'Om', 'w'])
 
 def pop_corner_plot(c, *args, **kwargs):
     fit = az.convert_to_inference_data(c)
 
-    az.plot_pair(fit, var_names=['R0', 'MMin', 'MMax', 'alpha', 'beta', 'gamma'], kind='kde')
+    az.plot_pair(fit, var_names=['R0', 'MMin', 'MMax', 'alpha', 'beta', 'gamma'])
 
 def mass_corner_plot(c, *args, **kwargs):
     fit = az.convert_to_inference_data(c)
 
-    az.plot_pair(fit, var_names=['MMin', 'MMax', 'alpha', 'beta', 'sigma_low', 'sigma_high'], kind='kde')
+    az.plot_pair(fit, var_names=['MMin', 'MMax', 'alpha', 'beta', 'sigma_low', 'sigma_high'])
 
 def H0_plot(c, *args, **kwargs):
     fit = az.convert_to_inference_data(c)
@@ -251,6 +259,9 @@ def post_process(f):
     c = load_chains(f)
 
     traceplot(c)
+
+    figure()
+    neff_det_check_plot(c)
 
     figure()
     neff_check_plot(c)
