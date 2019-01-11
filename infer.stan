@@ -1,4 +1,8 @@
 functions {
+  real distance_lpdf(real d) {
+    return 2.0*log(d) - log(1.06012 + d*(0.34262 + d*(-0.000814998 + d*7.18688e-05)));
+  }
+
   int bisect_index(real x, real[] xs) {
     int n = size(xs);
     int i = 1;
@@ -86,6 +90,10 @@ transformed parameters {
 
   real theta;
 
+  /* Flat in log(m1) prior, flat between minterp_min and m1 for m2, and our
+  /* approximate distance prior. */
+  real log_m1m2dl_wt = distance_lpdf(dL) - log(m1) - log(m1-minterp_min);
+
   {
     real mt = m1+m2;
 
@@ -114,7 +122,8 @@ transformed parameters {
 }
 
 model {
-  /* Flat prior on m1, m2, dL; correct prior on theta. */
+  /* Apply the m1-m2-dL prior */
+  target += log_m1m2dl_wt;
 
   // Observations; for some reason the ``T[a,b]`` truncation statements cause trouble.
   mc_obs ~ lognormal(log(mc), sigma_mc);
@@ -123,4 +132,10 @@ model {
   rho_obs ~ normal(theta .* opt_snr, 1.0);
   theta_obs ~ normal(theta, sigma_theta);
   target += -log(normal_cdf(1.0, theta, sigma_theta) - normal_cdf(0.0, theta, sigma_theta));
+}
+
+generated quantities {
+  real log_m1m2dl_wt;
+
+  log_m1m2dl_wt = distance_lpdf(dL) - log(m1) - log(m1-minterp_min);
 }
