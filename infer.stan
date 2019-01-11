@@ -133,9 +133,3 @@ model {
   theta_obs ~ normal(theta, sigma_theta);
   target += -log(normal_cdf(1.0, theta, sigma_theta) - normal_cdf(0.0, theta, sigma_theta));
 }
-
-generated quantities {
-  real log_m1m2dl_wt;
-
-  log_m1m2dl_wt = distance_lpdf(dL) - log(m1) - log(m1-minterp_min);
-}
