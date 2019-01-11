@@ -7,7 +7,7 @@ source ~/.bashrc
 source activate
 export PYTHONPATH="$PYTHONPATH:/mnt/home/wfarr/PISNLineCosmography"
 
-NSEL=131072
+NSEL=65536
 ./fit.py --sampfile observations.h5 --event-begin 927 --event-end 1835 --livetime 0.5 --selfile selected.h5 --nsel $NSEL --chainfile population_1yr_2.h5 --tracefile traceplot_1yr_2.pdf > logs/1yr_2.out 2>logs/1yr_2.err &
 ./fit.py --sampfile observations.h5 --event-begin 1835 --event-end 2743 --livetime 0.5 --selfile selected.h5 --nsel $NSEL --chainfile population_1yr_3.h5 --tracefile traceplot_1yr_3.pdf > logs/1yr_3.out 2>logs/1yr_3.err &
 ./fit.py --sampfile observations.h5 --event-begin 2743 --event-end 3651 --livetime 0.5 --selfile selected.h5 --nsel $NSEL --chainfile population_1yr_4.h5 --tracefile traceplot_1yr_4.pdf > logs/1yr_4.out 2>logs/1yr_4.err &
