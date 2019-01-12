@@ -126,6 +126,7 @@ def neff_check_plot(c):
     az.plot_forest(c, var_names=['neff'])
 
     xlabel(r'Effective Posterior Samples')
+    xscale('log')
     axvline(10)
 
 def cosmo_corner_plot(c, *args, **kwargs):
