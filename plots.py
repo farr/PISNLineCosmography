@@ -92,6 +92,16 @@ def load_chains(f):
 
     return c
 
+def check_neff_posterior(c, nlow=16, nhigh=64, ndesired=32):
+    ne = percentile(c['neff'], 2.5, axis=(0,1))
+
+    toosmall = ne < nlow
+    toobig = ne > nhigh
+
+    adjfactor = ndesired/ne
+
+    return (toosmall, toobig, adjfactor)
+
 def traceplot(c):
     fit = az.convert_to_inference_data(c)
 
