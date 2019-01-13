@@ -127,7 +127,7 @@ def neff_check_plot(c):
 
     xlabel(r'Effective Posterior Samples')
     xscale('log')
-    axvline(10)
+    axvline(16)
 
 def cosmo_corner_plot(c, *args, **kwargs):
     fit = az.convert_to_inference_data(c)

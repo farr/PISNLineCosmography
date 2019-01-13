@@ -155,15 +155,16 @@ data {
   int ninterp;
   int nnorm;
 
-  int nsamp;
+  int nsamp[nobs];
+  int nsamp_total;
 
   real Tobs;
   int N_gen;
 
-  real m1obs[nobs, nsamp];
-  real m2obs[nobs, nsamp];
-  real dlobs[nobs, nsamp];
-  real log_m1m2dl_wt[nobs, nsamp];
+  real m1obs[nsamp_total];
+  real m2obs[nsamp_total];
+  real dlobs[nsamp_total];
+  real log_m1m2dl_wt[nsamp_total];
 
   real m1sel[nsel];
   real m2sel[nsel];
@@ -272,38 +273,27 @@ model {
   gamma ~ normal(3, 2);
 
   {
-    real m1s_flat[nobs*nsamp];
-    real m2s_flat[nobs*nsamp];
-    real dls_flat[nobs*nsamp];
-    real zs_flat[nobs*nsamp];
-    real log_dNs_flat_nojac[nobs*nsamp];
-    real log_dNs_flat[nobs*nsamp];
-    real log_dNs[nobs, nsamp];
+    real m1s[nsamp_total];
+    real m2s[nsamp_total];
+    real zobs[nsamp_total];
+    real log_dNs_nojac[nsamp_total];
+    real log_dNs[nsamp_total];
+    int k = 1;
 
-    for (i in 1:nobs) {
-      for (j in 1:nsamp) {
-        int k = (i-1)*nsamp + j;
-
-        dls_flat[k] = dlobs[i,j];
-        zs_flat[k] = interp1d(dls_flat[k], dlinterp, zinterp);
-        m1s_flat[k] = m1obs[i,j]/(1+zs_flat[k]);
-        m2s_flat[k] = m2obs[i,j]/(1+zs_flat[k]);
-      }
+    for (i in 1:nsamp_total) {
+      zobs[i] = interp1d(dlobs[i], dlinterp, zinterp);
+      m1s[i] = m1obs[i]/(1+zobs[i]);
+      m2s[i] = m2obs[i]/(1+zobs[i]);
     }
 
-    log_dNs_flat_nojac = log_dNdm1dm2ddldt_norm(m1s_flat, m2s_flat, dls_flat, zs_flat, MMin, MMax, alpha, beta, gamma, dH, Om, w, sigma_low, sigma_high, ms_norm);
-    for (k in 1:nobs*nsamp) {
-      log_dNs_flat[k] = log_dNs_flat_nojac[k] - 2.0*log1p(zs_flat[k]);
+    log_dNs_nojac = log_dNdm1dm2ddldt_norm(m1s, m2s, dlobs, zobs, MMin, MMax, alpha, beta, gamma, dH, Om, w, sigma_low, sigma_high, ms_norm);
+    for (i in 1:nsamp_total) {
+      log_dNs[i] = log_dNs_nojac[i] - 2.0*log1p(zobs[i]) - log_m1m2dl_wt[i];
     }
 
     for (i in 1:nobs) {
-      for (j in 1:nsamp) {
-        log_dNs[i,j] = log_dNs_flat[(i-1)*nsamp + j] - log_m1m2dl_wt[i,j];
-      }
-    }
-
-    for (i in 1:nobs) {
-      target += log_sum_exp(log_dNs[i,:]) - log(nsamp);
+      target += log_sum_exp(log_dNs[k:k+nsamp[i]-1]) - log(nsamp[i]);
+      k = k + nsamp[i];
     }
   }
 
@@ -327,72 +317,51 @@ generated quantities {
   }
 
   {
-    real m1s_flat[nobs*nsamp];
-    real m1s[nobs, nsamp];
+    real m1s[nsamp_total];
 
-    real m2s_flat[nobs*nsamp];
-    real m2s[nobs, nsamp];
+    real m2s[nsamp_total];
 
-    real dls_flat[nobs*nsamp];
+    real zs[nsamp_total];
 
-    real zs_flat[nobs*nsamp];
-    real zs[nobs, nsamp];
+    real log_wts_nojac[nsamp_total];
+    real log_wts[nsamp_total];
+    int k = 1;
 
-    real log_wts_flat_nojac[nobs*nsamp];
-    real log_wts_flat[nobs*nsamp];
-    real log_wts[nobs, nsamp];
-
-    for (i in 1:nobs) {
-      for (j in 1:nsamp) {
-        int k = (i-1)*nsamp + j;
-
-        dls_flat[k] = dlobs[i,j];
-        zs_flat[k] = interp1d(dlobs[i,j], dlinterp, zinterp);
-
-        m1s_flat[k] = m1obs[i,j]/(1+zs_flat[k]);
-        m2s_flat[k] = m2obs[i,j]/(1+zs_flat[k]);
-      }
+    for (i in 1:nsamp_total) {
+        zs[i] = interp1d(dlobs[i], dlinterp, zinterp);
+        m1s[i] = m1obs[i] / (1+zs[i]);
+        m2s[i] = m2obs[i] / (1+zs[i]);
     }
 
-    log_wts_flat_nojac = log_dNdm1dm2ddldt_norm(m1s_flat, m2s_flat, dls_flat, zs_flat, MMin, MMax, alpha, beta, gamma, dH, Om, w, sigma_low, sigma_high, ms_norm);
-    for (k in 1:nobs*nsamp) {
-      log_wts_flat[k] = log_wts_flat_nojac[k] - 2.0*log1p(zs_flat[k]);
+    log_wts_nojac = log_dNdm1dm2ddldt_norm(m1s, m2s, dlobs, zs, MMin, MMax, alpha, beta, gamma, dH, Om, w, sigma_low, sigma_high, ms_norm);
+    for (i in 1:nsamp_total) {
+      log_wts[i] = log_wts_nojac[i] - 2.0*log1p(zs[i]) - log_m1m2dl_wt[i];
     }
 
     for (i in 1:nobs) {
-      for (j in 1:nsamp) {
-        int k = (i-1)*nsamp + j;
-
-        m1s[i,j] = m1s_flat[k];
-        m2s[i,j] = m2s_flat[k];
-        zs[i,j] = zs_flat[k];
-
-        log_wts[i,j] = log_wts_flat[k] - log_m1m2dl_wt[i,j];
-      }
-    }
-
-    for (i in 1:nobs) {
-      real log_wt_max = max(log_wts[i,:]);
-      real csum = exp(log_sum_exp(log_wts[i,:]) - log_wt_max);
+      real log_wt_max = max(log_wts[k:k+nsamp[i]-1]);
+      real csum = exp(log_sum_exp(log_wts[k:k+nsamp[i]-1]) - log_wt_max);
       real r = uniform_rng(0, csum);
-      int k = 1;
+      int l = 1;
 
-      for (j in 1:nsamp) {
-        real wt = exp(log_wts[i,j] - log_wt_max);
+      for (j in 1:nsamp[i]) {
+        real wt = exp(log_wts[k+j-1] - log_wt_max);
 
         if (r < wt) {
           break;
         } else {
           r = r - wt;
-          k = k + 1;
+          l = l + 1;
         }
       }
 
       neff[i] = csum;
-      m1[i] = m1s[i,k];
-      m2[i] = m2s[i,k];
-      z[i] = zs[i,k];
-      dl[i] = dlobs[i,k];
+      m1[i] = m1s[k+l-1];
+      m2[i] = m2s[k+l-1];
+      z[i] = zs[k+l-1];
+      dl[i] = dlobs[k+l-1];
+
+      k = k + nsamp[i];
     }
   }
 }

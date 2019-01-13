@@ -25,7 +25,7 @@ post.add_argument('--subset', metavar='DESIGNATOR', help='name of the attribute 
 post.add_argument('--event-begin', metavar='N', type=int, help='beginning of range of event indices to analyze')
 post.add_argument('--event-end', metavar='N', type=int, help='end of range of event indices to analyze (not inclusive)')
 post.add_argument('--livetime', metavar='T', type=float, help='live time of event range')
-post.add_argument('--nsamp', metavar='N', type=int, default=256, help='number of samples per event (default: %(default)s)')
+post.add_argument('--nsamp', metavar='FILE', default='nsamp.txt', help='file with number of samples for each event (default: %(default)s)')
 
 sel = p.add_argument_group('Selection Function Options')
 sel.add_argument('--selfile', metavar='FILE.h5', default='selected.h5', help='file containing records of successful injections for VT estimation (default: %(default)s)')
@@ -81,6 +81,9 @@ with h5py.File(args.sampfile, 'r') as inp:
         else:
             Tobs = inp.attrs['Tobs']
 
+nsamp = np.round(loadtxt(args.nsamp)).astype(np.int)
+nsamp_total = np.sum(nsamp)
+
 with h5py.File(args.selfile, 'r') as inp:
     N_gen = inp.attrs['N_gen']
 
@@ -104,17 +107,17 @@ ndet = m1s_det.shape[0]
 
 nobs = chain['m1det'].shape[0]
 
-m1 = zeros((nobs, args.nsamp))
-m2 = zeros((nobs, args.nsamp))
-dl = zeros((nobs, args.nsamp))
-log_m1m2dl_wt = zeros((nobs, args.nsamp))
+m1 = []
+m2 = []
+dl = []
+log_m1m2dl_wt = []
 
 for i in range(nobs):
-    s = np.random.choice(chain['m1det'].shape[1], args.nsamp, replace=False)
-    m1[i,:] = chain['m1det'][i,s]
-    m2[i,:] = chain['m2det'][i,s]
-    dl[i,:] = chain['dl'][i,s]
-    log_m1m2dl_wt[i,:] = chain['log_m1m2dl_wt'][i,s]
+    s = np.random.choice(chain['m1det'].shape[1], nsamp[i], replace=False)
+    m1.append(chain['m1det'][i,s])
+    m2.append(chain['m2det'][i,s])
+    dl.append(chain['dl'][i,s])
+    log_m1m2dl_wt.append(chain['log_m1m2dl_wt'][i,s])
 
 ninterp = 500
 zMax = 10
@@ -130,15 +133,16 @@ d = {
     'ninterp': ninterp,
     'nnorm': nnorm,
 
-    'nsamp': args.nsamp,
+    'nsamp': nsamp,
+    'nsamp_total': nsamp_total,
 
     'Tobs': Tobs,
     'N_gen': N_gen,
 
-    'm1obs': m1,
-    'm2obs': m2,
-    'dlobs': dl,
-    'log_m1m2dl_wt': log_m1m2dl_wt,
+    'm1obs': np.concatenate(m1),
+    'm2obs': np.concatenate(m2),
+    'dlobs': np.concatenate(dl),
+    'log_m1m2dl_wt': np.concatenate(log_m1m2dl_wt),
 
     'm1sel': m1s_det,
     'm2sel': m2s_det,
@@ -176,7 +180,7 @@ savefig(args.tracefile)
 with h5py.File(args.chainfile, 'w') as out:
     out.attrs['nobs'] = nobs
     out.attrs['nsel'] = ndet
-    out.attrs['nsamp'] = args.nsamp
+    out.attrs['nsamp'] = nsamp
 
     for n in ['H0', 'Om', 'w', 'R0', 'MMin', 'MMax', 'sigma_low', 'sigma_high', 'alpha', 'beta', 'gamma', 'mu_det', 'neff_det', 'm1', 'm2', 'dl', 'z', 'neff']:
         out.create_dataset(n, data=fit[n], compression='gzip', shuffle=True)
