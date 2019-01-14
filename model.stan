@@ -59,20 +59,6 @@ functions {
     return sum(terms);
   }
 
-  real x_to_unconstrained(real x, real l, real h) {
-    return log((x-l)/(h-x));
-  }
-
-  real unconstrained_to_x(real u, real l, real h) {
-    if (u > 0.0) {
-      real r = exp(-u);
-      return (l*r + h)/(r+1.0);
-    } else {
-      real r = exp(u);
-      return (l + h*r)/(1.0+r);
-    }
-  }
-
   real softened_power_law_logpdf_unnorm(real x, real alpha, real xmin, real xmax, real sigma_min, real sigma_max) {
     real logx = log(x);
     real pl = alpha*logx;
