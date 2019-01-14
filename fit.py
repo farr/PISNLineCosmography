@@ -31,6 +31,9 @@ sel = p.add_argument_group('Selection Function Options')
 sel.add_argument('--selfile', metavar='FILE.h5', default='selected.h5', help='file containing records of successful injections for VT estimation (default: %(default)s)')
 sel.add_argument('--nsel', metavar='N', type=int, help='number of selected systems to include (default: all)')
 
+copt = p.add_argument_group('Cosmology Options')
+copt.add_argument('--cosmo-prior', action='store_true', help='use a prior on H0 and Om*h^2 from SNe and CMB (default: broad priors)')
+
 samp = p.add_argument_group('Sampling Options')
 samp.add_argument('--iter', metavar='N', type=int, default=1000, help='number of sampling iterations (equal amount of tuning; default: %(default)s)')
 
@@ -152,6 +155,8 @@ d = {
     'zinterp': zinterp,
 
     'ms_norm': msnorm,
+
+    'cosmo_prior': 1 if args.cosmo_prior else 0
 }
 
 f = m.sampling(data=d, iter=2*args.iter, control={'metric': 'dense_e'})

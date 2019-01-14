@@ -174,6 +174,8 @@ data {
   real zinterp[ninterp];
 
   real ms_norm[nnorm];
+
+  int cosmo_prior;
 }
 
 transformed data {
@@ -264,8 +266,14 @@ model {
   MMin ~ normal(5, 2);
   MMax ~ normal(40, 15);
 
-  H0 ~ normal(70, 15);
-  Om ~ normal(0.3, 0.15);
+  if (cosmo_prior == 0) {
+    H0 ~ normal(70, 15);
+    Om ~ normal(0.3, 0.15);
+  } else {
+    H0 ~ normal(67.74, 0.6774);
+    target += normal_lpdf(Om*(H0/100.0)^2 | 0.02225+0.1198, sqrt(0.00016^2 + 0.0015^2));
+    target += 2.0*log(H0/100.0); /* p(Omh2) d(Omh2)/d(Om) = p(Omh2) * (H0/100)^2 */
+  }
   w ~ normal(-1, 0.5);
 
   alpha ~ normal(-1, 2);
