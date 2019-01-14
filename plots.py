@@ -266,7 +266,7 @@ def rewt_w_plot(c):
 
     title(interval_string(w, prefix=r'$w = ', postfix='$'))
 
-def post_process(f):
+def post_process(f, plot_neff=True):
     c = load_chains(f)
 
     traceplot(c)
@@ -274,8 +274,9 @@ def post_process(f):
     figure()
     neff_det_check_plot(c)
 
-    figure()
-    neff_check_plot(c)
+    if plot_neff:
+        figure()
+        neff_check_plot(c)
 
     figure()
     Hz_plot(c)
