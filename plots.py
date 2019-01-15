@@ -73,11 +73,18 @@ def interval_string(d, prefix='', postfix='', f=0.68):
 
     return prefix + '{:g}^{{+{:g}}}_{{-{:g}}}'.format(m, dh, dl) + postfix
 
-def Hz(z, H0, Om, w):
+def w_of_z(z, z_p, w_p, w_a):
+    a_p = 1.0/(1+z_p)
+    a = 1.0/(1+z)
+
+    return w_p + w_a*(a_p-a)
+
+def Hz(z, H0, Om, z_p, w_p, w_a):
+    w = w_of_z(z, z_p, w_p, w_a)
     return H0*np.sqrt(Om*(1+z)**3 + (1.0-Om)*(1+z)**(3*(1+w)))
 
 def load_chains(f):
-    names = ['H0', 'Om', 'w', 'R0', 'MMin', 'MMax', 'alpha', 'beta', 'gamma', 'sigma_low', 'sigma_high', 'mu_det', 'neff_det', 'm1', 'm2', 'dl', 'z', 'neff']
+    names = ['H0', 'Om', 'w_0', 'w_p', 'w_a', 'R0', 'MMin', 'MMax', 'alpha', 'beta', 'gamma', 'sigma_low', 'sigma_high', 'mu_det', 'neff_det', 'm1', 'm2', 'dl', 'z', 'neff']
 
     c = {}
     with h5py.File(f, 'r') as inp:
@@ -89,6 +96,9 @@ def load_chains(f):
                 c[n] = reshape(arr, (4, -1))
             else:
                 c[n] = reshape(arr, (4, -1) + arr.shape[1:])
+
+        c['nobs'] = nobs
+        c['z_p'] = inp.attrs['z_p']
 
     return c
 
@@ -107,7 +117,9 @@ def traceplot(c):
 
     lines = (('H0', {}, true_params['H0']),
              ('Om', {}, true_params['Om']),
-             ('w', {}, true_params['w']),
+             ('w_0', {}, true_params['w']),
+             ('w_p', {}, true_params['w']),
+             ('w_a', {}, 0.0),
              ('R0', {}, true_params['R0']),
              ('MMin', {}, true_params['MMin']),
              ('MMax', {}, true_params['MMax']),
@@ -117,7 +129,7 @@ def traceplot(c):
              ('sigma_low', {}, true_params['sigma_low']),
              ('sigma_high', {}, true_params['sigma_high']))
 
-    az.plot_trace(fit, var_names=['H0', 'Om', 'w', 'R0', 'MMin', 'MMax', 'alpha', 'beta', 'gamma', 'sigma_low', 'sigma_high'], lines=lines)
+    az.plot_trace(fit, var_names=['H0', 'Om', 'w_0', 'w_p', 'w_a', 'R0', 'MMin', 'MMax', 'alpha', 'beta', 'gamma', 'sigma_low', 'sigma_high'], lines=lines)
 
 def neff_det_check_plot(c):
     fit = az.convert_to_inference_data(c)
@@ -142,17 +154,17 @@ def neff_check_plot(c):
 def cosmo_corner_plot(c, *args, **kwargs):
     fit = az.convert_to_inference_data(c)
 
-    az.plot_pair(fit, var_names=['H0', 'Om', 'w'])
+    az.plot_pair(fit, var_names=['H0', 'Om', 'w_0'], kind='kde')
 
 def pop_corner_plot(c, *args, **kwargs):
     fit = az.convert_to_inference_data(c)
 
-    az.plot_pair(fit, var_names=['R0', 'MMin', 'MMax', 'alpha', 'beta', 'gamma'])
+    az.plot_pair(fit, var_names=['R0', 'MMin', 'MMax', 'alpha', 'beta', 'gamma'], kind='kde')
 
 def mass_corner_plot(c, *args, **kwargs):
     fit = az.convert_to_inference_data(c)
 
-    az.plot_pair(fit, var_names=['MMin', 'MMax', 'alpha', 'beta', 'sigma_low', 'sigma_high'])
+    az.plot_pair(fit, var_names=['MMin', 'MMax', 'alpha', 'beta', 'sigma_low', 'sigma_high'], kind='kde')
 
 def H0_plot(c, *args, **kwargs):
     fit = az.convert_to_inference_data(c)
@@ -165,10 +177,28 @@ def H0_plot(c, *args, **kwargs):
 def w_plot(c, *args, **kwargs):
     fit = az.convert_to_inference_data(c)
 
-    az.plot_density(fit, var_names=['w'], credible_interval=0.99, point_estimate='median')
-    xlabel(r'$w$')
-    ylabel(r'$p\left( w \right)$')
+    az.plot_pair(fit, var_names=['w_p', 'w_a'], kind='kde')
+    xlabel(r'$w_p$')
+    ylabel(r'$w_a$')
     axvline(-1, color='k')
+    axhline(0, color='k')
+
+    pts = column_stack((c['w_p'].flatten(), c['w_a'].flatten()))
+    cm = cov(pts, rowvar=False)
+
+    s2s, evs = np.linalg.eigh(cm)
+
+    i = argmin(s2s)
+    s = sqrt(s2s[i])
+    v = evs[:,i]
+
+    a_p = 1.0/(1+c['z_p'])
+    abest = a_p - v[1]/v[0]
+    zbest = 1.0/abest - 1.0
+
+    wz = w_of_z(zbest, c['z_p'], c['w_p'].flatten(), c['w_a'].flatten())
+
+    title('Best Constraint is w({:.2f}) = {:.3f} +/- {:.3f}'.format(zbest, mean(wz), std(wz)))
 
 def MMax_plot(c, *args, **kwargs):
     fit = az.convert_to_inference_data(c)
@@ -184,9 +214,9 @@ def Hz_plot(c, *args, color=None, draw_tracks=True, label=None, **kwargs):
 
     zs = linspace(0, 2, 1000)
 
-    plot(zs, Hz(zs, Planck15.H0.to(u.km/u.s/u.Mpc).value, Planck15.Om0, -1), '-k')
+    plot(zs, Hz(zs, Planck15.H0.to(u.km/u.s/u.Mpc).value, Planck15.Om0, 0.5, -1, 0.0), '-k')
 
-    Hs = Hz(zs[newaxis,:], c['H0'].flatten()[:,newaxis], c['Om'].flatten()[:,newaxis], c['w'].flatten()[:,newaxis])
+    Hs = Hz(zs[newaxis,:], c['H0'].flatten()[:,newaxis], c['Om'].flatten()[:,newaxis], c['z_p'], c['w_p'].flatten()[:,newaxis], c['w_a'].flatten()[:,newaxis])
 
     m = median(Hs, axis=0)
     l = percentile(Hs, 16, axis=0)
@@ -204,13 +234,15 @@ def Hz_plot(c, *args, color=None, draw_tracks=True, label=None, **kwargs):
     if draw_tracks:
         hs = c['H0'].flatten()
         Oms = c['Om'].flatten()
-        ws = c['w'].flatten()
+        wps = c['w_p'].flatten()
+        was = c['w_a'].flatten()
         for i in np.random.choice(len(hs), size=10, replace=False):
             h = hs[i]
             Om = Oms[i]
-            w = ws[i]
+            wp = wps[i]
+            wa = was[i]
 
-            plot(zs, Hz(zs, h, Om, w), color=color, alpha=0.25)
+            plot(zs, Hz(zs, h, Om, c['z_p'], wp, wa), color=color, alpha=0.25)
 
     xlabel(r'$z$')
     ylabel(r'$H(z)$ ($\mathrm{km} \, \mathrm{s}^{-1} \, \mathrm{Mpc}^{-1}$)')
@@ -227,46 +259,7 @@ def mass_correction_plot(c):
     xlabel(r'$z$')
     ylabel(r'$m_1$ ($M_\odot$)')
 
-def rewt_w_samples(c):
-    pts = row_stack((c['H0'].flatten(), c['Om'].flatten(), c['w'].flatten()))
-    kde = gaussian_kde(pts)
-
-    ndraw = 10000
-
-    while True:
-        pts = kde.resample(size=ndraw).T # Columns
-        log_wts = norm(loc=Planck15.H0.to(u.km/u.s/u.Mpc).value, scale=0.01*Planck15.H0.to(u.km/u.s/u.Mpc).value).logpdf(pts[:,0])
-        log_wts += norm(loc=0.02225+0.1198, scale=sqrt(0.00016**2 + 0.0015**2)).logpdf(pts[:,1]*(pts[:,0]/100.0)**2) + 2.0*log(pts[:,0]/100)
-
-        log_wts -= norm(loc=70, scale=15).logpdf(pts[:,0])
-        log_wts -= norm(loc=0.3, scale=0.15).logpdf(pts[:,1])
-
-        log_wts = log_wts - np.max(log_wts)
-
-        wts = exp(log_wts)
-
-        r = np.random.uniform(low=0, high=1, size=ndraw)
-
-        sel = r < wts
-
-        if count_nonzero(sel) > 4000:
-            return pts[sel,:][:4000, :]
-        else:
-            ndraw = ndraw*2
-
-def rewt_w_plot(c):
-    w = rewt_w_samples(c)[:,2]
-
-    m = median(w)
-    l, h = spd_interval(w, 0.68)
-
-    sns.distplot(w)
-    xlabel(r'$w$')
-    ylabel(r'$p(w)$')
-
-    title(interval_string(w, prefix=r'$w = ', postfix='$'))
-
-def post_process(f, plot_neff=True):
+def post_process(f, plot_neff=False):
     c = load_chains(f)
 
     traceplot(c)
@@ -291,7 +284,6 @@ def post_process(f, plot_neff=True):
 
     figure()
     w_plot(c)
-    title(interval_string(c['w'].flatten(), prefix=r'$w = ', postfix='$'))
 
     figure()
     MMax_plot(c)
@@ -299,8 +291,5 @@ def post_process(f, plot_neff=True):
 
     figure()
     mass_correction_plot(c)
-
-    figure()
-    rewt_w_plot(c)
 
     return c
