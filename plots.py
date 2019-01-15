@@ -142,6 +142,9 @@ def neff_det_check_plot(c):
     nobs = c['m1'].shape[2]
     axvline(4*nobs)
 
+    nemin = percentile(c['neff_det'], 2.5)
+    title(r'Two-sigma lower $N_\mathrm{{eff}}$ is factor {:.2f} above limit'.format(nemin/(4*nobs)))
+
 def neff_check_plot(c):
     fit = az.convert_to_inference_data(c)
 
