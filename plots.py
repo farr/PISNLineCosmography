@@ -83,10 +83,13 @@ def Hz(z, H0, Om, z_p, w_p, w_a):
     w = w_of_z(z, z_p, w_p, w_a)
     return H0*np.sqrt(Om*(1+z)**3 + (1.0-Om)*(1+z)**(3*(1+w)))
 
-def load_chains(f):
+def load_chains(f, select_subset=None):
     names = ['H0', 'Om', 'w_0', 'w_p', 'w_a', 'R0', 'MMin', 'MMax', 'alpha', 'beta', 'gamma', 'sigma_low', 'sigma_high', 'mu_det', 'neff_det', 'm1', 'm2', 'dl', 'z', 'neff']
 
     c = {}
+
+    if select_subset is None:
+        select_subset = slice(None)
     with h5py.File(f, 'r') as inp:
         nobs = inp.attrs['nobs']
         for n in names:
@@ -96,6 +99,8 @@ def load_chains(f):
                 c[n] = reshape(arr, (4, -1))
             else:
                 c[n] = reshape(arr, (4, -1) + arr.shape[1:])
+
+            c[n] = c[n][select_subset, ...]
 
         c['nobs'] = nobs
         c['z_p'] = inp.attrs['z_p']
@@ -262,8 +267,8 @@ def mass_correction_plot(c):
     xlabel(r'$z$')
     ylabel(r'$m_1$ ($M_\odot$)')
 
-def post_process(f, plot_neff=False):
-    c = load_chains(f)
+def post_process(f, plot_neff=False, select_subset=None):
+    c = load_chains(f, select_subset=select_subset)
 
     traceplot(c)
 
