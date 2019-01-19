@@ -163,7 +163,37 @@ d = {
     'cosmo_prior': 1 if args.cosmo_prior else 0
 }
 
-f = m.sampling(data=d, iter=2*args.iter, control={'metric': 'dense_e'})
+def init(chain=None):
+    H0 = np.random.uniform(low=60, high=80)
+    Om = np.random.uniform(low=0.2, high=0.4)
+    w_p = np.random.uniform(low=-1.1, high=-0.9)
+    w_a = np.random.uniform(low=-0.1, high=0.1)
+
+    MMin = np.random.uniform(low=4, high=6)
+    MMax = np.random.uniform(low=35, high=45)
+
+    alpha = np.random.uniform(low=0.5, high=1.0)
+    beta = np.random.uniform(low=-0.5, high=0.5)
+    gamma = np.random.uniform(low=2, high=4)
+
+    MLow2Sigma = np.random.uniform(low=2, high=4)
+    MHigh2Sigma = np.random.uniform(low=45, high=55)
+
+    return {
+        'H0': H0,
+        'Om': Om,
+        'w_p': w_p,
+        'w_a': w_a,
+        'MMin': MMin,
+        'MMax': MMax,
+        'alpha': alpha,
+        'beta': beta,
+        'gamma': gamma,
+        'MLow2Sigma': MLow2Sigma,
+        'MHigh2Sigma': MHigh2Sigma
+    }
+
+f = m.sampling(data=d, iter=2*args.iter, init=init, control={'metric': 'dense_e'})
 fit = f.extract(permuted=True)
 
 print(f)
