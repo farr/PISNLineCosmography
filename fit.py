@@ -164,8 +164,12 @@ d = {
 }
 
 def init(chain=None):
-    H0 = np.random.uniform(low=60, high=80)
-    Om = np.random.uniform(low=0.2, high=0.4)
+    if args.cosmo_prior:
+        H0 = Planck15.H0.to(u.km/u.s/u.Mpc).value*(1.0 + 0.01*randn())
+        Om = Planck15.Om0*(1.0 + 0.01*randn())
+    else:
+        H0 = np.random.uniform(low=60, high=80)
+        Om = np.random.uniform(low=0.2, high=0.4)
     w_p = np.random.uniform(low=-1.1, high=-0.9)
     w_a = np.random.uniform(low=-0.1, high=0.1)
 
