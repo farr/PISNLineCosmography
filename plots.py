@@ -208,6 +208,23 @@ def w_plot(c, *args, **kwargs):
 
     title('Best Constraint is w({:.2f}) = {:.3f} +/- {:.3f}'.format(zbest, mean(wz), std(wz)))
 
+    ws = linspace(np.min(c['w_p']), np.max(c['w_a']), 1000)
+    kde = gaussian_kde(row_stack((c['w_p'].flatten(), c['w_a'].flatten())))
+    pts = row_stack((ws, zeros_like(ws)))
+    ps = kde(pts)
+
+    m0 = trapz(ps, ws)
+    m1 = trapz(ps*ws, ws)/m0
+    v = trapz(ps*(ws-m1)**2, ws)/m0
+    s = sqrt(v)
+
+    figure()
+    plot(ws, ps/m0)
+    xlabel(r'$w$')
+    ylabel(r'$p(w)$')
+    title('w = {:.2f} +/- {:.2f}'.format(m1, s))
+
+
 def MMax_plot(c, *args, **kwargs):
     fit = az.convert_to_inference_data(c)
 
