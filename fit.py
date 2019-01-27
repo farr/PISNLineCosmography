@@ -11,6 +11,7 @@ import arviz as az
 import astropy.cosmology as cosmo
 from astropy.cosmology import Planck15
 import astropy.units as u
+from corner import corner
 import h5py
 import pystan
 from scipy.stats import gaussian_kde
@@ -126,18 +127,38 @@ for i in range(nobs):
 
         rs = (np.max(logwt) + log(rand(npost))) < logwt
 
+        # Cut out any samples with m2_det < 3 (which will be outside our bounds anyway).
+        rs = rs & (chain['m2det'][i,:] > 3)
+
         print('Drawing event {:d} from a KDE; using {:d} points after prior re-weighting'.format(i, count_nonzero(rs)))
 
-        p = row_stack((chain['m1det'][i,rs],
-                       chain['m2det'][i,rs],
-                       chain['dl'][i,rs]))
+        # We draw from a KDE, using a variable transformation to ensure that 0 <
+        # m2 < m1 and 0 < dl.  Because we have re-weighted the points,
+        # they are drawn from a flat prior in m1obs, m2obs, dl, so we can
+        # transform them at will as long as we bring them back to this space in
+        # the end.
+        p = row_stack((log(chain['m1det'][i,rs]),
+                       log(chain['m2det'][i,rs]) - log(chain['m1det'][i,rs]-chain['m2det'][i,rs]),
+                       log(chain['dl'][i,rs])))
 
         kde = gaussian_kde(p)
         pts = kde.resample(nsamp[i])
-        m1.append(pts[0,:])
-        m2.append(pts[1,:])
-        dl.append(pts[2,:])
+
+        ms1 = exp(pts[0,:])
+        m1.append(ms1)
+
+        gz = pts[1,:] > 0
+        m2.append(where(gz,
+                        (ms1)/(exp(-pts[1,:]) + 1),
+                        (exp(pts[1,:])*ms1)/(1 + exp(pts[1,:]))))
+        dl.append(exp(pts[2,:]))
         log_m1m2dl_wt.append(zeros_like(pts[0,:]))
+
+        print('  outputting corner plot to corner-{:d}.pdf'.format(i))
+        clf()
+        corner(column_stack((m1[-1], m2[-1], dl[-1])))
+        tight_layout()
+        savefig('corner-{:d}.pdf'.format(i))
     else:
         s = np.random.choice(chain['m1det'].shape[1], nsamp[i], replace=False)
         m1.append(chain['m1det'][i,s])
