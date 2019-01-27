@@ -13,7 +13,7 @@ from astropy.cosmology import Planck15
 import astropy.units as u
 import h5py
 import pystan
-from sklearn.mixture import GaussianMixture
+from scipy.stats import gaussian_kde
 import sys
 from tqdm import tqdm
 
@@ -116,11 +116,34 @@ dl = []
 log_m1m2dl_wt = []
 
 for i in range(nobs):
-    s = np.random.choice(chain['m1det'].shape[1], nsamp[i], replace=False)
-    m1.append(chain['m1det'][i,s])
-    m2.append(chain['m2det'][i,s])
-    dl.append(chain['dl'][i,s])
-    log_m1m2dl_wt.append(chain['log_m1m2dl_wt'][i,s])
+    npost = chain['m1det'].shape[1]
+
+    if nsamp[i] > npost:
+        # Then we need to draw some extra points.  First we will weight by the
+        # inverse prior so that we are sampling the likelihood; then we will
+        # draw from a KDE
+        logwt = -chain['log_m1m2dl_wt'][i,:]
+
+        rs = (np.max(logwt) + log(rand(npost))) < logwt
+
+        print('Drawing event {:d} from a KDE; using {:d} points after prior re-weighting'.format(i, count_nonzero(rs)))
+
+        p = row_stack((chain['m1det'][i,rs],
+                       chain['m2det'][i,rs],
+                       chain['dl'][i,rs]))
+
+        kde = gaussian_kde(p)
+        pts = kde.resample(nsamp[i])
+        m1.append(pts[0,:])
+        m2.append(pts[1,:])
+        dl.append(pts[2,:])
+        log_m1m2dl_wt.append(zeros_like(pts[0,:]))
+    else:
+        s = np.random.choice(chain['m1det'].shape[1], nsamp[i], replace=False)
+        m1.append(chain['m1det'][i,s])
+        m2.append(chain['m2det'][i,s])
+        dl.append(chain['dl'][i,s])
+        log_m1m2dl_wt.append(chain['log_m1m2dl_wt'][i,s])
 
 ninterp = 500
 zMax = 10
