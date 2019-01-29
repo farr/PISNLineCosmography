@@ -153,12 +153,6 @@ for i in range(nobs):
                         (exp(pts[1,:])*ms1)/(1 + exp(pts[1,:]))))
         dl.append(exp(pts[2,:]))
         log_m1m2dl_wt.append(zeros_like(pts[0,:]))
-
-        print('  outputting corner plot to corner-{:d}.pdf'.format(i))
-        clf()
-        corner(column_stack((m1[-1], m2[-1], dl[-1])))
-        tight_layout()
-        savefig('corner-{:d}.pdf'.format(i))
     else:
         s = np.random.choice(chain['m1det'].shape[1], nsamp[i], replace=False)
         m1.append(chain['m1det'][i,s])
