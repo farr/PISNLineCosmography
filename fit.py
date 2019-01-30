@@ -86,6 +86,8 @@ with h5py.File(args.sampfile, 'r') as inp:
             Tobs = inp.attrs['Tobs']
 
 nsamp = np.round(loadtxt(args.nsamp)).astype(np.int)
+if args.subset is None:
+    nsamp = nsamp[istart:iend]
 nsamp_total = np.sum(nsamp)
 
 with h5py.File(args.selfile, 'r') as inp:
