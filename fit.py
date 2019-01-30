@@ -198,8 +198,6 @@ d = {
 
     'ms_norm': msnorm,
 
-    'z_p': z_p,
-
     'cosmo_prior': 1 if args.cosmo_prior else 0
 }
 
@@ -210,8 +208,7 @@ def init(chain=None):
     else:
         H0 = np.random.uniform(low=60, high=80)
         Om = np.random.uniform(low=0.2, high=0.4)
-    w_p = np.random.uniform(low=-1.1, high=-0.9)
-    w_a = np.random.uniform(low=-0.1, high=0.1)
+    w = np.random.uniform(low=-1.5, high=-0.5)
 
     MMin = np.random.uniform(low=4, high=6)
     MMax = np.random.uniform(low=35, high=45)
@@ -226,8 +223,7 @@ def init(chain=None):
     return {
         'H0': H0,
         'Om': Om,
-        'w_p': w_p,
-        'w_a': w_a,
+        'w': w,
         'MMin': MMin,
         'MMax': MMax,
         'alpha': alpha,
@@ -246,9 +242,7 @@ print(f)
 from true_params import true_params
 lines = (('H0', {}, true_params['H0']),
          ('Om', {}, true_params['Om']),
-         ('w_0', {}, true_params['w']),
-         ('w_p', {}, true_params['w']),
-         ('w_a', {}, 0.0),
+         ('w', {}, true_params['w']),
          ('R0', {}, true_params['R0']),
          ('MMin', {}, true_params['MMin']),
          ('MMax', {}, true_params['MMax']),
@@ -259,14 +253,13 @@ lines = (('H0', {}, true_params['H0']),
          ('sigma_high', {}, true_params['sigma_high']),
          ('neff_det', {}, 4*nobs))
 
-az.plot_trace(f, var_names=['H0', 'Om', 'w_0', 'w_p', 'w_a', 'R0', 'MMin', 'MMax', 'sigma_low', 'sigma_high', 'alpha', 'beta', 'gamma', 'neff_det'], lines=lines)
+az.plot_trace(f, var_names=['H0', 'Om', 'w', 'R0', 'MMin', 'MMax', 'sigma_low', 'sigma_high', 'alpha', 'beta', 'gamma', 'neff_det'], lines=lines)
 savefig(args.tracefile)
 
 with h5py.File(args.chainfile, 'w') as out:
     out.attrs['nobs'] = nobs
     out.attrs['nsel'] = ndet
     out.attrs['nsamp'] = nsamp
-    out.attrs['z_p'] = z_p
 
-    for n in ['H0', 'Om', 'w_0', 'w_p', 'w_a', 'R0', 'MMin', 'MMax', 'sigma_low', 'sigma_high', 'alpha', 'beta', 'gamma', 'mu_det', 'neff_det', 'm1', 'm2', 'dl', 'z', 'neff']:
+    for n in ['H0', 'Om', 'w', 'R0', 'MMin', 'MMax', 'sigma_low', 'sigma_high', 'alpha', 'beta', 'gamma', 'mu_det', 'neff_det', 'm1', 'm2', 'dl', 'z', 'neff']:
         out.create_dataset(n, data=fit[n], compression='gzip', shuffle=True)

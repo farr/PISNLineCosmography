@@ -72,27 +72,20 @@ functions {
     }
   }
 
-  real w_of_z(real z, real z_p, real w_p, real w_a) {
-    real a_p = 1.0/(1+z_p);
-    real a = 1.0/(1.0+z);
-    return w_p + (a_p - a)*w_a;
-  }
-
-  real Ez(real z, real Om, real z_p, real w_p, real w_a) {
+  real Ez(real z, real Om, real w) {
     real opz = 1.0 + z;
     real opz2 = opz*opz;
     real opz3 = opz2*opz;
-    real w = w_of_z(z, z_p, w_p, w_a);
 
     return sqrt(Om*opz3 + (1.0-Om)*opz^(3*(1+w)));
   }
 
-  real dzddL(real dl, real z, real dH, real Om, real z_p, real w_p, real w_a) {
+  real dzddL(real dl, real z, real dH, real Om, real w) {
     real opz = 1.0 + z;
-    return 1.0/(dl/opz + opz*dH/Ez(z, Om, z_p, w_p, w_a));
+    return 1.0/(dl/opz + opz*dH/Ez(z, Om, w));
   }
 
-  real[] log_dNdm1dm2ddldt_norm(real[] m1s, real[] m2s, real[] dls, real[] zs, real MMin, real MMax, real alpha, real beta, real gamma, real dH, real Om, real z_p, real w_p, real w_a, real smooth_low, real smooth_high, real[] ms_norm) {
+  real[] log_dNdm1dm2ddldt_norm(real[] m1s, real[] m2s, real[] dls, real[] zs, real MMin, real MMax, real alpha, real beta, real gamma, real dH, real Om, real w, real smooth_low, real smooth_high, real[] ms_norm) {
     int nm = size(ms_norm);
     int n = size(m1s);
     real pms_alpha[nm];
@@ -114,8 +107,8 @@ functions {
     for (i in 1:n) {
       real log_norm_beta = log(interp1d(m1s[i], ms_norm, cum_beta));
       real log_dNdm1dm2dVdt = softened_power_law_logpdf_unnorm(m1s[i], -alpha, MMin, MMax, smooth_low, smooth_high) + softened_power_law_logpdf_unnorm(m2s[i], beta, MMin, MMax, smooth_low, smooth_high) - log_norm_alpha - log_norm_beta + (gamma-1)*log1p(zs[i]);
-      real log_dVdz = log_4pi_dH + log(dls[i]*dls[i]/((1+zs[i])*(1+zs[i]))/Ez(zs[i], Om, z_p, w_p, w_a));
-      real log_dzddl = log(dzddL(dls[i], zs[i], dH, Om, z_p, w_p, w_a));
+      real log_dVdz = log_4pi_dH + log(dls[i]*dls[i]/((1+zs[i])*(1+zs[i]))/Ez(zs[i], Om, w));
+      real log_dzddl = log(dzddL(dls[i], zs[i], dH, Om, w));
 
       log_dN[i] = log_dNdm1dm2dVdt + log_dVdz + log_dzddl;
     }
@@ -123,14 +116,14 @@ functions {
     return log_dN;
   }
 
-  real[] dls_of_zs(real[] zs, real dH, real Om, real z_p, real w_p, real w_a) {
+  real[] dls_of_zs(real[] zs, real dH, real Om, real w) {
     int n = size(zs);
     real ddcdz[n];
     real dcs[n];
     real dls[n];
 
     for (i in 1:n) {
-      ddcdz[i] = dH/Ez(zs[i], Om, z_p, w_p, w_a);
+      ddcdz[i] = dH/Ez(zs[i], Om, w);
     }
     dcs = cumtrapz(zs, ddcdz);
 
@@ -168,8 +161,6 @@ data {
 
   real ms_norm[nnorm];
 
-  real z_p; /* Pivot redshift */
-
   int cosmo_prior;
 }
 
@@ -184,8 +175,7 @@ transformed data {
 parameters {
   real<lower=35, upper=140> H0;
   real<lower=0,upper=1> Om;
-  real<lower=-2, upper=0> w_p;
-  real<lower=-1, upper=1> w_a;
+  real<lower=-2,upper=0> w;
 
   real<lower=3, upper=10> MMin;
   real<lower=30, upper=100> MMax;
@@ -203,7 +193,6 @@ transformed parameters {
   real mu_det;
   real neff_det;
   real dlinterp[ninterp];
-  real w_0 = w_of_z(0.0, z_p, w_p, w_a);
 
   {
     real zsel[nsel];
@@ -219,7 +208,7 @@ transformed parameters {
     real sigma_rel2;
     real sigma_rel;
 
-    dlinterp = dls_of_zs(zinterp, dH, Om, z_p, w_p, w_a);
+    dlinterp = dls_of_zs(zinterp, dH, Om, w);
 
     for (i in 1:nsel) {
       zsel[i] = interp1d(dlsel[i], dlinterp, zinterp);
@@ -227,7 +216,7 @@ transformed parameters {
       m2sel_source[i] = m2sel[i]/(1+zsel[i]);
     }
 
-    log_dN_m_unwt = log_dNdm1dm2ddldt_norm(m1sel_source, m2sel_source, dlsel, zsel, MMin, MMax, alpha, beta, gamma, dH, Om, z_p, w_p, w_a, sigma_low, sigma_high, ms_norm);
+    log_dN_m_unwt = log_dNdm1dm2ddldt_norm(m1sel_source, m2sel_source, dlsel, zsel, MMin, MMax, alpha, beta, gamma, dH, Om, w, sigma_low, sigma_high, ms_norm);
     for (i in 1:nsel) {
       log_dN[i] = log_dN_m_unwt[i] - 2.0*log1p(zsel[i]) - log_wtsel[i];
     }
@@ -271,8 +260,7 @@ model {
     target += normal_lpdf(Om*(H0/100.0)^2 | 0.02225+0.1198, sqrt(0.00016^2 + 0.0015^2));
     target += 2.0*log(H0/100.0); /* p(Omh2) d(Omh2)/d(Om) = p(Omh2) * (H0/100)^2 */
   }
-  w_p ~ normal(-1, 0.5);
-  w_a ~ normal(0.0, 0.5);
+  w ~ normal(-1, 0.5);
 
   alpha ~ normal(-1, 2);
   beta ~ normal(0, 2);
@@ -292,7 +280,7 @@ model {
       m2s[i] = m2obs[i]/(1+zobs[i]);
     }
 
-    log_dNs_nojac = log_dNdm1dm2ddldt_norm(m1s, m2s, dlobs, zobs, MMin, MMax, alpha, beta, gamma, dH, Om, z_p, w_p, w_a, sigma_low, sigma_high, ms_norm);
+    log_dNs_nojac = log_dNdm1dm2ddldt_norm(m1s, m2s, dlobs, zobs, MMin, MMax, alpha, beta, gamma, dH, Om, w, sigma_low, sigma_high, ms_norm);
     for (i in 1:nsamp_total) {
       log_dNs[i] = log_dNs_nojac[i] - 2.0*log1p(zobs[i]) - log_m1m2dl_wt[i];
     }
@@ -339,7 +327,7 @@ generated quantities {
         m2s[i] = m2obs[i] / (1+zs[i]);
     }
 
-    log_wts_nojac = log_dNdm1dm2ddldt_norm(m1s, m2s, dlobs, zs, MMin, MMax, alpha, beta, gamma, dH, Om, z_p, w_p, w_a, sigma_low, sigma_high, ms_norm);
+    log_wts_nojac = log_dNdm1dm2ddldt_norm(m1s, m2s, dlobs, zs, MMin, MMax, alpha, beta, gamma, dH, Om, w, sigma_low, sigma_high, ms_norm);
     for (i in 1:nsamp_total) {
       log_wts[i] = log_wts_nojac[i] - 2.0*log1p(zs[i]) - log_m1m2dl_wt[i];
     }

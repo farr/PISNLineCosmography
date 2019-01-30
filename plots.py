@@ -73,18 +73,11 @@ def interval_string(d, prefix='', postfix='', f=0.68):
 
     return prefix + '{:g}^{{+{:g}}}_{{-{:g}}}'.format(m, dh, dl) + postfix
 
-def w_of_z(z, z_p, w_p, w_a):
-    a_p = 1.0/(1+z_p)
-    a = 1.0/(1+z)
-
-    return w_p + w_a*(a_p-a)
-
-def Hz(z, H0, Om, z_p, w_p, w_a):
-    w = w_of_z(z, z_p, w_p, w_a)
+def Hz(z, H0, Om, w):
     return H0*np.sqrt(Om*(1+z)**3 + (1.0-Om)*(1+z)**(3*(1+w)))
 
 def load_chains(f, select_subset=None):
-    names = ['H0', 'Om', 'w_0', 'w_p', 'w_a', 'R0', 'MMin', 'MMax', 'alpha', 'beta', 'gamma', 'sigma_low', 'sigma_high', 'mu_det', 'neff_det', 'm1', 'm2', 'dl', 'z', 'neff']
+    names = ['H0', 'Om', 'w', 'R0', 'MMin', 'MMax', 'alpha', 'beta', 'gamma', 'sigma_low', 'sigma_high', 'mu_det', 'neff_det', 'm1', 'm2', 'dl', 'z', 'neff']
 
     c = {}
 
@@ -103,8 +96,6 @@ def load_chains(f, select_subset=None):
             c[n] = c[n][select_subset, ...]
 
         c['nobs'] = nobs
-        c['z_p'] = inp.attrs['z_p']
-
     return c
 
 def check_neff_posterior(c, nlow=16, nhigh=64, ndesired=32):
@@ -122,9 +113,7 @@ def traceplot(c):
 
     lines = (('H0', {}, true_params['H0']),
              ('Om', {}, true_params['Om']),
-             ('w_0', {}, true_params['w']),
-             ('w_p', {}, true_params['w']),
-             ('w_a', {}, 0.0),
+             ('w', {}, true_params['w']),
              ('R0', {}, true_params['R0']),
              ('MMin', {}, true_params['MMin']),
              ('MMax', {}, true_params['MMax']),
@@ -134,7 +123,7 @@ def traceplot(c):
              ('sigma_low', {}, true_params['sigma_low']),
              ('sigma_high', {}, true_params['sigma_high']))
 
-    az.plot_trace(fit, var_names=['H0', 'Om', 'w_0', 'w_p', 'w_a', 'R0', 'MMin', 'MMax', 'alpha', 'beta', 'gamma', 'sigma_low', 'sigma_high'], lines=lines)
+    az.plot_trace(fit, var_names=['H0', 'Om', 'w', 'R0', 'MMin', 'MMax', 'alpha', 'beta', 'gamma', 'sigma_low', 'sigma_high'], lines=lines)
 
 def neff_det_check_plot(c):
     fit = az.convert_to_inference_data(c)
@@ -162,7 +151,7 @@ def neff_check_plot(c):
 def cosmo_corner_plot(c, *args, **kwargs):
     fit = az.convert_to_inference_data(c)
 
-    az.plot_pair(fit, var_names=['H0', 'Om', 'w_0'], kind='kde')
+    az.plot_pair(fit, var_names=['H0', 'Om', 'w'], kind='kde')
 
 def pop_corner_plot(c, *args, **kwargs):
     fit = az.convert_to_inference_data(c)
@@ -185,45 +174,7 @@ def H0_plot(c, *args, **kwargs):
 def w_plot(c, *args, **kwargs):
     fit = az.convert_to_inference_data(c)
 
-    az.plot_pair(fit, var_names=['w_p', 'w_a'], kind='kde')
-    xlabel(r'$w_p$')
-    ylabel(r'$w_a$')
-    axvline(-1, color='k')
-    axhline(0, color='k')
-
-    pts = column_stack((c['w_p'].flatten(), c['w_a'].flatten()))
-    cm = cov(pts, rowvar=False)
-
-    s2s, evs = np.linalg.eigh(cm)
-
-    i = argmin(s2s)
-    s = sqrt(s2s[i])
-    v = evs[:,i]
-
-    a_p = 1.0/(1+c['z_p'])
-    abest = a_p - v[1]/v[0]
-    zbest = 1.0/abest - 1.0
-
-    wz = w_of_z(zbest, c['z_p'], c['w_p'].flatten(), c['w_a'].flatten())
-
-    title('Best Constraint is w({:.2f}) = {:.3f} +/- {:.3f}'.format(zbest, mean(wz), std(wz)))
-
-    ws = linspace(np.min(c['w_p']), np.max(c['w_a']), 1000)
-    kde = gaussian_kde(row_stack((c['w_p'].flatten(), c['w_a'].flatten())))
-    pts = row_stack((ws, zeros_like(ws)))
-    ps = kde(pts)
-
-    m0 = trapz(ps, ws)
-    m1 = trapz(ps*ws, ws)/m0
-    v = trapz(ps*(ws-m1)**2, ws)/m0
-    s = sqrt(v)
-
-    figure()
-    plot(ws, ps/m0)
-    xlabel(r'$w$')
-    ylabel(r'$p(w)$')
-    title('w = {:.2f} +/- {:.2f}'.format(m1, s))
-
+    az.plot_posterior(fit, var_names=['w'])
 
 def MMax_plot(c, *args, **kwargs):
     fit = az.convert_to_inference_data(c)
@@ -239,9 +190,9 @@ def Hz_plot(c, *args, color=None, draw_tracks=True, label=None, **kwargs):
 
     zs = linspace(0, 2, 1000)
 
-    plot(zs, Hz(zs, Planck15.H0.to(u.km/u.s/u.Mpc).value, Planck15.Om0, 0.5, -1, 0.0), '-k')
+    plot(zs, Hz(zs, Planck15.H0.to(u.km/u.s/u.Mpc).value, Planck15.Om0, -1), '-k')
 
-    Hs = Hz(zs[newaxis,:], c['H0'].flatten()[:,newaxis], c['Om'].flatten()[:,newaxis], c['z_p'], c['w_p'].flatten()[:,newaxis], c['w_a'].flatten()[:,newaxis])
+    Hs = Hz(zs[newaxis,:], c['H0'].flatten()[:,newaxis], c['Om'].flatten()[:,newaxis], c['w'].flatten()[:,newaxis])
 
     m = median(Hs, axis=0)
     l = percentile(Hs, 16, axis=0)
@@ -259,15 +210,13 @@ def Hz_plot(c, *args, color=None, draw_tracks=True, label=None, **kwargs):
     if draw_tracks:
         hs = c['H0'].flatten()
         Oms = c['Om'].flatten()
-        wps = c['w_p'].flatten()
-        was = c['w_a'].flatten()
+        ws = c['w'].flatten()
         for i in np.random.choice(len(hs), size=10, replace=False):
             h = hs[i]
             Om = Oms[i]
-            wp = wps[i]
-            wa = was[i]
+            w = ws[i]
 
-            plot(zs, Hz(zs, h, Om, c['z_p'], wp, wa), color=color, alpha=0.25)
+            plot(zs, Hz(zs, h, Om, w), color=color, alpha=0.25)
 
     xlabel(r'$z$')
     ylabel(r'$H(z)$ ($\mathrm{km} \, \mathrm{s}^{-1} \, \mathrm{Mpc}^{-1}$)')
