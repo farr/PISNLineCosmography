@@ -262,7 +262,7 @@ model {
   }
   w ~ normal(-1, 0.5);
 
-  alpha ~ normal(-1, 2);
+  alpha ~ normal(1, 2);
   beta ~ normal(0, 2);
   gamma ~ normal(3, 2);
 
