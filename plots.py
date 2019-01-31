@@ -233,17 +233,12 @@ def mass_correction_plot(c):
     xlabel(r'$z$')
     ylabel(r'$m_1$ ($M_\odot$)')
 
-def post_process(f, plot_neff=False, select_subset=None):
+def post_process(f, select_subset=None):
     c = load_chains(f, select_subset=select_subset)
 
     traceplot(c)
 
-    figure()
     neff_det_check_plot(c)
-
-    if plot_neff:
-        figure()
-        neff_check_plot(c)
 
     figure()
     Hz_plot(c)
@@ -252,14 +247,11 @@ def post_process(f, plot_neff=False, select_subset=None):
     pop_corner_plot(c)
     mass_corner_plot(c)
 
-    figure()
     H0_plot(c)
     title(interval_string(c['H0'].flatten(), prefix=r'$H_0 = ', postfix=r' \, \mathrm{km} \, \mathrm{s}^{-1} \, \mathrm{Mpc}^{-1}$'))
 
-    figure()
     w_plot(c)
 
-    figure()
     MMax_plot(c)
     title(interval_string(c['MMax'].flatten(), prefix=r'$M_\mathrm{max} = ', postfix=' \, M_\odot$'))
 
