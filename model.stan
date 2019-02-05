@@ -48,17 +48,6 @@ functions {
     return zs;
   }
 
-  real trapz(real[] xs, real[] ys) {
-    int n = size(xs);
-    real terms[n-1];
-
-    for (i in 1:n-1) {
-      terms[i] = 0.5*(xs[i+1]-xs[i])*(ys[i+1]+ys[i]);
-    }
-
-    return sum(terms);
-  }
-
   real softened_power_law_logpdf_unnorm(real x, real alpha, real xmin, real xmax, real sigma_min, real sigma_max) {
     real logx = log(x);
     real pl = alpha*logx;
@@ -69,6 +58,84 @@ functions {
       return pl - 0.5*((logx - log(xmax))/sigma_max)^2;
     } else {
       return pl;
+    }
+  }
+
+  /* The following functions approxamite the integral over the softened parts of
+     the power law distribution, either from zero to MMin, from MMax to
+     infinity, or an indefinite integral over part of the range.  They are based
+     on a second-order series for the log of the softened power law about the
+     softening point, and the corresponding Gaussian integrals. */
+  real log_integral_low(real alpha, real MMin, real sigma_min) {
+    real disc = 2.0 + 2.0*alpha*sigma_min*sigma_min;
+    real sqrt_term = sqrt(disc);
+    real erf_term = erf((1.0 + 2.0*alpha*sigma_min*sigma_min)/(sigma_min*sqrt_term)) - erf(alpha*sigma_min/sqrt_term);
+    real log_sqrt_term = log(sqrt_term);
+    real log_erf_term = log(erf_term);
+
+    return alpha*alpha*sigma_min*sigma_min/disc + 0.5*log(pi()) + (1.0 + alpha)*log(MMin) + log(sigma_min) + log_erf_term - log_sqrt_term;
+  }
+
+  real log_integral_high(real alpha, real MMax, real sigma_max) {
+    real disc = 2.0 + 2.0*alpha*sigma_max*sigma_max;
+    real sqrt_term = sqrt(disc);
+    real erf_term = 1.0 + erf(alpha*sigma_max/sqrt_term);
+    real log_sqrt_term = log(sqrt_term);
+    real log_erf_term = log(erf_term);
+    return alpha*alpha*sigma_max*sigma_max/disc + 0.5*log(pi()) + (1.0+alpha)*log(MMax) + log(sigma_max) + log_erf_term - log_sqrt_term;
+  }
+
+  real log_integral_def(real alpha, real m0, real m1, real sigma) {
+    real disc = 2.0 + 2.0*alpha*sigma*sigma;
+    real sqrt_term = sqrt(disc);
+    real log_sqrt_term = log(sqrt_term);
+    real unsigned_erf_term = erf(alpha*sigma/sqrt_term) - erf((m0 - m1 + (2*m0-m1)*alpha*sigma*sigma)/(m0*sigma*sqrt_term));
+    real erf_term;
+    real log_erf_term;
+
+    if (m1 > m0) {
+      /* Integrating from m0 to m1, so sign is +1 */
+      erf_term = unsigned_erf_term;
+    } else {
+      /* Integrating from M1 to M0, so overall minus sign */
+      erf_term = -unsigned_erf_term;
+    }
+    log_erf_term = log(erf_term);
+
+    return alpha*alpha*sigma*sigma/disc + 0.5*log(pi()) + (1.0 + alpha)*log(m0) + log(sigma) + log_erf_term - log_sqrt_term;
+  }
+
+  real log_pl_integral(real alpha, real m0, real m1) {
+    if (alpha > -1) {
+      return (alpha+1)*log(m1) + log1p(-(m0/m1)^(alpha+1)) - log1p(alpha);
+    } else {
+      return (alpha+1)*log(m0) + log1p(-(m1/m0)^(alpha+1)) - log(-(1+alpha));
+    }
+  }
+
+  real log_power_law_norm_full(real alpha, real MMin, real MMax, real sigma_low, real sigma_high) {
+    real log_low = log_integral_low(alpha, MMin, sigma_low);
+    real log_high = log_integral_high(alpha, MMax, sigma_high);
+    real log_mid = log_pl_integral(alpha, MMin, MMax);
+    real logs[3] = {log_low, log_mid, log_high};
+
+    return log_sum_exp(logs);
+  }
+
+  real log_power_law_norm(real M, real alpha, real MMin, real MMax, real sigma_low, real sigma_high) {
+    if (M < MMin) {
+      return log_integral_def(alpha, MMin, M, sigma_low);
+    } else if ((M >= MMin) && (M < MMax)) {
+      real log_low = log_integral_low(alpha, MMin, sigma_low);
+
+      return log_sum_exp(log_low, log_pl_integral(alpha, MMin, M));
+    } else {
+      real log_low = log_integral_low(alpha, MMin, sigma_low);
+      real log_mid = log_pl_integral(alpha, MMin, MMax);
+      real log_high = log_integral_def(alpha, MMax, M, sigma_high);
+      real logs[3] = {log_low, log_mid, log_high};
+
+      return log_sum_exp(logs);
     }
   }
 
@@ -85,27 +152,16 @@ functions {
     return 1.0/(dl/opz + opz*dH/Ez(z, Om, w));
   }
 
-  real[] log_dNdm1dm2ddldt_norm(real[] m1s, real[] m2s, real[] dls, real[] zs, real MMin, real MMax, real alpha, real beta, real gamma, real dH, real Om, real w, real smooth_low, real smooth_high, real[] ms_norm) {
-    int nm = size(ms_norm);
+  real[] log_dNdm1dm2ddldt_norm(real[] m1s, real[] m2s, real[] dls, real[] zs, real MMin, real MMax, real alpha, real beta, real gamma, real dH, real Om, real w, real smooth_low, real smooth_high) {
     int n = size(m1s);
-    real pms_alpha[nm];
-    real pms_beta[nm];
-    real cum_beta[nm];
     real log_norm_alpha;
     real log_dN[n];
     real log_4pi_dH = log(4.0*pi()*dH);
 
-    for (i in 1:nm) {
-      pms_alpha[i] = exp(softened_power_law_logpdf_unnorm(ms_norm[i], -alpha, MMin, MMax, smooth_low, smooth_high));
-      pms_beta[i] = exp(softened_power_law_logpdf_unnorm(ms_norm[i], beta, MMin, MMax, smooth_low, smooth_high));
-    }
-
-    cum_beta = cumtrapz(ms_norm, pms_beta);
-
-    log_norm_alpha = log(trapz(ms_norm, pms_alpha));
+    log_norm_alpha = log_power_law_norm_full(-alpha, MMin, MMax, smooth_low, smooth_high);
 
     for (i in 1:n) {
-      real log_norm_beta = log(interp1d(m1s[i], ms_norm, cum_beta));
+      real log_norm_beta = log_power_law_norm(m1s[i], beta, MMin, MMax, smooth_low, smooth_high);
       real log_dNdm1dm2dVdt = softened_power_law_logpdf_unnorm(m1s[i], -alpha, MMin, MMax, smooth_low, smooth_high) + softened_power_law_logpdf_unnorm(m2s[i], beta, MMin, MMax, smooth_low, smooth_high) - log_norm_alpha - log_norm_beta + (gamma-1)*log1p(zs[i]);
       real log_dVdz = log_4pi_dH + log(dls[i]*dls[i]/((1+zs[i])*(1+zs[i]))/Ez(zs[i], Om, w));
       real log_dzddl = log(dzddL(dls[i], zs[i], dH, Om, w));
@@ -159,8 +215,6 @@ data {
 
   real zinterp[ninterp];
 
-  real ms_norm[nnorm];
-
   int cosmo_prior;
 }
 
@@ -174,7 +228,7 @@ transformed data {
 
 parameters {
   real<lower=35, upper=140> H0;
-  real<lower=0,upper=1> Om;
+  real<lower=0,upper=0.4> Omh2;
   real<lower=-2,upper=0> w;
 
   real<lower=3, upper=10> MMin;
@@ -182,17 +236,20 @@ parameters {
   real<lower=-5, upper=3> alpha;
   real<lower=-3, upper=3> beta;
   real<lower=-1, upper=7> gamma;
-  real<lower=1.5, upper=0.98*MMin> MLow2Sigma; /* Two sigma lower limit on the cutoff part of the masses. */
-  real<lower=1.02*MMax, upper=200> MHigh2Sigma; /* Two sigma upper limit on cutoff part of masses. */
+  real<lower=1.5, upper=0.97*MMin> MLow2Sigma; /* Two sigma lower limit on the cutoff part of the masses. */
+  real<lower=1.03*MMax, upper=200> MHigh2Sigma; /* Two sigma upper limit on cutoff part of masses. */
 }
 
 transformed parameters {
   real sigma_low = 0.5*(log(MMin)-log(MLow2Sigma));
   real sigma_high = 0.5*(log(MHigh2Sigma) - log(MMax));
   real dH = 4.42563416002 * (67.74/H0);
+  real Om = Omh2/(H0/100)^2;
   real mu_det;
   real neff_det;
   real dlinterp[ninterp];
+
+  if (Om > 1) reject("Om out of bounds");
 
   {
     real zsel[nsel];
@@ -216,7 +273,7 @@ transformed parameters {
       m2sel_source[i] = m2sel[i]/(1+zsel[i]);
     }
 
-    log_dN_m_unwt = log_dNdm1dm2ddldt_norm(m1sel_source, m2sel_source, dlsel, zsel, MMin, MMax, alpha, beta, gamma, dH, Om, w, sigma_low, sigma_high, ms_norm);
+    log_dN_m_unwt = log_dNdm1dm2ddldt_norm(m1sel_source, m2sel_source, dlsel, zsel, MMin, MMax, alpha, beta, gamma, dH, Om, w, sigma_low, sigma_high);
     for (i in 1:nsel) {
       log_dN[i] = log_dN_m_unwt[i] - 2.0*log1p(zsel[i]) - log_wtsel[i];
     }
@@ -243,10 +300,11 @@ model {
   real log_pop_nojac[nobs];
   real log_pop_jac[nobs];
 
-  sigma_low ~ lognormal(log(0.1), 1);
+  /* Prior chosen to peak at 0.1 (10% scale for cutoff), with 2-sigma range from 0.0333 to 0.3 */
+  sigma_low ~ lognormal(log(0.1), 0.5*log(3));
   target += -log(MLow2Sigma);
 
-  sigma_high ~ lognormal(log(0.1), 1);
+  sigma_high ~ lognormal(log(0.1), 0.5*log(3));
   target += -log(MHigh2Sigma);
 
   MMin ~ normal(5, 2);
@@ -254,11 +312,13 @@ model {
 
   if (cosmo_prior == 0) {
     H0 ~ normal(70, 15);
+
     Om ~ normal(0.3, 0.15);
+    /* Jacobian: p(omH2) = p(Om) * d(Om)/d(Omh2) = p(Om) / (H0/100)^2 */
+    target += -2.0*log(H0/100);
   } else {
     H0 ~ normal(67.74, 0.6774);
-    target += normal_lpdf(Om*(H0/100.0)^2 | 0.02225+0.1198, sqrt(0.00016^2 + 0.0015^2));
-    target += 2.0*log(H0/100.0); /* p(Omh2) d(Omh2)/d(Om) = p(Omh2) * (H0/100)^2 */
+    Omh2 ~ normal(0.02225+0.1198, sqrt(0.00016^2 + 0.0015^2));
   }
   w ~ normal(-1, 0.5);
 
@@ -280,7 +340,7 @@ model {
       m2s[i] = m2obs[i]/(1+zobs[i]);
     }
 
-    log_dNs_nojac = log_dNdm1dm2ddldt_norm(m1s, m2s, dlobs, zobs, MMin, MMax, alpha, beta, gamma, dH, Om, w, sigma_low, sigma_high, ms_norm);
+    log_dNs_nojac = log_dNdm1dm2ddldt_norm(m1s, m2s, dlobs, zobs, MMin, MMax, alpha, beta, gamma, dH, Om, w, sigma_low, sigma_high);
     for (i in 1:nsamp_total) {
       log_dNs[i] = log_dNs_nojac[i] - 2.0*log1p(zobs[i]) - log_m1m2dl_wt[i];
     }
@@ -327,7 +387,7 @@ generated quantities {
         m2s[i] = m2obs[i] / (1+zs[i]);
     }
 
-    log_wts_nojac = log_dNdm1dm2ddldt_norm(m1s, m2s, dlobs, zs, MMin, MMax, alpha, beta, gamma, dH, Om, w, sigma_low, sigma_high, ms_norm);
+    log_wts_nojac = log_dNdm1dm2ddldt_norm(m1s, m2s, dlobs, zs, MMin, MMax, alpha, beta, gamma, dH, Om, w, sigma_low, sigma_high);
     for (i in 1:nsamp_total) {
       log_wts[i] = log_wts_nojac[i] - 2.0*log1p(zs[i]) - log_m1m2dl_wt[i];
     }

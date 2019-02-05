@@ -166,7 +166,7 @@ ninterp = 500
 zMax = 10
 zinterp = expm1(linspace(log(1), log(zMax+1), ninterp))
 
-msnorm = exp(arange(log(1), log(300), 0.01))
+msnorm = exp(arange(log(1), log(300), 0.002))
 nnorm = len(msnorm)
 
 z_p = 0.75
@@ -217,8 +217,11 @@ def init(chain=None):
     beta = np.random.uniform(low=-0.5, high=0.5)
     gamma = np.random.uniform(low=2, high=4)
 
-    MLow2Sigma = np.random.uniform(low=2, high=4)
-    MHigh2Sigma = np.random.uniform(low=45, high=55)
+    sigma_low = np.random.uniform(0.05, 0.15)
+    sigma_high = np.random.uniform(0.05, 0.15)
+
+    MLow2Sigma = exp(log(MMin) - 2*sigma_low)
+    MHigh2Sigma = exp(log(MMax) + 2*sigma_high)
 
     return {
         'H0': H0,
@@ -233,7 +236,7 @@ def init(chain=None):
         'MHigh2Sigma': MHigh2Sigma
     }
 
-f = m.sampling(data=d, iter=2*args.iter, init=init, control={'metric': 'dense_e'})
+f = m.sampling(data=d, iter=2*args.iter, init=init)
 fit = f.extract(permuted=True)
 
 print(f)
