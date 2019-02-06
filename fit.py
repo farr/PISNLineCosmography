@@ -166,8 +166,8 @@ ninterp = 500
 zMax = 10
 zinterp = expm1(linspace(log(1), log(zMax+1), ninterp))
 
-msnorm = exp(arange(log(1), log(300), 0.002))
-nnorm = len(msnorm)
+mnorm = exp(arange(log(1), log(300), 0.01))
+nnorm = len(mnorm)
 
 z_p = 0.75
 
@@ -196,7 +196,7 @@ d = {
 
     'zinterp': zinterp,
 
-    'ms_norm': msnorm,
+    'mnorm': mnorm,
 
     'cosmo_prior': 1 if args.cosmo_prior else 0
 }
