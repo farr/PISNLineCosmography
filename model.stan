@@ -179,7 +179,7 @@ transformed data {
 
 parameters {
   real<lower=35, upper=140> H0;
-  real<lower=0,upper=0.4> Omh2;
+  real<lower=0,upper=(H0/100)^2> Omh2;
   real<lower=-2,upper=0> w;
 
   real<lower=3, upper=10> MMin;
@@ -199,8 +199,6 @@ transformed parameters {
   real mu_det;
   real neff_det;
   real dlinterp[ninterp];
-
-  if (Om > 1) reject("Om out of bounds");
 
   {
     real zsel[nsel];
