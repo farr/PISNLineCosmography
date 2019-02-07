@@ -170,6 +170,7 @@ def H0_plot(c, *args, **kwargs):
     xlabel(r'$H_0$ ($\mathrm{km} \, \mathrm{s}^{-1} \, \mathrm{Mpc}^{-1}$)')
     ylabel(r'$p\left( H_0 \mid d \right)$')
     axvline(Planck15.H0.to(u.km/u.s/u.Mpc).value, color='k')
+    title(interval_string(c['H0'].flatten(), prefix=r'$H_0 = ', postfix=r' \, \mathrm{km} \, \mathrm{s}^{-1} \, \mathrm{Mpc}^{-1}$'))
 
 def w_plot(c, *args, **kwargs):
     fit = az.convert_to_inference_data(c)
@@ -248,7 +249,6 @@ def post_process(f, select_subset=None):
     mass_corner_plot(c)
 
     H0_plot(c)
-    title(interval_string(c['H0'].flatten(), prefix=r'$H_0 = ', postfix=r' \, \mathrm{km} \, \mathrm{s}^{-1} \, \mathrm{Mpc}^{-1}$'))
 
     w_plot(c)
 
