@@ -225,7 +225,7 @@ def init(chain=None):
 
     return {
         'H0': H0,
-        'Om': Om,
+        'Omh2': Om*(H0/100)**2,
         'w': w,
         'MMin': MMin,
         'MMax': MMax,
