@@ -187,8 +187,9 @@ parameters {
   real<lower=-5, upper=3> alpha;
   real<lower=-3, upper=3> beta;
   real<lower=-1, upper=7> gamma;
-  real<lower=1.5, upper=0.97*MMin> MLow2Sigma; /* Two sigma lower limit on the cutoff part of the masses. */
-  real<lower=1.03*MMax, upper=200> MHigh2Sigma; /* Two sigma upper limit on cutoff part of masses. */
+  /* These limits are chosen so that the most extreme values are sigma_low sigma_high ~ 0.03 */
+  real<lower=1.5, upper=0.94*MMin> MLow2Sigma; /* Two sigma lower limit on the cutoff part of the masses. */
+  real<lower=1.06*MMax, upper=200> MHigh2Sigma; /* Two sigma upper limit on cutoff part of masses. */
 }
 
 transformed parameters {
