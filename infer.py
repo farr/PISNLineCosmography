@@ -79,7 +79,6 @@ if __name__ == '__main__':
         pg.create_dataset('m1det', data=zeros((nobs, nsamp)), compression='gzip', shuffle=True)
         pg.create_dataset('m2det', data=zeros((nobs, nsamp)), compression='gzip', shuffle=True)
         pg.create_dataset('theta', data=zeros((nobs, nsamp)), compression='gzip', shuffle=True)
-        pg.create_dataset('log_m1m2dl_wt', data=zeros((nobs, nsamp)), compression='gzip', shuffle=True)
 
         p = multi.Pool()
         try:
@@ -88,6 +87,5 @@ if __name__ == '__main__':
                 pg['m1det'][i,:] = chain['m1']
                 pg['m2det'][i,:] = chain['m2']
                 pg['theta'][i,:] = chain['theta']
-                pg['log_m1m2dl_wt'][i,:] = chain['log_m1m2dl_wt']
         finally:
             p.close()
