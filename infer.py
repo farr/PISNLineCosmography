@@ -50,7 +50,7 @@ if __name__ == '__main__':
             'ms': ms_osnr,
             'opt_snrs': osnrs,
 
-            'dL_max': Planck15.luminosity_distance(3).to(u.Gpc).value
+            'dL_max': Planck15.luminosity_distance(4).to(u.Gpc).value
         }
 
         init = {
@@ -59,7 +59,7 @@ if __name__ == '__main__':
             'dL': dls[i]
         }
 
-        fit = model.sampling(data=data, n_jobs=1, control={'max_treedepth': 15, 'adapt_delta': 0.99, 'metric': 'dense_e'}, init=4*(init,))
+        fit = model.sampling(data=data, n_jobs=1, control={'max_treedepth': 15, 'adapt_delta': 0.99}, init=4*(init,))
         chain = fit.extract(permuted=True)
 
         return i, chain
