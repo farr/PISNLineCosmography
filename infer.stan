@@ -64,7 +64,7 @@ transformed data {
 
 parameters {
   real<lower=minterp_min, upper=minterp_max> m1;
-  real<lower=minterp_min, upper=m1> m2;
+  real<lower=0, upper=m1> m2;
   real<lower=0, upper=dL_max> dL;
 
   /* These are the vectors that go into Theta.  We employ a trick for the
@@ -88,7 +88,6 @@ transformed parameters {
 
   {
     real mt = m1+m2;
-
     eta = m1*m2/(mt*mt);
     mc = mt*eta^(3.0/5.0);
   }
