@@ -4,6 +4,7 @@ import astropy.cosmology as cosmo
 from astropy.cosmology import Planck15
 import astropy.units as u
 import pymc3 as pm
+from scipy.interpolate import interp1d
 import theano
 import theano.tensor as tt
 import theano.tensor.extra_ops as tte
@@ -36,7 +37,7 @@ def comoving_distance(zs, H0, Om, w):
 
     return dH*cumtrapz(cdi, zs)
 
-def interp1d(x, xs, ys):
+def interp1d_theano(x, xs, ys):
     ih = tte.searchsorted(xs, x)
     il = ih - 1
 
@@ -79,7 +80,7 @@ def kde_log_likelihood(m1, m2, dl, m1det, m2det, dldet, chol_cov):
 
     return pm.logsumexp(-0.5*chi2)
 
-def make_model(m1det, m2det, dldet, m1sel, m2sel, dlsel, log_wtsel, Ndraw, cosmo_prior=False, zmax=4):
+def make_model(m1det, m2det, dldet, m1sel, m2sel, dlsel, log_wtsel, Ndraw, Tobs, cosmo_prior=False, zmax=4):
     nobs, nsamp = m1det.shape
 
     cms_chol = []
@@ -89,7 +90,43 @@ def make_model(m1det, m2det, dldet, m1sel, m2sel, dlsel, log_wtsel, Ndraw, cosmo
         cms_chol.append(np.linalg.cholesky(cm))
     cms_chol = np.array(cms_chol)
 
-    zinterp = expm1(linspace(log(1), log(1+zmax), 1000))
+    zinterp = expm1(linspace(log(1), log(1+zmax)+0.1, 1000))
+    dli = Planck15.luminosity_distance(zinterp).to(u.Gpc).value
+    z_of_dl = interp1d(dli, zinterp)
+
+    m1init = []
+    m2init = []
+    dlinit = []
+    zinit = []
+    for m1, m2, dl in zip(m1det, m2det, dldet):
+        i = randint(len(m1))
+
+        dlinit.append(dl[i])
+        z = z_of_dl(dl[i])
+        zinit.append(z)
+        m1init.append(m1[i]/(1+z))
+        m2init.append(m2[i]/(1+z))
+
+    m1init = array(m1init)
+    m2init = array(m2init)
+    dlinit = array(dlinit)
+    zinit = array(zinit)
+
+    MMin_init = max(np.min(m2init) - 1.0, 3.1)
+    MMax_init = min(np.max(m1init)+1.0, 69.0)
+
+    m1init_frac = (m1init - MMin_init)/(MMax_init-MMin_init)
+    m2init_frac = (m2init - MMin_init)/(m1init - MMin_init)
+
+    s = m1init_frac < 0
+    m1init_frac[s] = 0.01
+    s = m1init_frac > 1
+    m1init_frac[s] = 0.99
+
+    s = m2init_frac < 0
+    m2init_frac[s] = 0.01
+    s = m2init_frac > 1
+    m2init_frac[s] = 0.99
 
     m1det = tt.as_tensor_variable(m1det)
     m2det = tt.as_tensor_variable(m2det)
@@ -119,16 +156,17 @@ def make_model(m1det, m2det, dldet, m1sel, m2sel, dlsel, log_wtsel, Ndraw, cosmo
         w = pm.Bound(pm.Normal, lower=-2, upper=0)('w', mu=-1.0, sd=0.5)
 
         # Mass+redshift dist variables
-        MMin = pm.Bound(pm.Normal, lower=3, upper=10)('MMin', mu=5.0, sd=2.0)
-        MMax = pm.Bound(pm.Normal, lower=30, upper=70)('MMax', mu=50.0, sd=10.0)
+        RUnit = pm.Normal('RUnit', mu=0, sd=1)
+        MMin = pm.Bound(pm.Normal, lower=3, upper=10)('MMin', mu=5.0, sd=2.0, testval=MMin_init)
+        MMax = pm.Bound(pm.Normal, lower=30, upper=70)('MMax', mu=50.0, sd=10.0, testval=MMax_init)
         alpha = pm.Bound(pm.Normal, lower=-1, upper=3)('alpha', mu=1, sd=1, testval=1.1) # Need testval because alpha = 1 gives numerical singularity
-        beta = pm.Bound(pm.Normal, lower=-2, upper=2)('beta', mu=0, sd=1)
-        gamma = pm.Bound(pm.Normal, lower=0, upper=6)('gamma', mu=3, sd=1.5)
+        beta = pm.Bound(pm.Normal, lower=-2, upper=2)('beta', mu=0, sd=1, testval=0)
+        gamma = pm.Bound(pm.Normal, lower=0, upper=6)('gamma', mu=3, sd=1.5, testval=3)
 
         # Source variables: m1, m2, z, dL
-        m1_frac = pm.Uniform('m1_frac', lower=0, upper=1, shape=(nobs,))
-        m2_frac = pm.Uniform('m2_frac', lower=0, upper=1, shape=(nobs,))
-        zs = pm.Uniform('zs', lower=0, upper=zmax, shape=(nobs,))
+        m1_frac = pm.Uniform('m1_frac', lower=0, upper=1, shape=(nobs,), testval=m1init_frac)
+        m2_frac = pm.Uniform('m2_frac', lower=0, upper=1, shape=(nobs,), testval=m2init_frac)
+        zs = pm.Uniform('zs', lower=0, upper=zmax, shape=(nobs,), testval=zinit)
 
         m1s = pm.Deterministic('m1s', MMin + (MMax-MMin)*m1_frac)
         m2s = pm.Deterministic('m2s', MMin + (m1s-MMin)*m2_frac)
@@ -136,7 +174,7 @@ def make_model(m1det, m2det, dldet, m1sel, m2sel, dlsel, log_wtsel, Ndraw, cosmo
         dcinterp = comoving_distance(zinterp, H0, Om, w)
         dlinterp = dcinterp*(1+zinterp)
 
-        dls = pm.Deterministic('dls', interp1d(zs, zinterp, dlinterp))
+        dls = pm.Deterministic('dls', interp1d_theano(zs, zinterp, dlinterp))
 
         # Population is a "prior" on source-frame.  Our function is density in
         # m1, m2, z, but we sample in m1_frac, m2_frac, z, so need Jacobian
@@ -150,13 +188,14 @@ def make_model(m1det, m2det, dldet, m1sel, m2sel, dlsel, log_wtsel, Ndraw, cosmo
         m1sels = m1sel[s]
         m2sels = m2sel[s]
         dlsels = dlsel[s]
-        zsels = interp1d(dlsels, dlinterp, zinterp)
+        zsels = interp1d_theano(dlsels, dlinterp, zinterp)
         logwtsels = log_wtsel[s]
 
         log_sel_wts = log_dNdm1dm2dz(m1sels/(1+zsels), m2sels/(1+zsels), dlsels, zsels, MMin, MMax, alpha, beta, gamma, H0, Om, w) - 2.0*tt.log1p(zsels) + tt.log(dzddl(dlsels, zsels, H0, Om, w)) - logwtsels
         log_sel_wts2 = 2.0*log_sel_wts
 
-        log_mu = pm.logsumexp(log_sel_wts) - tt.log(Ndraw)
+        log_mu = pm.Deterministic('log_mu', pm.logsumexp(log_sel_wts) - tt.log(Ndraw))
+        mu = exp(log_mu)
         mu2 = tt.exp(2*log_mu)
         sigma2 = tt.exp(pm.logsumexp(log_sel_wts2))/(Ndraw*Ndraw) - mu2/Ndraw
         Neff = pm.Deterministic('Neff_det', mu2/sigma2)
@@ -164,6 +203,10 @@ def make_model(m1det, m2det, dldet, m1sel, m2sel, dlsel, log_wtsel, Ndraw, cosmo
         pm.Potential('reject-neff-too-small', tt.switch(Neff > 4.0*nobs, 0.0, np.NINF))
 
         pm.Potential('normalization', -nobs*log_mu + (3.0*nobs + nobs*nobs)/(2*Neff))
+
+        mu_R = nobs/(Tobs*mu)*(1.0 + nobs/Neff*(1.0 + 2.0*nobs/Neff))
+        sigma_R = tt.sqrt(nobs)/(Tobs*mu)*(1.0 + nobs/Neff*(3.0/2.0 + 31.0/8.0*nobs/Neff))
+        R = pm.Deterministic('R', mu_R + sigma_R*RUnit)
 
         # Likelihood
         log_lls, _ = theano.map(kde_log_likelihood, sequences=[m1s*(1+zs), m2s*(1+zs), dls, m1det, m2det, dldet, cms_chol])
