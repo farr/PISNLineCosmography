@@ -61,7 +61,7 @@ def log_norm_pl(alpha, xl, xh):
 
 def log_dNdm1dm2dz(m1s, m2s, dls, zs, MMin, MMax, alpha, beta, gamma, H0, Om, w):
     log_norm_alpha = log_norm_pl(-alpha, MMin, MMax)
-    log_norm_beta = log_norm_pl(beta, MMin, m1s)
+    log_norm_beta = log_norm_pl(beta*ones_like(m1s), MMin, m1s)
     opz = 1.0+zs
 
     log_dNdm1dm2dVdt = tt.switch((MMin < m2s) & (m2s < m1s) & (m1s < MMax),
