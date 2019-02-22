@@ -158,16 +158,16 @@ def make_model(m1det, m2det, dldet, m1sel, m2sel, dlsel, log_wtsel, Ndraw, Tobs,
 
         # Mass+redshift dist variables
         RUnit = pm.Normal('RUnit', mu=0, sd=1)
-        MMin = pm.Bound(pm.Normal, lower=3, upper=10)('MMin', mu=5.0, sd=2.0, testval=MMin_init)
-        MMax = pm.Bound(pm.Normal, lower=30, upper=70)('MMax', mu=50.0, sd=10.0, testval=MMax_init)
+        MMin = pm.Bound(pm.Normal, lower=3, upper=10)('MMin', mu=5.0, sd=2.0)
+        MMax = pm.Bound(pm.Normal, lower=30, upper=70)('MMax', mu=50.0, sd=10.0)
         alpha = pm.Bound(pm.Normal, lower=-1, upper=3)('alpha', mu=1, sd=1, testval=1.1) # Need testval because alpha = 1 gives numerical singularity
-        beta = pm.Bound(pm.Normal, lower=-2, upper=2)('beta', mu=0, sd=1, testval=0)
-        gamma = pm.Bound(pm.Normal, lower=0, upper=6)('gamma', mu=3, sd=1.5, testval=3)
+        beta = pm.Bound(pm.Normal, lower=-2, upper=2)('beta', mu=0, sd=1)
+        gamma = pm.Bound(pm.Normal, lower=0, upper=6)('gamma', mu=3, sd=1.5)
 
         # Source variables: m1, m2, z, dL
-        m1_frac = pm.Uniform('m1_frac', lower=0, upper=1, shape=(nobs,), testval=m1init_frac)
-        m2_frac = pm.Uniform('m2_frac', lower=0, upper=1, shape=(nobs,), testval=m2init_frac)
-        zs = pm.Uniform('zs', lower=0, upper=zmax, shape=(nobs,), testval=zinit)
+        m1_frac = pm.Uniform('m1_frac', lower=0, upper=1, shape=(nobs,))
+        m2_frac = pm.Uniform('m2_frac', lower=0, upper=1, shape=(nobs,))
+        zs = pm.Uniform('zs', lower=0, upper=zmax, shape=(nobs,))
 
         m1s = pm.Deterministic('m1s', MMin + (MMax-MMin)*m1_frac)
         m2s = pm.Deterministic('m2s', MMin + (m1s-MMin)*m2_frac)
