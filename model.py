@@ -95,40 +95,6 @@ def make_model(m1det, m2det, dldet, m1sel, m2sel, dlsel, log_wtsel, Ndraw, Tobs,
     dli = Planck15.luminosity_distance(zinterp).to(u.Gpc).value
     z_of_dl = interp1d(dli, zinterp)
 
-    m1init = []
-    m2init = []
-    dlinit = []
-    zinit = []
-    for m1, m2, dl in zip(m1det, m2det, dldet):
-        i = randint(len(m1))
-
-        dlinit.append(dl[i])
-        z = z_of_dl(dl[i])
-        zinit.append(z)
-        m1init.append(m1[i]/(1+z))
-        m2init.append(m2[i]/(1+z))
-
-    m1init = array(m1init)
-    m2init = array(m2init)
-    dlinit = array(dlinit)
-    zinit = array(zinit)
-
-    MMin_init = max(np.min(m2init) - 1.0, 3.1)
-    MMax_init = min(np.max(m1init)+1.0, 69.0)
-
-    m1init_frac = (m1init - MMin_init)/(MMax_init-MMin_init)
-    m2init_frac = (m2init - MMin_init)/(m1init - MMin_init)
-
-    s = m1init_frac < 0
-    m1init_frac[s] = 0.01
-    s = m1init_frac > 1
-    m1init_frac[s] = 0.99
-
-    s = m2init_frac < 0
-    m2init_frac[s] = 0.01
-    s = m2init_frac > 1
-    m2init_frac[s] = 0.99
-
     m1det = tt.as_tensor_variable(m1det)
     m2det = tt.as_tensor_variable(m2det)
     dldet = tt.as_tensor_variable(dldet)
@@ -180,7 +146,7 @@ def make_model(m1det, m2det, dldet, m1sel, m2sel, dlsel, log_wtsel, Ndraw, Tobs,
         # Population is a "prior" on source-frame.  Our function is density in
         # m1, m2, z, but we sample in m1_frac, m2_frac, z, so need Jacobian
         # d(m1)/d(m1_frac) d(m2)/d(m2_frac) = (MMax-MMin)*(m1s-MMin)
-        pm.Potential('population-distribution', tt.sum(log_dNdm1dm2dz(m1s, m2s, dls, zs, MMin, MMax, alpha, beta, gamma, H0, Om, w)) + nobs*tt.log(MMax-MMin) + tt.sum(tt.log(m1s-MMin)))
+        pm.Potential('population-distribution', tt.sum(log_dNdm1dm2dz(m1s, m2s, dls, zs, MMin, MMax, alpha, beta, gamma, H0, Om, w) + tt.log(MMax-MMin) + tt.log(m1s-MMin)))
 
         # Selection effects
 
