@@ -95,6 +95,33 @@ def make_model(m1det, m2det, dldet, m1sel, m2sel, dlsel, log_wtsel, Ndraw, Tobs,
     dli = Planck15.luminosity_distance(zinterp).to(u.Gpc).value
     z_of_dl = interp1d(dli, zinterp)
 
+    wi = -1 + 0.1*randn()
+    Oi = 0.3 + 0.05*randn()
+    Hi = 70 + 5*randn()
+
+    ci = cosmo.wCDM(Hi, Oi, 1-Oi, wi)
+    zi_of_dl = interp1d(ci.luminosity_distance(zinterp), zinterp)
+
+    m1i = []
+    m2i = []
+    zi = []
+    for i in range(nobs):
+        s = random.choice(nsamp)
+        d = dldet[i]
+        z = zi_of_dl(d)
+        zi.append(z)
+        m1i.append(m1det[s]/(1+z))
+        m2i.append(m2det[s]/(1+z))
+    m1i = array(m1i)
+    m2i = array(m2i)
+    zi = array(zi)
+
+    MMaxi = 0.5 + np.max(m1i)
+    MMini = np.min(m2i) - 0.5
+
+    m1fi = (m1i-MMini)/(MMaxi-MMini)
+    m2fi = (m2i-MMini)/(m1i - MMini)
+
     m1det = tt.as_tensor_variable(m1det)
     m2det = tt.as_tensor_variable(m2det)
     dldet = tt.as_tensor_variable(dldet)
@@ -117,23 +144,23 @@ def make_model(m1det, m2det, dldet, m1sel, m2sel, dlsel, log_wtsel, Ndraw, Tobs,
             Omh2 = pm.Bound(pm.Normal, lower=0, upper=0.3)('Omh2', mu=0.02225+0.1198, sd=sqrt(0.00016**2 + 0.0015**2))
             Om = pm.Deterministic('Om', Omh2/(H0/100)**2)
         else:
-            Om = pm.Bound(pm.Normal, lower=0, upper=1)('Om', mu=0.3, sd=0.15)
-            H0 = pm.Bound(pm.Normal, lower=35, upper=140)('H0', mu=70.0, sd=12.0)
+            Om = pm.Bound(pm.Normal, lower=0, upper=1)('Om', mu=0.3, sd=0.15, testval=Oi)
+            H0 = pm.Bound(pm.Normal, lower=35, upper=140)('H0', mu=70.0, sd=12.0, testval=Hi)
             Omh2 = pm.Deterministic('Omh2', Om*(H0/100)**2)
-        w = pm.Bound(pm.Normal, lower=-2, upper=0)('w', mu=-1.0, sd=0.5)
+        w = pm.Bound(pm.Normal, lower=-2, upper=0)('w', mu=-1.0, sd=0.5, testval=wi)
 
         # Mass+redshift dist variables
         RUnit = pm.Normal('RUnit', mu=0, sd=1)
-        MMin = pm.Bound(pm.Normal, lower=3, upper=10)('MMin', mu=5.0, sd=2.0)
-        MMax = pm.Bound(pm.Normal, lower=30, upper=70)('MMax', mu=50.0, sd=10.0)
+        MMin = pm.Bound(pm.Normal, lower=3, upper=10)('MMin', mu=5.0, sd=2.0, testval=MMini)
+        MMax = pm.Bound(pm.Normal, lower=30, upper=70)('MMax', mu=50.0, sd=10.0, testval=MMaxi)
         alpha = pm.Bound(pm.Normal, lower=-1, upper=3)('alpha', mu=1, sd=1, testval=1.1) # Need testval because alpha = 1 gives numerical singularity
         beta = pm.Bound(pm.Normal, lower=-2, upper=2)('beta', mu=0, sd=1)
         gamma = pm.Bound(pm.Normal, lower=0, upper=6)('gamma', mu=3, sd=1.5)
 
         # Source variables: m1, m2, z, dL
-        m1_frac = pm.Uniform('m1_frac', lower=0, upper=1, shape=(nobs,))
-        m2_frac = pm.Uniform('m2_frac', lower=0, upper=1, shape=(nobs,))
-        zs = pm.Uniform('zs', lower=0, upper=zmax, shape=(nobs,))
+        m1_frac = pm.Uniform('m1_frac', lower=0, upper=1, shape=(nobs,), testval=m1fi)
+        m2_frac = pm.Uniform('m2_frac', lower=0, upper=1, shape=(nobs,), testval=m2fi)
+        zs = pm.Uniform('zs', lower=0, upper=zmax, shape=(nobs,), testval=zi)
 
         m1s = pm.Deterministic('m1s', MMin + (MMax-MMin)*m1_frac)
         m2s = pm.Deterministic('m2s', MMin + (m1s-MMin)*m2_frac)
