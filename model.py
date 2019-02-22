@@ -76,7 +76,7 @@ def kde_log_likelihood(m1, m2, dl, m1det, m2det, dldet, chol_cov):
 
     dp = pt-pts
 
-    r = tt.solve_lower_triangular(chol_cov, dp.T)
+    r = tt.slinalg.solve_lower_triangular(chol_cov, dp.T)
     chi2 = tt.dot(r,r)
 
     return pm.logsumexp(-0.5*chi2)
