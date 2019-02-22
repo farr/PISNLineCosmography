@@ -64,6 +64,11 @@ def log_dNdm1dm2dz(m1s, m2s, dls, zs, MMin, MMax, alpha, beta, gamma, H0, Om, w)
     log_norm_beta = log_norm_pl(beta*ones_like(m1s), MMin, m1s)
     opz = 1.0+zs
 
+    theano.printing.Print('alpha')(alpha)
+    theano.printing.Print('MMin')(MMin)
+    theano.printing.Print('MMax')(MMax)
+    theano.printing.Print('log_norm_alpha')(log_norm_alpha)
+
     log_dNdm1dm2dVdt = tt.switch((MMin < m2s) & (m2s < m1s) & (m1s < MMax),
                                  -alpha*tt.log(m1s) + beta*tt.log(m2s) - log_norm_alpha - log_norm_beta + (gamma-1)*tt.log1p(zs),
                                  np.NINF)
