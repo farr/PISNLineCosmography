@@ -92,8 +92,6 @@ def make_model(m1det, m2det, dldet, m1sel, m2sel, dlsel, log_wtsel, Ndraw, Tobs,
     cms_chol = np.array(cms_chol)
 
     zinterp = expm1(linspace(log(1), log(1+zmax)+0.1, 1000))
-    dli = Planck15.luminosity_distance(zinterp).to(u.Gpc).value
-    z_of_dl = interp1d(dli, zinterp)
 
     wi = -1 + 0.1*randn()
     Oi = 0.3 + 0.05*randn()
@@ -106,21 +104,26 @@ def make_model(m1det, m2det, dldet, m1sel, m2sel, dlsel, log_wtsel, Ndraw, Tobs,
     m2i = []
     zi = []
     for i in range(nobs):
-        s = random.choice(nsamp)
-        d = dldet[i]
+        s = np.random.choice(nsamp)
+        d = dldet[i,s]
         z = zi_of_dl(d)
         zi.append(z)
-        m1i.append(m1det[s]/(1+z))
-        m2i.append(m2det[s]/(1+z))
+        m1i.append(m1det[i,s]/(1+z))
+        m2i.append(m2det[i,s]/(1+z))
     m1i = array(m1i)
     m2i = array(m2i)
     zi = array(zi)
 
-    MMaxi = 0.5 + np.max(m1i)
-    MMini = np.min(m2i) - 0.5
+    MMaxi = min(0.5 + np.max(m1i), 99)
+    MMini = max(np.min(m2i) - 0.5, 3.1)
 
     m1fi = (m1i-MMini)/(MMaxi-MMini)
     m2fi = (m2i-MMini)/(m1i - MMini)
+
+    m1fi[m1fi<0] = 0.01
+    m1fi[m1fi>1] = 0.99
+    m2fi[m2fi<0] = 0.01
+    m2fi[m2fi>1] = 0.99
 
     m1det = tt.as_tensor_variable(m1det)
     m2det = tt.as_tensor_variable(m2det)
@@ -152,7 +155,7 @@ def make_model(m1det, m2det, dldet, m1sel, m2sel, dlsel, log_wtsel, Ndraw, Tobs,
         # Mass+redshift dist variables
         RUnit = pm.Normal('RUnit', mu=0, sd=1)
         MMin = pm.Bound(pm.Normal, lower=3, upper=10)('MMin', mu=5.0, sd=2.0, testval=MMini)
-        MMax = pm.Bound(pm.Normal, lower=30, upper=70)('MMax', mu=50.0, sd=10.0, testval=MMaxi)
+        MMax = pm.Bound(pm.Normal, lower=30, upper=100)('MMax', mu=50.0, sd=10.0, testval=MMaxi)
         alpha = pm.Bound(pm.Normal, lower=-1, upper=3)('alpha', mu=1, sd=1, testval=1.1) # Need testval because alpha = 1 gives numerical singularity
         beta = pm.Bound(pm.Normal, lower=-2, upper=2)('beta', mu=0, sd=1)
         gamma = pm.Bound(pm.Normal, lower=0, upper=6)('gamma', mu=3, sd=1.5)
