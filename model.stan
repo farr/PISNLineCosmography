@@ -66,17 +66,6 @@ functions {
     }
   }
 
-  real power_law_logpdf_unnorm(real x, real alpha, real xmin, real xmax) {
-    real logx = log(x);
-    real pl = alpha*logx;
-
-    if ((xmin < x) && (x < xmax)) {
-      return pl;
-    } else {
-      return negative_infinity();
-    }
-  }
-
   real Ez(real z, real Om, real w) {
     real opz = 1.0 + z;
     real opz2 = opz*opz;
@@ -90,17 +79,42 @@ functions {
     return 1.0/(dl/opz + opz*dH/Ez(z, Om, w));
   }
 
-  real[] log_dNdm1dm2dzdt_norm(real[] m1s, real[] m2s, real[] dls, real[] zs, real MMin, real MMax, real alpha, real beta, real gamma, real dH, real Om, real w) {
+  real[] log_dNdm1dm2dzdt_norm(real[] m1s, real[] m2s, real[] dls, real[] zs, real MMin, real MMax, real alpha, real beta, real gamma, real dH, real Om, real w, int smooth) {
     int n = size(m1s);
     real log_norm_alpha = log_power_law_norm(-alpha, MMin, MMax);
     real log_4pi_dH = log(4.0*pi()*dH);
     real log_dNs[n];
 
     for (i in 1:n) {
-      if ((MMin < m2s[i]) && (m2s[i] < m1s[i]) && (m1s[i] < MMax)) {
-        real log_norm_beta = log_power_law_norm(beta, MMin, m1s[i]);
+      if (smooth || ((MMin < m2s[i]) && (m2s[i] < m1s[i]) && (m1s[i] < MMax))) {
+        real log_norm_beta;
+        real log_sl;
+        real log_sh;
 
-        log_dNs[i] = -alpha*log(m1s[i]) + beta*log(m2s[i]) + (gamma-1)*log1p(zs[i]) - log_norm_alpha - log_norm_beta + log_4pi_dH + 2.0*log(dls[i]/(1+zs[i])) - log(Ez(zs[i], Om, w));
+        if (m1s[i] > MMin) {
+          log_norm_beta = log_power_law_norm(beta, MMin, m1s[i]);
+        } else {
+          log_norm_beta = log_power_law_norm(beta, m1s[i], MMin); /* This will be junk, but at least not NaN. */
+        }
+
+        if (smooth) {
+          if (m2s[i] < MMin) {
+            log_sl = -0.5*((log(m2s[i]) - log(MMin))/0.02)^2;
+          } else {
+            log_sl = 0.0;
+          }
+
+          if (m1s[i] > MMax) {
+            log_sh = -0.5*((log(m1s[i]) - log(MMax))/0.02)^2;
+          } else {
+            log_sh = 0.0;
+          }
+        } else {
+          log_sl = 0.0;
+          log_sh = 0.0;
+        }
+
+        log_dNs[i] = -alpha*log(m1s[i]) + beta*log(m2s[i]) + (gamma-1)*log1p(zs[i]) - log_norm_alpha - log_norm_beta + log_4pi_dH + 2.0*log(dls[i]/(1+zs[i])) - log(Ez(zs[i], Om, w)) + log_sl + log_sh;
       } else {
         log_dNs[i] = negative_infinity();
       }
@@ -213,7 +227,7 @@ transformed parameters {
       m2sel_source[i] = m2sel[i]/(1+zsel[i]);
     }
 
-    log_dN_m_unwt = log_dNdm1dm2dzdt_norm(m1sel_source, m2sel_source, dlsel, zsel, MMin, MMax, alpha, beta, gamma, dH, Om, w);
+    log_dN_m_unwt = log_dNdm1dm2dzdt_norm(m1sel_source, m2sel_source, dlsel, zsel, MMin, MMax, alpha, beta, gamma, dH, Om, w, 1); /* Smooth. */
     for (i in 1:nsel) {
       log_dN[i] = log_dN_m_unwt[i] - 2.0*log1p(zsel[i]) + log(dzddL(dlsel[i], zsel[i], dH, Om, w)) - log_wtsel[i];
     }
@@ -262,8 +276,9 @@ model {
   beta ~ normal(0, 2);
   gamma ~ normal(3, 2);
 
+  /* Population */
   {
-    real log_dNs_nojac[nobs] = log_dNdm1dm2dzdt_norm(m1s, m2s, dls, zs, MMin, MMax, alpha, beta, gamma, dH, Om, w);
+    real log_dNs_nojac[nobs] = log_dNdm1dm2dzdt_norm(m1s, m2s, dls, zs, MMin, MMax, alpha, beta, gamma, dH, Om, w, 0);
     real log_dNs_jac[nobs];
 
     for (i in 1:nobs) {
@@ -273,6 +288,7 @@ model {
     target += sum(log_dNs_jac);
   }
 
+  /* Likelihood */
   for (i in 1:nobs) {
     real log_ps[nsamp];
     vector[3] pt = to_vector({m1s[i]*(1+zs[i]), m2s[i]*(1+zs[i]), dls[i]});
