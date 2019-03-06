@@ -187,7 +187,7 @@ parameters {
   real<lower=-1, upper=1> w_a;
 
 //  real<lower=3, upper=10> MMin;
-  real<lower=30, upper=100> MMax;
+  real<lower=30, upper=150> MMax;
   real<lower=-5, upper=3> alpha;
   real<lower=-3, upper=3> beta;
   real<lower=-1, upper=7> gamma;
