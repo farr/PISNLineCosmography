@@ -182,6 +182,13 @@ def init(chain=None):
     zsource = array(zsource)
     dlsource = array(dlsource)
 
+    # If any m2's come out less than 5, correct them.
+    m2source[m2source < 5] = 5 + 0.1*rand(count_nonzero(m2source < 5))
+
+    # Now that we've corrected m2sources, we might have m1 < m2, so fix that, too
+    s = m1source < m2source
+    m1source[s] = m2source[s] + 1*rand(count_nonzero(s))
+
     m2frac = (m2source - 5)/(m1source - 5)
 
     MMax = np.max(m1source) + 2*rand()
