@@ -9,11 +9,11 @@ from pylab import *
 from argparse import ArgumentParser
 import arviz as az
 import astropy.cosmology as cosmo
-from astropy.cosmology import Planck15
 import astropy.units as u
 from corner import corner
 import h5py
 import pystan
+from scipy.interpolate import interp1d
 from scipy.stats import gaussian_kde
 import sys
 from tqdm import tqdm
@@ -153,7 +153,59 @@ d = {
     'cosmo_prior': 1 if args.cosmo_prior else 0
 }
 
-f = m.sampling(data=d, iter=2*args.iter)
+def init(chain=None):
+    H0 = 70 + 5*randn()
+    Om = 0.3 + 0.05*randn()
+    w = -1 + 0.1*randn()
+    w_a = 0 + 0.1*randn()
+
+    z = expm1(linspace(log(1), log(5+1), 1000))
+    c = cosmo.w0waCDM(H0*u.km/u.s/u.Mpc, Om, 1-Om, w, w_a)
+    d = c.luminosity_distance(z).to(u.Gpc).value
+
+    z_of_d = interp1d(d, z)
+
+    m1source = []
+    m2source = []
+    zsource = []
+    dlsource = []
+
+    for i in range(nobs):
+        j = randint(m1[i].shape[0])
+        dlsource.append(dl[i][j])
+        zsource.append(z_of_d(dl[i][j]))
+        m1source.append(m1[i][j]/(1+zsource[-1]))
+        m2source.append(m2[i][j]/(1+zsource[-1]))
+
+    m1source = array(m1source)
+    m2source = array(m2source)
+    zsource = array(zsource)
+    dlsource = array(dlsource)
+
+    m2frac = (m2source - 5)/(m1source - 5)
+
+    MMax = np.max(m1source) + 2*rand()
+    alpha = 0.75 + 0.2*randn()
+    beta = 0.0 + 0.2*randn()
+    gamma = 3 + 0.1*randn()
+
+    return {
+        'H0': H0,
+        'Omh2': Om*(H0/100)**2,
+        'w': w,
+        'w_a': w_a,
+
+        'MMax': MMax,
+        'alpha': alpha,
+        'beta': beta,
+        'gamma': gamma,
+
+        'm1s': m1source,
+        'm2_frac': m2frac,
+        'zs': zsource
+    }
+
+f = m.sampling(data=d, iter=2*args.iter, init=init)
 fit = f.extract(permuted=True)
 
 print(f)
