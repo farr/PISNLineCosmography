@@ -71,7 +71,7 @@ functions {
     real opz2 = opz*opz;
     real opz3 = opz2*opz;
 
-    return sqrt(Om*opz3 + (1.0-Om)*opz^(3*(1+ w + w_a))*exp(-3*w_a*z/opz));
+    return sqrt(Om*opz3 + (1.0-Om)*opz^(3*(1 + w + w_a))*exp(-3*w_a*z/opz));
   }
 
   real dzddL(real dl, real z, real dH, real Om, real w, real w_a) {
