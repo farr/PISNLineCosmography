@@ -1,4 +1,18 @@
 functions {
+  vector to_unconstrained(real m1, real m2, real dl) {
+    real f2 = m2/m1;
+    return to_vector({log(m1), logit(f2), log(dl)});
+  }
+
+  vector to_constrained(vector x) {
+    real m1 = exp(x[1]);
+    real f2 = inv_logit(x[2]);
+    real m2 = f2*m1;
+    real dl = exp(x[3]);
+
+    return to_vector({m1, m2, dl});
+  }
+
   int searchsorted(real x, real[] xs) {
     int n = size(xs);
     int l;
@@ -175,8 +189,34 @@ transformed data {
   matrix[3,3] chol_bw[nobs];
   real zmax = zinterp[ninterp];
 
+  vector[3] mu[nobs];
+  matrix[3,3] chol_sigma[nobs];
+
   for (i in 1:nobs) {
     chol_bw[i] = cholesky_decompose(bw[i]);
+  }
+
+  for (i in 1:nobs) {
+    vector[3] pts[nsamp];
+
+    for (j in 1:nsamp) {
+      pts[j] = to_unconstrained(m1obs[i,j], m2obs[i,j], dlobs[i,j]);
+    }
+
+    mu[i] = rep_vector(0.0, 3);
+    chol_sigma[i] = rep_matrix(0.0, 3,3);
+
+    for (j in 1:nsamp) {
+      mu[i] = mu[i] + pts[j];
+    }
+    mu[i] = mu[i] / nsamp;
+
+    for (j in 1:nsamp) {
+      vector[3] x = pts[j] - mu[i];
+      chol_sigma[i] = chol_sigma[i] + x*x';
+    }
+    chol_sigma[i] = chol_sigma[i] / nsamp;
+    chol_sigma[i] = cholesky_decompose(chol_sigma[i]);
   }
 }
 
@@ -187,27 +227,24 @@ parameters {
   real<lower=-1, upper=1> w_a;
 
 //  real<lower=3, upper=10> MMin;
-  real<lower=30, upper=150> MMax;
+  real<lower=0, upper=10> dMMax;
   real<lower=-5, upper=3> alpha;
   real<lower=-3, upper=3> beta;
   real<lower=-1, upper=7> gamma;
 
-  real<lower=MMin, upper=MMax> m1s[nobs];
-  real<lower=0, upper=1> m2_frac[nobs];
-  real<lower=0, upper=zmax> zs[nobs];
+  vector[3] punit[nobs];
 }
 
 transformed parameters {
+  real MMax;
+  real m1s[nobs];
   real m2s[nobs];
   real dls[nobs];
+  real zs[nobs];
   real dH = 4.42563416002 * (67.74/H0);
   real Om = Omh2/(H0/100)^2;
   real mu_det;
   real neff_det;
-
-  for (i in 1:nobs) {
-    m2s[i] = MMin + (m1s[i]-MMin)*m2_frac[i];
-  }
 
   {
     real dlinterp[ninterp];
@@ -225,6 +262,20 @@ transformed parameters {
     real sigma_rel;
 
     dlinterp = dls_of_zs(zinterp, dH, Om, w, w_a);
+
+    for (i in 1:nobs) {
+      vector[3] x = mu[i] + chol_sigma[i]*punit[i];
+      vector[3] y = to_constrained(x);
+
+      dls[i] = y[3];
+      zs[i] = interp1d(dls[i], dlinterp, zinterp);
+      m1s[i] = y[1]/(1+zs[i]);
+      m2s[i] = y[2]/(1+zs[i]);
+
+      if (m2s[i] < MMin) reject("masses smaller than MMin");
+    }
+
+    MMax = max(m1s) + dMMax;
 
     for (i in 1:nsel) {
       zsel[i] = interp1d(dlsel[i], dlinterp, zinterp);
@@ -263,8 +314,7 @@ model {
   real log_pop_nojac[nobs];
   real log_pop_jac[nobs];
 
-  MMin ~ normal(5, 2);
-  MMax ~ normal(50, 15);
+  MMax ~ normal(50, 15); /* Imposes a prior on dMMax, since these are linearly related. */
 
   if (cosmo_prior == 0) {
     H0 ~ normal(70, 15);
@@ -288,7 +338,18 @@ model {
     real log_dNs_jac[nobs];
 
     for (i in 1:nobs) {
-      log_dNs_jac[i] = log_dNs_nojac[i] + log(m1s[i]-MMin);
+      /* population is dN/dm1dm2dz; we need to transform into the unconstrained space:
+
+      dN/dm1dm2dz -> dN/dm1dm2dz * dm1/dm1obs * dm2/dm2obs * dz/ddl * dm1obs/dx[1] * dm2obs/dx[2] * ddl/dx[3]
+
+      The only hard calculation is dm2obs/dx[2]:
+
+      dm2obs/dx[2] = dm2obs / df df/dx[2] = m1obs (m2obs/m1obs)*(1-m2obs/m1obs) = m2obs*(1-m2obs/m1obs) = m2obs*(1-m2/m1)
+
+      -> dN/dm1dm2dz 1/(1+z)^2 dz/ddl m1obs m2obs dl (1-m2/m1)
+      */
+
+      log_dNs_jac[i] = log_dNs_nojac[i] + log(m1s[i]) + log(m2s[i]) + log(dls[i]) + log(dzddL(dls[i], zs[i], dH, Om, w, w_a)) + log1p(-m2s[i]/m1s[i]);
     }
 
     target += sum(log_dNs_jac);
