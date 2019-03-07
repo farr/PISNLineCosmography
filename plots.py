@@ -73,11 +73,11 @@ def interval_string(d, prefix='', postfix='', f=0.68):
 
     return prefix + '{:g}^{{+{:g}}}_{{-{:g}}}'.format(m, dh, dl) + postfix
 
-def Hz(z, H0, Om, w):
-    return H0*np.sqrt(Om*(1+z)**3 + (1.0-Om)*(1+z)**(3*(1+w)))
+def Hz(z, H0, Om, w, w_a):
+    return H0*np.sqrt(Om*(1+z)**3 + (1.0-Om)*(1+z)**(3*(1+w+w_a))*exp(-3*w_a*z/(1+z)))
 
 def load_chains(f, select_subset=None):
-    names = ['H0', 'Om', 'w', 'R0', 'MMin', 'MMax', 'alpha', 'beta', 'gamma', 'sigma_low', 'sigma_high', 'mu_det', 'neff_det', 'm1', 'm2', 'dl', 'z', 'neff']
+    names = ['H0', 'Om', 'w', 'w_a', 'R0', 'MMax', 'alpha', 'beta', 'gamma', 'neff_det', 'm1s', 'm2s', 'dls', 'zs']
 
     c = {}
 
@@ -98,32 +98,20 @@ def load_chains(f, select_subset=None):
         c['nobs'] = nobs
     return c
 
-def check_neff_posterior(c, nlow=16, nhigh=64, ndesired=32):
-    ne = percentile(c['neff'], 2.5, axis=(0,1))
-
-    toosmall = ne < nlow
-    toobig = ne > nhigh
-
-    adjfactor = ndesired/ne
-
-    return (toosmall, toobig, adjfactor)
-
 def traceplot(c):
     fit = az.convert_to_inference_data(c)
 
     lines = (('H0', {}, true_params['H0']),
              ('Om', {}, true_params['Om']),
              ('w', {}, true_params['w']),
+             ('w_a', {}, true_params['w_a']),
              ('R0', {}, true_params['R0']),
-             ('MMin', {}, true_params['MMin']),
              ('MMax', {}, true_params['MMax']),
              ('alpha', {}, true_params['alpha']),
              ('beta', {}, true_params['beta']),
-             ('gamma', {}, true_params['gamma']),
-             ('sigma_low', {}, true_params['sigma_low']),
-             ('sigma_high', {}, true_params['sigma_high']))
+             ('gamma', {}, true_params['gamma']))
 
-    az.plot_trace(fit, var_names=['H0', 'Om', 'w', 'R0', 'MMin', 'MMax', 'alpha', 'beta', 'gamma', 'sigma_low', 'sigma_high'], lines=lines)
+    az.plot_trace(fit, var_names=['H0', 'Om', 'w', 'w_a', 'R0', 'MMax', 'alpha', 'beta', 'gamma'], lines=lines)
 
 def neff_det_check_plot(c):
     fit = az.convert_to_inference_data(c)
@@ -133,35 +121,21 @@ def neff_det_check_plot(c):
     xlabel(r'$N_\mathrm{eff}$')
     ylabel(r'$p\left( N_\mathrm{eff} \right)$')
 
-    nobs = c['m1'].shape[2]
+    nobs = c['m1s'].shape[2]
     axvline(4*nobs)
 
     nemin = percentile(c['neff_det'], 2.5)
     title(r'Two-sigma lower $N_\mathrm{{eff}}$ is factor {:.2f} above limit'.format(nemin/(4*nobs)))
 
-def neff_check_plot(c):
-    fit = az.convert_to_inference_data(c)
-
-    az.plot_forest(c, var_names=['neff'])
-
-    xlabel(r'Effective Posterior Samples')
-    xscale('log')
-    axvline(16)
-
 def cosmo_corner_plot(c, *args, **kwargs):
     fit = az.convert_to_inference_data(c)
 
-    az.plot_pair(fit, var_names=['H0', 'Om', 'w'], kind='kde')
+    az.plot_pair(fit, var_names=['H0', 'Om', 'w', 'w_a'], kind='kde')
 
 def pop_corner_plot(c, *args, **kwargs):
     fit = az.convert_to_inference_data(c)
 
-    az.plot_pair(fit, var_names=['R0', 'MMin', 'MMax', 'alpha', 'beta', 'gamma'], kind='kde')
-
-def mass_corner_plot(c, *args, **kwargs):
-    fit = az.convert_to_inference_data(c)
-
-    az.plot_pair(fit, var_names=['MMin', 'MMax', 'alpha', 'beta', 'sigma_low', 'sigma_high'], kind='kde')
+    az.plot_pair(fit, var_names=['R0', 'MMax', 'alpha', 'beta', 'gamma'], kind='kde')
 
 def H0_plot(c, *args, **kwargs):
     fit = az.convert_to_inference_data(c)
@@ -177,6 +151,25 @@ def w_plot(c, *args, **kwargs):
 
     az.plot_posterior(fit, var_names=['w'])
 
+def w_wa_plot(c, *args, **kwargs):
+    fit = az.convert_to_inference_data(c)
+
+    az.plot_pair(fit, var_names=['w', 'w_a'], kind='kde')
+
+    samps = column_stack((c['w'].flatten(), c['w_a'].flatten()))
+    cm = cov(samps, rowvar=False)
+
+    evals, evecs = np.linalg.eigh(cm)
+
+    sigma_w_p = sqrt(evals[0])
+    ev = evecs[:,0]
+    oma = ev[1]/ev[0]
+    a = 1-oma
+    z = 1/a-1
+    w_p = mean(ev[0]*c['w'].flatten() + ev[1]*c['w_a'].flatten())/ev[0]
+
+    title('w_p = {:.2f} +/- {:.2f} at z_p = {:.2f}'.format(w_p, sigma_w_p, z))
+
 def MMax_plot(c, *args, **kwargs):
     fit = az.convert_to_inference_data(c)
 
@@ -191,9 +184,9 @@ def Hz_plot(c, *args, color=None, draw_tracks=True, label=None, **kwargs):
 
     zs = linspace(0, 2, 1000)
 
-    plot(zs, Hz(zs, Planck15.H0.to(u.km/u.s/u.Mpc).value, Planck15.Om0, -1), '-k')
+    plot(zs, Hz(zs, Planck15.H0.to(u.km/u.s/u.Mpc).value, Planck15.Om0, -1, 0), '-k')
 
-    Hs = Hz(zs[newaxis,:], c['H0'].flatten()[:,newaxis], c['Om'].flatten()[:,newaxis], c['w'].flatten()[:,newaxis])
+    Hs = Hz(zs[newaxis,:], c['H0'].flatten()[:,newaxis], c['Om'].flatten()[:,newaxis], c['w'].flatten()[:,newaxis], c['w_a'].flatten()[:,newaxis])
 
     m = median(Hs, axis=0)
     l = percentile(Hs, 16, axis=0)
@@ -212,12 +205,14 @@ def Hz_plot(c, *args, color=None, draw_tracks=True, label=None, **kwargs):
         hs = c['H0'].flatten()
         Oms = c['Om'].flatten()
         ws = c['w'].flatten()
+        was = c['w_a'].flatten()
         for i in np.random.choice(len(hs), size=10, replace=False):
             h = hs[i]
             Om = Oms[i]
             w = ws[i]
+            w_a = was[i]
 
-            plot(zs, Hz(zs, h, Om, w), color=color, alpha=0.25)
+            plot(zs, Hz(zs, h, Om, w, w_a), color=color, alpha=0.25)
 
     xlabel(r'$z$')
     ylabel(r'$H(z)$ ($\mathrm{km} \, \mathrm{s}^{-1} \, \mathrm{Mpc}^{-1}$)')
@@ -225,8 +220,8 @@ def Hz_plot(c, *args, color=None, draw_tracks=True, label=None, **kwargs):
     return zs, Hs
 
 def mass_correction_plot(c):
-    errorbar(mean(c['z'], axis=(0,1)), mean(c['m1'],axis=(0,1)), yerr=std(c['m1'], axis=(0,1)), xerr=std(c['z'], axis=(0,1)), fmt='.')
-    zs = linspace(0, np.max(c['z']), 100)
+    errorbar(mean(c['zs'], axis=(0,1)), mean(c['m1s'],axis=(0,1)), yerr=std(c['m1s'], axis=(0,1)), xerr=std(c['zs'], axis=(0,1)), fmt='.')
+    zs = linspace(0, np.max(c['zs']), 100)
     plot(zs, median(c['MMax'])*ones_like(zs), color=sns.color_palette()[0])
     fill_between(zs, percentile(c['MMax'], 84)*ones_like(zs), percentile(c['MMax'], 16)*ones_like(zs), color=sns.color_palette()[0], alpha=0.25)
     fill_between(zs, percentile(c['MMax'], 97.5)*ones_like(zs), percentile(c['MMax'], 2.5)*ones_like(zs), color=sns.color_palette()[0], alpha=0.25)
@@ -246,11 +241,12 @@ def post_process(f, select_subset=None):
 
     cosmo_corner_plot(c)
     pop_corner_plot(c)
-    mass_corner_plot(c)
 
     H0_plot(c)
 
     w_plot(c)
+
+    w_wa_plot(c)
 
     MMax_plot(c)
     title(interval_string(c['MMax'].flatten(), prefix=r'$M_\mathrm{max} = ', postfix=' \, M_\odot$'))
