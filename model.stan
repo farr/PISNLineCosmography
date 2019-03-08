@@ -185,7 +185,6 @@ data {
 }
 
 transformed data {
-  real MMin = 5.0;
   matrix[3,3] chol_bw[nobs];
   real zmax = zinterp[ninterp];
 
@@ -226,7 +225,7 @@ parameters {
   real<lower=-2,upper=0> w;
   real<lower=-1, upper=1> w_a;
 
-//  real<lower=3, upper=10> MMin;
+  real<lower=0, upper=1> dMMin;
   real<lower=0, upper=10> dMMax;
   real<lower=-5, upper=3> alpha;
   real<lower=-3, upper=3> beta;
@@ -236,6 +235,7 @@ parameters {
 }
 
 transformed parameters {
+  real MMin;
   real MMax;
   real m1s[nobs];
   real m2s[nobs];
@@ -271,11 +271,12 @@ transformed parameters {
       zs[i] = interp1d(dls[i], dlinterp, zinterp);
       m1s[i] = y[1]/(1+zs[i]);
       m2s[i] = y[2]/(1+zs[i]);
-
-      if (m2s[i] < MMin) reject("masses smaller than MMin");
     }
 
+    MMin = min(m2s) - dMMin;
     MMax = max(m1s) + dMMax;
+
+    if (MMin < 0.0) reject("Minimum mass cannot go below zero.")
 
     for (i in 1:nsel) {
       zsel[i] = interp1d(dlsel[i], dlinterp, zinterp);
@@ -314,6 +315,7 @@ model {
   real log_pop_nojac[nobs];
   real log_pop_jac[nobs];
 
+  MMin ~ normal(5, 2); /* Imposes a prior on dMMin, since these are linearly related. */
   MMax ~ normal(50, 15); /* Imposes a prior on dMMax, since these are linearly related. */
 
   if (cosmo_prior == 0) {
