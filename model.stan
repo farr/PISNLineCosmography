@@ -308,7 +308,7 @@ transformed parameters {
 
     neff_det = 1.0/sigma_rel2;
 
-    /* if (neff_det < 4.0*nobs) reject("need more samples for selection integral"); */
+    if (neff_det < 4.4*nobs) reject("need more samples for selection integral");
 
     for (i in 1:nobs) {
       dls[i] = interp1d(zs[i], zinterp, dlinterp);
