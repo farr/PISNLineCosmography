@@ -189,9 +189,11 @@ def init(chain=None):
     s = m1source < m2source
     m1source[s] = m2source[s] + 1*rand(count_nonzero(s))
 
-    m2frac = (m2source - 5)/(m1source - 5)
-
+    MMin = np.min(m2source) - 0.5*rand()
     MMax = np.max(m1source) + 2*rand()
+
+    m2frac = (m2source - MMin)/(m1source - MMin)
+
     alpha = 0.75 + 0.2*randn()
     beta = 0.0 + 0.2*randn()
     gamma = 3 + 0.1*randn()
@@ -199,9 +201,10 @@ def init(chain=None):
     return {
         'H0': H0,
         'Omh2': Om*(H0/100)**2,
-        'w': w,
+        'w_p': w,
         'w_a': w_a,
 
+        'MMin': MMin,
         'MMax': MMax,
         'alpha': alpha,
         'beta': beta,
