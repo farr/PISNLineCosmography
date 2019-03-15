@@ -4,7 +4,7 @@ from astropy.cosmology import Planck15
 import astropy.units as u
 
 true_params = {
-    'R0': 100.0, # Gpc^-3 yr^-1
+    'R0': 60.0, # Gpc^-3 yr^-1
     'alpha': 0.75,
     'beta': 0.0,
     'gamma': 3.0,
@@ -18,9 +18,9 @@ true_params = {
 
 uncert = {
     'threshold_snr': 8,
-    'Theta': 0.15,
-    'mc': 0.017,
-    'eta': 0.017
+    'Theta': 0.05,
+    'mc': 0.03,
+    'eta': 0.005
 }
 
 ifo = {
