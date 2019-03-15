@@ -308,8 +308,6 @@ transformed parameters {
 
     neff_det = 1.0/sigma_rel2;
 
-    if (neff_det < 4.4*nobs) reject("need more samples for selection integral");
-
     for (i in 1:nobs) {
       dls[i] = interp1d(zs[i], zinterp, dlinterp);
     }
@@ -319,6 +317,19 @@ transformed parameters {
 model {
   real log_pop_nojac[nobs];
   real log_pop_jac[nobs];
+
+  /* The code below leaves the posterior un-modified as long as neff_det >
+     5*nobs.  For 4*nobs < neff_det < 5*nobs, it introduces a factor f in
+     [0,1] that tapers the posterior smoothly to zero at neff_det = 4*nobs, where the
+     analytic marginalization over the selection integral breaks down. */
+  if (neff_det > 5*nobs) {
+    /* Totally safe */
+  } else if (neff_det > 4*nobs) {
+    /* Smoothly cut off the log-density: log(0) at 4*nobs, log(1) at 5*nobs */
+    target += log_smoothing_factor(neff_det, 5*nobs, 4*nobs);
+  } else {
+    reject("need more samples for selection integral");
+  }
 
   MMin ~ normal(5, 2); /* Imposes a prior on dMMin, since these are linearly related. */
   MMax ~ normal(50, 15); /* Imposes a prior on dMMax, since these are linearly related. */
