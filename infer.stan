@@ -63,8 +63,8 @@ transformed data {
 }
 
 parameters {
-  real<lower=0> mc;
-  real<lower=0, upper=0.249> eta;
+  real<lower=minterp_min, upper=minterp_max> m1;
+  real<lower=minterp_min, upper=m1> m2;
   real<lower=0, upper=dL_max> dL;
 
   /* These are the vectors that go into Theta.  We employ a trick for the
@@ -80,20 +80,16 @@ parameters {
 }
 
 transformed parameters {
-  real m1;
-  real m2;
+  real mc;
+  real eta;
   real opt_snr;
 
   real theta;
 
   {
-    real mt = mc / eta^(3.0/5.0);
-    real m1m2 = eta * mt * mt;
-    real disc = mt*mt - 4.0*m1m2;
-    real srt_disc = sqrt(disc);
-
-    m1 = 0.5*(mt + srt_disc)
-    m2 = 0.5*(mt - srt_disc);
+    real mt = m1+m2;
+    eta = m1*m2/(mt*mt);
+    mc = mt*eta^(3.0/5.0);
   }
 
   opt_snr = interp2d(m1, m2, ms, ms, opt_snrs)/dL;
@@ -117,10 +113,7 @@ transformed parameters {
 }
 
 model {
-  /* Flat priors on m1, m2, means we need a Jacobian |d(m1,m2)/d(mc, eta)|. */
-  target += log(m1) + log(m2) - log(m1-m2) - 8.0/5.0*log(eta);
-
-  /* Flat prior in dL, population prior in theta. */
+  /* Flat prior in m1, m2, dL, population prior in theta. */
 
   /* Observations; for some reason the ``T[a,b]`` truncation statements cause
   /* trouble, so we have explicit CDF adjustments. */
