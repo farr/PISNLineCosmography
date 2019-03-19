@@ -10,7 +10,7 @@ true_params = {
     'beta': 0.0,
     'gamma': 3.0,
     'MMin': 5.0, # MSun
-    'MMax': 50.0, # MSun
+    'MMax': 40.0, # MSun
     'H0': Planck15.H0.to(u.km/u.s/u.Mpc).value, # km/s/Mpc
     'Om': Planck15.Om0,
     'w': -1.0,
