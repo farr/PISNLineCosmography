@@ -206,6 +206,8 @@ def init(chain=None):
 
         'MMin': MMin,
         'MMax': MMax,
+        'MLow2Sigma': 0.9*MMin,
+        'MHigh2Sigma': 1.1*MMax,
         'alpha': alpha,
         'beta': beta,
         'gamma': gamma,
