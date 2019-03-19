@@ -286,7 +286,7 @@ model {
 
   alpha ~ normal(1, 2);
   beta ~ normal(0, 2);
-  gamma ~ normal(3, 2);
+  gamma ~ normal(1.5, 1.5);
 
   /* Population */
   {
