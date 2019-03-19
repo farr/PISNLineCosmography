@@ -56,13 +56,19 @@ functions {
     return sum(0.5 * (vxs[2:] - vxs[:n-1]) .* (vys[2:] + vys[:n-1]));
   }
 
-  real log_power_law_norm(real a, real l, real h) {
-    if (a > -1) {
-      real opa = 1.0 + a;
-      return opa*log(h) + log1p(-(l/h)^opa) - log1p(a);
+  real log_smoothing_factor(real x, real x0, real x1, real s0, real s1) {
+    if (x <= x0) {
+      real n = log(x)-log(x0);
+      real d = s0;
+
+      return -0.5*n*n/(d*d);
+    } else if (x > x1) {
+      real n = log(x) - log(x1);
+      real d = s1;
+
+      return -0.5*n*n/(d*d);
     } else {
-      real opa = 1.0 + a;
-      return opa*log(l) + log1p(-(h/l)^(opa)) - log(-opa);
+      return 0.0;
     }
   }
 
@@ -81,49 +87,18 @@ functions {
     return 1.0/(dl/opz + opz*dH/Ez(z, Om, z_p, w_p, w_a));
   }
 
-  /* For x between A and B, this factor is 1 when x == A, 0 when x == B, and
-  /* smooth at both ends. */
-  real log_smoothing_factor(real x, real A, real B) {
-    real Bmx = B - x;
-    real AmB = A - B;
-    return log((3.0*A - B - 2.0*x)*Bmx*Bmx/(AmB*AmB*AmB));
-  }
-
-  real[] log_dNdm1dm2dzdt_norm(real[] m1s, real[] m2s, real[] dls, real[] zs, real MMin, real MMax, real alpha, real beta, real gamma, real dH, real Om, real z_p, real w_p, real w_a) {
+  real[] log_dNdm1dm2dzdt_norm(real[] m1s, real[] m2s, real[] dls, real[] zs, real MMin, real MMax, real smin, real smax, real alpha, real beta, real gamma, real dH, real Om, real z_p, real w_p, real w_a) {
     int n = size(m1s);
-    real log_norm_alpha = log_power_law_norm(-alpha, MMin, MMax);
     real log_4pi_dH = log(4.0*pi()*dH);
     real log_dNs[n];
-    real smin = 0.1;
-    real smax = 0.5;
+    real m0 = 30.0;
+    real logm0 = log(m0);
 
     for (i in 1:n) {
-      if ((MMin < m2s[i]) && (m2s[i] < m1s[i]) && (m1s[i] < MMax)) {
-        real log_norm_beta = log_power_law_norm(beta, MMin, m1s[i]);
-        real s1;
-        real s2;
+      real s1 = log_smoothing_factor(m1s[i], MMin, MMax, smin, smax);
+      real s2 = log_smoothing_factor(m2s[i], MMin, MMax, smin, smax);
 
-        /* Smooth over m1 when it gets close to either MMin or MMax */
-        if (m1s[i] < MMin + smin) {
-          s1 = log_smoothing_factor(m1s[i], MMin + smin, MMin);
-        } else if (m1s[i] > MMax - smax) {
-          s1 = log_smoothing_factor(m1s[i], MMax - smax, MMax);
-        } else {
-          s1 = 0.0;
-        }
-
-        if (m2s[i] < MMin + smin) {
-          s2 = log_smoothing_factor(m2s[i], MMin + smin, MMin);
-        } else if (m2s[i] > MMax - smax) {
-          s2 = log_smoothing_factor(m2s[i], MMax - smax, MMax);
-        } else {
-          s2 = 0.0;
-        }
-
-        log_dNs[i] = -alpha*log(m1s[i]) + beta*log(m2s[i]) + (gamma-1)*log1p(zs[i]) - log_norm_alpha - log_norm_beta + log_4pi_dH + 2.0*log(dls[i]/(1+zs[i])) - log(Ez(zs[i], Om, z_p, w_p, w_a)) + s1 + s2;
-      } else {
-        log_dNs[i] = negative_infinity();
-      }
+      log_dNs[i] = -alpha*log(m1s[i]/m0) + beta*log(m2s[i]/m0) - 2.0*log(m0) + (gamma-1)*log1p(zs[i]) + log_4pi_dH + 2.0*log(dls[i]/(1+zs[i])) - log(Ez(zs[i], Om, z_p, w_p, w_a)) + s1 + s2;
     }
 
     return log_dNs;
@@ -192,11 +167,13 @@ parameters {
 
   real<lower=3, upper=10> MMin;
   real<lower=30, upper=100> MMax;
+  real<lower=1, upper=MMin*0.98> MLow2Sigma;
+  real<lower=MMax*1.02, upper=150> MHigh2Sigma;
   real<lower=-5, upper=3> alpha;
   real<lower=-3, upper=3> beta;
   real<lower=-1, upper=7> gamma;
 
-  real<lower=MMin, upper=MMax> m1s[nobs];
+  real<lower=0> m1s[nobs];
   real<lower=0, upper=1> m2_fracs[nobs];
   real<lower=0, upper=zmax> zs[nobs];
 }
@@ -204,6 +181,8 @@ parameters {
 transformed parameters {
   real m2s[nobs];
   real dls[nobs];
+  real sigma_min = (log(MMin)-log(MLow2Sigma))/2;
+  real sigma_max = (log(MHigh2Sigma) - log(MMax))/2;
   real w = w_p + (a_p - 1.0)*w_a;
   real dH = 4.42563416002 * (67.74/H0);
   real Om = Omh2/(H0/100)^2;
@@ -229,7 +208,7 @@ transformed parameters {
 
     for (i in 1:nobs) {
       dls[i] = interp1d(zs[i], zinterp, dlinterp);
-      m2s[i] = MMin + (m1s[i] - MMin)*m2_fracs[i];
+      m2s[i] = m1s[i]*m2_fracs[i];
     }
 
     for (i in 1:nsel) {
@@ -238,7 +217,7 @@ transformed parameters {
       m2sel_source[i] = m2sel[i]/(1+zsel[i]);
     }
 
-    log_dN_m_unwt = log_dNdm1dm2dzdt_norm(m1sel_source, m2sel_source, dlsel, zsel, MMin, MMax, alpha, beta, gamma, dH, Om, z_p, w_p, w_a);
+    log_dN_m_unwt = log_dNdm1dm2dzdt_norm(m1sel_source, m2sel_source, dlsel, zsel, MMin, MMax, sigma_min, sigma_max, alpha, beta, gamma, dH, Om, z_p, w_p, w_a);
     for (i in 1:nsel) {
       log_dN[i] = log_dN_m_unwt[i] - 2.0*log1p(zsel[i]) + log(dzddL(dlsel[i], zsel[i], dH, Om, z_p, w_p, w_a)) - log_wtsel[i];
     }
@@ -274,14 +253,24 @@ model {
   if (neff_det > 5*nobs) {
     /* Totally safe */
   } else if (neff_det > 4*nobs) {
-    /* Smoothly cut off the log-density: log(0) at 4*nobs, log(1) at 5*nobs */
-    target += log_smoothing_factor(neff_det, 5*nobs, 4*nobs);
+    /* Smoothly cut off the log-density: scale of cutoff is 0.1*nobs starting at
+    /* 5*nobs down to 4*nobs */
+    real dx = log(neff_det - 4*nobs) - log(nobs);
+    target += -0.5*dx*dx/0.01;
   } else {
     reject("need more samples for selection integral");
   }
 
   MMin ~ normal(5, 2); /* Imposes a prior on dMMin, since these are linearly related. */
   MMax ~ normal(50, 15); /* Imposes a prior on dMMax, since these are linearly related. */
+
+  /* Priors imposed on sigma_min and sigma_max, but sampling in MLow2Sigma,
+  /* MHigh2Sigma, so need Jacobian: d(sigma_low)/d(MLow2Sigma) ~ 1/MLow2Sigma */
+  sigma_min ~ lognormal(log(0.1), log(2));
+  target += -log(MLow2Sigma);
+
+  sigma_max ~ lognormal(log(0.1), log(2));
+  target += -log(MHigh2Sigma);
 
   if (cosmo_prior == 0) {
     H0 ~ normal(70, 15);
@@ -301,13 +290,13 @@ model {
 
   /* Population */
   {
-    real log_dNs_nojac[nobs] = log_dNdm1dm2dzdt_norm(m1s, m2s, dls, zs, MMin, MMax, alpha, beta, gamma, dH, Om, z_p, w_p, w_a);
+    real log_dNs_nojac[nobs] = log_dNdm1dm2dzdt_norm(m1s, m2s, dls, zs, MMin, MMax, sigma_min, sigma_max, alpha, beta, gamma, dH, Om, z_p, w_p, w_a);
     real log_dNs_jac[nobs];
 
     for (i in 1:nobs) {
       /* The density is in m1-m2-z space, but we sample in m1-m2_fracs-z, so
       /* need d(m2)/d(m2_frac) as Jacobian. */
-      log_dNs_jac[i] = log_dNs_nojac[i] + log(m1s[i]-MMin);
+      log_dNs_jac[i] = log_dNs_nojac[i] + log(m1s[i]);
     }
 
     target += sum(log_dNs_jac);
@@ -332,12 +321,12 @@ model {
 }
 
 generated quantities {
-  real R0;
+  real R0_30;
 
   {
     real mu_R0 = nobs/mu_det*(1.0 + nobs/neff_det);
     real sigma_R0 = sqrt(nobs)/mu_det*(1.0 + 1.5*nobs/neff_det);
 
-    R0 = normal_rng(mu_R0, sigma_R0);
+    R0_30 = normal_rng(mu_R0, sigma_R0);
   }
 }

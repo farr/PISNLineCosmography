@@ -5,6 +5,7 @@ import astropy.units as u
 
 true_params = {
     'R0': 60.0, # Gpc^-3 yr^-1
+    'R0_30': 43.88, # R_{0,30} / 30^2 = R_0 p\left( m_1 = 30, m_2 = 30 \right) (to avoid having to normalize the PDF every time)
     'alpha': 0.75,
     'beta': 0.0,
     'gamma': 3.0,

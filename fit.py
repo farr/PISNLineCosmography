@@ -227,15 +227,17 @@ lines = (('H0', {}, true_params['H0']),
          ('w', {}, true_params['w']),
          ('w_p', {}, true_params['w']),
          ('w_a', {}, true_params['w_a']),
-         ('R0', {}, true_params['R0']),
+         ('R0_30', {}, true_params['R0_30']),
          ('MMin', {}, true_params['MMin']),
          ('MMax', {}, true_params['MMax']),
+         ('sigma_min', {}, true_params['sigma_min']),
+         ('sigma_max', {}, true_params['sigma_max']),
          ('alpha', {}, true_params['alpha']),
          ('beta', {}, true_params['beta']),
          ('gamma', {}, true_params['gamma']),
          ('neff_det', {}, 4*nobs))
 
-az.plot_trace(f, var_names=['H0', 'Om', 'w', 'w_p', 'w_a', 'R0', 'MMin', 'MMax', 'alpha', 'beta', 'gamma', 'neff_det'], lines=lines)
+az.plot_trace(f, var_names=['H0', 'Om', 'w', 'w_p', 'w_a', 'R0_30', 'MMin', 'MMax', 'sigma_min', 'sigma_max', 'alpha', 'beta', 'gamma', 'neff_det'], lines=lines)
 savefig(args.tracefile)
 
 with h5py.File(args.chainfile, 'w') as out:
@@ -243,5 +245,5 @@ with h5py.File(args.chainfile, 'w') as out:
     out.attrs['nsel'] = ndet
     out.attrs['nsamp'] = args.nsamp
 
-    for n in ['H0', 'Om', 'w', 'w_p', 'w_a', 'R0', 'MMin', 'MMax', 'alpha', 'beta', 'gamma', 'neff_det', 'm1s', 'm2s', 'dls', 'zs']:
+    for n in ['H0', 'Om', 'w', 'w_p', 'w_a', 'R0_30', 'MMin', 'MMax', 'sigma_min', 'sigma_max', 'alpha', 'beta', 'gamma', 'neff_det', 'm1s', 'm2s', 'dls', 'zs']:
         out.create_dataset(n, data=fit[n], compression='gzip', shuffle=True)
