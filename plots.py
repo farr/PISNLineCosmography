@@ -4,6 +4,7 @@ import arviz as az
 import astropy.cosmology as cosmo
 from astropy.cosmology import Planck15
 import astropy.units as u
+import corner
 import h5py
 from scipy.stats import gaussian_kde, norm
 import seaborn as sns
@@ -132,42 +133,95 @@ def neff_det_check_plot(c):
     title(r'Two-sigma lower $N_\mathrm{{eff}}$ is factor {:.2f} above limit'.format(nemin/(4*nobs)))
 
 def cosmo_corner_plot(c, *args, **kwargs):
-    fit = az.convert_to_inference_data(c)
+    pts = column_stack([c[n].flatten() for n in ['H0', 'Om', 'w', 'w_p', 'w_a']])
 
-    az.plot_pair(fit, var_names=['H0', 'Om', 'w', 'w_p', 'w_a'], kind='kde')
+    fig = figure()
+
+    corner.corner(pts, labels=[r'$H_0$', r'$\Omega_M$', r'$w$', r'$w_p$', r'$w_a$'],
+                  truths=[Planck15.H0.to(u.km/u.s/u.Mpc).value,
+                          Planck15.Om0,
+                          -1,
+                          -1,
+                          0],
+                  quantiles=[0.16, 0.84],
+                  show_titles=True)
 
 def pop_corner_plot(c, *args, **kwargs):
-    fit = az.convert_to_inference_data(c)
+    pts = column_stack([c[n].flatten() for n in ['R0_30', 'MMin', 'MMax', 'sigma_min', 'sigma_max', 'alpha', 'beta', 'gamma']])
 
-    az.plot_pair(fit, var_names=['R0_30', 'MMin', 'MMax', 'sigma_min', 'sigma_max', 'alpha', 'beta', 'gamma'], kind='kde')
+    fig = figure()
+
+    corner.corner(pts,
+                  labels=[r'$R_{0,30}$',
+                          r'$M_\mathrm{min}$',
+                          r'$M_\mathrm{max}$',
+                          r'$\sigma_\mathrm{min}$',
+                          r'$\sigma_\mathrm{max}$',
+                          r'$\alpha$',
+                          r'$\beta$',
+                          r'$\gamma$'],
+                  truths=[true_params['R0_30'],
+                          true_params['MMin'],
+                          true_params['MMax'],
+                          true_params['sigma_min'],
+                          true_params['sigma_max'],
+                          true_params['alpha'],
+                          true_params['beta'],
+                          true_params['gamma']],
+                  quantiles=[0.16, 0.84],
+                  show_titles=True)
 
 def H0_plot(c, *args, **kwargs):
-    fit = az.convert_to_inference_data(c)
+    H0 = c['H0'].flatten()
 
-    az.plot_density(fit, var_names=['H0'], credible_interval=0.99, point_estimate='median')
+    sns.distplot(H0)
+
+    l, h = spd_interval(H0, 0.68)
+    axvline(l, ls='--')
+    axvline(h, ls='--')
     xlabel(r'$H_0$ ($\mathrm{km} \, \mathrm{s}^{-1} \, \mathrm{Mpc}^{-1}$)')
     ylabel(r'$p\left( H_0 \mid d \right)$')
     axvline(Planck15.H0.to(u.km/u.s/u.Mpc).value, color='k')
-    title(interval_string(c['H0'].flatten(), prefix=r'$H_0 = ', postfix=r' \, \mathrm{km} \, \mathrm{s}^{-1} \, \mathrm{Mpc}^{-1}$'))
+    title(interval_string(H0, prefix=r'$H_0 = ', postfix=r' \, \mathrm{km} \, \mathrm{s}^{-1} \, \mathrm{Mpc}^{-1}$'))
 
-def w_plot(c, *args, **kwargs):
-    fit = az.convert_to_inference_data(c)
+def optimal_w_plot(c, *args, **kwargs):
+    w_p = c['w_p'].flatten()
+    w_a = c['w_a'].flatten()
 
-    az.plot_posterior(fit, var_names=['w'])
+    pts = column_stack((w_p, w_a))
+    cm = cov(pts, rowvar=False)
+    evals, evecs = np.linalg.eigh(cm)
 
-def w_wa_plot(c, *args, **kwargs):
-    fit = az.convert_to_inference_data(c)
+    w_p_index = argmax(abs(evecs[0,:])) # Find the one with the largest w_p component
 
-    az.plot_pair(fit, var_names=['w_p', 'w_a'], kind='kde')
+    # Ensure the appropriate component is positive!
+    evecs[:,w_p_index] *= np.sign(evecs[0,w_p_index])
+    evecs[:,1-w_p_index] *= np.sign(evecs[1,1-w_p_index])
 
-    w_p = np.mean(c['w_p'])
-    sigma_w_p = np.std(c['w_p'])
-    title('w_p = {:.2f} +/- {:.2f}'.format(w_p, sigma_w_p))
+    w_p_opts = np.dot(pts, evecs[:,w_p_index])
+    w_a_opts = np.dot(pts, evecs[:,1-w_p_index])
+
+    a_p_0 = 1.0/(1.0+0.7)
+    a_p = a_p_0 - evecs[1,w_p_index]/evecs[0,w_p_index]
+    z_p = 1.0/a_p - 1.0
+
+    fom = 1.0/(std(w_p_opts)*std(w_a_opts))
+
+    fig = figure()
+
+    corner.corner(column_stack((w_p_opts, w_a_opts)),
+                  labels=[r'$w_p$', r'$w_a$'],
+                  quantiles=[0.16, 0.84],
+                  show_titles=True,
+                  truths=[-1.0, 0.0])
+
+    print('FOM = {:.1f} (WARNING: prior FOM = 4)'.format(fom))
+    print('Pivot redshift = {:.2f}'.format(z_p))
 
 def MMax_plot(c, *args, **kwargs):
-    fit = az.convert_to_inference_data(c)
+    MMax = c['MMax'].flatten()
 
-    az.plot_density(fit, var_names=['MMax'], credible_interval=0.99, point_estimate='median')
+    sns.distplot(MMax)
     xlabel(r'$M_\mathrm{max}$ ($M_\odot$)')
     ylabel(r'$p\left( M_\mathrm{max} \right)$')
     axvline(true_params['MMax'], color='k')
@@ -238,9 +292,7 @@ def post_process(f, select_subset=None):
 
     H0_plot(c)
 
-    w_plot(c)
-
-    w_wa_plot(c)
+    optimal_w_plot(c)
 
     MMax_plot(c)
     title(interval_string(c['MMax'].flatten(), prefix=r'$M_\mathrm{max} = ', postfix=' \, M_\odot$'))
