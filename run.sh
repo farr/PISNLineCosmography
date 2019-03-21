@@ -7,7 +7,7 @@ source ~/.bashrc
 source activate
 export PYTHONPATH="$PYTHONPATH:/mnt/home/wfarr/PISNLineCosmography"
 
-NSAMP=32
+NSAMP=64
 
 NSEL=4096
 ./fit.py --sampfile observations.h5 --nsamp $NSAMP --subset small --selfile selected.h5 --nsel $NSEL --chainfile population_small.h5 --tracefile traceplot_small.pdf > logs/small.out 2>&1 &
