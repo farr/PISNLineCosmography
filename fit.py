@@ -111,7 +111,6 @@ nobs = chain['m1det'].shape[0]
 m1 = []
 m2 = []
 dl = []
-bws = []
 
 for i in range(nobs):
     npost = chain['m1det'].shape[1]
@@ -121,11 +120,8 @@ for i in range(nobs):
     m2.append(chain['m2det'][i,s])
     dl.append(chain['dl'][i,s])
 
-    pts = column_stack((chain['m1det'][i,:], chain['m2det'][i,:], chain['dl'][i,:]))
-    bws.append(cov(pts, rowvar=False) / args.nsamp**(2.0/7.0))
-
 ninterp = 500
-zMax = 10
+zMax = 5
 zinterp = expm1(linspace(log(1), log(zMax+1), ninterp))
 
 m = pystan.StanModel(file='model.stan')
@@ -140,7 +136,6 @@ d = {
     'm1obs': m1,
     'm2obs': m2,
     'dlobs': dl,
-    'bw': bws,
 
     'm1sel': m1s_det,
     'm2sel': m2s_det,
@@ -159,40 +154,8 @@ def init(chain=None):
     w = -1 + 0.1*randn()
     w_a = 0 + 0.1*randn()
 
-    z = expm1(linspace(log(1), log(5+1), 1000))
-    c = cosmo.w0waCDM(H0*u.km/u.s/u.Mpc, Om, 1-Om, w, w_a)
-    d = c.luminosity_distance(z).to(u.Gpc).value
-
-    z_of_d = interp1d(d, z)
-
-    m1source = []
-    m2source = []
-    zsource = []
-    dlsource = []
-
-    for i in range(nobs):
-        j = randint(m1[i].shape[0])
-        dlsource.append(dl[i][j])
-        zsource.append(z_of_d(dl[i][j]))
-        m1source.append(m1[i][j]/(1+zsource[-1]))
-        m2source.append(m2[i][j]/(1+zsource[-1]))
-
-    m1source = array(m1source)
-    m2source = array(m2source)
-    zsource = array(zsource)
-    dlsource = array(dlsource)
-
-    # If any m2's come out less than 5, correct them.
-    m2source[m2source < 5] = 5 + 0.1*rand(count_nonzero(m2source < 5))
-
-    # Now that we've corrected m2sources, we might have m1 < m2, so fix that, too
-    s = m1source < m2source
-    m1source[s] = m2source[s] + 1*rand(count_nonzero(s))
-
-    MMin = np.min(m2source) - 0.5*rand()
-    MMax = np.max(m1source) + 2*rand()
-
-    m2frac = (m2source - MMin)/(m1source - MMin)
+    MMin = 5 + 0.1*randn();
+    MMax = 40 + 0.1*randn();
 
     alpha = 0.75 + 0.2*randn()
     beta = 0.0 + 0.2*randn()
@@ -211,10 +174,6 @@ def init(chain=None):
         'alpha': alpha,
         'beta': beta,
         'gamma': gamma,
-
-        'm1s': m1source,
-        'm2_frac': m2frac,
-        'zs': zsource
     }
 
 f = m.sampling(data=d, iter=2*args.iter, init=init)
@@ -247,5 +206,5 @@ with h5py.File(args.chainfile, 'w') as out:
     out.attrs['nsel'] = ndet
     out.attrs['nsamp'] = args.nsamp
 
-    for n in ['H0', 'Om', 'w', 'w_p', 'w_a', 'R0_30', 'MMin', 'MMax', 'sigma_min', 'sigma_max', 'alpha', 'beta', 'gamma', 'neff_det', 'm1s', 'm2s', 'dls', 'zs']:
+    for n in ['H0', 'Om', 'w', 'w_p', 'w_a', 'R0_30', 'MMin', 'MMax', 'sigma_min', 'sigma_max', 'alpha', 'beta', 'gamma', 'neff_det', 'm1s', 'm2s', 'dls', 'zs', 'neff']:
         out.create_dataset(n, data=fit[n], compression='gzip', shuffle=True)

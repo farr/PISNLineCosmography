@@ -135,7 +135,6 @@ data {
   real m1obs[nobs, nsamp];
   real m2obs[nobs, nsamp];
   real dlobs[nobs, nsamp];
-  matrix[3,3] bw[nobs];
 
   real m1sel[nsel];
   real m2sel[nsel];
@@ -151,12 +150,7 @@ data {
 transformed data {
   real z_p = 0.7;
   real a_p = 1.0/(1+z_p);
-  matrix[3,3] chol_bw[nobs];
   real zmax = zinterp[ninterp];
-
-  for (i in 1:nobs) {
-    chol_bw[i] = cholesky_decompose(bw[i]);
-  }
 }
 
 parameters {
@@ -172,15 +166,9 @@ parameters {
   real<lower=-5, upper=3> alpha;
   real<lower=-3, upper=3> beta;
   real<lower=-1, upper=7> gamma;
-
-  real<lower=0> m1s[nobs];
-  real<lower=0, upper=1> m2_fracs[nobs];
-  real<lower=0, upper=zmax> zs[nobs];
 }
 
 transformed parameters {
-  real m2s[nobs];
-  real dls[nobs];
   real sigma_min = (log(MMin)-log(MLow2Sigma))/2;
   real sigma_max = (log(MHigh2Sigma) - log(MMax))/2;
   real w = w_p + (a_p - 1.0)*w_a;
@@ -188,9 +176,9 @@ transformed parameters {
   real Om = Omh2/(H0/100)^2;
   real mu_det;
   real neff_det;
+  real dlinterp[ninterp];
 
   {
-    real dlinterp[ninterp];
     real zsel[nsel];
     real log_dN_m_unwt[nsel];
     real log_dN[nsel];
@@ -205,11 +193,6 @@ transformed parameters {
     real sigma_rel;
 
     dlinterp = dls_of_zs(zinterp, dH, Om, z_p, w_p, w_a);
-
-    for (i in 1:nobs) {
-      dls[i] = interp1d(zs[i], zinterp, dlinterp);
-      m2s[i] = m1s[i]*m2_fracs[i];
-    }
 
     for (i in 1:nsel) {
       zsel[i] = interp1d(dlsel[i], dlinterp, zinterp);
@@ -235,10 +218,6 @@ transformed parameters {
     sigma_rel = sqrt(sigma_rel2);
 
     neff_det = 1.0/sigma_rel2;
-
-    for (i in 1:nobs) {
-      dls[i] = interp1d(zs[i], zinterp, dlinterp);
-    }
   }
 }
 
@@ -288,32 +267,28 @@ model {
   beta ~ normal(0, 2);
   gamma ~ normal(1.5, 1.5);
 
-  /* Population */
-  {
-    real log_dNs_nojac[nobs] = log_dNdm1dm2dzdt_norm(m1s, m2s, dls, zs, MMin, MMax, sigma_min, sigma_max, alpha, beta, gamma, dH, Om, z_p, w_p, w_a);
-    real log_dNs_jac[nobs];
-
-    for (i in 1:nobs) {
-      /* The density is in m1-m2-z space, but we sample in m1-m2_fracs-z, so
-      /* need d(m2)/d(m2_frac) as Jacobian. */
-      log_dNs_jac[i] = log_dNs_nojac[i] + log(m1s[i]);
-    }
-
-    target += sum(log_dNs_jac);
-  }
-
   /* Likelihood */
   for (i in 1:nobs) {
-    real log_ps[nsamp];
-    vector[3] pt = to_vector({m1s[i]*(1+zs[i]), m2s[i]*(1+zs[i]), dls[i]});
+    real log_ps_nojac[nsamp];
+    real log_ps_jac[nsamp];
+    real m1[nsamp];
+    real m2[nsamp];
+    real z[nsamp];
 
     for (j in 1:nsamp) {
-      vector[3] x = to_vector({m1obs[i,j], m2obs[i,j], dlobs[i,j]});
-
-      log_ps[j] = multi_normal_cholesky_lpdf(x | pt, chol_bw[i]);
+      real opz;
+      z[j] = interp1d(dlobs[i,j], dlinterp, zinterp);
+      opz = 1.0+z[j];
+      m1[j] = m1obs[i,j]/opz;
+      m2[j] = m2obs[i,j]/opz;
     }
 
-    target += log_sum_exp(log_ps) - log(nsamp);
+    log_ps_nojac = log_dNdm1dm2dzdt_norm(m1, m2, dlobs[i,:], z, MMin, MMax, sigma_min, sigma_max, alpha, beta, gamma, dH, Om, z_p, w_p, w_a);
+    for (j in 1:nsamp) {
+      log_ps_jac[j] = log_ps_nojac[j] - 2.0*log1p(z[j]) + log(dzddL(dlobs[i,j], z[j], dH, Om, z_p, w_p, w_a));
+    }
+
+    target += log_sum_exp(log_ps_jac) - log(nsamp);
   }
 
   // Normalization term
@@ -322,11 +297,58 @@ model {
 
 generated quantities {
   real R0_30;
+  real m1s[nobs];
+  real m2s[nobs];
+  real dls[nobs];
+  real zs[nobs];
+  real neff[nobs];
 
   {
     real mu_R0 = nobs/mu_det*(1.0 + nobs/neff_det);
     real sigma_R0 = sqrt(nobs)/mu_det*(1.0 + 1.5*nobs/neff_det);
 
     R0_30 = normal_rng(mu_R0, sigma_R0);
+  }
+
+  {
+    for (i in 1:nobs) {
+      real log_ps_nojac[nsamp];
+      real log_ps_jac[nsamp];
+      real m1[nsamp];
+      real m2[nsamp];
+      real z[nsamp];
+      real maxlogp;
+      real r;
+
+      for (j in 1:nsamp) {
+        real opz;
+        z[j] = interp1d(dlobs[i,j], dlinterp, zinterp);
+        opz = 1.0+z[j];
+        m1[j] = m1obs[i,j]/opz;
+        m2[j] = m2obs[i,j]/opz;
+      }
+
+      log_ps_nojac = log_dNdm1dm2dzdt_norm(m1, m2, dlobs[i,:], z, MMin, MMax, sigma_min, sigma_max, alpha, beta, gamma, dH, Om, z_p, w_p, w_a);
+      for (j in 1:nsamp) {
+        log_ps_jac[j] = log_ps_nojac[j] - 2.0*log1p(z[j]) + log(dzddL(dlobs[i,j], z[j], dH, Om, z_p, w_p, w_a));
+      }
+
+      maxlogp = max(log_ps_jac);
+      neff[i] = exp(log_sum_exp(log_ps_jac) - maxlogp);
+      r = uniform_rng(0, neff[i]);
+
+      for (j in 1:nsamp) {
+        real wt = exp(log_ps_jac[j] - maxlogp);
+        if (r < wt) {
+          m1s[i] = m1[j];
+          m2s[i] = m2[j];
+          dls[i] = dlobs[i,j];
+          zs[i] = z[j];
+          break;
+        } else {
+          r = r - wt;
+        }
+      }
+    }
   }
 }
