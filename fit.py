@@ -124,8 +124,8 @@ for i in range(nobs):
     pts = column_stack((chain['m1det'][i,:], chain['m2det'][i,:], chain['dl'][i,:]))
     bws.append(cov(pts, rowvar=False) / args.nsamp**(2.0/7.0))
 
-ninterp = 25
-zMax = 4
+ninterp = 500
+zMax = 10
 zinterp = expm1(linspace(log(1), log(zMax+1), ninterp))
 
 m = pystan.StanModel(file='model.stan')
