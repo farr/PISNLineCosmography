@@ -120,8 +120,8 @@ for i in range(nobs):
     m2.append(chain['m2det'][i,s])
     dl.append(chain['dl'][i,s])
 
-ninterp = 500
-zMax = 5
+ninterp = 1000
+zMax = 10
 zinterp = expm1(linspace(log(1), log(zMax+1), ninterp))
 
 m = pystan.StanModel(file='model.stan')
