@@ -78,7 +78,7 @@ def Hz(z, H0, Om, w, w_a):
     return H0*np.sqrt(Om*(1+z)**3 + (1.0-Om)*(1+z)**(3*(1+w+w_a))*exp(-3*w_a*z/(1+z)))
 
 def load_chains(f, select_subset=None):
-    names = ['H0', 'Om', 'w', 'w_p', 'w_a', 'R0_30', 'MMin', 'MMax', 'sigma_min', 'sigma_max', 'alpha', 'beta', 'gamma', 'neff_det', 'm1s', 'm2s', 'dls', 'zs']
+    names = ['H0', 'Om', 'w', 'w_p', 'w_a', 'R0_30', 'MMin', 'MMax', 'sigma_min', 'sigma_max', 'alpha', 'beta', 'gamma', 'neff_det', 'm1s', 'm2s', 'dls', 'zs', 'neff']
 
     c = {}
 
@@ -131,6 +131,15 @@ def neff_det_check_plot(c):
 
     nemin = percentile(c['neff_det'], 2.5)
     title(r'Two-sigma lower $N_\mathrm{{eff}}$ is factor {:.2f} above limit'.format(nemin/(4*nobs)))
+
+def neff_check_plot(c):
+    m = median(c['neff'], axis=(0,1))
+    h = percentile(c['neff'], 84, axis=(0,1))
+    l = percentile(c['neff'], 16, axis=(0,1))
+
+    i = arange(len(m))
+
+    errorbar(i, m, yerr=row_stack((m-l, h-m)), fmt='.')
 
 def cosmo_corner_plot(c, *args, **kwargs):
     pts = column_stack([c[n].flatten() for n in ['H0', 'Om', 'w', 'w_p', 'w_a']])
@@ -282,7 +291,11 @@ def post_process(f, select_subset=None):
 
     traceplot(c)
 
+    figure()
     neff_det_check_plot(c)
+
+    figure()
+    neff_check_plot(c)
 
     figure()
     Hz_plot(c)
