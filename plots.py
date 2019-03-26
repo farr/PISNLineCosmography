@@ -6,6 +6,8 @@ from astropy.cosmology import Planck15
 import astropy.units as u
 import corner
 import h5py
+from scipy.integrate import cumtrapz
+from scipy.interpolate import interp1d
 from scipy.stats import gaussian_kde, norm
 import seaborn as sns
 from true_params import true_params
@@ -227,6 +229,30 @@ def optimal_w_plot(c, *args, **kwargs):
     print('FOM = {:.1f} (WARNING: prior FOM = 4)'.format(fom))
     print('Pivot redshift = {:.2f}'.format(z_p))
 
+def pure_DE_w_plot(c, *args, **kwargs):
+    pts = row_stack((c['w_p'].flatten(), c['w_a'].flatten()))
+    kde = gaussian_kde(pts)
+
+    ws = linspace(-2, 0, 1000)
+    pws = kde(row_stack((ws, zeros_like(ws))))
+
+    cws = cumtrapz(pws, ws, initial=0)
+    cws /= cws[-1]
+
+    wsamps = interp1d(cws, ws)(rand(4000))
+
+    sns.distplot(wsamps)
+
+    axvline(median(wsamps))
+    axvline(percentile(wsamps, 84), ls='--')
+    axvline(percentile(wsamps, 16), ls='--')
+
+    axvline(-1, color='k')
+
+    xlabel(r'$w_\mathrm{DE}$')
+    ylabel(r'$p\left(w_\mathrm{DE}\right)$')
+    title(r'$w_{{\mathrm{{DE}}}} = {:.2f} \pm {:.2f}$'.format(mean(wsamps), std(wsamps)))
+
 def MMax_plot(c, *args, **kwargs):
     MMax = c['MMax'].flatten()
 
@@ -303,10 +329,16 @@ def post_process(f, select_subset=None):
     cosmo_corner_plot(c)
     pop_corner_plot(c)
 
+    figure()
     H0_plot(c)
 
+    figure()
     optimal_w_plot(c)
 
+    figure()
+    pure_DE_w_plot(c)
+
+    figure()
     MMax_plot(c)
     title(interval_string(c['MMax'].flatten(), prefix=r'$M_\mathrm{max} = ', postfix=' \, M_\odot$'))
 
