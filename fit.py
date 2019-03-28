@@ -15,6 +15,7 @@ import h5py
 import pystan
 from scipy.interpolate import interp1d
 from scipy.stats import gaussian_kde
+from sklearn.mixture import GaussianMixture
 import sys
 from tqdm import tqdm
 
@@ -26,7 +27,7 @@ post.add_argument('--subset', metavar='DESIGNATOR', help='name of the attribute 
 post.add_argument('--event-begin', metavar='N', type=int, help='beginning of range of event indices to analyze')
 post.add_argument('--event-end', metavar='N', type=int, help='end of range of event indices to analyze (not inclusive)')
 post.add_argument('--livetime', metavar='T', type=float, help='live time of event range')
-post.add_argument('--nsamp', metavar='N', default=128, type=int, help='number of samples to use in KDE (default: %(default)s)')
+post.add_argument('--nmix', metavar='N', default=7, type=int, help='number of Gaussians in GMM likelihood approx (default: %(default)s)')
 
 sel = p.add_argument_group('Selection Function Options')
 sel.add_argument('--selfile', metavar='FILE.h5', default='selected.h5', help='file containing records of successful injections for VT estimation (default: %(default)s)')
@@ -108,17 +109,21 @@ ndet = m1s_det.shape[0]
 
 nobs = chain['m1det'].shape[0]
 
-m1 = []
-m2 = []
-dl = []
+gmm_wts = []
+gmm_means = []
+gmm_covs = []
 
-for i in range(nobs):
-    npost = chain['m1det'].shape[1]
+gmm = GaussianMixture(args.nmix)
 
-    s = np.random.choice(chain['m1det'].shape[1], args.nsamp, replace=False)
-    m1.append(chain['m1det'][i,s])
-    m2.append(chain['m2det'][i,s])
-    dl.append(chain['dl'][i,s])
+for i in tqdm(range(nobs), desc='GMM Fitting'):
+    pts = column_stack((chain['m1det'][i,:],
+                        chain['m2det'][i,:],
+                        chain['dl'][i,:]))
+    gmm.fit(pts)
+
+    gmm_wts.append(gmm.weights_)
+    gmm_means.append(gmm.means_)
+    gmm_covs.append(gmm.covariances_)
 
 ninterp = 1000
 zMax = 10
@@ -128,14 +133,14 @@ m = pystan.StanModel(file='model.stan')
 d = {
     'nobs': nobs,
     'nsel': ndet,
-    'nsamp': args.nsamp,
+    'ngmm': args.nmix,
 
     'Tobs': Tobs,
     'N_gen': N_gen,
 
-    'm1obs': m1,
-    'm2obs': m2,
-    'dlobs': dl,
+    'weights': gmm_wts,
+    'means': gmm_means,
+    'covs': gmm_covs,
 
     'm1sel': m1s_det,
     'm2sel': m2s_det,
@@ -148,9 +153,11 @@ d = {
     'cosmo_prior': 1 if args.cosmo_prior else 0
 }
 
+ch = chain
+
 def init(chain=None):
-    H0 = 70 + 5*randn()
-    Om = 0.3 + 0.05*randn()
+    H0 = 70 + 7*randn()
+    Om = 0.3 + 0.03*randn()
     w = -1 + 0.1*randn()
     w_a = 0 + 0.1*randn()
 
@@ -160,6 +167,17 @@ def init(chain=None):
     alpha = 0.75 + 0.2*randn()
     beta = 0.0 + 0.2*randn()
     gamma = 3 + 0.1*randn()
+
+    m1s = []
+    m2_fracs = []
+    zs = []
+    c = cosmo.Flatw0waCDM(H0*u.km/u.s/u.Mpc, Om, w, w_a)
+    for i in range(nobs):
+        print(ch['m1det'])
+        j = randint(ch['m1det'].shape[1])
+        m1s.append(ch['m1det'][i,j])
+        m2_fracs.append(ch['m2det'][i,j]/m1s[-1])
+        zs.append(cosmo.z_at_value(c.luminosity_distance, ch['dl'][i,j]*u.Gpc))
 
     return {
         'H0': H0,
@@ -174,6 +192,10 @@ def init(chain=None):
         'alpha': alpha,
         'beta': beta,
         'gamma': gamma,
+
+        'm1s': m1s,
+        'm2_fracs': m2_fracs,
+        'zs': zs
     }
 
 f = m.sampling(data=d, iter=2*args.iter, init=init)
@@ -204,7 +226,6 @@ savefig(args.tracefile)
 with h5py.File(args.chainfile, 'w') as out:
     out.attrs['nobs'] = nobs
     out.attrs['nsel'] = ndet
-    out.attrs['nsamp'] = args.nsamp
 
-    for n in ['H0', 'Om', 'w', 'w_p', 'w_a', 'R0_30', 'MMin', 'MMax', 'sigma_min', 'sigma_max', 'alpha', 'beta', 'gamma', 'neff_det', 'm1s', 'm2s', 'dls', 'zs', 'neff']:
+    for n in ['H0', 'Om', 'w', 'w_p', 'w_a', 'R0_30', 'MMin', 'MMax', 'sigma_min', 'sigma_max', 'alpha', 'beta', 'gamma', 'neff_det', 'm1s', 'm2s', 'dls', 'zs']:
         out.create_dataset(n, data=fit[n], compression='gzip', shuffle=True)
