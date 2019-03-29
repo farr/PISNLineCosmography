@@ -173,7 +173,6 @@ def init(chain=None):
     zs = []
     c = cosmo.Flatw0waCDM(H0*u.km/u.s/u.Mpc, Om, w, w_a)
     for i in range(nobs):
-        print(ch['m1det'])
         j = randint(ch['m1det'].shape[1])
         m1s.append(ch['m1det'][i,j])
         m2_fracs.append(ch['m2det'][i,j]/m1s[-1])
