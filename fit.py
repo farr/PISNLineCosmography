@@ -38,6 +38,7 @@ copt.add_argument('--cosmo-prior', action='store_true', help='use a prior on H0 
 
 samp = p.add_argument_group('Sampling Options')
 samp.add_argument('--iter', metavar='N', type=int, default=1000, help='number of sampling iterations (equal amount of tuning; default: %(default)s)')
+samp.add_argument('--thin', metavar='N', type=int, default=1, help='thin samples (default: %(default)s)')
 
 oop = p.add_argument_group('Output Options')
 oop.add_argument('--chainfile', metavar='F', default='population.h5', help='output file (default: %(default)s)')
@@ -197,7 +198,7 @@ def init(chain=None):
         'zs': zs
     }
 
-f = m.sampling(data=d, iter=2*args.iter, init=init)
+f = m.sampling(data=d, iter=2*args.iter, init=init, thin=args.thin)
 fit = f.extract(permuted=True)
 
 print(f)
