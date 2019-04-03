@@ -172,7 +172,7 @@ parameters {
   real<lower=30, upper=150> MMax;
   real<lower=1, upper=MMin*0.98> MLow2Sigma;
   real<lower=MMax*1.02, upper=180> MHigh2Sigma;
-  real<lower=-5, upper=3> alpha;
+  real<lower=-5, upper=5> alpha;
   real<lower=-3, upper=3> beta;
   real<lower=-1, upper=7> gamma;
 
