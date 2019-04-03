@@ -14,6 +14,8 @@ true_params = {
     'H0': Planck15.H0.to(u.km/u.s/u.Mpc).value, # km/s/Mpc
     'Om': Planck15.Om0,
     'w': -1.0,
+    'z_p': 0.75,
+    'w_p': -1.0,
     'w_a': 0.0,
     'sigma_min': 0.1,
     'sigma_max': 0.1

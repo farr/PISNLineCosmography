@@ -17,6 +17,7 @@ from scipy.interpolate import interp1d
 from scipy.stats import gaussian_kde
 from sklearn.mixture import GaussianMixture
 import sys
+from true_params import true_params
 from tqdm import tqdm
 
 p = ArgumentParser()
@@ -151,7 +152,9 @@ d = {
     'ninterp': ninterp,
     'zinterp': zinterp,
 
-    'cosmo_prior': 1 if args.cosmo_prior else 0
+    'cosmo_prior': 1 if args.cosmo_prior else 0,
+
+    'z_p': true_params['z_p']
 }
 
 ch = chain
@@ -161,6 +164,10 @@ def init(chain=None):
     Om = 0.3 + 0.03*randn()
     w = -1 + 0.1*randn()
     w_a = 0 + 0.1*randn()
+
+    c = cosmo.Flatw0waCDM(H0*u.km/u.s/u.Mpc, Om, w, w_a)
+
+    Hp = H0 * c.efunc(true_params['z_p'])
 
     MMin = 5 + 0.1*randn();
     MMax = 40 + 0.1*randn();
@@ -172,7 +179,6 @@ def init(chain=None):
     m1s = []
     m2_fracs = []
     zs = []
-    c = cosmo.Flatw0waCDM(H0*u.km/u.s/u.Mpc, Om, w, w_a)
     for i in range(nobs):
         j = randint(ch['m1det'].shape[1])
         m1s.append(ch['m1det'][i,j])
@@ -180,15 +186,15 @@ def init(chain=None):
         zs.append(cosmo.z_at_value(c.luminosity_distance, ch['dl'][i,j]*u.Gpc))
 
     return {
-        'H0': H0,
-        'Omh2': Om*(H0/100)**2,
+        'Hp': Hp,
+        'Om': Om,
         'w_p': w,
         'w_a': w_a,
 
         'MMin': MMin,
         'MMax': MMax,
-        'MLow2Sigma': 0.9*MMin,
-        'MHigh2Sigma': 1.1*MMax,
+        'MLow2Sigma': (0.8 + 0.02*randn())*MMin,
+        'MHigh2Sigma': (1.2 + 0.02*randn())*MMax,
         'alpha': alpha,
         'beta': beta,
         'gamma': gamma,
@@ -204,7 +210,6 @@ fit = f.extract(permuted=True)
 print(f)
 
 # Now that we're done with sampling, let's draw some pretty lines.
-from true_params import true_params
 lines = (('H0', {}, true_params['H0']),
          ('Om', {}, true_params['Om']),
          ('w', {}, true_params['w']),

@@ -145,10 +145,11 @@ data {
   real zinterp[ninterp];
 
   int cosmo_prior;
+
+  real z_p;
 }
 
 transformed data {
-  real z_p = 0.7;
   real a_p = 1.0/(1+z_p);
   real zmax = zinterp[ninterp];
   matrix[3,3] chol_covs[nobs, ngmm];
@@ -163,14 +164,14 @@ transformed data {
 }
 
 parameters {
-  real<lower=35, upper=140> H0;
-  real<lower=0,upper=(H0/100)^2> Omh2;
+  real<lower=50, upper=200> H_p;
+  real<lower=0,upper=1> Om;
   real<lower=-2,upper=0> w_p;
   real<lower=-1, upper=1> w_a;
 
   real<lower=3, upper=10> MMin;
   real<lower=30, upper=150> MMax;
-  real<lower=2.69, upper=MMin*0.98> MLow2Sigma; 
+  real<lower=2.69, upper=MMin*0.98> MLow2Sigma;
   real<lower=MMax*1.02, upper=180> MHigh2Sigma;
   real<lower=-5, upper=5> alpha;
   real<lower=-3, upper=3> beta;
@@ -185,8 +186,9 @@ transformed parameters {
   real sigma_min = (log(MMin)-log(MLow2Sigma))/2;
   real sigma_max = (log(MHigh2Sigma) - log(MMax))/2;
   real w = w_p + (a_p - 1.0)*w_a;
+  real H0 = H_p / Ez(z_p, Om, z_p, w_p, w_a);
+  real Omh2 = Om*(H0/100)^2;
   real dH = 4.42563416002 * (67.74/H0);
-  real Om = Omh2/(H0/100)^2;
   real mu_det;
   real neff_det;
   real m2s[nobs];
@@ -272,13 +274,19 @@ model {
   target += -log(MHigh2Sigma);
 
   if (cosmo_prior == 0) {
+    /* Prior on H0, sample in Hp => Jacobian d(H0)/d(Hp) = 1/E(z) */
     H0 ~ normal(70, 15);
+    target += -log(Ez(z_p, Om, z_p, w_p, w_a));
 
-    /* For H0 = 70, this peaks at Om ~ 0.3, with s.d. 0.15 */
-    Omh2 ~ normal(0.15, 0.15/2.0);
+    Om ~ normal(0.3, 0.15);
   } else {
+    /* See note above on Jacobian. */
     H0 ~ normal(67.74, 0.6774);
+    target += -log(Ez(z_p, Om, z_p, w_p, w_a));
+
+    /* Prior on Om*h^2 from CMB, sample in Om => need Jacobian: d(Om*h^2)/d(Om) = h^2. */
     Omh2 ~ normal(0.02225+0.1198, sqrt(0.00016^2 + 0.0015^2));
+    target += 2.0*log(H0/100.0);
   }
   w_p ~ normal(-1, 0.5);
   w_a ~ normal(0, 0.5);
