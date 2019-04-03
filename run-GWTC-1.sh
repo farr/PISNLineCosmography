@@ -7,8 +7,8 @@ source ~/.bashrc
 source activate
 export PYTHONPATH="$PYTHONPATH:/mnt/home/wfarr/PISNLineCosmography"
 
-NSEL=512
-./fit.py --nmix 9 --sampfile GWTC-1/GWTC-1-observations.h5 --selfile GWTC-1/GWTC-1-selected.h5 --nsel $NSEL --chainfile GWTC-1/GWTC-1-population.h5 --tracefile GWTC-1/GWTC-1-traceplot.pdf > GWTC-1/GWTC-1.out 2>&1 &
-./fit.py --nmix 9 --cosmo-prior --sampfile GWTC-1/GWTC-1-observations.h5 --selfile GWTC-1/GWTC-1-selected.h5 --nsel $NSEL --chainfile GWTC-1/GWTC-1-population_cosmo.h5 --tracefile GWTC-1/GWTC-1-traceplot_cosmo.pdf > GWTC-1/GWTC-1_cosmo.out 2>&1 &
+NSEL=256
+./fit.py --nmix 2 --sampfile GWTC-1/GWTC-1-observations.h5 --selfile GWTC-1/GWTC-1-selected.h5 --nsel $NSEL --chainfile GWTC-1/GWTC-1-population.h5 --tracefile GWTC-1/GWTC-1-traceplot.pdf > GWTC-1/GWTC-1.out 2>&1 &
+./fit.py --nmix 2 --cosmo-prior --sampfile GWTC-1/GWTC-1-observations.h5 --selfile GWTC-1/GWTC-1-selected.h5 --nsel $NSEL --chainfile GWTC-1/GWTC-1-population_cosmo.h5 --tracefile GWTC-1/GWTC-1-traceplot_cosmo.pdf > GWTC-1/GWTC-1_cosmo.out 2>&1 &
 
 wait
