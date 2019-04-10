@@ -150,6 +150,9 @@ data {
 }
 
 transformed data {
+  /* The smoothing scales are set using a Scott's rule KDE bandwidth estimate. */
+  real smooth_low = sd(log(m2sel))/nsel^(1.0/5.0);
+  real smooth_high = sd(log(m1sel))/nsel^(1.0/5.0);
   real a_p = 1.0/(1+z_p);
   real zmax = zinterp[ninterp];
   matrix[3,3] chol_covs[nobs, ngmm];
@@ -161,6 +164,9 @@ transformed data {
       log_weights[i,j] = log(weights[i,j]);
     }
   }
+
+  print("Using low-mass smoothing of ", smooth_low, " or ", smooth_low*5, " MSun");
+  print("Using a high-mass smoothing of ", smooth_high, " or ", smooth_high*45, " MSun");
 }
 
 parameters {
@@ -171,20 +177,16 @@ parameters {
 
   real<lower=3, upper=10> MMin;
   real<lower=30, upper=150> MMax;
-  real<lower=2.69, upper=MMin*0.98> MLow2Sigma;
-  real<lower=MMax*1.02, upper=180> MHigh2Sigma;
   real<lower=-5, upper=5> alpha;
   real<lower=-3, upper=3> beta;
   real<lower=-1, upper=7> gamma;
 
-  real<lower=0> m1s[nobs];
+  real<lower=MMin, upper=MMax> m1s[nobs];
   real<lower=0,upper=1> m2_fracs[nobs];
   real<lower=0> zs[nobs];
 }
 
 transformed parameters {
-  real sigma_min = (log(MMin)-log(MLow2Sigma))/2;
-  real sigma_max = (log(MHigh2Sigma) - log(MMax))/2;
   real w = w_p + (a_p - 1.0)*w_a;
   real H0 = H_p / Ez(z_p, Om, z_p, w_p, w_a);
   real Omh2 = Om*(H0/100)^2;
@@ -212,7 +214,7 @@ transformed parameters {
     dlinterp = dls_of_zs(zinterp, dH, Om, z_p, w_p, w_a);
 
     for (i in 1:nobs) {
-      m2s[i] = m2_fracs[i]*m1s[i];
+      m2s[i] = MMin + m2_fracs[i]*(m1s[i]-MMin);
       dls[i] = interp1d(zs[i], zinterp, dlinterp);
     }
 
@@ -222,7 +224,7 @@ transformed parameters {
       m2sel_source[i] = m2sel[i]/(1+zsel[i]);
     }
 
-    log_dN_m_unwt = log_dNdm1dm2dzdt_norm(m1sel_source, m2sel_source, dlsel, zsel, MMin, MMax, sigma_min, sigma_max, alpha, beta, gamma, dH, Om, z_p, w_p, w_a);
+    log_dN_m_unwt = log_dNdm1dm2dzdt_norm(m1sel_source, m2sel_source, dlsel, zsel, MMin, MMax, smooth_low, smooth_high, alpha, beta, gamma, dH, Om, z_p, w_p, w_a);
     for (i in 1:nsel) {
       log_dN[i] = log_dN_m_unwt[i] - 2.0*log1p(zsel[i]) + log(dzddL(dlsel[i], zsel[i], dH, Om, z_p, w_p, w_a)) - log_wtsel[i];
     }
@@ -265,14 +267,6 @@ model {
   MMin ~ normal(5, 2); /* Imposes a prior on dMMin, since these are linearly related. */
   MMax ~ normal(50, 15); /* Imposes a prior on dMMax, since these are linearly related. */
 
-  /* Priors imposed on sigma_min and sigma_max, but sampling in MLow2Sigma,
-  /* MHigh2Sigma, so need Jacobian: d(sigma_low)/d(MLow2Sigma) ~ 1/MLow2Sigma */
-  sigma_min ~ lognormal(log(0.1), log(2));
-  target += -log(MLow2Sigma);
-
-  sigma_max ~ lognormal(log(0.1), log(2));
-  target += -log(MHigh2Sigma);
-
   if (cosmo_prior == 0) {
     /* Prior on H0, sample in Hp => Jacobian d(H0)/d(Hp) = 1/E(z) */
     H0 ~ normal(70, 15);
@@ -295,11 +289,11 @@ model {
   beta ~ normal(0, 2);
   gamma ~ normal(1.5, 1.5);
 
-  /* Population prior on m1,m2,dl,z */
-  log_pop_nojac = log_dNdm1dm2dzdt_norm(m1s, m2s, dls, zs, MMin, MMax, sigma_min, sigma_max, alpha, beta, gamma, dH, Om, z_p, w_p, w_a);
-  /* We have dN/d(m1)d(m2)d(z)d(t_det) but sample in m2_fracs, not m2, so need d(m2)/d(m2_frac) = m1 */
+  /* Population prior on m1,m2,dl,z; no smoothing required, since we enforce MMin < m2 < m1 < MMax */
+  log_pop_nojac = log_dNdm1dm2dzdt_norm(m1s, m2s, dls, zs, MMin, MMax, 0.0, 0.0, alpha, beta, gamma, dH, Om, z_p, w_p, w_a);
+  /* We have dN/d(m1)d(m2)d(z)d(t_det) but sample in m2_fracs, not m2, so need d(m2)/d(m2_frac) = m1 - MMin */
   for (i in 1:nobs) {
-    log_pop_jac[i] = log_pop_nojac[i] + log(m1s[i]);
+    log_pop_jac[i] = log_pop_nojac[i] + log(m1s[i] - MMin);
   }
   target += sum(log_pop_jac);
 
