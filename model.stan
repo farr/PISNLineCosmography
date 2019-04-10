@@ -150,9 +150,8 @@ data {
 }
 
 transformed data {
-  /* The smoothing scales are set using a Scott's rule KDE bandwidth estimate. */
-  real smooth_low = sd(log(m2sel))/nsel^(1.0/5.0);
-  real smooth_high = sd(log(m1sel))/nsel^(1.0/5.0);
+  real smooth_low = 0.1/5.0; /* Smooth over 0.1 MSun */
+  real smooth_high = 1.0/45.0; /* Smooth over 1 MSun */
   real a_p = 1.0/(1+z_p);
   real zmax = zinterp[ninterp];
   matrix[3,3] chol_covs[nobs, ngmm];
@@ -164,9 +163,6 @@ transformed data {
       log_weights[i,j] = log(weights[i,j]);
     }
   }
-
-  print("Using low-mass smoothing of ", smooth_low, " or ", smooth_low*5, " MSun");
-  print("Using a high-mass smoothing of ", smooth_high, " or ", smooth_high*45, " MSun");
 }
 
 parameters {
