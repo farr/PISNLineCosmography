@@ -80,7 +80,7 @@ def Hz(z, H0, Om, w, w_a):
     return H0*np.sqrt(Om*(1+z)**3 + (1.0-Om)*(1+z)**(3*(1+w+w_a))*exp(-3*w_a*z/(1+z)))
 
 def load_chains(f, select_subset=None):
-    names = ['H0', 'Om', 'w', 'w_p', 'w_a', 'R0_30', 'MMin', 'MMax', 'sigma_min', 'sigma_max', 'alpha', 'beta', 'gamma', 'neff_det', 'm1s', 'm2s', 'dls', 'zs']
+    names = ['H0', 'Om', 'w', 'w_p', 'w_a', 'R0_30', 'MMin', 'MMax', 'alpha', 'beta', 'gamma', 'neff_det', 'm1s', 'm2s', 'dls', 'zs']
 
     c = {}
 
@@ -112,13 +112,11 @@ def traceplot(c):
              ('R0_30', {}, true_params['R0_30']),
              ('MMin', {}, true_params['MMin']),
              ('MMax', {}, true_params['MMax']),
-             ('sigma_max', {}, true_params['sigma_max']),
-             ('sigma_min', {}, true_params['sigma_min']),
              ('alpha', {}, true_params['alpha']),
              ('beta', {}, true_params['beta']),
              ('gamma', {}, true_params['gamma']))
 
-    az.plot_trace(fit, var_names=['H0', 'Om', 'w', 'w_p', 'w_a', 'R0_30', 'MMin', 'MMax', 'sigma_min', 'sigma_max', 'alpha', 'beta', 'gamma'], lines=lines)
+    az.plot_trace(fit, var_names=['H0', 'Om', 'w', 'w_p', 'w_a', 'R0_30', 'MMin', 'MMax', 'alpha', 'beta', 'gamma'], lines=lines)
 
 def neff_det_check_plot(c):
     fit = az.convert_to_inference_data(c)
@@ -149,7 +147,7 @@ def cosmo_corner_plot(c, *args, **kwargs):
                   show_titles=True)
 
 def pop_corner_plot(c, *args, **kwargs):
-    pts = column_stack([c[n].flatten() for n in ['R0_30', 'MMin', 'MMax', 'sigma_min', 'sigma_max', 'alpha', 'beta', 'gamma']])
+    pts = column_stack([c[n].flatten() for n in ['R0_30', 'MMin', 'MMax', 'alpha', 'beta', 'gamma']])
 
     fig = figure()
 
@@ -157,16 +155,12 @@ def pop_corner_plot(c, *args, **kwargs):
                   labels=[r'$R_{0,30}$',
                           r'$M_\mathrm{min}$',
                           r'$M_\mathrm{max}$',
-                          r'$\sigma_\mathrm{min}$',
-                          r'$\sigma_\mathrm{max}$',
                           r'$\alpha$',
                           r'$\beta$',
                           r'$\gamma$'],
                   truths=[true_params['R0_30'],
                           true_params['MMin'],
                           true_params['MMax'],
-                          true_params['sigma_min'],
-                          true_params['sigma_max'],
                           true_params['alpha'],
                           true_params['beta'],
                           true_params['gamma']],
