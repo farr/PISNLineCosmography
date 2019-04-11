@@ -4,6 +4,7 @@
 \usepackage{amsmath}
 
 % Commands
+\newcommand{\citationhere}{\textcolor{blue}{CITE}}
 \newcommand{\dd}{\mathrm{d}}
 \newcommand{\diff}[2]{\frac{\dd #1}{\dd #2}}
 \newcommand{\fixme}[1]{\textcolor{red}{#1}}
@@ -22,7 +23,7 @@
 \newcommand{\alphaTrue}{1}
 \newcommand{\fiveYearUncert}{5 \, \kmsMpc}
 \newcommand{\gammaTrue}{3}
-\newcommand{\MSourceMax}{40 \, \MSun}
+\newcommand{\MSourceMax}{45 \, \MSun}
 \newcommand{\MSourceMin}{5 \, \MSun}
 \newcommand{\None}{282}
 \newcommand{\Nfive}{1463}
@@ -59,8 +60,7 @@
 
 \begin{document}
 
-\title{The Pair Instability Supernova Mass Absorption Line: Enabling a Pure
-Gravitational Wave Measurement of the Hubble Constant}
+\title{A Two Percent Measurement }
 
 \author[0000-0003-1540-8562]{Will M. Farr}
 \affiliation{Department of Physics and Astronomy, Stony Brook University, Stony Brook NY 11794, USA}
@@ -77,30 +77,39 @@ Gravitational Wave Measurement of the Hubble Constant}
 
 \begin{abstract}
 %
-  Gravitational interactions are scale-free.  Because of this freedom, there is
-  a perfect degeneracy between the mass scale and redshift of a gravitational
-  wave source; some non-gravitational process is necessary to provide redshift
-  information \citep{Taylor2012,Messenger2012}. \Ac{GW} observations do provide
-  direct information about the luminosity distance of a \ac{GW} source; they are
-  ``standard sirens'' \citep{Schutz1986,Holz2005}  Here we suggest that the
-  \ac{PISN} process, thought to impose a sharp upper-limit on the source-frame
-  mass of \ac{BH} stellar remnants, provides an ``absorption line'' in mass
-  space that permits a statistical measurement of the
-  redshift-luminosity-distance relation using a population of \ac{BBH}
-  inspirals.  Assuming that the intrinsic scatter in the mass upper-limit of the
-  \ac{BH} mass distribution imposed by the \ac{PISN} process is small ($\lesssim
-  \mathrm{few}\,\MSun$), we simulate one and five years of Advanced LIGO
-  \ac{BBH} detections at its design sensitivity with realistic uncertainties in
-  mass and distance measurements and show that analysis of these populations
-  assuming a flat cosmology permits determination of the Hubble relation,
-  $H(z)$, out to redshifts $\sim 1.5$ to $\sim 5\%$ accuracy.  When combined
-  with a percent-level local measurement of the Hubble constant \citep{Chen2017}
-  and a sub-percent constraint on the matter density from CMB measurements
-  \citep{Planck2016}, this permits a $14\%$ measurement of the dark energy
-  equation of state parameter after five years of observations. Observations by
-  future ``third-generation'' \ac{GW} detectors, which can see \ac{BBH} mergers
-  throughout the universe, using this method would permit sub-percent
-  cosmographical measurements within one month of observation.
+  Joint measurements of distance and redshift can be used to constrain the
+  expansion history of the universe and the associated cosmological parameters
+  \citationhere{}. Merging \ac{BBH} systems are standard sirens
+  \citep{Schutz1986,Holz2005}---their gravitational waveform provides direct
+  information about the luminosity distance to the source.  Because gravity is
+  scale-free, there is a perfect degeneracy between the source mass and redshift
+  in the waveform; some non-gravitational information is necessary to break the
+  degenracy and determine the redshift of the source
+  \citep{Schutz1986,Chernoff1993,Finn1996,Wang1997,Holz2005,Dalal2006,Taylor2012,Messenger2012}.
+  Here we suggest that the \ac{PISN}
+  \citep{Heger2002,Belczynski2016,Woosley2017,Spera2017} process, thought to be
+  the source of the observed upper-limit on the \ac{BH} mass in merging \ac{BBH}
+  systems at $\sim \MSourceMax{}$ \citep{O1O2Population}, provides such
+  information and permits a measurement of the redshift-luminosity-distance
+  relation using a population of \ac{BBH} inspirals.  With realistic assumptions
+  about the merger rate \citep{GWTC-1}, a mass distribution incorporating a
+  sharp \ac{PISN} cutoff \citep{O1O2Population}, and measurement uncertainty
+  \citep{Vitale2017} for \ac{BBH} inspirals in the Advanced LIGO and Virgo
+  detectors at design sensitivity \citationhere{}, we simulate five years of
+  \ac{BBH} detections. We show that after one year of operation (\fixme{put date
+  here}) the \ac{BBH} population can constrain $H(z)$ to $\sim 5\%$ at a pivot
+  redshift $z \simeq 0.75$.  After five years the constraint improves to $\sim
+  2\%$.  This measurement relies only on general relativity and the presence of
+  a cutoff mass scale that is approximately fixed or calibrated across cosmic
+  time ($\Delta \MMax \lesssim 1 \, M_\odot$). When combined with a
+  percent-level local measurement of the Hubble constant \citep{Chen2017} and a
+  sub-percent constraint on the physical matter density from CMB measurements
+  \citep{Planck2016}, this permits a $\lesssim 10\%$ measurement of the dark
+  energy equation of state parameter after five years of observations.
+  Observations by future ``third-generation'' \ac{GW} detectors \citationhere{},
+  which can see \ac{BBH} mergers throughout the universe, would permit
+  sub-percent cosmographical measurements to $z \gtrsim 4$ within one month of
+  observation using this method.
 %
 \end{abstract}
 
