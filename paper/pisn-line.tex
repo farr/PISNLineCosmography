@@ -20,15 +20,14 @@
 \newcommand{\msource}{m^\mathrm{source}}
 
 % Quantities
-\newcommand{\alphaTrue}{1}
-\newcommand{\fiveYearUncert}{5 \, \kmsMpc}
-\newcommand{\gammaTrue}{3}
-\newcommand{\MSourceMax}{45 \, \MSun}
-\newcommand{\MSourceMin}{5 \, \MSun}
-\newcommand{\None}{282}
-\newcommand{\Nfive}{1463}
-\newcommand{\oneYearUncert}{10 \, \kmsMpc}
-\newcommand{\RZeroTrue}{100 \, \perGpcyr}
+\newcommand{\MSourceMin}{5 \, M_\odot}
+\newcommand{\MSourceMax}{45 \, M_\odot}
+\newcommand{\OOneOTwoAlpha}{0.4^{+1.3}_{-1.9}}
+\newcommand{\OOneOTwoMergerRate}{65^{+76}_{-34} \, \perGpcyr}
+\newcommand{\SigmaHPvtOneYear}{4\%}
+\newcommand{\SigmaHPvtFiveYear}{1.5\%}
+\newcommand{\SigmaWDEFiveYear}{8\%}
+\newcommand{\zpivot}{0.75}
 
 % units
 \newcommand{\Gpc}{\mathrm{Gpc}}
@@ -52,6 +51,10 @@
 \DeclareAcronym{GW}{
   short = GW,
   long = {gravitational wave}
+}
+\DeclareAcronym{GWTC1}{
+  short = GWTC1,
+  long = {gravitational wave transient catalog 1}
 }
 \DeclareAcronym{PISN}{
   short = PISN,
@@ -85,7 +88,7 @@
   scale-free, there is a perfect degeneracy between the source mass and redshift
   in the waveform; some non-gravitational information is necessary to break the
   degenracy and determine the redshift of the source
-  \citep{Schutz1986,Chernoff1993,Finn1996,Wang1997,Holz2005,Dalal2006,Taylor2012,Messenger2012}.
+  \citep{Schutz1986,Chernoff1993,Finn1996,Wang1997,Holz2005,Dalal2006,Taylor2012,Messenger2012,GW170817-H0}.
   Here we suggest that the \ac{PISN}
   \citep{Heger2002,Belczynski2016,Woosley2017,Spera2017} process, thought to be
   the source of the observed upper-limit on the \ac{BH} mass in merging \ac{BBH}
@@ -96,142 +99,60 @@
   sharp \ac{PISN} cutoff \citep{O1O2Population}, and measurement uncertainty
   \citep{Vitale2017} for \ac{BBH} inspirals in the Advanced LIGO and Virgo
   detectors at design sensitivity \citationhere{}, we simulate five years of
-  \ac{BBH} detections. We show that after one year of operation (\fixme{put date
-  here}) the \ac{BBH} population can constrain $H(z)$ to $\sim 5\%$ at a pivot
-  redshift $z \simeq 0.75$.  After five years the constraint improves to $\sim
-  2\%$.  This measurement relies only on general relativity and the presence of
-  a cutoff mass scale that is approximately fixed or calibrated across cosmic
-  time ($\Delta \MMax \lesssim 1 \, M_\odot$). When combined with a
-  percent-level local measurement of the Hubble constant \citep{Chen2017} and a
-  sub-percent constraint on the physical matter density from CMB measurements
-  \citep{Planck2016}, this permits a $\lesssim 10\%$ measurement of the dark
-  energy equation of state parameter after five years of observations.
-  Observations by future ``third-generation'' \ac{GW} detectors \citationhere{},
-  which can see \ac{BBH} mergers throughout the universe, would permit
-  sub-percent cosmographical measurements to $z \gtrsim 4$ within one month of
-  observation using this method.
+  \ac{BBH} detections. We show that after one year of operation at design
+  sensitivity (\fixme{put date here}) the \ac{BBH} population can constrain
+  $H(z)$ to $\SigmaHPvtOneYear$ at a pivot redshift $z \simeq \zpivot$.  After
+  five years (\fixme{date}) the constraint improves to $\SigmaHPvtFiveYear$.
+  This measurement relies only on general relativity and the presence of a
+  cutoff mass scale that is approximately fixed or calibrated across cosmic time
+  ($\Delta \MMax \lesssim 1 \, M_\odot$); it is independent of any distance
+  ladder or cosmological model. When combined with a percent-level local
+  measurement of the Hubble constant \citep{Chen2017} and a sub-percent
+  constraint on the physical matter density from CMB measurements
+  \citep{Planck2016} in a $w\mathrm{CDM}$ cosmological model, the dark energy
+  equation of state parameter is determined with $\SigmaWDEFiveYear$
+  uncertainty. Observations by future ``third-generation'' \ac{GW} detectors
+  \citationhere{}, which can see \ac{BBH} mergers throughout the universe, would
+  permit sub-percent cosmographical measurements to $z \gtrsim 4$ within one
+  month of observation.
 %
 \end{abstract}
 
-\section{Introduction}
+\section*{ }
 
-Some collected references (for use later):
+The \ac{GWTC1} contains ten binary black hole merger events observed during
+Advanced LIGO and Advanced VIRGO's first and second observing runs
+\citep{GWTC-1}. Modeling of this population suggests a precipitous drop in the
+merger rate for primary black hole masses larger than $\sim \MSourceMax{}$
+\citep{Fishbach2017,GWTC-1}.  A possible explanation for this drop is the
+\ac{PISN} process \citationhere{}. This process occurs in the cores of massive
+stars (helium core masses $30$--$133 \, \MSun$ \citep{Woosley2017}) when the
+core temperature becomes sufficiently high to permit the production of
+electron-positron pairs; pair production softens the equation of state of the
+core, leading to a collapse which is halted by nuclear burning
+\citep{Heger2002}.  The energy produced can either unbind the star, leaving no
+\ac{BH} remnant, or drive a mass-loss pulse that reduces the mass of the star
+until the \ac{PISN} is halted, leading to remnant masses $\sim \MSourceMax{}$.
+Modeling suggests that the upper limit on the remnant mass may vary by less than
+\fixme{XX} with redshift for $0 \leq z \lesssim 2$ \citep{Belczynski2016}.
 
-\begin{itemize}
-  \item \ac{PISN} \cite{Heger2002,Belczynski2016,Woosley2017,Spera2017}.
-  \item GW170817: \cite{GW170817,GW170817-H0}
-  \item Accuracy of $H_0$ measurements: \cite{GW170817-H0,Chen2017}
-  \item Other pure GW mass-distribution $H_0$ methods: \citet{Taylor2012,Messenger2012}.
-  \item \citet{Chernoff1993} focused on merger rate with fixed masses; similar to this, but lower mass (BNS).
-  \item \citet{Finn1996} focused on something similar.
-  \item \citet{Wang1997} tried to measure $\Omega_\Lambda$ based on the redshift distribution of BNS systems (i.e.\ the horizon distance tells you something about cosmology if you assume that).
-\end{itemize}
+Compact object mergers that emit gravitational waves have a universal
+characteristic peak luminosity $c^5/G \simeq 3.6 \times 10^{59} \, \mathrm{erg}
+\, \mathrm{s}^{-1}$ that enables direct measurements of the luminosity distance
+to these sources \citep{Schutz1986}.  They are standard sirens \citep{Holz2005}.
+However, the source-frame mass of the merging objects is degenerate with the
+redshift; the waveform depends only on the redshifted mass in the detector
+frame, $m_\mathrm{det} = m_\mathrm{source} (1 + z)$.  General relativity
+predicts the gravitational waveforms of stellar-mass \ac{BBH} mergers.  Using
+parameterized models of these waveforms
+\citep{Taracchini2014,Kahn2016,Bohe2017,Chatziioannou2017}, it will be possible
+to measure the detector-frame masses with $\sim 20\%$ uncertainty and luminosity
+distances \citep{Hogg1999} with $\sim 50\%$ uncertainty for a source near the
+detection threshold in Advanced LIGO and Anvanced Virgo at design sensitivity
+\citep{Vitale2017} \citationhere{}.  The uncertainty in these parameters scales
+inversely with the signal-to-noise ratio of a source \citep{Vitale2017}.
 
-\section{Method}
-\label{sec:method}
 
-\fixme{Boring details about mass ratio distribution, redshift evolution, etc,
-etc.}  We draw our events from a model similar to \citet{Fishbach2018}.  In our
-model, \ac{BBH} mergers occur with a rate density that is given by
-%
-\begin{equation}
-  \label{eq:model}
-  \diff{N}{m_1 \dd m_2 \dd V \dd t} =
-  \begin{cases}
-    R_0 \frac{\left(1 - \alpha\right) m_1^{-\alpha}}{\MMax^{1-\alpha} - \MMin^{1-\alpha}} \frac{\left(1 + \beta\right) m_2^\beta}{m_1^{1+\beta} - \MMin^{1+\beta}} \left( 1 + z \right)^{\gamma} & \MMin \leq m_2 < m_1 \leq \MMax \\
-    0 & \textnormal{otherwise}
-  \end{cases},
-\end{equation}
-%
-where all quantities are referred to the source frame, $V$ is the comoving
-volume (see \citet{Hogg1999} for a review of distance measures in cosmology),
-the parameter $R_0$ is the volumetric merger rate at $z = 0$, $\MMin$ and
-$\MMax$ are parameters giving the minimum and maximum black hole (source frame)
-mass, the parameter $\alpha$ is the power-law slope of the mass function for the
-more massive \ac{BH} in a \ac{BBH} merger, the parameter $\beta$ is the
-power-law slope of the distribution of the smaller mass conditioned on the value
-of $m_1$, and the parameter $\gamma$ controls the redshift evolution of the
-merger rate.  We ignore the spins of the merging \acp{BH}; our catalogs contain
-only non-spinning \acp{BH}.  Our catalogs are generated with the physically
-reasonable parameters $R_0 = \RZeroTrue{}$ \citep{O1-BBH}, $\alpha =
-\alphaTrue{}$ \citep{Fishbach2017}, $\gamma = \gammaTrue{}$
-\citep{Fishbach2018}, $\MMin = \MSourceMin{}$
-\citep{Ozel2010,Farr2011,Kreidberg2012}, and $\MMax = \MSourceMax{}$
-\citep{Fishbach2017}.  We use cosmological parameters from Table 4,
-``TT,TE,EE+lowP+lensing+ext'' of \citet{Planck2016}, as implemented in the
-\texttt{Planck15} object of the \texttt{astropy.cosmology} module from
-\citet{Astropy2018}.
-
-\Ac{GW} detectors are directly sensitive to the mass and redshift combination
-%
-\begin{equation}
-  \label{eq:Mdet-definition}
-  \mdet \equiv \msource \left( 1 + z \right),
-\end{equation}
-%
-where $\mdet$ is a mass parameter as measured in the detector frame, $\msource$
-is the corresponding mass in the source frame, and $z$ is the redshift of the
-source.  The amplitude of a gravitational wave measured at the detector depends
-only on $\monedet$; $\mtwodet$; the luminosity distance, $d_L$, to the source;
-and angular factors describing the orientation of the source's orbit and
-position on the sky relative to the \ac{GW} antenna. Comparing parameterised
-\ac{GW} waveforms
-\citep[e.g.][]{Taracchini2014,Bohe2017,Smith2016,Kahn2016,Chatziioannou2017} to
-the data observed by \ac{GW} detectors it is possible to produce a posterior
-distribution over \ac{BBH} parameters that describes our uncertainty about the
-source properties \citep{Veitch2015,GW150914-PE}; in particular, one can obtain
-a marginalized three-dimensional distribution describing our knowledge of
-$\monedet$, $\mtwodet$, and $d_L$, ignoring all other parameters (here we follow
-the standard convention of denoting the mass of the more massive component of
-the binary by $m_1$ and of the less massive component by $m_2$).  Rather than
-simulate this process for the mergers in our catalog, we here approximate the
-posterior that would be obtained from a proper analysis using a method similar
-to \citet{Fishbach2018}, but tuned to produce uncertainties in these two
-parameters that are comparable to GW170814 \citep{GW170814} at comparable
-signal-to-noise ratios.  Unlike \citet{Fishbach2018}, we use \ac{GW} amplitudes
-as implemented in the ``IMRPhenomPv2'' waveform \citep{Kahn2016} that
-incorporate the inspiral, merger, and ringdown of the source; a source is
-considered detected if its (noisily-measured) amplitude exceeds a
-signal-to-noise threshold of 8 in a hypothetical detector with the .
-
-We generate catalogs of events that correspond to all detected \ac{BBH} events
-from one year and five years of three-detector observing time at design
-sensitivity \citep{AdvancedLIGO,AdvancedVIRGO}.  The first year's observations
-of the five-year catalog are identical to the one-year catalog. The catalogs
-contain \None{} and \Nfive{} events.  Figure \ref{fig:true-det-masses-dLs} shows
-the true (detector frame) masses and luminosity distances for the detected
-events; the events range from $\sim 5 \, \MSun$ to $80 \, \MSun$ in mass
-(detector frame) and reach to $d_L \sim 6 \, \Gpc$.  Our approximation to the
-posterior produces the set of inferred masses and distances shown in Figure
-\ref{fig:obs-det-masses-dLs}.
-
-\begin{figure}
-  \plotone{plots/m1-dL-true}
-%
-  \caption{\label{fig:true-det-masses-dLs} The true (detector frame) masses and
-  luminosity distances for the one year (dark) and five year (light) catalogs
-  described in Section \ref{sec:method}.  The effect of redshifting on the mass
-  can clearly be seen; the maximum source-frame mass is $\MSourceMax$.  The
-  solid black line gives the maximum detector-frame mass as a function of
-  luminosity distance for the cosmology used to generate the catalog
-  \citep{Planck2016}; the dashed lines give the same relation but for a 10\%
-  change in $H_0$.}
-%
-\end{figure}
-
-\begin{figure}
-  \plotone{plots/m1-dL-obs}
-%
-  \caption{\label{fig:obs-det-masses-dLs} The inferred (detector frame) masses
-  and luminosity distances for the one-year catalog (dark) and five-year catalog
-  (light).  The points are the posterior mean and bars give the posterior
-  standard deviation with a flat prior on $\monedet$ and $d_L$.  The solid black
-  line gives the maximum detector-frame mass as a function of luminosity
-  distance for the cosmology used to generate the catalog.}
-%
-\end{figure}
-
-\section{Conclusions}
 
 \acknowledgments
 
@@ -240,5 +161,11 @@ in this paper.  We acknowledge the 2018 April APS Meeting and Barley's Brewing
 Company in Columbus, OH, USA where this work was originally conceived.
 
 \bibliography{pisn-line}
+
+\appendix
+
+\section{Parameter Estimation}
+
+Blah.
 
 \end{document}
