@@ -2,6 +2,7 @@
 
 \usepackage{acro}
 \usepackage{amsmath}
+\usepackage{color}
 
 % Commands
 \newcommand{\citationhere}{\textcolor{blue}{CITE}}
@@ -18,15 +19,20 @@
 \newcommand{\mtwodet}{m_2^\mathrm{detector}}
 \newcommand{\mtwosource}{m_2^\mathrm{source}}
 \newcommand{\msource}{m^\mathrm{source}}
+\newcommand{\wDE}{w_\mathrm{DE}}
 
 % Quantities
+\newcommand{\MMaxOneYear}{44.76^{+0.90}_{-0.95} \, \MSun{}}
+\newcommand{\MMaxFiveYear}{45.14^{+0.46}_{-0.57} \, \MSun{}}
 \newcommand{\MSourceMin}{5 \, M_\odot}
 \newcommand{\MSourceMax}{45 \, M_\odot}
 \newcommand{\OOneOTwoAlpha}{0.4^{+1.3}_{-1.9}}
 \newcommand{\OOneOTwoMergerRate}{65^{+76}_{-34} \, \perGpcyr}
-\newcommand{\SigmaHPvtOneYear}{4\%}
-\newcommand{\SigmaHPvtFiveYear}{1.5\%}
-\newcommand{\SigmaWDEFiveYear}{8\%}
+\newcommand{\SigmaHPvtOneYear}{4.1\%}
+\newcommand{\SigmaHPvtFiveYear}{2.0\%}
+\newcommand{\SigmaWDEFiveYear}{9.5\%}
+\newcommand{\wDEOneYear}{-0.91^{+0.15}_{-0.17}}
+\newcommand{\wDEFiveYear}{-1.056^{+0.087}_{-0.102}}
 \newcommand{\zpivot}{0.75}
 
 % units
@@ -73,6 +79,10 @@
 \author[0000-0002-1980-5293]{Maya Fishbach}
 \affiliation{Department of Astronomy and Astrophysics, University of Chicago, Chicago IL 60637, USA}
 \email{mfishbach@uchicago.edu}
+
+\author{Jiani Ye}
+\affiliation{Department of Physics and Astronomy, Stony Brook University, Stony Brook NY 11794, USA}
+\email{jiani.ye@stonybrook.edu}
 
 \author[0000-0002-0175-5064]{Daniel E. Holz}
 \affiliation{Enrico Fermi Institute, Department of Physics, Department of Astronomy and Astrophysics,\\and Kavli Institute for Cosmological Physics, University of Chicago, Chicago IL 60637, USA}
@@ -181,6 +191,101 @@ detectability of sources from this population
 \citep{GW150914Rate,GW150914RateSupplement} and for mass and distance estimation
 uncertainties \citep{Vitale2017}.  The properties of the simulated population
 are described more fully in \S \ref{sec:simulated-population}.
+
+\begin{figure}
+  \plottwo{plots/m1-dL-true}{plots/m1-dL-obs}
+%
+  \caption{\label{fig:m1-dL} Simulated population of \ac{BBH} mergers.  (Left)
+  The true detector-frame primary \ac{BH} masses and luminosity distances for
+  the simulated population of \ac{BBH} mergers used in this work.  Blue circles
+  denote one year of Advanced LIGO / Virgo observations, orange circles five
+  years of observations. The black line shows the redshifting of the maximum
+  \ac{BH} mass corresponding to the cosmology used to generate the events
+  \citep[TT, TE, EE + lowP + lensing + ext]{Planck2016}.  (Right) The inferred
+  detector-frame primary \ac{BH} masses and luminosity distances using our model
+  for the \ac{GW} data likelihood for each \ac{BBH} event.  Here again blue
+  corresponds to one year of observations and orange to five years.  Dots denote
+  the mean and bars the 1$\sigma$ width of the likelihood (i.e.\ a posterior
+  distribution using flat priors on $m_1$ and $d_L$).  There is a bias in the
+  recovery of the masses and distance that becomes more acute at large distances
+  due to a failure to model the population (which is not flat in $m_1$ and
+  $d_L$) and selection effects in these single-event analyses.  The black line
+  shows the redshifting of the mass upper limit.  The most-distant event biases
+  upward in both mass and distance by several sigma because it represents a
+  single ``lucky'' noise fluctuation into detectability out of $\sim 2 \times
+  10^5$ merger events per year within the detector horizon.}
+%
+\end{figure}
+
+\begin{figure}
+  \plottwo{plots/Hz}{plots/H075}
+%
+  \caption{\label{fig:Hz} Inferred cosmological expansion history and distance
+  scale.  (Left) The local expansion rate, $H(z)$, inferred from an analysis of
+  the one year (blue) and five year (orange) simulated populations using a mass
+  distribution model with a parameterized cutoff mass (see text).  The black
+  line gives the cosmology used to generate the simulated population \citep[TT,
+  TE, EE + lowP + lensing + ext]{Planck2016}.  The solid lines give the
+  posterior median $H(z)$ at each redshift; the bands give 1$\sigma$ (68\%) and
+  2$\sigma$ (95\%) credible intervals.  The 1$\sigma$ fractional uncertainty on
+  $H(z)$ is minimized at $z \simeq \zpivot{}$ for both data sets; after one year
+  it is \SigmaHPvtOneYear{} and after five years it is \SigmaHPvtFiveYear{}.
+  (Right) Posterior distributions over $H\left(z = \zpivot{}\right)$,
+  corresponding to the redshift where the fractional uncertainty is minimized.
+  The true $H\left( z = \zpivot{} \right)$ is shown by the black vertical line.
+  The posterior after one year is blue, after five years is orange.  This
+  demonstrates an absolute distance measure to $z \simeq \zpivot{}$ at
+  percent-level precision; combining this inference on $H(z)$ with other data
+  sets such as observations of baryon acoustic oscillations \citep{BOSS2015} or
+  Type Ia supernovae \citep{Scolnic2018} can translate this absolute distance
+  measure to other redshifts \citep{Feeney2019}. For example, one can
+  independently calibrate the Type Ia supernova distance scale without a
+  distance ladder \citep{Feeney2019,Scolnic2018}, or compare the
+  \ac{GW}-determined distance scale with one derived from the photo-baryon sound
+  horizon \citep{Aylor2019} in the early universe \citep{Planck2016} or at late
+  times \citep{BOSS2015}.}
+%
+\end{figure}
+
+\begin{figure}
+  \plotone{plots/mass-correction}
+%
+  \caption{\label{fig:mass-correction} Inferred maximum mass and masses and
+  redshifts for one year of observation.  Posterior mean and 1$\sigma$ (68\%)
+  credible ranges for the source-frame primary \ac{BH} mass and redshift after
+  one year of \ac{BBH} merger observations.  The horizontal line is the
+  posterior median of the maximum black hole mass set by the PISN process; the
+  dark and light bands correspond to the 1$\sigma$ and 2$\sigma$ (68\% and 95\%)
+  credible intervals on the maximum mass.  (Compare to Figure \ref{fig:m1-dL}.)
+  Our model adjusts cosmological parameters, and therefore the correspondence
+  between the measured detector-frame masses and luminosity distances and
+  inferred redshifts and source-frame masses, until it achieves a consistent
+  upper limit on the source-frame \ac{BH} mass across all redshifts.  After one
+  year of synthetic observations we measure $\MMax{} = \MMaxOneYear{}$ (median
+  and 68\% credible interval).  After five years (not shown) we measure $\MMax{}
+  = \MMaxFiveYear{}$.}
+%
+\end{figure}
+
+\begin{figure}
+  \plotone{plots/wDE}
+%
+  \caption{\label{fig:wDE} Posterior on the dark energy equation of state
+  parameter after imposing additional cosmological constraints.  If we impose a
+  1\% measurement of $H_0$ \citep{Chen2017,Mortlock2018} and the constraints on
+  $\Omega_M h^2$ from existing observations of the cosmic microwave background
+  \citep{Planck2016}, we can infer the equation of state parameter $\wDE{}
+  \equiv P_\mathrm{DE} / \rho_\mathrm{DE}$ for dark energy in a $w$CDM
+  cosmological model.  (We do not obtain any meaningful constraint on the
+  evolution of $\wDE{}$ with redshift when this parameter is allowed to vary, so
+  we fix it to a constant across all redshifts.)  We use $\wDE{} = -1$ to
+  generate our data set; this value is indicated by the black line above.  The
+  posterior obtained on $\wDE{}$ after one year of synthetic observations is
+  shown in blue and after five years in orange.  We find $\wDE{} =
+  \wDEOneYear{}$ after one year (median and 68\% credible interval) and $\wDE{}
+  = \wDEFiveYear{}$ after five years.}
+%
+\end{figure}
 
 \acknowledgments
 

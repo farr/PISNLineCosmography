@@ -231,20 +231,23 @@ def pure_DE_w_plot(c, *args, **kwargs):
 
     wsamps = interp1d(cws, ws)(rand(4000))
 
+    m = median(wsamps)
+    l = percentile(wsamps, 16)
+    h = percentile(wsamps, 84)
+
     sns.distplot(wsamps, *args, color=color, **kwargs)
 
     if not nolines:
-        axvline(median(wsamps), color=color)
-        axvline(percentile(wsamps, 84), ls='--', color=color)
-        axvline(percentile(wsamps, 16), ls='--', color=color)
+        axvline(m, color=color)
+        axvline(h, ls='--', color=color)
+        axvline(l, ls='--', color=color)
 
     axvline(-1, color='k')
 
     xlabel(r'$w_{\mathrm{DE}}$')
     ylabel(r'$p\left(w_{\mathrm{DE}}\right)$')
     if not notitle:
-        pass
-        #title(r'$w_{{\mathrm{{DE}}}} = {:.2f} \pm {:.2f}$'.format(mean(wsamps), std(wsamps)))
+        title(r'$w_{{\mathrm{{DE}}}} = {:.3f}^{{+{:.3f}}}_{{-{:.3f}}}$'.format(m, h-m, m-l))
 
     return wsamps
 
@@ -273,7 +276,7 @@ def Hz_plot(c, *args, color=None, draw_tracks=True, label=None, **kwargs):
     hh = percentile(Hs, 97.5, axis=0)
     rel_err = (h-l)/(2*m)
     imin = argmin(rel_err)
-    print('Redshift at which 1-sigma fractional H(z) interval min of {:.2f} is {:.2f}'.format(rel_err[imin], zs[imin]))
+    print('Redshift at which 1-sigma fractional H(z) interval min of {:.3f} is {:.2f}'.format(rel_err[imin], zs[imin]))
 
     plot(zs, m, color=color, label=label)
     fill_between(zs, h, l, color=color, alpha=0.25)
