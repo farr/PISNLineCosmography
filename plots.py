@@ -29,9 +29,10 @@ class PubContextManager(object):
         self._rc = mpl.rcParams.copy()
 
         sns.set_context('paper')
-        mpl.rcParams.update({
+        plt.rcParams.update({
             'figure.figsize': self._figsize,
-            'text.usetex': True
+            'text.usetex': True,
+            'axes.unicode_minus': False
         })
 
     def __exit__(self, exc_type, exc_value, traceback):
@@ -215,6 +216,10 @@ def optimal_w_plot(c, *args, **kwargs):
     print('Pivot redshift = {:.2f}'.format(z_p))
 
 def pure_DE_w_plot(c, *args, **kwargs):
+    notitle = kwargs.pop('notitle', False)
+    nolines = kwargs.pop('nolines', False)
+    color = kwargs.pop('color', None)
+
     pts = row_stack((c['w_p'].flatten(), c['w_a'].flatten()))
     kde = gaussian_kde(pts)
 
@@ -226,17 +231,22 @@ def pure_DE_w_plot(c, *args, **kwargs):
 
     wsamps = interp1d(cws, ws)(rand(4000))
 
-    sns.distplot(wsamps)
+    sns.distplot(wsamps, *args, color=color, **kwargs)
 
-    axvline(median(wsamps))
-    axvline(percentile(wsamps, 84), ls='--')
-    axvline(percentile(wsamps, 16), ls='--')
+    if not nolines:
+        axvline(median(wsamps), color=color)
+        axvline(percentile(wsamps, 84), ls='--', color=color)
+        axvline(percentile(wsamps, 16), ls='--', color=color)
 
     axvline(-1, color='k')
 
-    xlabel(r'$w_\mathrm{DE}$')
-    ylabel(r'$p\left(w_\mathrm{DE}\right)$')
-    title(r'$w_{{\mathrm{{DE}}}} = {:.2f} \pm {:.2f}$'.format(mean(wsamps), std(wsamps)))
+    xlabel(r'$w_{\mathrm{DE}}$')
+    ylabel(r'$p\left(w_{\mathrm{DE}}\right)$')
+    if not notitle:
+        pass
+        #title(r'$w_{{\mathrm{{DE}}}} = {:.2f} \pm {:.2f}$'.format(mean(wsamps), std(wsamps)))
+
+    return wsamps
 
 def MMax_plot(c, *args, **kwargs):
     MMax = c['MMax'].flatten()
