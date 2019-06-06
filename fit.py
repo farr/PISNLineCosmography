@@ -9,6 +9,7 @@ from pylab import *
 from argparse import ArgumentParser
 import arviz as az
 import astropy.cosmology as cosmo
+from astropy.cosmology import Planck15
 import astropy.units as u
 from corner import corner
 import h5py
@@ -157,7 +158,60 @@ d = {
     'z_p': true_params['z_p']
 }
 
-f = m.sampling(data=d, iter=2*args.iter, thin=args.thin)
+def init(chain_index=None):
+    if args.cosmo_prior:
+        Hp = Planck15.H0.to(u.km/u.s/u.Mpc).value*Planck15.efunc(true_params['z_p'])*(1+0.01*randn())
+        Om = Planck15.Om0*(1+0.01*randn())
+    else:
+        Hp = Planck15.H0.to(u.km/u.s/u.Mpc).value*Planck15.efunc(true_params['z_p'])*(1+0.1*randn())
+        Om = Planck15.Om0*(1+0.1*randn())
+    w = -1 + 0.1*randn()
+
+    c = cosmo.FlatwCDM(Hp/Planck15.efunc(true_params['z_p']), Om, w)
+
+    MMax = 45 + 5*randn()
+    smooth_max = 0.1 + 0.01*randn()
+
+    alpha = 0.7 + 0.1*randn()
+    beta = 0.1*randn()
+    gamma = 3 + 0.1*randn()
+
+    m1s = []
+    m2s = []
+    zs = []
+
+    for i in range(nobs):
+        j = randint(chain['m1det'].shape[1])
+        m1 = chain['m1det'][i,j]
+        m2 = chain['m2det'][i,j]
+        d = chain['dl'][i,j]
+
+        z = cosmo.z_at_value(c.luminosity_distance, d*u.Gpc)
+
+        m1s.append(m1/(1+z))
+        m2s.append(m2/(1+z))
+        zs.append(z)
+    m1s = array(m1s)
+    m2s = array(m2s)
+    zs = array(zs)
+
+    m2_fracs = m2s/m1s
+
+    return {
+        'H_p': Hp,
+        'Om': Om,
+        'w0': w,
+        'MMax': MMax,
+        'smooth_max': smooth_max,
+        'alpha': alpha,
+        'beta': beta,
+        'gamma': gamma,
+        'm1s': m1s,
+        'm2_fracs': m2_fracs,
+        'zs': zs
+    }
+
+f = m.sampling(data=d, iter=2*args.iter, thin=args.thin, init=init)
 fit = az.convert_to_inference_data(f)
 
 print(f)
