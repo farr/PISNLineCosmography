@@ -77,47 +77,25 @@ def interval_string(d, prefix='', postfix='', f=0.68):
 
     return prefix + '{:g}^{{+{:g}}}_{{-{:g}}}'.format(m, dh, dl) + postfix
 
-def Hz(z, H0, Om, w, w_a):
-    return H0*np.sqrt(Om*(1+z)**3 + (1.0-Om)*(1+z)**(3*(1+w+w_a))*exp(-3*w_a*z/(1+z)))
-
-def load_chains(f, select_subset=None):
-    names = ['H0', 'Om', 'w', 'w_p', 'w_a', 'R0_30', 'MMin', 'MMax', 'alpha', 'beta', 'gamma', 'neff_det', 'm1s', 'm2s', 'dls', 'zs']
-
-    c = {}
-
-    if select_subset is None:
-        select_subset = slice(None)
-    with h5py.File(f, 'r') as inp:
-        nobs = inp.attrs['nobs']
-        for n in names:
-            arr = squeeze(array(inp[n]))
-
-            if len(arr.shape) == 1:
-                c[n] = reshape(arr, (4, -1))
-            else:
-                c[n] = reshape(arr, (4, -1) + arr.shape[1:])
-
-            c[n] = c[n][select_subset, ...]
-
-        c['nobs'] = nobs
-    return c
+def Hz(z, H0, Om, w):
+    return H0*np.sqrt(Om*(1+z)**3 + (1.0-Om)*(1+z)**(3*(1+w)))
 
 def traceplot(c):
     fit = az.convert_to_inference_data(c)
 
     lines = (('H0', {}, true_params['H0']),
              ('Om', {}, true_params['Om']),
-             ('w', {}, true_params['w']),
-             ('w_p', {}, true_params['w']),
-             ('w_a', {}, true_params['w_a']),
+             ('w0', {}, true_params['w']),
              ('R0_30', {}, true_params['R0_30']),
              ('MMin', {}, true_params['MMin']),
              ('MMax', {}, true_params['MMax']),
+             ('smooth_min', {}, true_params['smooth_min']),
+             ('smooth_max', {}, true_params['smooth_max']),
              ('alpha', {}, true_params['alpha']),
              ('beta', {}, true_params['beta']),
              ('gamma', {}, true_params['gamma']))
 
-    az.plot_trace(fit, var_names=['H0', 'Om', 'w', 'w_p', 'w_a', 'R0_30', 'MMin', 'MMax', 'alpha', 'beta', 'gamma'], lines=lines)
+    az.plot_trace(fit, var_names=['H0', 'Om', 'w0', 'R0_30', 'MMax', 'smooth_max', 'alpha', 'beta', 'gamma'], lines=lines)
 
 def neff_det_check_plot(c):
     fit = az.convert_to_inference_data(c)
@@ -127,41 +105,39 @@ def neff_det_check_plot(c):
     xlabel(r'$N_\mathrm{eff}$')
     ylabel(r'$p\left( N_\mathrm{eff} \right)$')
 
-    nobs = c['m1s'].shape[2]
+    nobs = c.posterior['m1s'].shape[2]
     axvline(4*nobs)
 
-    nemin = percentile(c['neff_det'], 2.5)
+    nemin = percentile(c.posterior['neff_det'], 2.5)
     title(r'Two-sigma lower $N_\mathrm{{eff}}$ is factor {:.2f} above limit'.format(nemin/(4*nobs)))
 
 def cosmo_corner_plot(c, *args, **kwargs):
-    pts = column_stack([c[n].flatten() for n in ['H0', 'Om', 'w', 'w_p', 'w_a']])
+    pts = column_stack([c.posterior[n].values.flatten() for n in ['H0', 'Om', 'w0']])
 
     fig = figure()
 
-    corner.corner(pts, labels=[r'$H_0$', r'$\Omega_M$', r'$w$', r'$w_p$', r'$w_a$'],
+    corner.corner(pts, labels=[r'$H_0$', r'$\Omega_M$', r'$w$'],
                   truths=[Planck15.H0.to(u.km/u.s/u.Mpc).value,
                           Planck15.Om0,
-                          -1,
-                          -1,
-                          0],
+                          -1],
                   quantiles=[0.16, 0.84],
                   show_titles=True)
 
 def pop_corner_plot(c, *args, **kwargs):
-    pts = column_stack([c[n].flatten() for n in ['R0_30', 'MMin', 'MMax', 'alpha', 'beta', 'gamma']])
+    pts = column_stack([c.posterior[n].values.flatten() for n in ['R0_30', 'MMax', 'smooth_max', 'alpha', 'beta', 'gamma']])
 
     fig = figure()
 
     corner.corner(pts,
                   labels=[r'$R_{0,30}$',
-                          r'$M_\mathrm{min}$',
                           r'$M_\mathrm{max}$',
+                          r'$\sigma_\mathrm{max}$',
                           r'$\alpha$',
                           r'$\beta$',
                           r'$\gamma$'],
                   truths=[true_params['R0_30'],
-                          true_params['MMin'],
                           true_params['MMax'],
+                          true_params['smooth_max'],
                           true_params['alpha'],
                           true_params['beta'],
                           true_params['gamma']],
@@ -169,7 +145,7 @@ def pop_corner_plot(c, *args, **kwargs):
                   show_titles=True)
 
 def H0_plot(c, *args, **kwargs):
-    H0 = c['H0'].flatten()
+    H0 = c.posterior['H0'].values.flatten()
 
     sns.distplot(H0)
 
@@ -181,55 +157,12 @@ def H0_plot(c, *args, **kwargs):
     axvline(Planck15.H0.to(u.km/u.s/u.Mpc).value, color='k')
     title(interval_string(H0, prefix=r'$H_0 = ', postfix=r' \, \mathrm{km} \, \mathrm{s}^{-1} \, \mathrm{Mpc}^{-1}$'))
 
-def optimal_w_plot(c, *args, **kwargs):
-    w_p = c['w_p'].flatten()
-    w_a = c['w_a'].flatten()
-
-    pts = column_stack((w_p, w_a))
-    cm = cov(pts, rowvar=False)
-    evals, evecs = np.linalg.eigh(cm)
-
-    w_p_index = argmax(abs(evecs[0,:])) # Find the one with the largest w_p component
-
-    # Ensure the appropriate component is positive!
-    evecs[:,w_p_index] *= np.sign(evecs[0,w_p_index])
-    evecs[:,1-w_p_index] *= np.sign(evecs[1,1-w_p_index])
-
-    w_p_opts = np.dot(pts, evecs[:,w_p_index])
-    w_a_opts = np.dot(pts, evecs[:,1-w_p_index])
-
-    a_p_0 = 1.0/(1.0+0.7)
-    a_p = a_p_0 - evecs[1,w_p_index]/evecs[0,w_p_index]
-    z_p = 1.0/a_p - 1.0
-
-    fom = 1.0/(std(w_p_opts)*std(w_a_opts))
-
-    fig = figure()
-
-    corner.corner(column_stack((w_p_opts, w_a_opts)),
-                  labels=[r'$w_p$', r'$w_a$'],
-                  quantiles=[0.16, 0.84],
-                  show_titles=True,
-                  truths=[-1.0, 0.0])
-
-    print('FOM = {:.1f} (WARNING: prior FOM = 4)'.format(fom))
-    print('Pivot redshift = {:.2f}'.format(z_p))
-
 def pure_DE_w_plot(c, *args, **kwargs):
     notitle = kwargs.pop('notitle', False)
     nolines = kwargs.pop('nolines', False)
     color = kwargs.pop('color', None)
 
-    pts = row_stack((c['w_p'].flatten(), c['w_a'].flatten()))
-    kde = gaussian_kde(pts)
-
-    ws = linspace(-2, 0, 1000)
-    pws = kde(row_stack((ws, zeros_like(ws))))
-
-    cws = cumtrapz(pws, ws, initial=0)
-    cws /= cws[-1]
-
-    wsamps = interp1d(cws, ws)(rand(4000))
+    wsamps = c.posterior['w0'].values.flatten()
 
     m = median(wsamps)
     l = percentile(wsamps, 16)
@@ -244,15 +177,15 @@ def pure_DE_w_plot(c, *args, **kwargs):
 
     axvline(-1, color='k')
 
-    xlabel(r'$w_{\mathrm{DE}}$')
-    ylabel(r'$p\left(w_{\mathrm{DE}}\right)$')
+    xlabel(r'$w$')
+    ylabel(r'$p\left(w\right)$')
     if not notitle:
-        title(r'$w_{{\mathrm{{DE}}}} = {:.3f}^{{+{:.3f}}}_{{-{:.3f}}}$'.format(m, h-m, m-l))
+        title(r'$w = {:.3f}^{{+{:.3f}}}_{{-{:.3f}}}$'.format(m, h-m, m-l))
 
     return wsamps
 
 def MMax_plot(c, *args, **kwargs):
-    MMax = c['MMax'].flatten()
+    MMax = c.posterior['MMax'].values.flatten()
 
     sns.distplot(MMax)
     xlabel(r'$M_\mathrm{max}$ ($M_\odot$)')
@@ -265,9 +198,9 @@ def Hz_plot(c, *args, color=None, draw_tracks=True, label=None, **kwargs):
 
     zs = linspace(0, 2, 1000)
 
-    plot(zs, Hz(zs, Planck15.H0.to(u.km/u.s/u.Mpc).value, Planck15.Om0, -1, 0), '-k')
+    plot(zs, Hz(zs, Planck15.H0.to(u.km/u.s/u.Mpc).value, Planck15.Om0, -1), '-k')
 
-    Hs = Hz(zs[newaxis,:], c['H0'].flatten()[:,newaxis], c['Om'].flatten()[:,newaxis], c['w'].flatten()[:,newaxis], c['w_a'].flatten()[:,newaxis])
+    Hs = Hz(zs[newaxis,:], c.posterior['H0'].values.flatten()[:,newaxis], c.posterior['Om'].values.flatten()[:,newaxis], c.posterior['w0'].values.flatten()[:,newaxis])
 
     m = median(Hs, axis=0)
     l = percentile(Hs, 16, axis=0)
@@ -283,17 +216,15 @@ def Hz_plot(c, *args, color=None, draw_tracks=True, label=None, **kwargs):
     fill_between(zs, hh, ll, color=color, alpha=0.25)
 
     if draw_tracks:
-        hs = c['H0'].flatten()
-        Oms = c['Om'].flatten()
-        ws = c['w'].flatten()
-        was = c['w_a'].flatten()
+        hs = c.posterior['H0'].values.flatten()
+        Oms = c.posterior['Om'].values.flatten()
+        ws = c.posterior['w0'].values.flatten()
         for i in np.random.choice(len(hs), size=10, replace=False):
             h = hs[i]
             Om = Oms[i]
             w = ws[i]
-            w_a = was[i]
 
-            plot(zs, Hz(zs, h, Om, w, w_a), color=color, alpha=0.25)
+            plot(zs, Hz(zs, h, Om, w), color=color, alpha=0.25)
 
     xlabel(r'$z$')
     ylabel(r'$H(z)$ ($\mathrm{km} \, \mathrm{s}^{-1} \, \mathrm{Mpc}^{-1}$)')
@@ -301,17 +232,17 @@ def Hz_plot(c, *args, color=None, draw_tracks=True, label=None, **kwargs):
     return zs, Hs
 
 def mass_correction_plot(c):
-    errorbar(mean(c['zs'], axis=(0,1)), mean(c['m1s'],axis=(0,1)), yerr=std(c['m1s'], axis=(0,1)), xerr=std(c['zs'], axis=(0,1)), fmt='.')
-    zs = linspace(0, np.max(c['zs']), 100)
-    plot(zs, median(c['MMax'])*ones_like(zs), color=sns.color_palette()[0])
-    fill_between(zs, percentile(c['MMax'], 84)*ones_like(zs), percentile(c['MMax'], 16)*ones_like(zs), color=sns.color_palette()[0], alpha=0.25)
-    fill_between(zs, percentile(c['MMax'], 97.5)*ones_like(zs), percentile(c['MMax'], 2.5)*ones_like(zs), color=sns.color_palette()[0], alpha=0.25)
+    errorbar(mean(c.posterior['zs'], axis=(0,1)), mean(c.posterior['m1s'],axis=(0,1)), yerr=std(c.posterior['m1s'], axis=(0,1)), xerr=std(c.posterior['zs'], axis=(0,1)), fmt='.')
+    zs = linspace(0, np.max(c.posterior['zs']), 100)
+    plot(zs, median(c.posterior['MMax'])*ones_like(zs), color=sns.color_palette()[0])
+    fill_between(zs, percentile(c.posterior['MMax'], 84)*ones_like(zs), percentile(c.posterior['MMax'], 16)*ones_like(zs), color=sns.color_palette()[0], alpha=0.25)
+    fill_between(zs, percentile(c.posterior['MMax'], 97.5)*ones_like(zs), percentile(c.posterior['MMax'], 2.5)*ones_like(zs), color=sns.color_palette()[0], alpha=0.25)
 
     xlabel(r'$z$')
     ylabel(r'$m_1$ ($M_\odot$)')
 
 def post_process(f, select_subset=None):
-    c = load_chains(f, select_subset=select_subset)
+    c = az.from_netcdf(f)
 
     traceplot(c)
 
@@ -328,14 +259,11 @@ def post_process(f, select_subset=None):
     H0_plot(c)
 
     figure()
-    optimal_w_plot(c)
-
-    figure()
     pure_DE_w_plot(c)
 
     figure()
     MMax_plot(c)
-    title(interval_string(c['MMax'].flatten(), prefix=r'$M_\mathrm{max} = ', postfix=' \, M_\odot$'))
+    title(interval_string(c.posterior['MMax'].values.flatten(), prefix=r'$M_\mathrm{max} = ', postfix=' \, M_\odot$'))
 
     figure()
     mass_correction_plot(c)

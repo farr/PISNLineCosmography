@@ -189,7 +189,7 @@ parameters {
   real<lower=-3, upper=3> beta;
   real<lower=-1, upper=7> gamma;
 
-  real<lower=MMin, upper=MMax> m1s[nobs];
+  real<lower=0> m1s[nobs];
   real<lower=0,upper=1> m2_fracs[nobs];
   real<lower=0> zs[nobs];
 }
@@ -221,7 +221,7 @@ transformed parameters {
     dlinterp = dls_of_zs(zinterp, dH, Om, z_p, w0);
 
     for (i in 1:nobs) {
-      m2s[i] = MMin + m2_fracs[i]*(m1s[i]-MMin);
+      m2s[i] = m2_fracs[i]*m1s[i];
       dls[i] = interp1d(zs[i], zinterp, dlinterp);
     }
 
@@ -299,7 +299,7 @@ model {
   log_pop_nojac = log_dNdm1dm2dzdt_norm(m1s, m2s, dls, zs, MMin, MMax, smooth_min, smooth_max, alpha, beta, gamma, dH, Om, z_p, w0);
   /* We have dN/d(m1)d(m2)d(z)d(t_det) but sample in m2_fracs, not m2, so need d(m2)/d(m2_frac) = m1 - MMin */
   for (i in 1:nobs) {
-    log_pop_jac[i] = log_pop_nojac[i] + log(m1s[i] - MMin);
+    log_pop_jac[i] = log_pop_nojac[i] + log(m1s[i]);
   }
   target += sum(log_pop_jac);
 

@@ -169,12 +169,14 @@ lines = (('H0', {}, true_params['H0']),
          ('R0_30', {}, true_params['R0_30']),
          ('MMin', {}, true_params['MMin']),
          ('MMax', {}, true_params['MMax']),
+         ('smooth_min', {}, true_params['smooth_min']),
+         ('smooth_max', {}, true_params['smooth_max']),
          ('alpha', {}, true_params['alpha']),
          ('beta', {}, true_params['beta']),
          ('gamma', {}, true_params['gamma']),
          ('neff_det', {}, 4*nobs))
 
-az.plot_trace(fit, var_names=['H0', 'Om', 'w0', 'R0_30', 'MMin', 'MMax', 'alpha', 'beta', 'gamma', 'neff_det'], lines=lines)
+az.plot_trace(fit, var_names=['H0', 'Om', 'w0', 'R0_30', 'MMax', 'smooth_max', 'alpha', 'beta', 'gamma', 'neff_det'], lines=lines)
 savefig(args.tracefile)
 
 az.to_netcdf(fit, args.chainfile)
