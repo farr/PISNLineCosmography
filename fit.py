@@ -28,7 +28,7 @@ post.add_argument('--subset', metavar='DESIGNATOR', help='name of the attribute 
 post.add_argument('--event-begin', metavar='N', type=int, help='beginning of range of event indices to analyze')
 post.add_argument('--event-end', metavar='N', type=int, help='end of range of event indices to analyze (not inclusive)')
 post.add_argument('--livetime', metavar='T', type=float, help='live time of event range')
-post.add_argument('--nmix', metavar='N', default=6, type=int, help='number of Gaussians in GMM likelihood approx (default: %(default)s)')
+post.add_argument('--nmix', metavar='N', default=7, type=int, help='number of Gaussians in GMM likelihood approx (default: %(default)s)')
 
 sel = p.add_argument_group('Selection Function Options')
 sel.add_argument('--selfile', metavar='FILE.h5', default='selected.h5', help='file containing records of successful injections for VT estimation (default: %(default)s)')
@@ -158,16 +158,14 @@ d = {
 }
 
 f = m.sampling(data=d, iter=2*args.iter, thin=args.thin)
-fit = f.extract(permuted=True)
+fit = az.convert_to_inference_data(f)
 
 print(f)
 
 # Now that we're done with sampling, let's draw some pretty lines.
 lines = (('H0', {}, true_params['H0']),
          ('Om', {}, true_params['Om']),
-         ('w', {}, true_params['w']),
-         ('w_p', {}, true_params['w']),
-         ('w_a', {}, true_params['w_a']),
+         ('w0', {}, true_params['w']),
          ('R0_30', {}, true_params['R0_30']),
          ('MMin', {}, true_params['MMin']),
          ('MMax', {}, true_params['MMax']),
@@ -176,12 +174,7 @@ lines = (('H0', {}, true_params['H0']),
          ('gamma', {}, true_params['gamma']),
          ('neff_det', {}, 4*nobs))
 
-az.plot_trace(f, var_names=['H0', 'Om', 'w', 'w_p', 'w_a', 'R0_30', 'MMin', 'MMax', 'alpha', 'beta', 'gamma', 'neff_det'], lines=lines)
+az.plot_trace(fit, var_names=['H0', 'Om', 'w0', 'R0_30', 'MMin', 'MMax', 'alpha', 'beta', 'gamma', 'neff_det'], lines=lines)
 savefig(args.tracefile)
 
-with h5py.File(args.chainfile, 'w') as out:
-    out.attrs['nobs'] = nobs
-    out.attrs['nsel'] = ndet
-
-    for n in ['H0', 'Om', 'w', 'w_p', 'w_a', 'R0_30', 'MMin', 'MMax', 'alpha', 'beta', 'gamma', 'neff_det', 'm1s', 'm2s', 'dls', 'zs']:
-        out.create_dataset(n, data=fit[n], compression='gzip', shuffle=True)
+az.to_netcdf(fit, args.chainfile)

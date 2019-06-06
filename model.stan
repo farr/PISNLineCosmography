@@ -56,62 +56,74 @@ functions {
     return sum(0.5 * (vxs[2:] - vxs[:n-1]) .* (vys[2:] + vys[:n-1]));
   }
 
-  real log_smoothing_factor(real x, real x0, real x1, real s0, real s1) {
-    if (x <= x0) {
-      real n = log(x)-log(x0);
-      real d = s0;
-
-      return -0.5*n*n/(d*d);
-    } else if (x > x1) {
-      real n = log(x) - log(x1);
-      real d = s1;
-
-      return -0.5*n*n/(d*d);
-    } else {
-      return 0.0;
-    }
-  }
-
-  real Ez(real z, real Om, real z_p, real w_p, real w_a) {
-    real a = 1.0/(1.0+z);
-    real a_p = 1.0/(1.0+z_p);
+  real Ez(real z, real Om, real z_p, real w0) {
     real opz = 1.0 + z;
     real opz2 = opz*opz;
     real opz3 = opz2*opz;
 
-    return sqrt(Om*opz3 + (1.0-Om)*opz^(3*(1 + w_p + w_a*a_p))*exp(-3*w_a*(1-a)));
+    return sqrt(Om*opz3 + (1.0-Om)*opz^(3.0*(1.0 + w0)));
   }
 
-  real dzddL(real dl, real z, real dH, real Om, real z_p, real w_p, real w_a) {
+  real dzddL(real dl, real z, real dH, real Om, real z_p, real w0) {
     real opz = 1.0 + z;
-    return 1.0/(dl/opz + opz*dH/Ez(z, Om, z_p, w_p, w_a));
+    return 1.0/(dl/opz + opz*dH/Ez(z, Om, z_p, w0));
   }
 
-  real[] log_dNdm1dm2dzdt_norm(real[] m1s, real[] m2s, real[] dls, real[] zs, real MMin, real MMax, real smin, real smax, real alpha, real beta, real gamma, real dH, real Om, real z_p, real w_p, real w_a) {
+  real[] log_dNdm1dm2dzdt_norm(real[] m1s, real[] m2s, real[] dls, real[] zs, real MMin, real MMax, real smin, real smax, real alpha, real beta, real gamma, real dH, real Om, real z_p, real w0) {
     int n = size(m1s);
     real log_4pi_dH = log(4.0*pi()*dH);
     real log_dNs[n];
     real m0 = 30.0;
     real logm0 = log(m0);
+    real logMMin = log(MMin);
+    real logMMax = log(MMax);
 
     for (i in 1:n) {
-      real s1 = log_smoothing_factor(m1s[i], MMin, MMax, smin, smax);
-      real s2 = log_smoothing_factor(m2s[i], MMin, MMax, smin, smax);
+      real sl1;
+      real sh1;
+      real sl2;
+      real sh2;
+      real logm1 = log(m1s[i]);
+      real logm2 = log(m2s[i]);
 
-      log_dNs[i] = -alpha*log(m1s[i]/m0) + beta*log(m2s[i]/m0) - 2.0*log(m0) + (gamma-1)*log1p(zs[i]) + log_4pi_dH + 2.0*log(dls[i]/(1+zs[i])) - log(Ez(zs[i], Om, z_p, w_p, w_a)) + s1 + s2;
+      if (logm1 < logMMin - 7*smin) {
+        sl1 = negative_infinity();
+      } else {
+        sl1 = normal_lcdf(logm1 | logMMin, smin);
+      }
+
+      if (logm1 > logMMax + 7*smax) {
+        sh1 = negative_infinity();
+      } else {
+        sh1 = normal_lccdf(logm1 | logMMax, smax);
+      }
+
+      if (logm2 < logMMin - 7*smin) {
+        sl2 = negative_infinity();
+      } else {
+        sl2 = normal_lcdf(logm2 | logMMin, smin);
+      }
+
+      if (logm2 > logMMax + 7*smax) {
+        sh2 = negative_infinity();
+      } else {
+        sh2 = normal_lccdf(logm2 | logMMax, smax);
+      }
+
+      log_dNs[i] = -alpha*log(m1s[i]/m0) + beta*log(m2s[i]/m0) - 2.0*log(m0) + (gamma-1)*log1p(zs[i]) + log_4pi_dH + 2.0*log(dls[i]/(1+zs[i])) - log(Ez(zs[i], Om, z_p, w0)) + sl1 + sh1 + sl2 + sh2;
     }
 
     return log_dNs;
   }
 
-  real[] dls_of_zs(real[] zs, real dH, real Om, real z_p, real w_p, real w_a) {
+  real[] dls_of_zs(real[] zs, real dH, real Om, real z_p, real w0) {
     int n = size(zs);
     real ddcdz[n];
     real dcs[n];
     real dls[n];
 
     for (i in 1:n) {
-      ddcdz[i] = dH/Ez(zs[i], Om, z_p, w_p, w_a);
+      ddcdz[i] = dH/Ez(zs[i], Om, z_p, w0);
     }
     dcs = cumtrapz(zs, ddcdz);
 
@@ -150,8 +162,9 @@ data {
 }
 
 transformed data {
-  real smooth_low = 0.1/5.0; /* Smooth over 0.1 MSun */
-  real smooth_high = 1.0/45.0; /* Smooth over 1 MSun */
+  real smooth_min = 0.1;
+  real MMin = 5.0;
+
   real a_p = 1.0/(1+z_p);
   real zmax = zinterp[ninterp];
   matrix[3,3] chol_covs[nobs, ngmm];
@@ -168,11 +181,10 @@ transformed data {
 parameters {
   real<lower=50, upper=200> H_p;
   real<lower=0,upper=1> Om;
-  real<lower=-2,upper=0> w_p;
-  real<lower=-1, upper=1> w_a;
+  real<lower=-2,upper=0> w0;
 
-  real<lower=3, upper=10> MMin;
   real<lower=30, upper=150> MMax;
+  real<lower=0.01, upper=1.0> smooth_max;
   real<lower=-5, upper=5> alpha;
   real<lower=-3, upper=3> beta;
   real<lower=-1, upper=7> gamma;
@@ -183,8 +195,7 @@ parameters {
 }
 
 transformed parameters {
-  real w = w_p + (a_p - 1.0)*w_a;
-  real H0 = H_p / Ez(z_p, Om, z_p, w_p, w_a);
+  real H0 = H_p / Ez(z_p, Om, z_p, w0);
   real Omh2 = Om*(H0/100)^2;
   real dH = 4.42563416002 * (67.74/H0);
   real mu_det;
@@ -207,7 +218,7 @@ transformed parameters {
     real sigma_rel2;
     real sigma_rel;
 
-    dlinterp = dls_of_zs(zinterp, dH, Om, z_p, w_p, w_a);
+    dlinterp = dls_of_zs(zinterp, dH, Om, z_p, w0);
 
     for (i in 1:nobs) {
       m2s[i] = MMin + m2_fracs[i]*(m1s[i]-MMin);
@@ -220,9 +231,9 @@ transformed parameters {
       m2sel_source[i] = m2sel[i]/(1+zsel[i]);
     }
 
-    log_dN_m_unwt = log_dNdm1dm2dzdt_norm(m1sel_source, m2sel_source, dlsel, zsel, MMin, MMax, smooth_low, smooth_high, alpha, beta, gamma, dH, Om, z_p, w_p, w_a);
+    log_dN_m_unwt = log_dNdm1dm2dzdt_norm(m1sel_source, m2sel_source, dlsel, zsel, MMin, MMax, smooth_min, smooth_max, alpha, beta, gamma, dH, Om, z_p, w0);
     for (i in 1:nsel) {
-      log_dN[i] = log_dN_m_unwt[i] - 2.0*log1p(zsel[i]) + log(dzddL(dlsel[i], zsel[i], dH, Om, z_p, w_p, w_a)) - log_wtsel[i];
+      log_dN[i] = log_dN_m_unwt[i] - 2.0*log1p(zsel[i]) + log(dzddL(dlsel[i], zsel[i], dH, Om, z_p, w0)) - log_wtsel[i];
     }
 
     for (i in 1:nsel) {
@@ -260,33 +271,32 @@ model {
     reject("need more samples for selection integral");
   }
 
-  MMin ~ normal(5, 2); /* Imposes a prior on dMMin, since these are linearly related. */
-  MMax ~ normal(50, 15); /* Imposes a prior on dMMax, since these are linearly related. */
+  MMax ~ normal(50, 15);
+  smooth_max ~ lognormal(log(0.1), 1);
 
   if (cosmo_prior == 0) {
     /* Prior on H0, sample in Hp => Jacobian d(H0)/d(Hp) = 1/E(z) */
     H0 ~ normal(70, 15);
-    target += -log(Ez(z_p, Om, z_p, w_p, w_a));
+    target += -log(Ez(z_p, Om, z_p, w0));
 
     Om ~ normal(0.3, 0.15);
   } else {
     /* See note above on Jacobian. */
     H0 ~ normal(67.74, 0.6774);
-    target += -log(Ez(z_p, Om, z_p, w_p, w_a));
+    target += -log(Ez(z_p, Om, z_p, w0));
 
     /* Prior on Om*h^2 from CMB, sample in Om => need Jacobian: d(Om*h^2)/d(Om) = h^2. */
     Omh2 ~ normal(0.02225+0.1198, sqrt(0.00016^2 + 0.0015^2));
     target += 2.0*log(H0/100.0);
   }
-  w_p ~ normal(-1, 0.5);
-  w_a ~ normal(0, 0.5);
+  w0 ~ normal(-1, 0.5);
 
   alpha ~ normal(1, 2);
   beta ~ normal(0, 2);
   gamma ~ normal(1.5, 1.5);
 
   /* Population prior on m1,m2,dl,z; no smoothing required, since we enforce MMin < m2 < m1 < MMax */
-  log_pop_nojac = log_dNdm1dm2dzdt_norm(m1s, m2s, dls, zs, MMin, MMax, 0.0, 0.0, alpha, beta, gamma, dH, Om, z_p, w_p, w_a);
+  log_pop_nojac = log_dNdm1dm2dzdt_norm(m1s, m2s, dls, zs, MMin, MMax, smooth_min, smooth_max, alpha, beta, gamma, dH, Om, z_p, w0);
   /* We have dN/d(m1)d(m2)d(z)d(t_det) but sample in m2_fracs, not m2, so need d(m2)/d(m2_frac) = m1 - MMin */
   for (i in 1:nobs) {
     log_pop_jac[i] = log_pop_nojac[i] + log(m1s[i] - MMin);
