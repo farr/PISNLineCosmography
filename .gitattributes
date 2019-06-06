@@ -4,3 +4,4 @@ parameters.h5 filter=lfs diff=lfs merge=lfs -text
 talks/*.key filter=lfs diff=lfs merge=lfs -text
 talks/*.pdf filter=lfs diff=lfs merge=lfs -text
 **/*.hdf5 filter=lfs diff=lfs merge=lfs -text
+**/*.nc filter=lfs diff=lfs merge=lfs -text
