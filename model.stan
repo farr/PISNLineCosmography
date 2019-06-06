@@ -158,6 +158,7 @@ data {
 
   int cosmo_prior;
 
+  real d_p;
   real z_p;
 }
 
@@ -183,7 +184,7 @@ parameters {
   real<lower=0,upper=1> Om;
   real<lower=-2,upper=0> w0;
 
-  real<lower=30, upper=150> MMax;
+  real<lower=50, upper=250> MMax_d_p;
   real<lower=0.01, upper=1.0> smooth_max;
   real<lower=-5, upper=5> alpha;
   real<lower=-3, upper=3> beta;
@@ -195,6 +196,8 @@ parameters {
 }
 
 transformed parameters {
+  real MMax;
+  real logdMMaxdMMax_d_p;
   real H0 = H_p / Ez(z_p, Om, z_p, w0);
   real Omh2 = Om*(H0/100)^2;
   real dH = 4.42563416002 * (67.74/H0);
@@ -218,7 +221,13 @@ transformed parameters {
     real sigma_rel2;
     real sigma_rel;
 
+    real mm_factor;
+
     dlinterp = dls_of_zs(zinterp, dH, Om, z_p, w0);
+
+    mm_factor = interp1d(d_p, dlinterp, zinterp);
+    MMax = MMax_d_p / (1 + mm_factor);
+    logdMMaxdMMax_d_p = -log1p(mm_factor);
 
     for (i in 1:nobs) {
       m2s[i] = m2_fracs[i]*m1s[i];
@@ -271,7 +280,11 @@ model {
     reject("need more samples for selection integral");
   }
 
+  /* Since we sample in MMax(d_p), but want a prior on MMax, we need a Jacobian
+  /* factor, as below. */
   MMax ~ normal(50, 15);
+  target += logdMMaxdMMax_d_p;
+
   smooth_max ~ lognormal(log(0.1), 1);
 
   if (cosmo_prior == 0) {

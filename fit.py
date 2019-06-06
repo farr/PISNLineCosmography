@@ -155,7 +155,8 @@ d = {
 
     'cosmo_prior': 1 if args.cosmo_prior else 0,
 
-    'z_p': true_params['z_p']
+    'z_p': true_params['z_p'],
+    'd_p': Planck15.luminosity_distance(true_params['z_p']).to(u.Gpc).value
 }
 
 def init(chain_index=None):
