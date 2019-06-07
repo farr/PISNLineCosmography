@@ -185,7 +185,7 @@ parameters {
   real<lower=-2,upper=0> w0;
 
   real<lower=50, upper=250> MMax_d_p;
-  real<lower=0.01, upper=1.0> smooth_max;
+  real<lower=MMax_d_p*1.02, upper=2*MMax_d_p> MMax_d_p_2sigma;
   real<lower=-5, upper=5> alpha;
   real<lower=-3, upper=3> beta;
   real<lower=-1, upper=7> gamma;
@@ -198,6 +198,7 @@ parameters {
 transformed parameters {
   real MMax;
   real logdMMaxdMMax_d_p;
+  real smooth_max = (log(MMax_d_p_2sigma)-log(MMax_d_p))/2.0;
   real H0 = H_p / Ez(z_p, Om, z_p, w0);
   real Omh2 = Om*(H0/100)^2;
   real dH = 4.42563416002 * (67.74/H0);
@@ -285,7 +286,10 @@ model {
   MMax ~ normal(50, 15);
   target += logdMMaxdMMax_d_p;
 
+  /* We sample in the 2-sigma mass upper limit, and so need
+  /* d(smooth_max)/d(M2Sigma) = 1/M2Sigma Jacobian. */
   smooth_max ~ lognormal(log(0.1), 1);
+  target += -log(MMax_d_p_2sigma);
 
   if (cosmo_prior == 0) {
     /* Prior on H0, sample in Hp => Jacobian d(H0)/d(Hp) = 1/E(z) */

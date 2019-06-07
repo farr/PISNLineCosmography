@@ -170,8 +170,9 @@ def init(chain_index=None):
 
     c = cosmo.FlatwCDM(Hp/Planck15.efunc(true_params['z_p']), Om, w)
 
-    MMax = 45 + 5*randn()
+    MMax_d_p = (45 + 5*randn())*(1+cosmo.z_at_value(c.luminosity_distance, Planck15.luminosity_distance(true_params['z_p']).to(u.Gpc)))
     smooth_max = 0.1 + 0.01*randn()
+    MMax_d_p_2sigma = exp(log(MMax_d_p) + 2*smooth_max)
 
     alpha = 0.7 + 0.1*randn()
     beta = 0.1*randn()
@@ -202,8 +203,8 @@ def init(chain_index=None):
         'H_p': Hp,
         'Om': Om,
         'w0': w,
-        'MMax': MMax,
-        'smooth_max': smooth_max,
+        'MMax_d_p': MMax_d_p,
+        'MMax_d_p_2sigma': MMax_d_p_2sigma,
         'alpha': alpha,
         'beta': beta,
         'gamma': gamma,
