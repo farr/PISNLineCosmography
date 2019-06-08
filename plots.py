@@ -97,6 +97,9 @@ def traceplot(c):
 
     az.plot_trace(fit, var_names=['H0', 'Om', 'w0', 'R0_30', 'MMax', 'smooth_max', 'alpha', 'beta', 'gamma'], lines=lines)
 
+def sampled_variables_scatterplot(c):
+    az.plot_pair(c, var_names=['H_p', 'Om', 'w0', 'MMax_d_p', 'MMax_d_p_2sigma', 'alpha', 'beta', 'gamma'])
+
 def neff_det_check_plot(c):
     fit = az.convert_to_inference_data(c)
 
@@ -249,6 +252,9 @@ def post_process(f, select_subset=None):
     print(min([es[k] for k in es.keys()]))
 
     traceplot(c)
+
+    figure()
+    sampled_variables_scatterplot(c)
 
     figure()
     neff_det_check_plot(c)
