@@ -244,6 +244,10 @@ def mass_correction_plot(c):
 def post_process(f, select_subset=None):
     c = az.from_netcdf(f)
 
+    print('Minimum effective sample size is')
+    es = az.ess(c).min()
+    print(min([es[k] for k in es.keys()]))
+
     traceplot(c)
 
     figure()
