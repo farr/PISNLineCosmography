@@ -1,0 +1,376 @@
+DIAGNOSTIC(S) FROM PARSER:
+Warning: integer division implicitly rounds to integer. Found int division: (h - l) / 2
+ Positive values rounded down, negative values rounded up or down in platform-dependent way.
+Warning (non-fatal):
+Left-hand side of sampling statement (~) may contain a non-linear transform of a parameter or local variable.
+If it does, you need to include a target += statement with the log absolute determinant of the Jacobian of the transform.
+Left-hand-side of sampling statement:
+    MMax ~ normal(...)
+Warning (non-fatal):
+Left-hand side of sampling statement (~) may contain a non-linear transform of a parameter or local variable.
+If it does, you need to include a target += statement with the log absolute determinant of the Jacobian of the transform.
+Left-hand-side of sampling statement:
+    smooth_max ~ lognormal(...)
+Warning (non-fatal):
+Left-hand side of sampling statement (~) may contain a non-linear transform of a parameter or local variable.
+If it does, you need to include a target += statement with the log absolute determinant of the Jacobian of the transform.
+Left-hand-side of sampling statement:
+    H0 ~ normal(...)
+Warning (non-fatal):
+Left-hand side of sampling statement (~) may contain a non-linear transform of a parameter or local variable.
+If it does, you need to include a target += statement with the log absolute determinant of the Jacobian of the transform.
+Left-hand-side of sampling statement:
+    H0 ~ normal(...)
+Warning (non-fatal):
+Left-hand side of sampling statement (~) may contain a non-linear transform of a parameter or local variable.
+If it does, you need to include a target += statement with the log absolute determinant of the Jacobian of the transform.
+Left-hand-side of sampling statement:
+    Omh2 ~ normal(...)
+
+INFO:pystan:COMPILING THE C++ CODE FOR MODEL anon_model_33be3064fcb5c90df6fdf5c2944874ef NOW.
+/mnt/home/wfarr/anaconda3/lib/python3.6/site-packages/Cython/Compiler/Main.py:367: FutureWarning: Cython directive 'language_level' not set, using 2 for now (Py2). This will change in a later release! File: /tmp/tmpqly51n1x/stanfit4anon_model_33be3064fcb5c90df6fdf5c2944874ef_3898587598127573845.pyx
+  tree = Parsing.p_module(s, pxd, full_module_name)
+
+Gradient evaluation took 0.18 seconds
+1000 transitions using 10 leapfrog steps per transition would take 1800 seconds.
+Adjust your expectations accordingly!
+
+
+
+Gradient evaluation took 0.15 seconds
+1000 transitions using 10 leapfrog steps per transition would take 1500 seconds.
+Adjust your expectations accordingly!
+
+
+
+Gradient evaluation took 0.15 seconds
+1000 transitions using 10 leapfrog steps per transition would take 1500 seconds.
+Adjust your expectations accordingly!
+
+
+
+Gradient evaluation took 0.17 seconds
+1000 transitions using 10 leapfrog steps per transition would take 1700 seconds.
+Adjust your expectations accordingly!
+
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model_exact.stan' at line 268)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model_exact.stan' at line 268)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model_exact.stan' at line 268)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model_exact.stan' at line 268)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model_exact.stan' at line 268)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model_exact.stan' at line 268)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model_exact.stan' at line 268)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model_exact.stan' at line 268)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model_exact.stan' at line 268)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model_exact.stan' at line 268)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model_exact.stan' at line 268)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model_exact.stan' at line 268)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Iteration:    1 / 2000 [  0%]  (Warmup)
+Iteration:    1 / 2000 [  0%]  (Warmup)
+Iteration:    1 / 2000 [  0%]  (Warmup)
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model_exact.stan' at line 268)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model_exact.stan' at line 268)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Iteration:    1 / 2000 [  0%]  (Warmup)
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model_exact.stan' at line 268)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model_exact.stan' at line 268)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model_exact.stan' at line 268)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model_exact.stan' at line 268)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model_exact.stan' at line 268)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model_exact.stan' at line 268)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model_exact.stan' at line 268)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model_exact.stan' at line 268)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model_exact.stan' at line 268)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model_exact.stan' at line 268)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model_exact.stan' at line 268)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model_exact.stan' at line 268)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model_exact.stan' at line 268)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model_exact.stan' at line 268)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Iteration:  200 / 2000 [ 10%]  (Warmup)
+Iteration:  200 / 2000 [ 10%]  (Warmup)
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model_exact.stan' at line 268)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model_exact.stan' at line 268)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Iteration:  200 / 2000 [ 10%]  (Warmup)
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model_exact.stan' at line 268)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Iteration:  200 / 2000 [ 10%]  (Warmup)
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model_exact.stan' at line 268)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model_exact.stan' at line 268)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model_exact.stan' at line 268)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model_exact.stan' at line 268)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Iteration:  400 / 2000 [ 20%]  (Warmup)
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model_exact.stan' at line 268)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Iteration:  400 / 2000 [ 20%]  (Warmup)
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model_exact.stan' at line 268)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Iteration:  400 / 2000 [ 20%]  (Warmup)
+Iteration:  400 / 2000 [ 20%]  (Warmup)
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model_exact.stan' at line 268)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Iteration:  600 / 2000 [ 30%]  (Warmup)
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model_exact.stan' at line 268)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Iteration:  600 / 2000 [ 30%]  (Warmup)
+Iteration:  600 / 2000 [ 30%]  (Warmup)
+Iteration:  600 / 2000 [ 30%]  (Warmup)
+Iteration:  800 / 2000 [ 40%]  (Warmup)
+Iteration:  800 / 2000 [ 40%]  (Warmup)
+Iteration:  800 / 2000 [ 40%]  (Warmup)
+Iteration:  800 / 2000 [ 40%]  (Warmup)
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model_exact.stan' at line 268)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model_exact.stan' at line 268)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model_exact.stan' at line 268)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Iteration: 2000 / 2000 [100%]  (Sampling)
+
+ Elapsed Time: 2317.53 seconds (Warm-up)
+               1652.33 seconds (Sampling)
+               3969.86 seconds (Total)
+
+Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Iteration: 2000 / 2000 [100%]  (Sampling)
+
+ Elapsed Time: 2501.9 seconds (Warm-up)
+               1791.49 seconds (Sampling)
+               4293.39 seconds (Total)
+
+Iteration: 2000 / 2000 [100%]  (Sampling)
+
+ Elapsed Time: 2421.8 seconds (Warm-up)
+               2000.61 seconds (Sampling)
+               4422.41 seconds (Total)
+
+Iteration: 2000 / 2000 [100%]  (Sampling)
+
+ Elapsed Time: 2486.22 seconds (Warm-up)
+               2001.12 seconds (Sampling)
+               4487.34 seconds (Total)
+
