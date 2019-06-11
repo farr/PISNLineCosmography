@@ -1,0 +1,925 @@
+GMM Fitting:   0%|          | 0/95 [00:00<?, ?it/s]GMM Fitting:   1%|          | 1/95 [00:00<00:15,  6.17it/s]GMM Fitting:   3%|▎         | 3/95 [00:00<00:13,  6.92it/s]GMM Fitting:   4%|▍         | 4/95 [00:00<00:12,  7.28it/s]GMM Fitting:   6%|▋         | 6/95 [00:00<00:10,  8.34it/s]GMM Fitting:   8%|▊         | 8/95 [00:00<00:09,  9.10it/s]GMM Fitting:  11%|█         | 10/95 [00:01<00:08,  9.45it/s]GMM Fitting:  13%|█▎        | 12/95 [00:01<00:08, 10.01it/s]GMM Fitting:  14%|█▎        | 13/95 [00:01<00:09,  9.11it/s]GMM Fitting:  15%|█▍        | 14/95 [00:01<00:08,  9.29it/s]GMM Fitting:  17%|█▋        | 16/95 [00:01<00:07, 10.27it/s]GMM Fitting:  19%|█▉        | 18/95 [00:01<00:07,  9.90it/s]GMM Fitting:  21%|██        | 20/95 [00:01<00:07, 10.62it/s]GMM Fitting:  23%|██▎       | 22/95 [00:02<00:06, 11.91it/s]GMM Fitting:  25%|██▌       | 24/95 [00:02<00:05, 12.20it/s]GMM Fitting:  27%|██▋       | 26/95 [00:02<00:05, 11.59it/s]GMM Fitting:  29%|██▉       | 28/95 [00:02<00:05, 11.93it/s]GMM Fitting:  32%|███▏      | 30/95 [00:02<00:06, 10.76it/s]GMM Fitting:  34%|███▎      | 32/95 [00:02<00:05, 11.42it/s]GMM Fitting:  36%|███▌      | 34/95 [00:03<00:04, 12.48it/s]GMM Fitting:  38%|███▊      | 36/95 [00:03<00:04, 11.89it/s]GMM Fitting:  40%|████      | 38/95 [00:03<00:05, 11.37it/s]GMM Fitting:  42%|████▏     | 40/95 [00:03<00:04, 11.58it/s]GMM Fitting:  44%|████▍     | 42/95 [00:03<00:04, 11.24it/s]GMM Fitting:  46%|████▋     | 44/95 [00:03<00:04, 11.22it/s]GMM Fitting:  48%|████▊     | 46/95 [00:04<00:04, 11.44it/s]GMM Fitting:  51%|█████     | 48/95 [00:04<00:04, 11.23it/s]GMM Fitting:  53%|█████▎    | 50/95 [00:04<00:04, 10.82it/s]GMM Fitting:  55%|█████▍    | 52/95 [00:04<00:04,  9.79it/s]GMM Fitting:  57%|█████▋    | 54/95 [00:04<00:04,  9.89it/s]GMM Fitting:  59%|█████▉    | 56/95 [00:05<00:03, 10.51it/s]GMM Fitting:  61%|██████    | 58/95 [00:05<00:03, 10.86it/s]GMM Fitting:  63%|██████▎   | 60/95 [00:05<00:03, 11.34it/s]GMM Fitting:  65%|██████▌   | 62/95 [00:05<00:02, 11.38it/s]GMM Fitting:  67%|██████▋   | 64/95 [00:05<00:02, 12.35it/s]GMM Fitting:  69%|██████▉   | 66/95 [00:05<00:02, 13.58it/s]GMM Fitting:  72%|███████▏  | 68/95 [00:06<00:01, 13.55it/s]GMM Fitting:  74%|███████▎  | 70/95 [00:06<00:01, 12.71it/s]GMM Fitting:  76%|███████▌  | 72/95 [00:06<00:01, 12.57it/s]GMM Fitting:  78%|███████▊  | 74/95 [00:06<00:01, 12.62it/s]GMM Fitting:  80%|████████  | 76/95 [00:06<00:01, 10.15it/s]GMM Fitting:  82%|████████▏ | 78/95 [00:07<00:01, 10.56it/s]GMM Fitting:  84%|████████▍ | 80/95 [00:07<00:01, 11.26it/s]GMM Fitting:  86%|████████▋ | 82/95 [00:07<00:01, 11.12it/s]GMM Fitting:  88%|████████▊ | 84/95 [00:07<00:01, 10.60it/s]GMM Fitting:  91%|█████████ | 86/95 [00:07<00:00, 11.37it/s]GMM Fitting:  93%|█████████▎| 88/95 [00:07<00:00, 11.58it/s]GMM Fitting:  95%|█████████▍| 90/95 [00:08<00:00, 11.71it/s]GMM Fitting:  97%|█████████▋| 92/95 [00:08<00:00, 12.77it/s]GMM Fitting:  99%|█████████▉| 94/95 [00:08<00:00, 12.51it/s]GMM Fitting: 100%|██████████| 95/95 [00:08<00:00, 11.29it/s]
+Mean/Sigma Samples:   0%|          | 0/95 [00:00<?, ?it/s]Mean/Sigma Samples:   4%|▍         | 4/95 [00:00<00:02, 34.42it/s]Mean/Sigma Samples:   7%|▋         | 7/95 [00:00<00:03, 29.12it/s]Mean/Sigma Samples:   9%|▉         | 9/95 [00:00<00:03, 23.45it/s]Mean/Sigma Samples:  12%|█▏        | 11/95 [00:00<00:03, 21.30it/s]Mean/Sigma Samples:  14%|█▎        | 13/95 [00:00<00:04, 18.51it/s]Mean/Sigma Samples:  16%|█▌        | 15/95 [00:00<00:04, 18.72it/s]Mean/Sigma Samples:  18%|█▊        | 17/95 [00:00<00:04, 18.87it/s]Mean/Sigma Samples:  21%|██        | 20/95 [00:00<00:03, 20.17it/s]Mean/Sigma Samples:  24%|██▍       | 23/95 [00:01<00:03, 20.16it/s]Mean/Sigma Samples:  26%|██▋       | 25/95 [00:01<00:03, 19.87it/s]Mean/Sigma Samples:  29%|██▉       | 28/95 [00:01<00:03, 21.92it/s]Mean/Sigma Samples:  33%|███▎      | 31/95 [00:01<00:03, 20.56it/s]Mean/Sigma Samples:  36%|███▌      | 34/95 [00:01<00:03, 18.67it/s]Mean/Sigma Samples:  38%|███▊      | 36/95 [00:01<00:03, 18.84it/s]Mean/Sigma Samples:  40%|████      | 38/95 [00:01<00:03, 18.85it/s]Mean/Sigma Samples:  42%|████▏     | 40/95 [00:02<00:02, 18.75it/s]Mean/Sigma Samples:  44%|████▍     | 42/95 [00:02<00:02, 18.22it/s]Mean/Sigma Samples:  46%|████▋     | 44/95 [00:02<00:02, 18.36it/s]Mean/Sigma Samples:  49%|████▉     | 47/95 [00:02<00:02, 20.44it/s]Mean/Sigma Samples:  53%|█████▎    | 50/95 [00:02<00:02, 20.43it/s]Mean/Sigma Samples:  56%|█████▌    | 53/95 [00:02<00:02, 19.06it/s]Mean/Sigma Samples:  58%|█████▊    | 55/95 [00:02<00:02, 19.11it/s]Mean/Sigma Samples:  60%|██████    | 57/95 [00:02<00:01, 19.15it/s]Mean/Sigma Samples:  63%|██████▎   | 60/95 [00:03<00:01, 20.18it/s]Mean/Sigma Samples:  66%|██████▋   | 63/95 [00:03<00:01, 19.77it/s]Mean/Sigma Samples:  69%|██████▉   | 66/95 [00:03<00:01, 21.73it/s]Mean/Sigma Samples:  73%|███████▎  | 69/95 [00:03<00:01, 21.97it/s]Mean/Sigma Samples:  76%|███████▌  | 72/95 [00:03<00:01, 20.10it/s]Mean/Sigma Samples:  79%|███████▉  | 75/95 [00:03<00:00, 20.27it/s]Mean/Sigma Samples:  83%|████████▎ | 79/95 [00:03<00:00, 23.33it/s]Mean/Sigma Samples:  87%|████████▋ | 83/95 [00:03<00:00, 26.40it/s]Mean/Sigma Samples:  92%|█████████▏| 87/95 [00:04<00:00, 27.52it/s]Mean/Sigma Samples:  96%|█████████▌| 91/95 [00:04<00:00, 28.72it/s]Mean/Sigma Samples: 100%|██████████| 95/95 [00:04<00:00, 27.55it/s]DIAGNOSTIC(S) FROM PARSER:
+Warning: integer division implicitly rounds to integer. Found int division: (h - l) / 2
+ Positive values rounded down, negative values rounded up or down in platform-dependent way.
+Warning (non-fatal):
+Left-hand side of sampling statement (~) may contain a non-linear transform of a parameter or local variable.
+If it does, you need to include a target += statement with the log absolute determinant of the Jacobian of the transform.
+Left-hand-side of sampling statement:
+    MMax ~ normal(...)
+Warning (non-fatal):
+Left-hand side of sampling statement (~) may contain a non-linear transform of a parameter or local variable.
+If it does, you need to include a target += statement with the log absolute determinant of the Jacobian of the transform.
+Left-hand-side of sampling statement:
+    smooth_max ~ lognormal(...)
+Warning (non-fatal):
+Left-hand side of sampling statement (~) may contain a non-linear transform of a parameter or local variable.
+If it does, you need to include a target += statement with the log absolute determinant of the Jacobian of the transform.
+Left-hand-side of sampling statement:
+    H0 ~ normal(...)
+Warning (non-fatal):
+Left-hand side of sampling statement (~) may contain a non-linear transform of a parameter or local variable.
+If it does, you need to include a target += statement with the log absolute determinant of the Jacobian of the transform.
+Left-hand-side of sampling statement:
+    H0 ~ normal(...)
+Warning (non-fatal):
+Left-hand side of sampling statement (~) may contain a non-linear transform of a parameter or local variable.
+If it does, you need to include a target += statement with the log absolute determinant of the Jacobian of the transform.
+Left-hand-side of sampling statement:
+    Omh2 ~ normal(...)
+
+
+INFO:pystan:COMPILING THE C++ CODE FOR MODEL anon_model_25a7f0a47fc777c34b8daf3cf7a3e2ae NOW.
+Called with the following command line:
+./fit.py --sampfile observations.h5 --subset small --selfile selected.h5 --nsel 8192 --chainfile population_small_8192.nc --tracefile traceplot_small_8192.pdf
+/mnt/home/wfarr/anaconda3/lib/python3.6/site-packages/Cython/Compiler/Main.py:367: FutureWarning: Cython directive 'language_level' not set, using 2 for now (Py2). This will change in a later release! File: /tmp/tmpud008fu9/stanfit4anon_model_25a7f0a47fc777c34b8daf3cf7a3e2ae_6686842832337495868.pyx
+  tree = Parsing.p_module(s, pxd, full_module_name)
+
+Gradient evaluation took 0.04 seconds
+1000 transitions using 10 leapfrog steps per transition would take 400 seconds.
+Adjust your expectations accordingly!
+
+
+
+Gradient evaluation took 0.05 seconds
+1000 transitions using 10 leapfrog steps per transition would take 500 seconds.
+Adjust your expectations accordingly!
+
+
+
+Gradient evaluation took 0.03 seconds
+1000 transitions using 10 leapfrog steps per transition would take 300 seconds.
+Adjust your expectations accordingly!
+
+
+
+Gradient evaluation took 0.03 seconds
+1000 transitions using 10 leapfrog steps per transition would take 300 seconds.
+Adjust your expectations accordingly!
+
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model.stan' at line 294)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model.stan' at line 294)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model.stan' at line 294)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Iteration:    1 / 2000 [  0%]  (Warmup)
+Iteration:    1 / 2000 [  0%]  (Warmup)
+Iteration:    1 / 2000 [  0%]  (Warmup)
+Iteration:    1 / 2000 [  0%]  (Warmup)
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model.stan' at line 294)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: cannot search outside bounds  (in 'model.stan' at line 7)
+  (in 'model.stan' at line 25)
+  (in 'model.stan' at line 246)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: cannot search outside bounds  (in 'model.stan' at line 7)
+  (in 'model.stan' at line 25)
+  (in 'model.stan' at line 246)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model.stan' at line 294)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model.stan' at line 294)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: cannot search outside bounds  (in 'model.stan' at line 7)
+  (in 'model.stan' at line 25)
+  (in 'model.stan' at line 246)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: cannot search outside bounds  (in 'model.stan' at line 7)
+  (in 'model.stan' at line 25)
+  (in 'model.stan' at line 246)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model.stan' at line 294)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model.stan' at line 294)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model.stan' at line 294)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model.stan' at line 294)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model.stan' at line 294)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: need more samples for selection integral  (in 'model.stan' at line 294)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Iteration:  200 / 2000 [ 10%]  (Warmup)
+Iteration:  200 / 2000 [ 10%]  (Warmup)
+Iteration:  200 / 2000 [ 10%]  (Warmup)
+Iteration:  200 / 2000 [ 10%]  (Warmup)
+Iteration:  400 / 2000 [ 20%]  (Warmup)
+Iteration:  400 / 2000 [ 20%]  (Warmup)
+Iteration:  400 / 2000 [ 20%]  (Warmup)
+Iteration:  400 / 2000 [ 20%]  (Warmup)
+Iteration:  600 / 2000 [ 30%]  (Warmup)
+Iteration:  600 / 2000 [ 30%]  (Warmup)
+Iteration:  600 / 2000 [ 30%]  (Warmup)
+Iteration:  600 / 2000 [ 30%]  (Warmup)
+Iteration:  800 / 2000 [ 40%]  (Warmup)
+Iteration:  800 / 2000 [ 40%]  (Warmup)
+Iteration:  800 / 2000 [ 40%]  (Warmup)
+Iteration:  800 / 2000 [ 40%]  (Warmup)
+Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Iteration: 2000 / 2000 [100%]  (Sampling)
+
+ Elapsed Time: 1654.18 seconds (Warm-up)
+               1006.77 seconds (Sampling)
+               2660.95 seconds (Total)
+
+Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Iteration: 2000 / 2000 [100%]  (Sampling)
+
+ Elapsed Time: 1675.47 seconds (Warm-up)
+               1552.67 seconds (Sampling)
+               3228.14 seconds (Total)
+
+Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Iteration: 2000 / 2000 [100%]  (Sampling)
+
+ Elapsed Time: 1782.91 seconds (Warm-up)
+               1499.04 seconds (Sampling)
+               3281.95 seconds (Total)
+
+Iteration: 2000 / 2000 [100%]  (Sampling)
+
+ Elapsed Time: 1808.52 seconds (Warm-up)
+               1771.75 seconds (Sampling)
+               3580.27 seconds (Total)
+
+Inference for Stan model: anon_model_25a7f0a47fc777c34b8daf3cf7a3e2ae.
+4 chains, each with iter=2000; warmup=1000; thin=1; 
+post-warmup draws per chain=1000, total post-warmup draws=4000.
+
+                    mean se_mean     sd   2.5%    25%    50%    75%  97.5%  n_eff   Rhat
+H_p               131.25    0.28  16.19  100.7 120.26 130.83 141.66 164.36   3357    1.0
+Om                  0.36  1.8e-3   0.13   0.12   0.27   0.36   0.44   0.62   4993    1.0
+w0                 -0.88  6.6e-3   0.43  -1.77  -1.18  -0.85  -0.56  -0.13   4202    1.0
+MMax_d_p           78.85    0.06   2.54  72.99  77.41  79.15  80.62  83.12   1871    1.0
+MMax_d_p_2sigma    88.57    0.09   3.32   82.8  86.15  88.33  90.72  95.51   1248    1.0
+alpha               -0.3    0.01    0.7  -1.72  -0.74  -0.26    0.2   1.01   3547    1.0
+beta               -0.09  5.9e-3   0.35  -0.75  -0.32   -0.1   0.14   0.65   3548    1.0
+gamma               3.16  8.9e-3   0.54   2.11    2.8   3.16   3.54   4.23   3723    1.0
+xs[1,1]            -0.72    0.02   0.94  -2.64  -1.31  -0.68  -0.08   1.07   3872    1.0
+xs[2,1]           5.2e-3    0.03   1.01  -1.91  -0.74   0.08    0.8   1.79   1040    1.0
+xs[3,1]            -0.63    0.01   0.75   -1.9  -1.17   -0.7  -0.17   1.03   2583    1.0
+xs[4,1]            -0.03    0.02   0.96  -1.65  -0.78  -0.12   0.66   1.92   1742    1.0
+xs[5,1]            -0.02    0.03   0.98  -1.74   -0.8  -0.03   0.73   1.84    864    1.0
+xs[6,1]           9.6e-3    0.02   0.99  -1.64  -0.74  -0.08   0.71   2.16   1871    1.0
+xs[7,1]           3.6e-3    0.02   1.02  -2.01  -0.69 4.3e-3   0.68   2.09   4546    1.0
+xs[8,1]            -0.08    0.02   0.94  -1.74  -0.82  -0.11   0.66   1.66   1720    1.0
+xs[9,1]            -0.24    0.02   0.89  -1.77  -0.94  -0.29   0.43   1.45   1859    1.0
+xs[10,1]         -5.9e-3    0.03   0.96  -2.06  -0.59   0.11    0.7    1.6   1302    1.0
+xs[11,1]            0.02    0.03    1.0  -1.63  -0.74  -0.08   0.74   2.12   1582    1.0
+xs[12,1]           -0.24    0.03   0.95  -2.17  -0.91  -0.16   0.47   1.45   1380    1.0
+xs[13,1]           -0.41    0.02   0.85  -1.83  -1.05  -0.52   0.18   1.32   2332    1.0
+xs[14,1]            0.05    0.02   0.99  -1.73  -0.73   0.07   0.81   1.85   1755    1.0
+xs[15,1]           -0.07    0.03   0.98  -1.86  -0.83  -0.09   0.69   1.81   1498    1.0
+xs[16,1]           -0.84    0.02   0.98  -2.85  -1.49  -0.76  -0.15   0.92   2370    1.0
+xs[17,1]           -0.23    0.02   0.88  -1.74   -0.9  -0.27   0.38   1.55   2149    1.0
+xs[18,1]           -0.25    0.02   0.86  -1.64   -0.9  -0.36   0.34   1.55   1920    1.0
+xs[19,1]           -0.28    0.02   0.83  -1.63  -0.88  -0.38   0.29    1.5   1794    1.0
+xs[20,1]            -0.4    0.03   0.92  -2.17  -1.07  -0.36    0.3   1.26   1212    1.0
+xs[21,1]           -0.02    0.03   0.95  -1.76  -0.75 4.0e-3   0.71   1.75   1186    1.0
+xs[22,1]         -6.5e-3    0.02   1.02  -2.15  -0.63   0.06   0.67   1.83   2501    1.0
+xs[23,1]          7.1e-3    0.03   1.01  -2.27   -0.6   0.08   0.71   1.75   1527    1.0
+xs[24,1]         -2.9e-3    0.02   0.97  -1.55  -0.72  -0.12   0.58   2.16   1651    1.0
+xs[25,1]            -0.3    0.02   0.91  -1.98  -1.01  -0.26   0.37   1.37   1588    1.0
+xs[26,1]           -0.34    0.04   0.99  -2.52  -0.97  -0.21   0.39   1.27    772    1.0
+xs[27,1]            0.02    0.02   0.98  -2.05  -0.65   0.06    0.7   1.93   3645    1.0
+xs[28,1]            0.06    0.03   0.98  -2.04  -0.56   0.16   0.77   1.76   1241    1.0
+xs[29,1]           -0.04    0.01    1.0  -1.94  -0.76  -0.06   0.66   1.93   4750    1.0
+xs[30,1]           -0.17    0.02   0.92  -1.79  -0.87  -0.19   0.48   1.64   1756    1.0
+xs[31,1]           -0.17    0.01   0.96  -2.11  -0.82  -0.16   0.49   1.63   4779    1.0
+xs[32,1]           -0.53    0.02   0.84  -1.97  -1.16  -0.59   0.07   1.14   2050    1.0
+xs[33,1]           -0.12    0.02   0.92  -1.63  -0.84   -0.2   0.52   1.85   2064    1.0
+xs[34,1]            -0.1    0.02   0.96  -2.11  -0.69  -0.05   0.58   1.68   2621    1.0
+xs[35,1]           -0.21    0.02   0.93  -2.16  -0.78  -0.16   0.42   1.44   2796    1.0
+xs[36,1]           -0.04    0.01   0.97  -2.09  -0.67  -0.03    0.6   1.82   4443    1.0
+xs[37,1]            0.02    0.02   0.99  -1.64  -0.72  -0.06   0.67    2.1   1968    1.0
+xs[38,1]            0.04    0.02   0.99  -1.62   -0.7  -0.03   0.71   2.09   1688    1.0
+xs[39,1]           -0.82    0.02   0.93  -2.57  -1.44  -0.82  -0.21    1.0   3801    1.0
+xs[40,1]           -0.65    0.02   0.76  -1.92  -1.23  -0.69  -0.14   0.99   2308    1.0
+xs[41,1]           -0.69    0.02   0.76  -1.95  -1.24  -0.76   -0.2   0.97   2568    1.0
+xs[42,1]            0.07    0.02    1.0  -1.57  -0.69  -0.03   0.72   2.28   1822    1.0
+xs[43,1]            0.05    0.02   0.99  -1.89  -0.66   0.14   0.78   1.86   1703    1.0
+xs[44,1]         -6.1e-3    0.02   0.99  -1.62  -0.76  -0.11    0.7   2.03   2141    1.0
+xs[45,1]           -0.06    0.02   0.95  -1.71  -0.82  -0.07   0.67   1.75   1693    1.0
+xs[46,1]            0.02    0.03   1.01  -2.06  -0.67   0.13   0.78   1.77   1031   1.01
+xs[47,1]            0.01    0.02   0.96   -1.6  -0.73  -0.09   0.69    2.0   2054    1.0
+xs[48,1]           -0.11    0.01   0.95  -2.06  -0.74  -0.06   0.52   1.75   4461    1.0
+xs[49,1]           -0.34    0.02   0.82  -1.73  -0.93  -0.45   0.19   1.43   2613    1.0
+xs[50,1]           -0.41    0.01   0.97  -2.32  -1.03  -0.44    0.2   1.63   4337    1.0
+xs[51,1]            0.06    0.03   0.99  -2.01   -0.6   0.14   0.78   1.78   1086    1.0
+xs[52,1]           -0.06    0.01   1.02  -2.09  -0.72  -0.04    0.6   1.96   4689    1.0
+xs[53,1]           -0.15    0.02   0.94  -1.78  -0.89  -0.17   0.55   1.66   1429    1.0
+xs[54,1]           -0.16    0.02   0.91  -1.71  -0.83  -0.24   0.46   1.73   2060    1.0
+xs[55,1]            -0.6    0.02   0.85  -2.07  -1.25  -0.64-1.9e-3   1.09   1997    1.0
+xs[56,1]          3.4e-3    0.03   0.98   -2.1   -0.6   0.12   0.69    1.7   1319    1.0
+xs[57,1]           -0.03    0.01   0.98  -2.03   -0.7 5.7e-3    0.6   1.92   4653    1.0
+xs[58,1]            0.04    0.02   0.96  -1.66  -0.69 3.6e-3   0.74    1.9   1738    1.0
+xs[59,1]            0.03    0.02   0.98  -2.15  -0.55    0.1   0.71   1.74   1603    1.0
+xs[60,1]           -0.32    0.04   1.02  -2.75  -0.89  -0.21   0.36    1.4    517   1.01
+xs[61,1]           -0.23    0.01   0.94  -2.12  -0.83  -0.24   0.38   1.65   4673    1.0
+xs[62,1]            0.02    0.02   0.99  -1.58  -0.71  -0.11   0.66   2.23   1925    1.0
+xs[63,1]          6.0e-3    0.01   0.98  -2.03  -0.66 4.1e-3   0.67   1.93   5328    1.0
+xs[64,1]           -0.03    0.04   1.08  -2.59  -0.62   0.09    0.7   1.77    731   1.01
+xs[65,1]            -0.5    0.01    0.9  -2.38  -1.05  -0.49   0.13   1.23   4705    1.0
+xs[66,1]           -0.04    0.02   0.98  -2.16  -0.66-2.1e-3   0.66   1.79   3695    1.0
+xs[67,1]            0.02    0.03    1.0  -2.01  -0.66   0.14   0.77   1.74   1283    1.0
+xs[68,1]           -0.09    0.01   0.95  -1.96  -0.72  -0.08   0.55   1.78   5126    1.0
+xs[69,1]           -0.09    0.02   0.92  -1.65   -0.8  -0.16   0.54   1.83   2073    1.0
+xs[70,1]          6.8e-3    0.01   0.99  -1.94  -0.66   0.02   0.67   1.97   4532    1.0
+xs[71,1]           -0.14    0.02    0.9  -1.65  -0.83  -0.21    0.5   1.74   1780    1.0
+xs[72,1]            0.02    0.03    1.0  -1.82  -0.77   0.08   0.76   1.86   1380    1.0
+xs[73,1]           -0.68    0.01    0.7  -1.85  -1.19  -0.77  -0.24   0.89   2483    1.0
+xs[74,1]           -0.49    0.02   0.99  -2.85  -1.03  -0.39   0.17   1.16   1979    1.0
+xs[75,1]         -3.6e-3    0.02   0.96  -1.66  -0.72  -0.07   0.65   1.98   1912    1.0
+xs[76,1]           -0.23    0.02   0.87  -1.75  -0.88  -0.29   0.34    1.6   2681    1.0
+xs[77,1]           -0.73    0.03   0.97  -2.65  -1.44  -0.62 7.2e-3   0.94   1333    1.0
+xs[78,1]           -1.18    0.02   0.92  -2.78  -1.89  -1.25  -0.52   0.66   1861    1.0
+xs[79,1]            0.02    0.03   0.97  -1.99   -0.6   0.08   0.74   1.69   1355    1.0
+xs[80,1]           -0.25    0.01   0.96  -2.19   -0.9  -0.23   0.38   1.67   4641    1.0
+xs[81,1]           -0.96    0.01   0.65  -2.09  -1.42  -0.99  -0.55   0.41   2729    1.0
+xs[82,1]           -0.35    0.01   0.94  -2.26  -0.96  -0.31   0.28   1.42   4541    1.0
+xs[83,1]           -0.02    0.03   0.95  -1.56  -0.76  -0.12   0.63    2.0   1444    1.0
+xs[84,1]            -0.4    0.02    0.8  -1.78  -0.98  -0.49   0.12   1.36   2345    1.0
+xs[85,1]         -6.6e-4    0.02   0.97  -1.68   -0.7  -0.09   0.66   2.09   1737    1.0
+xs[86,1]            0.02    0.02   0.96  -2.27  -0.51   0.13   0.68   1.62   1538   1.01
+xs[87,1]           -0.09    0.02   0.94  -1.65  -0.79  -0.17   0.55   1.89   1997    1.0
+xs[88,1]           -0.05    0.01   1.02  -2.14  -0.73-8.1e-3   0.65    1.9   5347    1.0
+xs[89,1]           -0.89    0.01   0.71  -2.11   -1.4  -0.96  -0.46   0.71   2255    1.0
+xs[90,1]           -0.18    0.02   0.93  -2.06  -0.84  -0.11   0.52   1.43   1399    1.0
+xs[91,1]         -5.0e-3    0.01   0.98  -1.97  -0.64-1.6e-3   0.67   1.96   4516    1.0
+xs[92,1]           -1.09    0.02   0.66  -2.15  -1.58  -1.16  -0.67    0.4   1932    1.0
+xs[93,1]          8.4e-3    0.03   0.99  -1.74  -0.75 4.3e-3   0.77   1.92   1362    1.0
+xs[94,1]           -0.65    0.01    0.7  -1.86  -1.16   -0.7   -0.2   0.87   3006    1.0
+xs[95,1]            0.07    0.02   0.97  -1.72  -0.67    0.1   0.79   1.89   1519    1.0
+xs[1,2]             0.16    0.01   1.08  -1.81  -0.59   0.11   0.85   2.43   5258    1.0
+xs[2,2]          -6.5e-3    0.03    0.9  -1.31  -0.58  -0.12   0.41    2.0   1063    1.0
+xs[3,2]            -0.03    0.03   1.15  -1.56  -0.75  -0.24   0.42   3.02   1226    1.0
+xs[4,2]            -0.04    0.03   0.98  -1.46  -0.64  -0.17   0.36    2.3   1312    1.0
+xs[5,2]            -0.01    0.05    1.0  -1.28  -0.61  -0.18   0.34   2.45    427    1.0
+xs[6,2]            -0.05    0.03   0.93  -1.46  -0.63  -0.18   0.36   2.08   1231    1.0
+xs[7,2]          -5.3e-3    0.01    1.0  -1.91  -0.69-2.5e-3   0.66   1.94   5775    1.0
+xs[8,2]            -0.07    0.02   0.93  -1.52  -0.63  -0.16   0.33    2.1   1684    1.0
+xs[9,2]            -0.06    0.03   0.99  -1.51  -0.65   -0.2   0.32   2.48   1501    1.0
+xs[10,2]           -0.05    0.03   0.87  -1.42  -0.59  -0.13   0.35   1.94   1024    1.0
+xs[11,2]           -0.05    0.02   0.88  -1.41  -0.62  -0.16   0.38   1.95   1607    1.0
+xs[12,2]           -0.08    0.03   0.93  -1.48  -0.67  -0.18   0.34   2.21   1333    1.0
+xs[13,2]            -0.1    0.02   0.94  -1.48  -0.71  -0.22    0.3   2.18   2250    1.0
+xs[14,2]           -0.04    0.02    0.9  -1.35   -0.6  -0.14   0.36   2.23   1615    1.0
+xs[15,2]         -7.3e-3    0.02   0.93  -1.43  -0.59  -0.12   0.41   2.37   1899    1.0
+xs[16,2]            0.23    0.02   1.18  -1.69  -0.55   0.13   0.87   2.87   2627    1.0
+xs[17,2]           -0.11    0.02   0.87  -1.43  -0.67  -0.23   0.27   2.07   1610    1.0
+xs[18,2]           -0.13    0.02    0.9  -1.38   -0.7  -0.26   0.22   2.09   1364    1.0
+xs[19,2]           -0.16    0.04   0.96  -1.35  -0.69  -0.32   0.16    1.9    695   1.01
+xs[20,2]           -0.09    0.04   1.06   -1.6  -0.67  -0.21   0.28   2.31    841    1.0
+xs[21,2]           -0.07    0.02   0.84  -1.39  -0.59  -0.17    0.3   1.96   1395    1.0
+xs[22,2]            0.03    0.02   0.98  -1.71   -0.6  -0.02   0.61    2.0   1835    1.0
+xs[23,2]            0.01    0.03    0.9   -1.5  -0.57  -0.05    0.5   1.84    987    1.0
+xs[24,2]           -0.03    0.02   0.93  -1.37  -0.61  -0.17   0.37    2.3   1416    1.0
+xs[25,2]           -0.07    0.03   0.93  -1.46  -0.64  -0.21   0.32   2.32    965    1.0
+xs[26,2]            0.09    0.15   1.74  -1.56  -0.65  -0.17   0.34    4.1    135   1.03
+xs[27,2]            0.03    0.01   1.01   -1.9  -0.69   0.02   0.74    2.0   4956    1.0
+xs[28,2]           -0.02    0.03   0.94   -1.4  -0.58  -0.12   0.38   2.28    765    1.0
+xs[29,2]            0.02    0.01   1.01  -1.99  -0.66   0.02   0.68   2.06   5275    1.0
+xs[30,2]           -0.04    0.03   0.95  -1.49  -0.64  -0.16   0.37   2.27   1380    1.0
+xs[31,2]            0.05    0.01    1.0  -1.91  -0.63   0.05   0.75   1.94   5330    1.0
+xs[32,2]           -0.08    0.02   0.98   -1.5   -0.7  -0.23   0.33    2.4   1632    1.0
+xs[33,2]           -0.11    0.02   0.85  -1.38  -0.65  -0.21   0.29   1.92   1852    1.0
+xs[34,2]           -0.04    0.02   0.87  -1.55  -0.63  -0.07   0.48   1.72   2420    1.0
+xs[35,2]            0.02    0.02   1.01  -1.69  -0.63  -0.06   0.57   2.11   2356    1.0
+xs[36,2]            0.04    0.01   0.97  -1.88  -0.61   0.03    0.7   1.89   6632    1.0
+xs[37,2]           -0.05    0.02    0.9  -1.48  -0.62  -0.15   0.39    2.1   1602    1.0
+xs[38,2]           -0.04    0.03   0.94  -1.48  -0.62  -0.15   0.38   2.33   1305    1.0
+xs[39,2]            0.27    0.01   1.05  -1.81  -0.43   0.26   0.97   2.41   6001    1.0
+xs[40,2]           -0.05    0.03   1.07  -1.58  -0.74  -0.23   0.41   2.57   1790    1.0
+xs[41,2]         -3.4e-3    0.03   1.14  -1.61  -0.72   -0.2   0.49   2.71   1495    1.0
+xs[42,2]           -0.08    0.02   0.82   -1.4  -0.63  -0.17   0.35   1.88   2437    1.0
+xs[43,2]           -0.04    0.02   0.84  -1.37  -0.57  -0.12   0.35    1.8   1885    1.0
+xs[44,2]           -0.03    0.02   0.92  -1.36  -0.61  -0.15   0.37   2.23   1662    1.0
+xs[45,2]           -0.08    0.02   0.87  -1.47  -0.64  -0.18   0.32   1.95   1647    1.0
+xs[46,2]            0.03    0.05   1.05  -1.35  -0.57  -0.11   0.41    2.4    514   1.01
+xs[47,2]           -0.08    0.02   0.88  -1.39  -0.62  -0.18   0.32   1.88   1410    1.0
+xs[48,2]            0.03    0.02   1.03  -1.95  -0.68  -0.02   0.71   2.09   4457    1.0
+xs[49,2]           -0.12    0.02   0.93  -1.48  -0.73  -0.29    0.3   2.13   1681    1.0
+xs[50,2]            0.07    0.01    1.0  -1.89  -0.61   0.07   0.76   2.08   5312    1.0
+xs[51,2]           -0.03    0.02   0.82  -1.37  -0.56   -0.1   0.38   1.81   1884    1.0
+xs[52,2]            0.05    0.01    1.0  -1.94  -0.61   0.06   0.72   1.98   5637    1.0
+xs[53,2]            0.03    0.04   1.13   -1.3  -0.61  -0.19   0.34   3.01    698   1.01
+xs[54,2]           -0.09    0.02   0.91  -1.45  -0.68  -0.23   0.33    2.2   1504    1.0
+xs[55,2]           -0.08    0.03   1.02  -1.45  -0.73  -0.25   0.32   2.66   1326    1.0
+xs[56,2]           -0.04    0.03   0.88  -1.34  -0.55  -0.13   0.34   1.69   1122    1.0
+xs[57,2]            0.03    0.01   0.99  -1.87  -0.66   0.02   0.73   1.98   7306    1.0
+xs[58,2]           -0.05    0.02   0.88  -1.36   -0.6  -0.15   0.36   1.92   1568    1.0
+xs[59,2]           -0.02    0.02   0.81  -1.42  -0.55  -0.05   0.44   1.58   1722    1.0
+xs[60,2]            0.06    0.07   1.23  -1.66  -0.63  -0.08    0.5   3.05    309   1.01
+xs[61,2]            0.05    0.01   1.03  -2.02  -0.62   0.06   0.74   2.06   6277    1.0
+xs[62,2]           -0.02    0.03   0.95  -1.43  -0.63  -0.15    0.4   2.16   1365    1.0
+xs[63,2]            0.01    0.01   0.98  -1.89  -0.64   0.02   0.68   1.93   4874    1.0
+xs[64,2]            0.06    0.08   1.28  -1.47  -0.53  -0.02   0.47   1.84    231   1.02
+xs[65,2]            0.11    0.02   1.05  -1.85  -0.62   0.09    0.8   2.19   4528    1.0
+xs[66,2]         -1.9e-3    0.02   0.99  -1.75  -0.68  -0.04   0.62   1.97   3918    1.0
+xs[67,2]          2.4e-3    0.03   0.96  -1.35  -0.55   -0.1   0.37   2.24    979    1.0
+xs[68,2]            0.03    0.01   0.99   -1.9  -0.63   0.02   0.71   1.96   6366    1.0
+xs[69,2]           -0.11    0.02   0.81  -1.43  -0.64   -0.2   0.31   1.83   2152    1.0
+xs[70,2]            0.05    0.02    1.0  -1.83  -0.66   0.02   0.75   2.02   4380    1.0
+xs[71,2]           -0.05    0.04   1.07   -1.5  -0.66  -0.22   0.29   2.53    757    1.0
+xs[72,2]           -0.05    0.02   0.86  -1.42  -0.58  -0.12   0.36   1.95   1836    1.0
+xs[73,2]           -0.02    0.03   1.11  -1.57  -0.76  -0.25   0.47   2.83   1822    1.0
+xs[74,2]            0.09    0.03   1.15   -1.7  -0.61  -0.01   0.62   2.74   1273    1.0
+xs[75,2]           -0.03    0.03   1.04  -1.41  -0.66  -0.19   0.36   2.47   1066    1.0
+xs[76,2]           -0.07    0.02   0.95  -1.51  -0.68  -0.22   0.35   2.22   1663    1.0
+xs[77,2]          6.5e-3    0.04   1.23  -1.52   -0.7  -0.21   0.37   3.14    801    1.0
+xs[78,2]            0.25    0.04   1.42  -1.53  -0.62  -0.08   0.73   4.19   1492    1.0
+xs[79,2]           -0.05    0.03    0.9  -1.42   -0.6  -0.14   0.36    2.0   1217    1.0
+xs[80,2]            0.05    0.01   1.02  -1.88  -0.63   0.03   0.72   2.13   5827    1.0
+xs[81,2]           -0.15    0.04    1.3  -1.88  -0.94  -0.38   0.34   3.18   1075   1.01
+xs[82,2]            0.09    0.01   1.02   -1.9  -0.57   0.08   0.76   2.19   5746    1.0
+xs[83,2]           -0.04    0.02   0.89  -1.41  -0.64  -0.14   0.41   2.17   1858    1.0
+xs[84,2]            -0.1    0.02   0.94  -1.52  -0.71  -0.22   0.33   2.18   1986    1.0
+xs[85,2]           -0.06    0.02   0.88  -1.46  -0.63  -0.17   0.39   1.99   1536    1.0
+xs[86,2]           -0.03    0.02   0.85   -1.5  -0.58  -0.07   0.45   1.66   2175    1.0
+xs[87,2]           -0.11    0.02   0.89  -1.51  -0.68  -0.21   0.32   1.84   1770    1.0
+xs[88,2]            0.03    0.01   0.97   -1.9  -0.63   0.05   0.71   1.89   5124    1.0
+xs[89,2]            0.04    0.03   1.25   -1.6   -0.7  -0.17   0.46   3.16   1351    1.0
+xs[90,2]           -0.11    0.02    0.9  -1.52  -0.68   -0.2    0.3    2.0   1450    1.0
+xs[91,2]         -5.0e-3    0.01    1.0  -1.96  -0.68   0.02   0.67   1.93   5619    1.0
+xs[92,2]            0.16    0.03   1.31  -1.55  -0.69   -0.1   0.68   3.55   1548    1.0
+xs[93,2]           -0.03    0.03   0.94  -1.44  -0.63  -0.13   0.42   2.08    984    1.0
+xs[94,2]           -0.08    0.03   1.07  -1.56  -0.76  -0.25   0.37   2.52   1721    1.0
+xs[95,2]           -0.06    0.02   0.84  -1.38  -0.59  -0.16   0.34   1.85   1424    1.0
+xs[1,3]             0.82    0.01   0.87  -0.86   0.21   0.83   1.43   2.47   3833    1.0
+xs[2,3]             0.15    0.01   0.99  -1.91  -0.49   0.19   0.83   1.93   5695    1.0
+xs[3,3]             0.75    0.01   0.87  -0.83   0.13   0.69    1.3    2.6   3923    1.0
+xs[4,3]             0.12    0.01   0.99  -1.79  -0.54   0.09   0.77   2.12   6238    1.0
+xs[5,3]             0.07    0.01    1.0  -1.97  -0.59    0.1   0.77   1.98   4425    1.0
+xs[6,3]              0.1    0.01   1.02  -1.89  -0.58   0.09   0.78   2.16   6282    1.0
+xs[7,3]             0.05    0.01   1.01  -1.97  -0.64   0.08   0.75   1.99   5770    1.0
+xs[8,3]             0.21    0.01   0.97  -1.66  -0.43   0.17   0.84    2.2   5327    1.0
+xs[9,3]             0.29    0.01   0.92  -1.48  -0.31   0.27   0.87   2.17   4473    1.0
+xs[10,3]             0.1    0.01   0.96  -1.72  -0.53   0.06   0.69   2.13   5362    1.0
+xs[11,3]            0.08    0.02   1.02  -2.07  -0.55   0.13   0.79    1.9   4336    1.0
+xs[12,3]            0.34    0.01   0.96  -1.55  -0.28   0.33   0.97   2.21   5574    1.0
+xs[13,3]            0.52    0.02   0.91  -1.26  -0.11   0.48   1.12   2.34   3667    1.0
+xs[14,3]             0.1    0.01   1.02  -1.93  -0.57   0.09   0.77   2.14   4848    1.0
+xs[15,3]            0.27    0.01   0.93  -1.66  -0.36   0.31    0.9   2.03   4627    1.0
+xs[16,3]            1.02    0.01   0.93  -0.73   0.43   0.99    1.6   2.99   4372    1.0
+xs[17,3]             0.3    0.01   0.95  -1.49  -0.34   0.26   0.93    2.2   4694    1.0
+xs[18,3]            0.22    0.01   0.97  -1.69  -0.41   0.22   0.88   2.15   5539    1.0
+xs[19,3]             0.2    0.01   1.01  -1.79  -0.48   0.22   0.88   2.15   4830    1.0
+xs[20,3]            0.42    0.02   0.96  -1.35  -0.21   0.39   0.99   2.56   3993    1.0
+xs[21,3]             0.1    0.01   0.98  -1.93  -0.54   0.13   0.78   1.96   5168    1.0
+xs[22,3]            0.29    0.01   0.95  -1.77  -0.28   0.36   0.93   1.99   4380    1.0
+xs[23,3]            0.14    0.01   1.03  -2.01  -0.51   0.19   0.82   2.12   5982    1.0
+xs[24,3]            0.12    0.01    1.0  -1.88  -0.54   0.14    0.8   1.98   5644    1.0
+xs[25,3]            0.37    0.01   0.91   -1.4  -0.24   0.37   0.99   2.18   4652    1.0
+xs[26,3]            0.43    0.02   0.94  -1.46  -0.17   0.45   1.07   2.15   2316    1.0
+xs[27,3]            0.18    0.01    1.0  -1.93  -0.45   0.25   0.87   2.01   5421    1.0
+xs[28,3]            0.06    0.01   0.99  -1.86  -0.59   0.02   0.68   2.11   4788    1.0
+xs[29,3]            0.17    0.01   0.99  -1.63  -0.49   0.11   0.79   2.24   5328    1.0
+xs[30,3]            0.19    0.01   0.98  -1.62  -0.49   0.14   0.83   2.23   5001    1.0
+xs[31,3]            0.27    0.01   0.93  -1.68  -0.33   0.33   0.91    2.0   4535    1.0
+xs[32,3]            0.61    0.01   0.89  -1.13   0.02    0.6    1.2   2.39   3644    1.0
+xs[33,3]            0.17    0.01   0.98  -1.89  -0.46   0.19   0.85   1.97   5053    1.0
+xs[34,3]            0.27    0.01   0.95  -1.65  -0.37   0.26    0.9   2.15   5347    1.0
+xs[35,3]            0.36    0.01   0.92  -1.32  -0.27   0.31   0.96    2.3   4056    1.0
+xs[36,3]            0.19    0.01   0.99  -1.74  -0.45   0.18   0.83   2.17   4892    1.0
+xs[37,3]            0.12    0.01   0.99  -1.81  -0.53    0.1   0.74   2.19   5255    1.0
+xs[38,3]            0.12    0.01   1.01   -2.0  -0.55   0.13    0.8   2.11   5894    1.0
+xs[39,3]             1.4    0.02   0.91  -0.43   0.77   1.44   2.02    3.1   3350    1.0
+xs[40,3]             0.8    0.01   0.79  -0.81   0.28   0.82   1.36   2.24   4379    1.0
+xs[41,3]            1.19    0.01   0.85  -0.44   0.62   1.16   1.77   2.88   3664    1.0
+xs[42,3]            0.26    0.02   0.97   -1.9  -0.29   0.35   0.93   1.92   3795    1.0
+xs[43,3]             0.2    0.01   1.02  -1.82  -0.45   0.18   0.85   2.32   5299    1.0
+xs[44,3]            0.05    0.01   0.99   -1.9  -0.58   0.06   0.72   1.94   5265    1.0
+xs[45,3]            0.22    0.01   0.96  -1.66  -0.45   0.21   0.88   2.07   5404    1.0
+xs[46,3]            0.17    0.01   0.95  -1.82  -0.46    0.2   0.81   1.98   5067    1.0
+xs[47,3]             0.1    0.01   0.97  -1.76  -0.54   0.08   0.73   2.11   5589    1.0
+xs[48,3]            0.29    0.01   0.97  -1.49  -0.34   0.23   0.88   2.34   4806    1.0
+xs[49,3]            0.67    0.01   0.91  -0.92   0.03   0.57   1.23   2.65   3955    1.0
+xs[50,3]            0.41    0.01   0.93  -1.46  -0.21   0.43   1.06   2.17   5583    1.0
+xs[51,3]            0.18    0.01   1.02  -1.93  -0.48   0.18   0.86   2.13   5496    1.0
+xs[52,3]            0.21    0.01   0.97  -1.62  -0.46   0.19   0.84   2.21   4815    1.0
+xs[53,3]            0.15    0.02   0.98  -1.85  -0.47   0.16   0.82   2.02   4097    1.0
+xs[54,3]            0.27    0.01   0.93  -1.47  -0.34   0.23   0.82   2.32   4664    1.0
+xs[55,3]            0.45    0.01   0.96  -1.43  -0.18   0.46   1.08   2.38   4654    1.0
+xs[56,3]            0.19    0.01    1.0  -1.84  -0.46   0.21   0.84   2.15   5783    1.0
+xs[57,3]            0.13    0.01    1.0  -1.93  -0.49   0.15    0.8   2.03   5057    1.0
+xs[58,3]            0.17    0.02   1.06  -1.91  -0.51   0.16   0.87   2.23   4559    1.0
+xs[59,3]            0.17    0.02    1.0  -1.94  -0.46   0.21   0.85   2.09   4421    1.0
+xs[60,3]            0.39    0.02   0.96  -1.45  -0.24   0.36    1.0   2.35   3447    1.0
+xs[61,3]            0.39    0.01   0.93  -1.39  -0.23   0.36   0.96   2.29   5502    1.0
+xs[62,3]            0.07    0.01   1.02  -2.01  -0.58   0.08   0.76   2.01   5432    1.0
+xs[63,3]            0.12    0.01   0.99  -2.05  -0.51   0.17    0.8   1.96   4464    1.0
+xs[64,3]            0.06    0.01   1.01  -2.09  -0.56   0.08   0.73   1.95   4813    1.0
+xs[65,3]            0.59    0.01   0.88   -1.3   0.03   0.61   1.22   2.21   4486    1.0
+xs[66,3]            0.16    0.01   0.96  -1.85  -0.47   0.19   0.84   1.93   5033    1.0
+xs[67,3]            0.09    0.02   1.01  -2.04  -0.53   0.15   0.77   1.94   4133    1.0
+xs[68,3]            0.29    0.01   0.96   -1.6  -0.34   0.28   0.93   2.16   5086    1.0
+xs[69,3]            0.18    0.01   0.96  -1.68  -0.45   0.16   0.79   2.11   5472    1.0
+xs[70,3]            0.15    0.01   0.93  -1.74  -0.45   0.18   0.78   1.89   4623    1.0
+xs[71,3]            0.22    0.01   0.95  -1.66  -0.41   0.22   0.85   2.03   5748    1.0
+xs[72,3]            0.07    0.02   1.01   -2.0  -0.61    0.1   0.76   1.95   4494    1.0
+xs[73,3]            0.89    0.01   0.85  -0.72   0.32   0.89   1.47   2.57   4686    1.0
+xs[74,3]            0.62    0.01   0.87  -1.09   0.05   0.62   1.18   2.37   3957    1.0
+xs[75,3]            0.14    0.01   0.97  -1.81  -0.49   0.15   0.77   2.06   4730    1.0
+xs[76,3]            0.33    0.01    0.9   -1.3  -0.26   0.28   0.89   2.33   4055    1.0
+xs[77,3]            0.67    0.02   0.92  -1.14   0.07   0.66   1.29   2.47   3265    1.0
+xs[78,3]            1.03    0.02   0.85  -0.65   0.46   1.01   1.61   2.69   3038    1.0
+xs[79,3]            0.09    0.01    1.0  -1.83  -0.57    0.1   0.77   2.08   5911    1.0
+xs[80,3]            0.23    0.01   0.95  -1.73  -0.39   0.27   0.87   2.04   4474    1.0
+xs[81,3]            2.25    0.01    0.7   0.71   1.83   2.28   2.74   3.48   3352    1.0
+xs[82,3]            0.54    0.01   0.89  -1.11  -0.08    0.5   1.12   2.37   4740    1.0
+xs[83,3]            0.08    0.01   1.02   -1.9   -0.6   0.06   0.75   2.08   5790    1.0
+xs[84,3]             0.5    0.01    0.9  -1.14  -0.13   0.49   1.09    2.3   3871    1.0
+xs[85,3]            0.18    0.01    1.0  -1.91  -0.45   0.21   0.87    2.0   4625    1.0
+xs[86,3]            0.14    0.01   0.97  -1.91  -0.47   0.17   0.82   1.93   4710    1.0
+xs[87,3]            0.19    0.01   0.96  -1.67  -0.46   0.16   0.85   2.08   4483    1.0
+xs[88,3]            0.14    0.01    1.0  -1.91  -0.49   0.17   0.83   2.02   5115    1.0
+xs[89,3]            0.91    0.01   0.81  -0.74   0.38   0.92   1.46   2.45   4167    1.0
+xs[90,3]             0.3    0.01   0.96  -1.52  -0.33   0.28   0.91   2.26   4606    1.0
+xs[91,3]            0.08    0.01   1.02  -1.95  -0.57   0.12   0.76   2.01   5995    1.0
+xs[92,3]            1.08    0.01   0.82  -0.57   0.54   1.09   1.62   2.67   3479    1.0
+xs[93,3]            0.12    0.01   0.96  -1.99  -0.45   0.17   0.77   1.89   5055    1.0
+xs[94,3]            0.82    0.01   0.83   -0.8   0.26   0.83   1.39   2.44   4437    1.0
+xs[95,3]            0.19    0.01   1.01   -1.9  -0.43   0.21   0.83   2.14   5288    1.0
+MMax               42.08    0.04   2.26  37.58   40.6   42.1  43.56  46.64   2857    1.0
+logdMMaxdMMax_d_p  -0.63  7.7e-4   0.05  -0.72  -0.66  -0.63   -0.6  -0.54   3535    1.0
+smooth_max          0.06  8.4e-4   0.03   0.01   0.04   0.06   0.08   0.12   1082    1.0
+H0                 77.57    0.17  10.86   56.9   70.1  77.28  84.65 100.07   4111    1.0
+Omh2                0.22  1.4e-3   0.08   0.06   0.16   0.21   0.27    0.4   3700    1.0
+dH                  3.94  9.5e-3   0.57    3.0   3.54   3.88   4.28   5.27   3652    1.0
+mu_det              1.48  9.9e-3   0.57   0.63   1.07   1.39   1.79   2.82   3368    1.0
+neff_det          2312.5    4.42 217.76 1906.7 2159.9 2306.6 2454.3 2754.1   2430    1.0
+m1s[1]             42.42    0.05   2.87  37.05  40.44  42.26  44.26  48.58   4029    1.0
+m1s[2]             19.14    0.04   1.24   16.8  18.22  19.16  20.05  21.51   1139    1.0
+m1s[3]             40.63    0.05   3.19  34.32  38.55  40.58   42.7  47.17   3877    1.0
+m1s[4]             35.13    0.06    3.1  29.58  32.89  34.92  37.27  41.52   2511    1.0
+m1s[5]             31.71    0.05   1.85  28.33  30.38  31.64  33.02  35.35   1136    1.0
+m1s[6]             33.94    0.05   2.39  29.72  32.25  33.74  35.48  38.93   2775    1.0
+m1s[7]             36.08  9.7e-3   0.62  34.88  35.66  36.09  36.49  37.32   4122    1.0
+m1s[8]             35.77    0.06   3.58  29.28  33.22  35.61  38.24  43.05   3070    1.0
+m1s[9]              37.8    0.06   3.34  31.52  35.59  37.62  40.02   44.5   2816    1.0
+m1s[10]            34.96    0.08   3.83  27.54  32.29  35.06  37.63  42.41   2045    1.0
+m1s[11]            30.95    0.06   2.61  26.33  29.08  30.79  32.65  36.43   2140    1.0
+m1s[12]            37.98    0.07   3.52   31.1  35.54  38.07   40.5  44.61   2347    1.0
+m1s[13]            39.43    0.05   3.48  32.95  37.06  39.31  41.73   46.6   4114    1.0
+m1s[14]            27.24    0.05    2.2  23.23  25.67  27.16  28.76  31.76   2205    1.0
+m1s[15]            34.65    0.07    3.0  29.14  32.43  34.66  36.71  40.58   2068    1.0
+m1s[16]            42.46    0.06   3.39  35.74  40.24  42.38   44.6  49.48   3207    1.0
+m1s[17]            38.85    0.05   2.77  33.58  36.96  38.79  40.68  44.51   2949    1.0
+m1s[18]            40.53    0.04   2.08  36.77  39.11  40.38   41.9  45.07   3211    1.0
+m1s[19]            41.41    0.03   1.55   38.7  40.32   41.3  42.41  44.75   2231    1.0
+m1s[20]             38.6    0.07   3.66  31.26  36.08  38.71  41.09  45.58   2427    1.0
+m1s[21]            34.92    0.06   2.76   29.9  32.96   34.8  36.84  40.55   1936    1.0
+m1s[22]            35.24    0.04   2.03   31.2  33.91  35.25  36.61  39.25   3164    1.0
+m1s[23]            33.39    0.05   2.64  28.14   31.6  33.42  35.18  38.44   2615    1.0
+m1s[24]            32.48    0.04   2.18   28.5  30.97  32.31  33.82  37.24   2418    1.0
+m1s[25]            38.25    0.07   3.77  30.81  35.69  38.37  40.75  45.63   2975    1.0
+m1s[26]             38.9    0.09   3.54  31.76  36.62  39.08  41.26  45.52   1439    1.0
+m1s[27]             23.8    0.01   0.82  22.17  23.26  23.79  24.35  25.43   4101    1.0
+m1s[28]            29.27    0.06   3.01  23.54  27.18  29.32   31.3  35.17   2168    1.0
+m1s[29]            35.97    0.04    2.8   30.6  34.08  35.95  37.78   41.7   4631    1.0
+m1s[30]            36.69    0.06   3.56  30.09   34.2  36.57   39.0  43.95   3070    1.0
+m1s[31]            39.81    0.03   2.04  35.98  38.38  39.77  41.19  43.89   4222    1.0
+m1s[32]             39.7    0.06   3.43   33.2  37.36  39.72  41.95  46.47   3841    1.0
+m1s[33]            38.71    0.04    2.3  34.61  37.09  38.54  40.19  43.68   2704    1.0
+m1s[34]            37.53    0.05   2.93  31.88  35.59  37.44  39.51  43.33   3572    1.0
+m1s[35]            38.72    0.05   3.51  31.86  36.33  38.75  41.14  45.54   4229    1.0
+m1s[36]            36.95    0.03   2.15  32.81  35.47  36.95   38.4  41.24   4348    1.0
+m1s[37]            13.09    0.02   0.97  11.32  12.41  13.02   13.7   15.1   2926    1.0
+m1s[38]            31.95    0.05   2.81  26.79  30.05   31.8  33.77  37.85   2631    1.0
+m1s[39]            43.88    0.06   3.12  38.49  41.71  43.59  45.81  50.66   3167    1.0
+m1s[40]            40.82    0.05   2.88  35.24  38.95  40.72  42.64  46.62   3464    1.0
+m1s[41]            42.22    0.05   3.19  36.28  40.14  42.01  44.18  49.23   3983    1.0
+m1s[42]            26.64    0.04   1.76  23.58  25.36  26.51  27.76  30.41   2143    1.0
+m1s[43]            16.21    0.03   1.43  13.47  15.18  16.24  17.23  18.99   2097    1.0
+m1s[44]            29.88    0.04   2.17  25.94  28.35  29.76  31.33  34.35   2748    1.0
+m1s[45]            35.81    0.07   3.37   29.6  33.37  35.76  38.17  42.32   2283    1.0
+m1s[46]            25.14    0.06   2.05  21.17  23.68   25.2  26.54  28.98   1371   1.01
+m1s[47]            34.33    0.06   3.12  28.79  32.14  34.11  36.35  40.81   2831    1.0
+m1s[48]            38.23    0.04   2.61  33.08   36.5  38.26  39.95  43.36   4844    1.0
+m1s[49]             39.7    0.05    3.6  32.47  37.34  39.73  42.03  46.83   4402    1.0
+m1s[50]            43.08    0.03   1.66  39.99  41.94  43.02  44.18  46.51   4115    1.0
+m1s[51]            18.43    0.04   1.67  15.31  17.23  18.45  19.58  21.69   1414    1.0
+m1s[52]            37.31    0.04   2.37  32.74   35.7  37.31  38.83  41.99   4396    1.0
+m1s[53]            37.64    0.06   2.67  33.02  35.67  37.53  39.39  43.28   2110    1.0
+m1s[54]            37.65    0.06   3.61  30.64   35.2  37.73   40.2  44.47   3277    1.0
+m1s[55]            40.58    0.06   2.99  35.04  38.52  40.52  42.56  46.65   2905    1.0
+m1s[56]            34.42    0.07   2.88  28.94  32.41  34.43  36.42  40.06   1949    1.0
+m1s[57]            36.73    0.03   1.68  33.62  35.59  36.72  37.84  40.13   4233    1.0
+m1s[58]            25.36    0.05   2.28  21.27  23.69  25.28  26.92  29.98   2141    1.0
+m1s[59]            30.67    0.04   1.56   27.4  29.65  30.72  31.79  33.59   1830    1.0
+m1s[60]            39.49    0.09   3.17  32.82  37.47  39.58   41.6  45.53   1131    1.0
+m1s[61]             39.5    0.05   2.93  33.72  37.55  39.49   41.5  44.98   4127    1.0
+m1s[62]            21.49    0.02   1.22  19.39  20.63  21.39  22.25  24.12   2573    1.0
+m1s[63]            36.02    0.04    2.2  31.83   34.5  35.96  37.49  40.57   3822    1.0
+m1s[64]            28.83    0.04   1.43  25.71  27.97  28.88  29.79  31.54   1199    1.0
+m1s[65]            42.26    0.04   2.34  37.72  40.68   42.2  43.79   47.1   4192    1.0
+m1s[66]            36.33    0.03   1.86  32.76  35.05  36.31  37.59  39.95   3963    1.0
+m1s[67]            29.37    0.06   2.43  24.84  27.64  29.37  31.07  34.12   1674    1.0
+m1s[68]            37.98    0.03   2.39   33.3  36.37  37.98   39.6  42.64   4731    1.0
+m1s[69]            36.11    0.06   3.34  29.94  33.79  36.06  38.29  42.95   3610    1.0
+m1s[70]            32.57    0.02   1.53   29.6   31.5  32.58   33.6  35.57   4267    1.0
+m1s[71]            38.14    0.05   2.77  33.14  36.21  38.03   39.9  43.94   2668    1.0
+m1s[72]            29.42    0.06   2.76  24.39  27.48  29.24  31.28  35.13   1833    1.0
+m1s[73]            42.72    0.05    2.8  37.77   40.8  42.57  44.45  48.82   3437    1.0
+m1s[74]            40.53    0.05    3.2  34.26  38.38  40.48  42.59  47.06   3574    1.0
+m1s[75]            33.94    0.06   3.06  28.31  31.85  33.81  35.88  40.36   2663    1.0
+m1s[76]             38.1    0.06   3.64  31.08  35.66  38.06  40.52  45.42   4245    1.0
+m1s[77]            40.88    0.07   3.45  34.18  38.58  40.81  43.08  48.03   2759    1.0
+m1s[78]            41.71    0.06   3.51  35.43  39.38  41.56  43.84  49.52   3161    1.0
+m1s[79]            34.53    0.07   3.45  27.88  32.18   34.5  36.85  41.33   2150    1.0
+m1s[80]            41.83    0.02   1.13  39.59  41.07  41.83  42.58  44.07   4123    1.0
+m1s[81]            43.25    0.06   3.53  36.92  40.92  42.91  45.25   51.0   3439    1.0
+m1s[82]            40.24    0.05   3.07  34.08  38.24  40.26  42.26  46.31   4624    1.0
+m1s[83]            32.54    0.06   2.72  27.59  30.66  32.36   34.3  38.19   2402    1.0
+m1s[84]            39.99    0.05   3.15   34.1  37.83  39.92  42.06  46.56   4248    1.0
+m1s[85]             30.1    0.05   2.08  26.53  28.63  29.93  31.43  34.64   2094    1.0
+m1s[86]            34.43    0.05   2.48  29.36  32.79  34.43  36.17  39.16   2353    1.0
+m1s[87]            37.09    0.06   3.39  30.61  34.73  36.86  39.38  43.92   3162    1.0
+m1s[88]            38.45    0.02   1.31  35.86  37.56  38.45  39.35  41.01   4875    1.0
+m1s[89]            42.31    0.05   2.76  37.51   40.4  42.06  43.95  48.42   2821    1.0
+m1s[90]            38.24    0.07   3.27  31.98  35.91  38.24  40.56  44.54   2203    1.0
+m1s[91]            34.57    0.02   1.31  32.13  33.66  34.56   35.4  37.32   4243    1.0
+m1s[92]            43.35    0.06   2.96  38.26  41.37  43.03  45.06  50.07   2865    1.0
+m1s[93]            29.96    0.05   2.15  26.16  28.41  29.84  31.41   34.4   1759    1.0
+m1s[94]             41.7    0.05    2.9  36.27  39.74   41.6  43.53  47.74   4125    1.0
+m1s[95]            30.68    0.06   2.62  25.96  28.74   30.6  32.52   35.8   2070    1.0
+m2s[1]             25.58    0.03   1.85  21.99  24.33  25.51  26.78  29.35   4038    1.0
+m2s[2]             15.38    0.03   0.94  13.72  14.69  15.32  16.02  17.25   1177    1.0
+m2s[3]             35.38    0.07   3.35  28.59  33.13   35.4  37.79  41.71   2652    1.0
+m2s[4]             29.45    0.05   2.54  24.68  27.75  29.42  31.13  34.57   2201    1.0
+m2s[5]             26.97    0.04   1.54  24.05  25.86  26.96  28.06  29.98   1208    1.0
+m2s[6]             29.54    0.04   2.02   25.5  28.19  29.56  30.89  33.34   2544    1.0
+m2s[7]             15.63  4.1e-3   0.26  15.12  15.46  15.64  15.81  16.17   4155    1.0
+m2s[8]             28.57    0.06   2.86  23.29  26.58  28.42  30.52  34.58   2545    1.0
+m2s[9]             31.03    0.06   2.95  25.55  28.97  31.01  33.06  36.77   2428    1.0
+m2s[10]            24.67    0.05   2.61  19.93  22.91  24.47  26.28  30.27   2462    1.0
+m2s[11]            26.21    0.04   2.14   22.3  24.74  26.16  27.58  30.57   2327    1.0
+m2s[12]            27.82    0.07    2.9  22.68  25.77  27.62  29.67  33.86   1808    1.0
+m2s[13]            33.17    0.06   3.35  26.64  30.88  33.18  35.41  39.79   2672    1.0
+m2s[14]            21.74    0.04   1.66  18.75  20.55  21.67  22.85  25.16   2030    1.0
+m2s[15]            27.41    0.05   2.29  23.12  25.79  27.35  28.95  31.97   1872    1.0
+m2s[16]            26.86    0.04   2.41  22.38  25.18  26.79   28.4   31.9   3743    1.0
+m2s[17]             33.7    0.05   2.55   28.7  31.91  33.66  35.43  38.73   2524    1.0
+m2s[18]             37.0    0.04   1.86  33.31  35.75  37.01  38.26  40.56   2373    1.0
+m2s[19]            38.28    0.03   1.32  35.62   37.4   38.3  39.19  40.87   2416    1.0
+m2s[20]            29.46    0.07   3.26  23.64  27.18  29.27   31.6  36.41   2002    1.0
+m2s[21]            28.56    0.05    2.1  24.66  27.06   28.5  29.98  32.79   1847    1.0
+m2s[22]            22.09    0.02   1.24  19.91  21.23  22.01  22.86  24.86   2508    1.0
+m2s[23]            21.04    0.03    1.6  18.16  19.95  20.91  22.06  24.42   2391    1.0
+m2s[24]            28.59    0.04   1.81  25.12  27.31  28.61  29.82  32.16   2532    1.0
+m2s[25]            29.53    0.07   3.37  23.37   27.1  29.41  31.73  36.42   2105    1.0
+m2s[26]             27.6    0.09   2.94  22.58  25.53  27.35  29.29  34.22   1010    1.0
+m2s[27]            12.38  6.3e-3   0.42  11.58   12.1  12.38  12.66  13.22   4414    1.0
+m2s[28]            21.03    0.05   2.08  17.32  19.61  20.86  22.25   25.7   1751    1.0
+m2s[29]            14.11    0.02   1.05  12.09   13.4  14.08   14.8  16.17   4479    1.0
+m2s[30]            30.48    0.06   3.19  24.59   28.2  30.33  32.67  36.89   3084    1.0
+m2s[31]            16.07    0.01   0.83  14.55  15.48  16.04  16.63  17.72   4059    1.0
+m2s[32]             33.1    0.07   3.54   26.3  30.62  33.03  35.52  40.08   2581    1.0
+m2s[33]            34.11    0.04    2.0  30.24  32.76  34.14  35.46  37.89   2264    1.0
+m2s[34]            23.09    0.03   1.78   19.9  21.88  22.98  24.23  26.93   3536    1.0
+m2s[35]            22.84    0.04   2.22  18.71  21.31  22.75  24.26  27.46   3490    1.0
+m2s[36]            10.63  8.6e-3   0.57   9.52  10.24  10.62   11.0  11.79   4406    1.0
+m2s[37]            11.32    0.02   0.82   9.76  10.75  11.31  11.87  12.97   2341    1.0
+m2s[38]            26.51    0.05   2.33  22.13  24.85  26.47  28.12   31.1   2204    1.0
+m2s[39]            18.58    0.02   1.43  15.99  17.55   18.5  19.52  21.47   3588    1.0
+m2s[40]            35.65    0.06   2.91  29.81  33.65  35.74  37.69  41.26   2612    1.0
+m2s[41]            38.19    0.06   3.34  31.35  35.98  38.28  40.44  44.62   2846    1.0
+m2s[42]            23.05    0.03   1.42  20.22   22.1  23.08  24.05  25.81   2421    1.0
+m2s[43]            12.05    0.02   1.05   10.1  11.31  11.97  12.74  14.19   1897    1.0
+m2s[44]            26.29    0.04   1.88   22.7  25.01  26.27  27.54  30.06   2872    1.0
+m2s[45]             28.6    0.05   2.59  23.59  26.81  28.59  30.36  33.67   2633    1.0
+m2s[46]             18.6    0.04   1.41  16.17  17.59  18.47  19.49  21.62   1233    1.0
+m2s[47]            29.32    0.05   2.57   24.4  27.57   29.3  31.05  34.45   2939    1.0
+m2s[48]            16.48    0.02   1.12  14.27  15.73  16.47   17.2  18.67   4484    1.0
+m2s[49]            35.35    0.06   3.68  28.04  32.92  35.37   37.8  42.46   3414    1.0
+m2s[50]            16.89  9.8e-3   0.62  15.66  16.47  16.88  17.29  18.13   4018    1.0
+m2s[51]            13.22    0.03   1.12   11.3  12.41  13.14  13.94  15.64   1356    1.0
+m2s[52]             8.59  7.5e-3   0.51    7.6   8.24   8.58   8.93   9.59   4652    1.0
+m2s[53]            31.87    0.05   2.31  27.52  30.24  31.79  33.47  36.39   1794    1.0
+m2s[54]            31.68    0.06   3.36  25.33  29.36  31.53   33.9  38.53   3087    1.0
+m2s[55]            33.97    0.06   2.84  28.53  31.96  33.94  35.88  39.62   2588    1.0
+m2s[56]            24.92    0.05   1.96  21.44  23.56   24.8  26.14  29.19   1794    1.0
+m2s[57]            13.35  8.1e-3   0.57  12.23  12.96  13.33  13.72  14.48   4852    1.0
+m2s[58]            20.05    0.04   1.76  16.82  18.82  19.97  21.21  23.69   2193    1.0
+m2s[59]            21.56    0.02   1.03  19.87  20.84  21.46  22.14  23.93   1690    1.0
+m2s[60]            26.77    0.07   2.32  22.64  25.16  26.62  28.17  31.81   1144   1.01
+m2s[61]            14.27    0.02   1.12  12.11  13.53  14.25   15.0  16.51   4699    1.0
+m2s[62]            19.13    0.02   1.07  17.05  18.38  19.13  19.87  21.24   2269    1.0
+m2s[63]            10.89    0.01   0.64   9.67  10.46  10.86  11.29  12.24   3619    1.0
+m2s[64]            20.51    0.03   0.98  18.77  19.86  20.45  21.09  22.61    887   1.01
+m2s[65]            24.29    0.02   1.39  21.69  23.33  24.25  25.21  27.14   3713    1.0
+m2s[66]            23.86    0.02   1.15  21.72  23.07  23.81  24.61  26.26   4013    1.0
+m2s[67]             22.1    0.05   1.77   19.0  20.85  21.94   23.2  25.85   1509    1.0
+m2s[68]            14.69    0.01   0.91  12.96  14.06  14.67  15.29  16.54   5220    1.0
+m2s[69]            30.29    0.06   2.81  25.08  28.29  30.25   32.2  36.05   2584    1.0
+m2s[70]            13.93  9.9e-3   0.63  12.76  13.48   13.9  14.34  15.24   4066    1.0
+m2s[71]            33.02    0.05   2.46  28.28  31.33   33.0  34.69  37.94   2486    1.0
+m2s[72]             22.9    0.05   2.03  19.31  21.42  22.73  24.27  27.07   2024    1.0
+m2s[73]            38.89    0.05   2.77  33.35  37.02  38.94  40.76  44.33   3166    1.0
+m2s[74]            25.37    0.05   2.32  21.27  23.77  25.16  26.74  30.54   2323    1.0
+m2s[75]            28.63    0.05   2.52  23.87  26.86  28.56  30.31  33.72   2555    1.0
+m2s[76]            33.42    0.06   3.52   26.7   31.0   33.3  35.76  40.56   3131    1.0
+m2s[77]            31.14    0.08   3.22   25.4  28.86  30.92  33.19   38.1   1730    1.0
+m2s[78]            33.53    0.08   3.63  26.56  31.04  33.47  36.06  40.64   2309    1.0
+m2s[79]            25.37    0.05   2.43  21.05  23.68  25.25  26.83  30.57   2071    1.0
+m2s[80]            17.41  6.1e-3   0.43   16.6  17.11   17.4   17.7  18.26   5076    1.0
+m2s[81]            39.19    0.06   3.43  32.61  36.92  39.17  41.38  46.38   3590    1.0
+m2s[82]             20.7    0.03   1.68  17.56  19.53  20.68  21.81  24.07   4247    1.0
+m2s[83]            27.94    0.05   2.29  23.56   26.4  27.91  29.48  32.54   2580    1.0
+m2s[84]            35.11    0.06   3.09  29.21  32.92  35.13  37.13  41.35   2643    1.0
+m2s[85]            25.78    0.04   1.75  22.37  24.57  25.82  26.98  29.15   2253    1.0
+m2s[86]            23.11    0.04   1.55  20.35  22.06  23.03  24.01  26.58   1934    1.0
+m2s[87]            31.81    0.05   2.91  26.43  29.78  31.71  33.77  37.66   3022    1.0
+m2s[88]            16.69  7.9e-3   0.53  15.67  16.32  16.68  17.05  17.76   4455    1.0
+m2s[89]             37.1    0.05    2.7  31.91  35.29  37.17  38.93  42.34   3266    1.0
+m2s[90]            28.77    0.06   2.62  24.05   26.9  28.63  30.44  34.19   2104    1.0
+m2s[91]            11.57  6.3e-3   0.42  10.78  11.29  11.57  11.85  12.43   4365    1.0
+m2s[92]            38.71    0.05   2.87  33.01  36.78  38.79  40.65  44.24   2760    1.0
+m2s[93]            24.48    0.04   1.69  21.38  23.26  24.41  25.62  27.89   1716    1.0
+m2s[94]             37.4    0.05   3.03  31.45   35.3  37.41  39.48   43.3   3167    1.0
+m2s[95]             23.9    0.05   1.95   20.4  22.53  23.76   25.2  27.96   1714    1.0
+zs[1]                0.8  1.8e-3   0.11    0.6   0.73    0.8   0.88   1.04   3842    1.0
+zs[2]               0.29  6.0e-4   0.04   0.21   0.26   0.29   0.31   0.36   4115    1.0
+zs[3]                1.0  2.4e-3   0.15   0.74   0.89   0.98   1.09   1.33   3848    1.0
+zs[4]               0.86  1.9e-3   0.12   0.63   0.77   0.85   0.94   1.12   4369    1.0
+zs[5]               0.36  7.2e-4   0.04   0.28   0.33   0.36   0.39   0.46   3908    1.0
+zs[6]               0.56  1.2e-3   0.08   0.42   0.51   0.56   0.61   0.73   4292    1.0
+zs[7]               0.14  2.7e-4   0.02    0.1   0.12   0.14   0.15   0.17   3897    1.0
+zs[8]               0.95  2.2e-3   0.15   0.69   0.85   0.94   1.04   1.29   4951    1.0
+zs[9]               0.87  2.0e-3   0.13   0.64   0.78   0.86   0.95   1.16   4500    1.0
+zs[10]              1.36  3.0e-3   0.21    1.0   1.21   1.34   1.48   1.81   4563    1.0
+zs[11]              0.68  1.6e-3    0.1   0.49   0.61   0.68   0.74    0.9   4171    1.0
+zs[12]              0.85  2.0e-3   0.14    0.6   0.76   0.84   0.93   1.14   4776    1.0
+zs[13]              1.31  3.0e-3   0.19   0.97   1.18    1.3   1.43    1.7   3800    1.0
+zs[14]              0.59  1.3e-3   0.08   0.45   0.54   0.59   0.65   0.77   3672    1.0
+zs[15]              0.36  1.0e-3   0.07   0.23   0.31   0.35    0.4    0.5   4324    1.0
+zs[16]              1.24  2.6e-3   0.17   0.93   1.12   1.23   1.34   1.59   4046    1.0
+zs[17]               0.7  1.5e-3    0.1   0.52   0.63   0.69   0.76    0.9   4032    1.0
+zs[18]              0.52  9.6e-4   0.06   0.41   0.48   0.52   0.56   0.65   3818    1.0
+zs[19]              0.24  4.8e-4   0.03   0.18   0.22   0.24   0.26    0.3   3795    1.0
+zs[20]              1.07  2.7e-3   0.17   0.78   0.96   1.06   1.18   1.45   3828    1.0
+zs[21]              0.79  1.6e-3    0.1   0.61   0.72   0.79   0.85   0.99   3807    1.0
+zs[22]              0.23  6.8e-4   0.04   0.15    0.2   0.23   0.26   0.32   4288    1.0
+zs[23]              0.59  1.4e-3   0.09   0.42   0.53   0.59   0.65   0.79   4725    1.0
+zs[24]               0.5  1.1e-3   0.07   0.37   0.45    0.5   0.55   0.65   4515    1.0
+zs[25]              1.42  3.2e-3   0.21   1.04   1.27   1.41   1.56   1.87   4358    1.0
+zs[26]              0.93  2.2e-3   0.14   0.67   0.83   0.92   1.02   1.23   4206    1.0
+zs[27]              0.16  3.9e-4   0.03   0.11   0.14   0.16   0.18   0.21   4275    1.0
+zs[28]               1.0  2.3e-3   0.15   0.73    0.9   0.99   1.09   1.34   4510    1.0
+zs[29]              0.81  1.9e-3   0.13   0.59   0.72    0.8   0.89   1.09   4354    1.0
+zs[30]               1.3  2.7e-3   0.19   0.95   1.16   1.28   1.42   1.69   4933    1.0
+zs[31]              0.46  1.0e-3   0.06   0.34   0.41   0.46    0.5   0.59   4102    1.0
+zs[32]              1.45  3.2e-3    0.2   1.09   1.31   1.43   1.58   1.87   3953    1.0
+zs[33]              0.55  1.1e-3   0.07   0.43   0.51   0.55    0.6   0.69   4043    1.0
+zs[34]              0.67  1.7e-3   0.11   0.48    0.6   0.67   0.74    0.9   3984    1.0
+zs[35]              1.48  3.3e-3   0.22    1.1   1.33   1.46   1.61   1.96   4189    1.0
+zs[36]              0.51  1.2e-3   0.07   0.38   0.46   0.51   0.56   0.66   4008    1.0
+zs[37]              0.51  1.1e-3   0.08   0.36   0.46    0.5   0.56   0.67   4574    1.0
+zs[38]              0.69  1.6e-3   0.11   0.49   0.61   0.68   0.76   0.93   4935    1.0
+zs[39]               1.1  2.6e-3   0.15   0.82    1.0    1.1    1.2    1.4   3300    1.0
+zs[40]              0.46  1.4e-3   0.09    0.3    0.4   0.45   0.51   0.65   4061    1.0
+zs[41]               1.4  2.9e-3   0.18   1.06   1.28   1.39   1.51   1.78   3970    1.0
+zs[42]              0.22  6.5e-4   0.05   0.13   0.19   0.22   0.25   0.31   4797    1.0
+zs[43]              0.39  1.0e-3   0.07   0.27   0.34   0.38   0.43   0.54   4708    1.0
+zs[44]              0.79  1.6e-3    0.1    0.6   0.72   0.79   0.85    1.0   4075    1.0
+zs[45]              0.67  1.6e-3   0.11   0.47   0.59   0.65   0.74   0.91   4866    1.0
+zs[46]              0.36  8.6e-4   0.06   0.25   0.32   0.36    0.4   0.48   4332    1.0
+zs[47]               1.0  2.2e-3   0.15   0.75    0.9   0.99    1.1   1.31   4353    1.0
+zs[48]              0.54  1.4e-3   0.09   0.38   0.48   0.53    0.6   0.75   4635    1.0
+zs[49]              1.99  4.4e-3   0.28   1.52   1.79   1.97   2.16   2.63   4163    1.0
+zs[50]              0.36  7.1e-4   0.04   0.27   0.33   0.36   0.39   0.45   4003    1.0
+zs[51]              0.35  9.6e-4   0.07   0.23    0.3   0.34   0.39   0.49   4675    1.0
+zs[52]              0.51  1.3e-3   0.08   0.37   0.46   0.51   0.57   0.68   4033    1.0
+zs[53]              0.62  1.3e-3   0.08   0.47   0.57   0.62   0.68   0.79   3789    1.0
+zs[54]              1.45  3.2e-3   0.21   1.09   1.31   1.43   1.58   1.93   4319    1.0
+zs[55]              0.93  1.8e-3   0.12   0.71   0.85   0.92    1.0   1.17   4114    1.0
+zs[56]              0.49  1.2e-3   0.08   0.35   0.44   0.49   0.54   0.66   4431    1.0
+zs[57]              0.34  7.4e-4   0.05   0.25   0.31   0.34   0.37   0.44   4265    1.0
+zs[58]              0.47  1.3e-3   0.09   0.31   0.41   0.46   0.52   0.66   4268    1.0
+zs[59]              0.18  4.8e-4   0.03   0.13   0.16   0.18    0.2   0.25   3838    1.0
+zs[60]              0.86  1.9e-3   0.12   0.63   0.77   0.85   0.93   1.13   4119    1.0
+zs[61]              1.01  2.2e-3   0.15   0.74    0.9    1.0    1.1   1.32   4356    1.0
+zs[62]               0.4  8.2e-4   0.05    0.3   0.36   0.39   0.43    0.5   4063    1.0
+zs[63]              0.61  1.4e-3   0.08   0.45   0.55    0.6   0.66   0.78   3686    1.0
+zs[64]              0.36  7.2e-4   0.04   0.27   0.33   0.36   0.39   0.45   3760    1.0
+zs[65]               0.6  1.3e-3   0.08   0.45   0.55    0.6   0.65   0.76   3757    1.0
+zs[66]              0.35  7.5e-4   0.05   0.26   0.32   0.35   0.38   0.45   4024    1.0
+zs[67]              0.58  1.3e-3   0.08   0.43   0.53   0.58   0.63   0.74   4082    1.0
+zs[68]              0.46  1.1e-3   0.08   0.32   0.41   0.46   0.51   0.63   4807    1.0
+zs[69]              1.02  2.2e-3   0.15   0.75   0.92   1.02   1.12   1.34   4903    1.0
+zs[70]              0.35  7.7e-4   0.05   0.26   0.32   0.35   0.38   0.45   4228    1.0
+zs[71]              0.79  1.6e-3    0.1    0.6   0.72   0.79   0.86    1.0   4104    1.0
+zs[72]               0.9  2.0e-3   0.12   0.67   0.81    0.9   0.98   1.16   3963    1.0
+zs[73]              0.93  1.8e-3   0.12   0.72   0.86   0.93   1.01   1.17   4047    1.0
+zs[74]              1.01  2.3e-3   0.14   0.75   0.91   1.01   1.11   1.31   3998    1.0
+zs[75]              0.68  1.8e-3   0.12   0.47   0.59   0.67   0.75   0.93   4202    1.0
+zs[76]              1.82  4.3e-3   0.26   1.36   1.64    1.8   1.99   2.39   3816    1.0
+zs[77]               1.2  2.5e-3   0.16   0.91   1.09   1.19    1.3   1.53   4049    1.0
+zs[78]              1.08  2.7e-3   0.16   0.79   0.97   1.07   1.18   1.42   3504    1.0
+zs[79]              1.07  2.3e-3   0.15   0.79   0.96   1.06   1.16   1.39   4559    1.0
+zs[80]              0.17  3.6e-4   0.02   0.12   0.15   0.17   0.18   0.21   4106    1.0
+zs[81]              2.58  4.4e-3   0.28   2.04   2.39   2.58   2.76   3.18   4005    1.0
+zs[82]              0.97  2.3e-3   0.14   0.71   0.87   0.96   1.06   1.29   4044    1.0
+zs[83]              0.92  1.9e-3   0.13   0.69   0.84   0.91    1.0   1.19   4221    1.0
+zs[84]              1.23  2.5e-3   0.16   0.93   1.11   1.22   1.33   1.57   4121    1.0
+zs[85]              0.37  9.8e-4   0.06   0.26   0.33   0.37   0.41    0.5   3819    1.0
+zs[86]              0.45  1.1e-3   0.07   0.33   0.41   0.45    0.5    0.6   4127    1.0
+zs[87]              1.25  2.7e-3   0.17   0.94   1.13   1.24   1.36   1.63   4131    1.0
+zs[88]              0.25  5.1e-4   0.03   0.18   0.22   0.25   0.27   0.31   4231    1.0
+zs[89]              0.43  1.2e-3   0.08   0.29   0.38   0.43   0.48   0.59   4239    1.0
+zs[90]              0.87  1.9e-3   0.12   0.65   0.79   0.86   0.95   1.14   4124    1.0
+zs[91]              0.35  6.8e-4   0.04   0.26   0.32   0.35   0.38   0.44   4090    1.0
+zs[92]              0.83  1.9e-3   0.11   0.62   0.76   0.83    0.9   1.07   3462    1.0
+zs[93]              0.41  9.0e-4   0.06   0.31   0.38   0.41   0.45   0.53   4079    1.0
+zs[94]              1.06  2.2e-3   0.14   0.81   0.97   1.06   1.15   1.36   3902    1.0
+zs[95]              0.42  1.1e-3   0.07   0.29   0.37   0.42   0.47   0.58   4567    1.0
+dls[1]               4.3  7.7e-3   0.49   3.42   3.96   4.29   4.63   5.29   3972    1.0
+dls[2]               1.3  1.5e-3   0.11   1.08   1.23    1.3   1.38   1.51   5729    1.0
+dls[3]              5.58    0.01   0.82   4.25   4.99   5.48   6.05   7.47   4049    1.0
+dls[4]              4.64  7.7e-3   0.59    3.6   4.22   4.58    5.0   5.93   5782    1.0
+dls[5]               1.7  1.9e-3   0.12   1.46   1.61    1.7   1.78   1.95   4518    1.0
+dls[6]              2.83  3.9e-3   0.31   2.27   2.62   2.81   3.02    3.5   6291    1.0
+dls[7]              0.57  2.3e-4   0.02   0.54   0.56   0.57   0.59   0.61   5471    1.0
+dls[8]              5.27    0.01    0.8   3.89   4.71   5.18   5.74    7.1   5250    1.0
+dls[9]              4.75  9.7e-3   0.66   3.63   4.29   4.68   5.12   6.23   4579    1.0
+dls[10]             8.07    0.02   1.14   6.12   7.29   7.94   8.72  10.68   5041    1.0
+dls[11]             3.53  6.7e-3   0.47   2.61   3.21   3.52   3.84   4.45   4925    1.0
+dls[12]             4.59  9.3e-3    0.7   3.36   4.11   4.52   5.02   6.09   5663    1.0
+dls[13]             7.73    0.02   1.03   5.96   6.99   7.62   8.37   10.0   3649    1.0
+dls[14]             3.01  4.8e-3   0.34   2.39   2.78   2.99   3.22   3.75   4974    1.0
+dls[15]             1.68  4.4e-3    0.3   1.14   1.46   1.66   1.87   2.33   4793    1.0
+dls[16]             7.21    0.01   0.86   5.74   6.64   7.12   7.71   9.19   4387    1.0
+dls[17]             3.64  6.1e-3   0.42   2.91   3.35    3.6    3.9   4.55   4821    1.0
+dls[18]              2.6  2.0e-3   0.15   2.31    2.5   2.59    2.7    2.9   5642    1.0
+dls[19]             1.05  7.9e-4   0.05   0.94   1.01   1.05   1.08   1.16   4869    1.0
+dls[20]              6.1    0.01   0.93    4.6   5.46   5.99   6.58   8.38   4010    1.0
+dls[21]              4.2  5.1e-3   0.37   3.49   3.95   4.19   4.45   4.96   5381    1.0
+dls[22]             1.03  2.5e-3   0.18   0.68   0.91   1.02   1.14   1.39   5010    1.0
+dls[23]             2.99  5.5e-3   0.43   2.19    2.7   2.97   3.26   3.89   5978    1.0
+dls[24]             2.47  3.7e-3   0.28   1.95   2.28   2.47   2.66   3.03   5823    1.0
+dls[25]              8.5    0.02   1.15   6.49   7.67   8.42   9.24  10.99   4968    1.0
+dls[26]             5.12    0.01   0.74   3.79    4.6   5.08    5.6   6.63   4712    1.0
+dls[27]             0.68  1.0e-3   0.08   0.52   0.62   0.68   0.73   0.83   5861    1.0
+dls[28]              5.6    0.01   0.79   4.25   5.06   5.52   6.07    7.4   4841    1.0
+dls[29]             4.34  9.3e-3   0.64   3.31   3.89   4.25   4.72   5.79   4806    1.0
+dls[30]             7.63    0.01   1.03   5.91    6.9   7.53   8.24   9.92   4852    1.0
+dls[31]             2.23  3.4e-3   0.24   1.76   2.07   2.22   2.38    2.7   4709    1.0
+dls[32]             8.73    0.02   1.13   6.73   7.95   8.63   9.43  11.23   3772    1.0
+dls[33]             2.76  2.7e-3    0.2   2.35   2.62   2.75   2.89   3.16   5463    1.0
+dls[34]             3.48  7.0e-3   0.51   2.58   3.12   3.44    3.8    4.6   5262    1.0
+dls[35]             8.94    0.02   1.21   6.95   8.08   8.79   9.67  11.68   4026    1.0
+dls[36]             2.53  4.3e-3    0.3    2.0   2.33   2.51   2.71   3.16   4783    1.0
+dls[37]             2.51  4.6e-3   0.33   1.93   2.28   2.48   2.69   3.25   5044    1.0
+dls[38]             3.58  7.0e-3   0.55   2.58    3.2   3.54   3.92   4.76   6191    1.0
+dls[39]             6.26    0.01    0.7   4.96   5.75   6.25   6.74   7.65   3418    1.0
+dls[40]             2.23  5.8e-3    0.4   1.52   1.95    2.2   2.49   3.05   4569    1.0
+dls[41]             8.37    0.02   0.95   6.69   7.71   8.29   8.98  10.37   3785    1.0
+dls[42]             0.97  2.5e-3   0.18   0.62   0.85   0.97   1.09   1.33   5265    1.0
+dls[43]             1.84  4.2e-3   0.31   1.31   1.63   1.81   2.02   2.55   5310    1.0
+dls[44]             4.22  5.6e-3   0.42   3.44   3.94    4.2   4.48   5.07   5448    1.0
+dls[45]             3.44  7.5e-3   0.55   2.47   3.04   3.39    3.8   4.63   5401    1.0
+dls[46]             1.68  3.1e-3   0.22   1.25   1.52   1.67   1.82   2.14   5260    1.0
+dls[47]             5.61    0.01   0.75    4.3   5.09   5.53   6.05    7.3   5227    1.0
+dls[48]              2.7  6.6e-3   0.44   1.97    2.4   2.64   2.95   3.74   4505    1.0
+dls[49]            12.82    0.03   1.76  10.08  11.57  12.53  13.79  16.98   3771    1.0
+dls[50]             1.68  1.5e-3   0.11   1.47    1.6   1.68   1.76   1.91   5667    1.0
+dls[51]             1.61  3.8e-3   0.29   1.09    1.4   1.58   1.78   2.23   5836    1.0
+dls[52]             2.54  5.1e-3   0.35   1.96    2.3   2.51   2.75   3.32   4555    1.0
+dls[53]             3.19  4.5e-3   0.29   2.62   2.99   3.18   3.38   3.79   4209    1.0
+dls[54]             8.76    0.02   1.23   6.74   7.92   8.63   9.41  11.71   4563    1.0
+dls[55]              5.1  7.2e-3   0.51   4.17   4.75   5.08   5.41    6.2   4941    1.0
+dls[56]             2.43  4.5e-3   0.34    1.8   2.19   2.41   2.64   3.18   5752    1.0
+dls[57]             1.56  2.3e-3   0.17   1.25   1.45   1.56   1.67   1.91   5211    1.0
+dls[58]             2.27  6.2e-3   0.42   1.56   1.98   2.22   2.53   3.19   4561    1.0
+dls[59]             0.79  1.4e-3    0.1   0.61   0.73   0.79   0.86   0.99   4598    1.0
+dls[60]             4.63  9.0e-3    0.6   3.62   4.21   4.58   4.99   5.97   4370    1.0
+dls[61]             5.63    0.01   0.76   4.34   5.09   5.56   6.09   7.38   5185    1.0
+dls[62]             1.87  2.3e-3   0.17   1.55   1.76   1.86   1.98   2.21   5669    1.0
+dls[63]             3.09  5.0e-3   0.35   2.39   2.86   3.09   3.33   3.81   4930    1.0
+dls[64]             1.67  1.5e-3   0.11   1.44    1.6   1.67   1.74    1.9   5216    1.0
+dls[65]             3.04  4.2e-3   0.29   2.46   2.84   3.03   3.23   3.61   4665    1.0
+dls[66]             1.62  2.2e-3   0.16   1.31   1.51   1.62   1.73   1.93   5171    1.0
+dls[67]             2.92  5.0e-3   0.34   2.26    2.7   2.92   3.15   3.61   4812    1.0
+dls[68]             2.24  5.0e-3   0.35   1.64    2.0   2.22   2.46   3.01   4833    1.0
+dls[69]             5.75    0.01    0.8   4.35    5.2   5.69   6.23   7.51   5426    1.0
+dls[70]             1.63  2.6e-3   0.18    1.3   1.51   1.63   1.75   2.01   4722    1.0
+dls[71]             4.22  5.4e-3   0.41   3.45   3.94    4.2   4.49   5.08   5881    1.0
+dls[72]             4.94  8.4e-3   0.57   3.87   4.54   4.93   5.32   6.11   4603    1.0
+dls[73]             5.14  6.9e-3   0.48   4.28   4.81   5.12   5.46   6.16   4766    1.0
+dls[74]             5.67    0.01   0.72    4.4   5.16   5.62    6.1   7.27   4550    1.0
+dls[75]              3.5  8.4e-3   0.58    2.5   3.11   3.46   3.84   4.78   4710    1.0
+dls[76]            11.51    0.02   1.53   9.02  10.47  11.34  12.37  15.19   3862    1.0
+dls[77]             6.95    0.01   0.79   5.52    6.4   6.88   7.45   8.62   4627    1.0
+dls[78]             6.11    0.01   0.83   4.64   5.52   6.05   6.64   7.91   3597    1.0
+dls[79]             6.05    0.01   0.79   4.66    5.5    6.0   6.55   7.79   5708    1.0
+dls[80]             0.72  7.3e-4   0.05   0.63   0.69   0.72   0.76   0.82   4644    1.0
+dls[81]             17.5    0.03   1.62  14.19  16.47  17.51  18.62  20.58   3578    1.0
+dls[82]             5.39    0.01   0.73   4.16   4.87    5.3   5.82   7.04   4656    1.0
+dls[83]             5.07  7.7e-3   0.59   4.03   4.66   5.02   5.44   6.31   5771    1.0
+dls[84]             7.13    0.01   0.82   5.74   6.54   7.07   7.63   8.91   3966    1.0
+dls[85]             1.74  3.4e-3   0.24   1.28   1.58   1.73    1.9   2.23   4933    1.0
+dls[86]              2.2  3.9e-3   0.27   1.67   2.01   2.19   2.38   2.75   4977    1.0
+dls[87]             7.33    0.01   0.91    5.7   6.68   7.24   7.92   9.26   4303    1.0
+dls[88]              1.1  1.2e-3   0.09   0.93   1.04    1.1   1.16   1.28   5298    1.0
+dls[89]             2.05  4.9e-3   0.33   1.46   1.83   2.03   2.26   2.76   4566    1.0
+dls[90]             4.75  8.7e-3    0.6    3.7   4.33   4.69    5.1   6.08   4777    1.0
+dls[91]             1.62  1.5e-3   0.12    1.4   1.54   1.62   1.69   1.85   6019    1.0
+dls[92]             4.48  7.5e-3   0.47    3.6   4.16   4.47   4.78   5.47   3950    1.0
+dls[93]             1.98  2.9e-3   0.21   1.56   1.84   1.98   2.11   2.39   5319    1.0
+dls[94]             6.01  9.3e-3   0.65   4.85   5.55   5.97   6.42   7.36   4861    1.0
+dls[95]             2.01  4.6e-3   0.33   1.41   1.79   1.99    2.2   2.73   5314    1.0
+R0_30              77.48     0.6  32.49  33.64  54.69  70.14  93.41 159.11   2919    1.0
+lp__              -782.5    0.46   13.5 -810.7 -791.0 -782.2 -773.3 -757.0    871    1.0
+
+Samples were drawn using NUTS at Tue Jun 11 00:25:40 2019.
+For each parameter, n_eff is a crude measure of effective sample size,
+and Rhat is the potential scale reduction factor on split chains (at 
+convergence, Rhat=1).
