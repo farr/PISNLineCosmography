@@ -148,6 +148,9 @@ data {
   vector[3] means[nobs, ngmm];
   matrix[3,3] covs[nobs, ngmm];
 
+  vector[3] mu_samp[nobs];
+  matrix[3,3] chol_cov_samp[nobs];
+
   real m1sel[nsel];
   real m2sel[nsel];
   real dlsel[nsel];
@@ -190,9 +193,7 @@ parameters {
   real<lower=-3, upper=3> beta;
   real<lower=-1, upper=7> gamma;
 
-  real<lower=0> m1s[nobs];
-  real<lower=0,upper=1> m2_fracs[nobs];
-  real<lower=0> zs[nobs];
+  vector[3] xs[nobs];
 }
 
 transformed parameters {
@@ -204,7 +205,9 @@ transformed parameters {
   real dH = 4.42563416002 * (67.74/H0);
   real mu_det;
   real neff_det;
+  real m1s[nobs];
   real m2s[nobs];
+  real zs[nobs];
   real dls[nobs];
 
   {
@@ -231,8 +234,18 @@ transformed parameters {
     logdMMaxdMMax_d_p = -log1p(mm_factor);
 
     for (i in 1:nobs) {
-      m2s[i] = m2_fracs[i]*m1s[i];
-      dls[i] = interp1d(zs[i], zinterp, dlinterp);
+      vector[3] y;
+      real m1det;
+      real q;
+
+      y = mu_samp[i] + chol_cov_samp[i] * xs[i];
+
+      m1det = exp(y[1]);
+      q = inv_logit(y[2]);
+      dls[i] = exp(y[3]);
+      zs[i] = interp1d(dls[i], dlinterp, zinterp);
+      m1s[i] = m1det/(1+zs[i]);
+      m2s[i] = q*m1s[i];
     }
 
     for (i in 1:nsel) {
@@ -316,7 +329,8 @@ model {
   log_pop_nojac = log_dNdm1dm2dzdt_norm(m1s, m2s, dls, zs, MMin, MMax, smooth_min, smooth_max, alpha, beta, gamma, dH, Om, z_p, w0);
   /* We have dN/d(m1)d(m2)d(z)d(t_det) but sample in m2_fracs, not m2, so need d(m2)/d(m2_frac) = m1 - MMin */
   for (i in 1:nobs) {
-    log_pop_jac[i] = log_pop_nojac[i] + log(m1s[i]);
+    real q = m2s[i]/m1s[i];
+    log_pop_jac[i] = log_pop_nojac[i] + 2.0*log(m1s[i]) + log(q) + log1p(-q) + log(dzddL(dls[i], zs[i], dH, Om, z_p, w0)) + log(dls[i]) + sum(log(diagonal(chol_cov_samp[i])));
   }
   target += sum(log_pop_jac);
 

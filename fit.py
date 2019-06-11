@@ -128,6 +128,21 @@ for i in tqdm(range(nobs), desc='GMM Fitting'):
     gmm_means.append(gmm.means_)
     gmm_covs.append(gmm.covariances_)
 
+zi = expm1(linspace(log(1), log(11), 1000))
+di = Planck15.luminosity_distance(zi).to(u.Gpc).value
+z_of_d = interp1d(di, zi)
+
+mu_samp = []
+chol_cov_samp = []
+for i in tqdm(range(nobs), desc='Mean/Sigma Samples'):
+    q = chain['m2det'][i,:] / chain['m1det'][i,:]
+    pts = column_stack((log(chain['m1det'][i,:]),
+                        log(q) - log(1-q),
+                        log(chain['dl'][i,:])))
+
+    mu_samp.append(mean(pts, axis=0))
+    chol_cov_samp.append(np.linalg.cholesky(cov(pts, rowvar=False)))
+
 ninterp = 1000
 zMax = 10
 zinterp = expm1(linspace(log(1), log(zMax+1), ninterp))
@@ -144,6 +159,9 @@ d = {
     'weights': gmm_wts,
     'means': gmm_means,
     'covs': gmm_covs,
+
+    'mu_samp': mu_samp,
+    'chol_cov_samp': chol_cov_samp,
 
     'm1sel': m1s_det,
     'm2sel': m2s_det,
@@ -178,27 +196,6 @@ def init(chain_index=None):
     beta = 0.1*randn()
     gamma = 3 + 0.1*randn()
 
-    m1s = []
-    m2s = []
-    zs = []
-
-    for i in range(nobs):
-        j = randint(chain['m1det'].shape[1])
-        m1 = chain['m1det'][i,j]
-        m2 = chain['m2det'][i,j]
-        d = chain['dl'][i,j]
-
-        z = cosmo.z_at_value(c.luminosity_distance, d*u.Gpc)
-
-        m1s.append(m1/(1+z))
-        m2s.append(m2/(1+z))
-        zs.append(z)
-    m1s = array(m1s)
-    m2s = array(m2s)
-    zs = array(zs)
-
-    m2_fracs = m2s/m1s
-
     return {
         'H_p': Hp,
         'Om': Om,
@@ -208,9 +205,7 @@ def init(chain_index=None):
         'alpha': alpha,
         'beta': beta,
         'gamma': gamma,
-        'm1s': m1s,
-        'm2_fracs': m2_fracs,
-        'zs': zs
+        'xs': randn(nobs, 3)
     }
 
 f = m.sampling(data=d, iter=2*args.iter, thin=args.thin, init=init)
