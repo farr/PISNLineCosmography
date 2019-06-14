@@ -11,6 +11,7 @@ from scipy.interpolate import interp1d
 from scipy.stats import gaussian_kde, norm
 import seaborn as sns
 from true_params import true_params
+import xarray as xr
 
 colwidth = 433.62/72.0
 figsize_pub=(colwidth, colwidth)
@@ -187,6 +188,28 @@ def pure_DE_w_plot(c, *args, **kwargs):
 
     return wsamps
 
+def constrained_versus_w0_plot(c):
+    nc, ns = c.posterior.w0.values.shape
+
+    sns.kdeplot(c.posterior.w0.values.flatten(), label='This Measurement')
+
+    log_rs = log(rand(nc, ns))
+
+    s = log_rs < c.posterior.constrained_cosmo_log_wts.values
+
+    sns.kdeplot(c.posterior.w0.values[s], label=r'+ 1% $H_0$ + CMB $\omega_M$')
+
+    xlabel(r'$w_0$')
+    ylabel(r'$p\left( w_0 \right)$')
+
+    wts = exp(c.posterior.constrained_cosmo_log_wts.values)
+    norm = np.sum(wts)
+
+    mu = np.sum(wts*c.posterior.w0.values)/norm
+    sigma = np.sqrt(np.sum(wts*np.square(c.posterior.w0.values - mu))/norm)
+
+    title(r'$w_0 = {:.2f} \pm {:.2f}$'.format(mu, sigma))
+
 def MMax_plot(c, *args, **kwargs):
     MMax = c.posterior['MMax'].values.flatten()
 
@@ -245,7 +268,7 @@ def mass_correction_plot(c):
     ylabel(r'$m_1$ ($M_\odot$)')
 
 def post_process(f, select_subset=None):
-    c = az.from_netcdf(f)
+    c = add_constrained_cosmo(az.from_netcdf(f))
 
     print('Minimum effective sample size is')
     es = az.ess(c).min()
@@ -272,10 +295,58 @@ def post_process(f, select_subset=None):
     pure_DE_w_plot(c)
 
     figure()
+    constrained_versus_w0_plot(c)
+
+    figure()
     MMax_plot(c)
     title(interval_string(c.posterior['MMax'].values.flatten(), prefix=r'$M_\mathrm{max} = ', postfix=' \, M_\odot$'))
 
     figure()
     mass_correction_plot(c)
+
+    return c
+
+def constrained_cosmo_log_weights(H0s, Oms, ws):
+    H0_wide_prior = norm(loc=70, scale=15)
+    Om_wide_prior = norm(loc=0.3, scale=0.15)
+
+    H0_Planck = Planck15.H0.to(u.km/u.s/u.Mpc).value
+    H0_narrow_prior = norm(loc=H0_Planck, scale=0.01*H0_Planck)
+    Omh2_narrow_prior = norm(loc=0.02225+0.1198, scale=sqrt(0.00016**2 + 0.0015**2))
+
+    hs = H0s/100
+    Omh2s = Oms*hs*hs
+
+    return H0_narrow_prior.logpdf(H0s) + Omh2_narrow_prior.logpdf(Omh2s) + 2.0*log(hs) - H0_wide_prior.logpdf(H0s) - Om_wide_prior.logpdf(Oms)
+
+def constrained_cosmo_samples(c, size=4000):
+    H0 = c.posterior.H0.values.flatten()
+    Om = c.posterior.Om.values.flatten()
+    w0 = c.posterior.w0.values.flatten()
+
+    kde = gaussian_kde(row_stack((H0, Om, w0)))
+
+    cpts = zeros((0,3))
+    while cpts.shape[0] < size:
+        pts = kde.resample(size)
+        H0s, Oms, w0s = pts
+
+        log_wts = constrained_cosmo_log_weights(H0s, Oms, w0s)
+
+        log_rs = log(rand(len(log_wts))) + np.max(log_wts)
+
+        s = (log_rs < log_wts) & (w0s > -2) & (w0s < 0) & (Oms > 0) & (Oms < 1) & (H0s > 0)
+
+        cpts = np.concatenate((cpts, pts[:,s].T), axis=0)
+
+    return cpts
+
+def add_constrained_cosmo(c):
+    coords = [('chain', c.posterior.chain), ('draw', c.posterior.draw)]
+
+    log_wts = constrained_cosmo_log_weights(c.posterior.H0.values, c.posterior.Om.values, c.posterior.w0.values)
+    log_wts = log_wts - np.max(log_wts)
+
+    c.posterior = c.posterior.assign({'constrained_cosmo_log_wts': xr.DataArray(log_wts, coords=coords)})
 
     return c
