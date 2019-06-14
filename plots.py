@@ -274,6 +274,8 @@ def post_process(f, select_subset=None):
     es = az.ess(c).min()
     print(min([es[k] for k in es.keys()]))
 
+    print('Number of constrained samples is {:.1f}'.format(np.sum(np.exp(c.posterior.constrained_cosmo_log_wts.values))))
+
     traceplot(c)
 
     figure()
