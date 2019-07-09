@@ -39,6 +39,7 @@ copt = p.add_argument_group('Cosmology Options')
 copt.add_argument('--cosmo-prior', action='store_true', help='use a prior on H0 and Om*h^2 from SNe and CMB (default: broad priors)')
 
 samp = p.add_argument_group('Sampling Options')
+samp.add_argument('--stanfile', metavar='FILE', default='model.stan', help='location of Stan file (default: %(default)s)')
 samp.add_argument('--iter', metavar='N', type=int, default=1000, help='number of sampling iterations (equal amount of tuning; default: %(default)s)')
 samp.add_argument('--thin', metavar='N', type=int, default=1, help='thin samples (default: %(default)s)')
 
@@ -147,7 +148,7 @@ ninterp = 1000
 zMax = 10
 zinterp = expm1(linspace(log(1), log(zMax+1), ninterp))
 
-m = pystan.StanModel(file='model.stan')
+m = pystan.StanModel(file=args.stanfile)
 d = {
     'nobs': nobs,
     'nsel': ndet,
