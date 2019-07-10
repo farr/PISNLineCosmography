@@ -1,0 +1,264 @@
+/mnt/home/wfarr/anaconda3/lib/python3.7/site-packages/dask/config.py:168: YAMLLoadWarning: calling yaml.load() without Loader=... is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.
+  data = yaml.load(f.read()) or {}
+/mnt/home/wfarr/anaconda3/lib/python3.7/site-packages/distributed/config.py:20: YAMLLoadWarning: calling yaml.load() without Loader=... is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.
+  defaults = yaml.load(f)
+GMM Fitting:   0%|          | 0/10 [00:00<?, ?it/s]GMM Fitting:  40%|████      | 4/10 [00:00<00:00, 38.07it/s]GMM Fitting: 100%|██████████| 10/10 [00:00<00:00, 50.38it/s]
+Mean/Sigma Samples:   0%|          | 0/10 [00:00<?, ?it/s]Mean/Sigma Samples: 100%|██████████| 10/10 [00:00<00:00, 3149.11it/s]DIAGNOSTIC(S) FROM PARSER:
+Warning: integer division implicitly rounds to integer. Found int division: (h - l) / 2
+ Positive values rounded down, negative values rounded up or down in platform-dependent way.
+Warning (non-fatal):
+Left-hand side of sampling statement (~) may contain a non-linear transform of a parameter or local variable.
+If it does, you need to include a target += statement with the log absolute determinant of the Jacobian of the transform.
+Left-hand-side of sampling statement:
+    MMax ~ normal(...)
+Warning (non-fatal):
+Left-hand side of sampling statement (~) may contain a non-linear transform of a parameter or local variable.
+If it does, you need to include a target += statement with the log absolute determinant of the Jacobian of the transform.
+Left-hand-side of sampling statement:
+    smooth_max ~ lognormal(...)
+Warning (non-fatal):
+Left-hand side of sampling statement (~) may contain a non-linear transform of a parameter or local variable.
+If it does, you need to include a target += statement with the log absolute determinant of the Jacobian of the transform.
+Left-hand-side of sampling statement:
+    H0 ~ normal(...)
+Warning (non-fatal):
+Left-hand side of sampling statement (~) may contain a non-linear transform of a parameter or local variable.
+If it does, you need to include a target += statement with the log absolute determinant of the Jacobian of the transform.
+Left-hand-side of sampling statement:
+    H0 ~ normal(...)
+Warning (non-fatal):
+Left-hand side of sampling statement (~) may contain a non-linear transform of a parameter or local variable.
+If it does, you need to include a target += statement with the log absolute determinant of the Jacobian of the transform.
+Left-hand-side of sampling statement:
+    Omh2 ~ normal(...)
+
+
+INFO:pystan:COMPILING THE C++ CODE FOR MODEL anon_model_25a7f0a47fc777c34b8daf3cf7a3e2ae NOW.
+Called with the following command line:
+../fit.py --stanfile ../model.stan --sampfile GWTC-1-observations.h5 --selfile GWTC-1-selected.h5 --nsel 2048 --nmix 4 --chainfile population_GWTC-1_2048.nc --tracefile traceplot_GWTC-1_2048.pdf
+/mnt/home/wfarr/anaconda3/lib/python3.7/site-packages/Cython/Compiler/Main.py:367: FutureWarning: Cython directive 'language_level' not set, using 2 for now (Py2). This will change in a later release! File: /tmp/tmpvcl0wh58/stanfit4anon_model_25a7f0a47fc777c34b8daf3cf7a3e2ae_7854336485312440760.pyx
+  tree = Parsing.p_module(s, pxd, full_module_name)
+
+Gradient evaluation took 0.01 seconds
+1000 transitions using 10 leapfrog steps per transition would take 100 seconds.
+Adjust your expectations accordingly!
+
+
+
+Gradient evaluation took 0.01 seconds
+1000 transitions using 10 leapfrog steps per transition would take 100 seconds.
+Adjust your expectations accordingly!
+
+
+
+Gradient evaluation took 0.02 seconds
+1000 transitions using 10 leapfrog steps per transition would take 200 seconds.
+Adjust your expectations accordingly!
+
+
+
+Gradient evaluation took 0.02 seconds
+1000 transitions using 10 leapfrog steps per transition would take 200 seconds.
+Adjust your expectations accordingly!
+Iteration:    1 / 2000 [  0%]  (Warmup)
+
+
+Iteration:    1 / 2000 [  0%]  (Warmup)
+Iteration:    1 / 2000 [  0%]  (Warmup)
+Iteration:    1 / 2000 [  0%]  (Warmup)
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: cannot search outside bounds  (in 'model.stan' at line 7)
+  (in 'model.stan' at line 25)
+  (in 'model.stan' at line 246)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: cannot search outside bounds  (in 'model.stan' at line 7)
+  (in 'model.stan' at line 25)
+  (in 'model.stan' at line 246)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: cannot search outside bounds  (in 'model.stan' at line 7)
+  (in 'model.stan' at line 25)
+  (in 'model.stan' at line 246)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: cannot search outside bounds  (in 'model.stan' at line 7)
+  (in 'model.stan' at line 25)
+  (in 'model.stan' at line 246)
+
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Iteration:  200 / 2000 [ 10%]  (Warmup)
+Iteration:  200 / 2000 [ 10%]  (Warmup)
+Iteration:  200 / 2000 [ 10%]  (Warmup)
+Iteration:  200 / 2000 [ 10%]  (Warmup)
+Iteration:  400 / 2000 [ 20%]  (Warmup)
+Iteration:  400 / 2000 [ 20%]  (Warmup)
+Iteration:  400 / 2000 [ 20%]  (Warmup)
+Iteration:  400 / 2000 [ 20%]  (Warmup)
+Iteration:  600 / 2000 [ 30%]  (Warmup)
+Iteration:  600 / 2000 [ 30%]  (Warmup)
+Iteration:  800 / 2000 [ 40%]  (Warmup)
+Iteration:  600 / 2000 [ 30%]  (Warmup)
+Iteration:  600 / 2000 [ 30%]  (Warmup)
+Iteration:  800 / 2000 [ 40%]  (Warmup)
+Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Iteration:  800 / 2000 [ 40%]  (Warmup)
+Iteration:  800 / 2000 [ 40%]  (Warmup)
+Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Iteration: 2000 / 2000 [100%]  (Sampling)
+
+ Elapsed Time: 922.92 seconds (Warm-up)
+               747.87 seconds (Sampling)
+               1670.79 seconds (Total)
+
+Iteration: 2000 / 2000 [100%]  (Sampling)
+
+ Elapsed Time: 824.09 seconds (Warm-up)
+               850.09 seconds (Sampling)
+               1674.18 seconds (Total)
+
+Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Iteration: 2000 / 2000 [100%]  (Sampling)
+
+ Elapsed Time: 1010.96 seconds (Warm-up)
+               752.65 seconds (Sampling)
+               1763.61 seconds (Total)
+
+Iteration: 2000 / 2000 [100%]  (Sampling)
+
+ Elapsed Time: 1098.92 seconds (Warm-up)
+               778.63 seconds (Sampling)
+               1877.55 seconds (Total)
+
+WARNING:pystan:24 of 4000 iterations ended with a divergence (0.6%).
+WARNING:pystan:Try running with adapt_delta larger than 0.8 to remove the divergences.
+Inference for Stan model: anon_model_25a7f0a47fc777c34b8daf3cf7a3e2ae.
+4 chains, each with iter=2000; warmup=1000; thin=1; 
+post-warmup draws per chain=1000, total post-warmup draws=4000.
+
+                    mean se_mean     sd   2.5%    25%    50%    75%  97.5%  n_eff   Rhat
+H_p               119.03    0.52  29.61  63.58  98.58 117.73 138.87 179.46   3289    1.0
+Om                  0.32  2.3e-3   0.14   0.06   0.22   0.32   0.42   0.61   3906    1.0
+w0                 -0.95  6.8e-3   0.44  -1.82  -1.26  -0.94  -0.62  -0.13   4259    1.0
+MMax_d_p           71.62    0.19   8.45   56.8  66.16  70.97  76.26   89.9   1985    1.0
+MMax_d_p_2sigma    87.42    0.31  14.51  68.17  77.68  84.56  93.22  124.5   2261    1.0
+alpha               2.78    0.03   1.19    0.3   1.97   2.86   3.68   4.77   1828    1.0
+beta                1.16    0.02   0.95  -0.71    0.5   1.17   1.89   2.83   1527    1.0
+gamma               1.84    0.02   1.36  -0.61   0.85   1.79   2.77   4.58   4221    1.0
+xs[1,1]            -0.25    0.02    0.8  -1.68  -0.81  -0.31   0.22   1.49   2443    1.0
+xs[2,1]             -0.5    0.02   0.67  -1.43  -0.96  -0.62  -0.22   1.26    974    1.0
+xs[3,1]            -0.54    0.03   0.69  -1.39  -1.04  -0.76  -0.09   1.21    728    1.0
+xs[4,1]            -0.49    0.03   0.87  -2.08  -1.11  -0.48   0.09   1.29   1202    1.0
+xs[5,1]            -0.33    0.03   0.78  -1.18   -0.9  -0.62   0.08   1.74    669   1.01
+xs[6,1]             -1.2    0.01   0.69  -2.54  -1.66  -1.22  -0.78   0.28   3290    1.0
+xs[7,1]            -0.59    0.02   0.86  -2.04  -1.25  -0.72   0.11   1.05   1356    1.0
+xs[8,1]            -0.26    0.02    0.8  -1.53  -0.83  -0.33   0.17   1.63   1347    1.0
+xs[9,1]            -0.48    0.02   0.73  -1.69  -1.02  -0.57   0.01   1.08   1753    1.0
+xs[10,1]            -0.6    0.01   0.68  -1.85  -1.06  -0.63  -0.17   0.82   2952    1.0
+xs[1,2]          -4.3e-3    0.03   1.02  -1.48  -0.62  -0.15    0.4   2.44    988   1.01
+xs[2,2]            -0.05    0.04   0.91  -0.97  -0.57  -0.32   0.17   2.24    647    1.0
+xs[3,2]             0.11    0.03   0.98  -0.73  -0.49  -0.22   0.35   2.95   1520    1.0
+xs[4,2]             0.07    0.03   1.08  -1.43  -0.58   -0.1   0.49    2.5   1068    1.0
+xs[5,2]            -0.09    0.02   0.74   -0.7  -0.57  -0.35   0.17   1.84    939    1.0
+xs[6,2]             0.06    0.03   1.09  -1.61  -0.63  -0.09   0.56    2.9   1586    1.0
+xs[7,2]           3.4e-3    0.03   1.14  -1.61  -0.69  -0.16   0.46   2.95   1439    1.0
+xs[8,2]            -0.15    0.02    0.8  -1.22  -0.66  -0.33   0.19   1.76   1414    1.0
+xs[9,2]              0.1    0.03   1.18  -1.62  -0.63  -0.05   0.59   2.94   1169    1.0
+xs[10,2]            0.14    0.02   1.11   -1.5  -0.63-3.0e-3    0.7   2.91   2647    1.0
+xs[1,3]             0.54    0.01   0.79  -1.22   0.08   0.62   1.11   1.87   3472    1.0
+xs[2,3]              0.5    0.01   0.74   -1.2   0.09   0.59   1.02   1.68   3433    1.0
+xs[3,3]             0.59    0.01   0.74  -1.02   0.14   0.67   1.12   1.82   3442    1.0
+xs[4,3]             0.44    0.01   0.76  -1.33 6.3e-3   0.52   0.98   1.67   2900    1.0
+xs[5,3]             0.42    0.01    0.8   -1.4  -0.05   0.49    1.0   1.74   3273    1.0
+xs[6,3]             0.97    0.01   0.57  -0.32   0.63   1.04   1.37    1.9   2146    1.0
+xs[7,3]             0.43    0.01   0.85  -1.44   -0.1    0.5   1.03    1.9   3461    1.0
+xs[8,3]             0.36    0.02   0.91  -1.71  -0.17   0.45   0.99   1.87   3043    1.0
+xs[9,3]             0.42    0.01   0.89  -1.45  -0.13   0.49   1.07   1.92   3598    1.0
+xs[10,3]            0.69    0.01   0.74  -0.98   0.25   0.75   1.21   1.96   4299    1.0
+MMax               39.48     0.1   4.89  31.68  36.25  38.87  42.03  50.56   2338    1.0
+logdMMaxdMMax_d_p   -0.6  1.3e-3   0.08  -0.75  -0.65   -0.6  -0.54  -0.43   3672    1.0
+smooth_max           0.1  1.6e-3   0.07   0.01   0.04   0.08   0.13   0.28   2027    1.0
+H0                 73.68     0.2  13.95  46.37   64.4  73.57  82.78 100.86   4759    1.0
+Omh2                0.18  1.7e-3   0.11   0.03    0.1   0.16   0.24   0.44   3764    1.0
+dH                  4.23    0.01    0.9   2.97   3.62   4.07   4.66   6.47   3776    1.0
+mu_det              0.06  7.1e-4   0.04   0.02   0.03   0.05   0.07   0.16   3028    1.0
+neff_det          163.39     1.2   60.1   71.5 117.94 155.29 200.52 297.35   2520    1.0
+m1s[1]             34.74    0.03   1.83  31.52  33.51   34.6  35.79   38.9   2931    1.0
+m1s[2]             21.69    0.12   3.79  16.98   19.2  20.86  22.98  31.87   1083    1.0
+m1s[3]             12.73    0.08   2.28   10.1  11.14  11.95  14.02  18.96    747    1.0
+m1s[4]              29.8    0.09   3.29  24.12  27.41  29.53  31.84   37.1   1473    1.0
+m1s[5]             10.74    0.06   1.63   9.05   9.59  10.12  11.44  15.24    651   1.01
+m1s[6]             40.19    0.09   4.96  32.26  36.73  39.53  42.93  51.76   2826    1.0
+m1s[7]             32.45    0.09   3.42   27.0  29.89  31.96   34.9  39.79   1480    1.0
+m1s[8]              29.9    0.06   2.21  26.46  28.37   29.6   31.1   35.3   1475    1.0
+m1s[9]             33.74    0.06   2.88  29.11  31.74  33.35  35.39  40.57   2043    1.0
+m1s[10]            36.34    0.05   3.37  30.35  34.06  36.13  38.39  43.55   3898    1.0
+m2s[1]             30.87    0.04   1.92  26.53  29.71  31.03   32.2  34.21   2416    1.0
+m2s[2]             14.75    0.08   2.27    9.9  13.35  14.88  16.26  19.03    889    1.0
+m2s[3]              8.41    0.04   1.11    5.9   7.56   8.72   9.25   9.93    743    1.0
+m2s[4]             20.72    0.08   2.77  15.45  18.78   20.5  22.93  25.78   1097    1.0
+m2s[5]              7.88    0.03   0.92   5.69   7.31   8.17    8.6   9.06    729   1.01
+m2s[6]             33.84    0.06   4.22  25.75  31.02  33.78  36.53  42.51   4328    1.0
+m2s[7]             25.03    0.07   2.71  19.57  23.19  25.22  26.94  29.88   1541    1.0
+m2s[8]             25.58    0.05   1.82  21.53  24.45  25.68  26.89  28.84   1591    1.0
+m2s[9]             27.35    0.06   2.54  22.09  25.67  27.55   29.2  31.81   1727    1.0
+m2s[10]            30.27    0.06   3.48  23.07  28.01  30.33  32.61  36.86   3815    1.0
+zs[1]                0.1  4.4e-4   0.03   0.05   0.08    0.1   0.12   0.16   4547    1.0
+zs[2]               0.22  9.5e-4   0.06    0.1   0.17   0.21   0.26   0.35   4333    1.0
+zs[3]                0.1  4.3e-4   0.03   0.05   0.07   0.09   0.11   0.16   4425    1.0
+zs[4]                0.2  8.9e-4   0.06    0.1   0.16    0.2   0.24   0.33   4402    1.0
+zs[5]               0.07  3.1e-4   0.02   0.04   0.06   0.07   0.09   0.12   4380    1.0
+zs[6]               0.58  2.6e-3   0.16    0.3   0.48   0.58   0.69   0.91   3748    1.0
+zs[7]               0.21  8.7e-4   0.06   0.11   0.17   0.21   0.25   0.33   4177    1.0
+zs[8]               0.13  5.4e-4   0.03   0.07    0.1   0.13   0.15    0.2   4014    1.0
+zs[9]               0.21  8.2e-4   0.06   0.11   0.17   0.21   0.25   0.33   4592    1.0
+zs[10]              0.36  1.5e-3    0.1   0.18   0.29   0.36   0.43   0.59   4641    1.0
+dls[1]              0.44  1.6e-3    0.1   0.24   0.37   0.44   0.51   0.65   4230    1.0
+dls[2]              1.01  3.9e-3   0.26   0.52   0.84   1.01   1.19   1.52   4376    1.0
+dls[3]              0.42  1.7e-3   0.11   0.22   0.34   0.41   0.49   0.63   4111    1.0
+dls[4]              0.94  3.7e-3   0.24   0.47   0.77   0.93    1.1   1.42   4151    1.0
+dls[5]              0.32  1.1e-3   0.07   0.18   0.27   0.31   0.37   0.45   4046    1.0
+dls[6]              3.19    0.01   0.74   1.73   2.68   3.19   3.67   4.63   3702    1.0
+dls[7]              0.99  3.3e-3   0.21   0.59   0.84   0.98   1.13   1.42   4210    1.0
+dls[8]              0.57  1.9e-3   0.12   0.33   0.49   0.57   0.65   0.81   4007    1.0
+dls[9]               1.0  3.2e-3   0.21   0.61   0.85   0.99   1.14   1.42   4422    1.0
+dls[10]             1.83  6.5e-3   0.46   0.98   1.52   1.81   2.13    2.8   5007    1.0
+R0_30             257.24    4.48 205.11  45.19 126.31 205.84 322.97 794.57   2097    1.0
+lp__               -58.2    0.16   5.13 -69.03 -61.53  -57.8 -54.65 -49.15   1028    1.0
+
+Samples were drawn using NUTS at Tue Jul  9 21:40:42 2019.
+For each parameter, n_eff is a crude measure of effective sample size,
+and Rhat is the potential scale reduction factor on split chains (at 
+convergence, Rhat=1).
