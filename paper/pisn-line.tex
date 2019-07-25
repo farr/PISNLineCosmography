@@ -22,18 +22,19 @@
 \newcommand{\wDE}{w_\mathrm{DE}}
 
 % Quantities
-\newcommand{\MMaxOneYear}{44.76^{+0.90}_{-0.95} \, \MSun{}}
-\newcommand{\MMaxFiveYear}{45.67^{+0.52}_{-0.42} \, \MSun{}}
-\newcommand{\MSourceMin}{5 \, M_\odot}
-\newcommand{\MSourceMax}{45 \, M_\odot}
 \newcommand{\OOneOTwoAlpha}{0.4^{+1.3}_{-1.9}}
 \newcommand{\OOneOTwoMergerRate}{65^{+76}_{-34} \, \perGpcyr}
-\newcommand{\SigmaHPvtOneYear}{4.1\%}
-\newcommand{\SigmaHPvtFiveYear}{1.9\%}
-\newcommand{\SigmaWDEFiveYear}{9.8\%}
-\newcommand{\wDEOneYear}{-0.91^{+0.15}_{-0.17}}
-\newcommand{\wDEFiveYear}{-1.058^{+0.094}_{-0.101}}
-\newcommand{\zpivot}{0.75}
+\newcommand{\MPISN}{45 \, \MSun{}}
+
+% Generated quantities from PaperPlots.ipynb
+\newcommand{\MScaleOneYear}{43.0^{+1.3}_{-1.3} \, \MSun{}}
+\newcommand{\MScaleFiveYear}{44.64^{+0.76}_{-0.81} \, \MSun{}}
+\newcommand{\SigmaHPvtOneYear}{6.1 \%}
+\newcommand{\SigmaHPvtFiveYear}{2.9 \%}
+\newcommand{\zpivot}{0.8}
+\newcommand{\wDEOneYear}{-0.68^{+0.17}_{0.21}}
+\newcommand{\wDEFiveYear}{-1.04^{+0.12}_{0.13}}
+\newcommand{\SigmawDEFiveYear}{12 \%}
 
 % units
 \newcommand{\Gpc}{\mathrm{Gpc}}
@@ -90,23 +91,23 @@
 
 \begin{abstract}
 %
-  Joint measurements of distance and redshift can be used to constrain the
-  expansion history of the universe and the associated cosmological parameters
-  \citationhere{}. Merging \ac{BBH} systems are standard sirens
+  Simultaneous measurements of distance and redshift can be used to constrain
+  the expansion history of the universe and the associated cosmological
+  parameters \citationhere{}. Merging \ac{BBH} systems are standard sirens
   \citep{Schutz1986,Holz2005}---their gravitational waveform provides direct
   information about the luminosity distance to the source.  Because gravity is
-  scale-free, there is a perfect degeneracy between the source mass and redshift
-  in the waveform; some non-gravitational information is necessary to break the
-  degenracy and determine the redshift of the source
+  scale-free, there is a perfect degeneracy between the source masses and
+  redshift; some non-gravitational information is necessary to break the
+  degeneracy and determine the redshift of the source
   \citep{Schutz1986,Chernoff1993,Finn1996,Wang1997,Holz2005,Dalal2006,Taylor2012,Messenger2012,GW170817-H0}.
   Here we suggest that the \ac{PISN}
   \citep{Heger2002,Belczynski2016,Woosley2017,Spera2017} process, thought to be
   the source of the observed upper-limit on the \ac{BH} mass in merging \ac{BBH}
-  systems at $\sim \MSourceMax{}$ \citep{O1O2Population}, provides such
-  information and permits a measurement of the redshift-luminosity-distance
-  relation using a population of \ac{BBH} inspirals.  With realistic assumptions
-  about the merger rate \citep{GWTC-1}, a mass distribution incorporating a
-  sharp \ac{PISN} cutoff \citep{O1O2Population}, and measurement uncertainty
+  systems at $\sim \MPISN{}$ \citep{O1O2Population}, imprints a mass scale
+  in the population of \ac{BBH} mergers and permits a measurement of the
+  redshift-luminosity-distance relation.  With realistic assumptions about the
+  \ac{BBH} merger rate \citep{GWTC-1}, a mass distribution incorporating a
+  \ac{PISN} mass scale \citep{O1O2Population}, and measurement uncertainty
   \citep{Vitale2017} for \ac{BBH} inspirals in the Advanced LIGO and Virgo
   detectors at design sensitivity \citationhere{}, we simulate five years of
   \ac{BBH} detections. We show that after one year of operation at design
@@ -120,7 +121,7 @@
   measurement of the Hubble constant \citep{Chen2017} and a sub-percent
   constraint on the physical matter density from CMB measurements
   \citep{Planck2016} in a $w\mathrm{CDM}$ cosmological model, the dark energy
-  equation of state parameter is determined with $\SigmaWDEFiveYear$
+  equation of state parameter is determined with $\SigmawDEFiveYear$
   uncertainty. Observations by future ``third-generation'' \ac{GW} detectors
   \citationhere{}, which can see \ac{BBH} mergers throughout the universe, would
   permit sub-percent cosmographical measurements to $z \gtrsim 4$ within one
@@ -133,7 +134,7 @@
 The \ac{GWTC1} contains ten binary black hole merger events observed during
 Advanced LIGO and Advanced VIRGO's first and second observing runs
 \citep{GWTC-1}. Modeling of this population suggests a precipitous drop in the
-merger rate for primary black hole masses larger than $\sim \MSourceMax{}$
+merger rate for primary black hole masses larger than $\sim \MPISN{}$
 \citep{Fishbach2017,GWTC-1}.  A possible explanation for this drop is the
 \ac{PISN} process \citationhere{}. This process occurs in the cores of massive
 stars (helium core masses $30$--$133 \, \MSun$ \citep{Woosley2017}) when the
@@ -142,7 +143,7 @@ electron-positron pairs; pair production softens the equation of state of the
 core, leading to a collapse which is halted by nuclear burning
 \citep{Heger2002}.  The energy produced can either unbind the star, leaving no
 \ac{BH} remnant, or drive a mass-loss pulse that reduces the mass of the star
-until the \ac{PISN} is halted, leading to remnant masses $\sim \MSourceMax{}$.
+until the \ac{PISN} is halted, leading to remnant masses $\sim \MPISN{}$.
 Modeling suggests that the upper limit on the remnant mass may vary by less than
 \fixme{XX} with redshift for $0 \leq z \lesssim 2$ \citep{Belczynski2016}.
 
@@ -165,7 +166,7 @@ inversely with the signal-to-noise ratio of a source \citep{Vitale2017}.
 If the \ac{BBH} merger rate follows the star formation rate
 \citep{Fishbach2018,O1O2Population}, the primary mass distribution follows a
 declining power law $m_1^{-\alpha}$ with $\alpha \simeq 0.75$ for $m_1 \lesssim
-\MSourceMax{}$, the mass ratio distribution is flat, and the three-detector duty
+\MPISN{}$, the mass ratio distribution is flat, and the three-detector duty
 cycle is $\sim 50\%$ then Advanced LIGO and Advanced Virgo should detect $\sim
 1000$ \ac{BBH} mergers per year at design sensitivity over a range of redshifts
 $0 \leq z \lesssim 1.5$.  The typical detected merger will have a redshift $z
@@ -185,7 +186,7 @@ simulated five years of \ac{GW} observations with Advanced LIGO and Advanced
 Virgo at design sensitivity.  We use a local merger rate, mass distribution, and
 rate evolution with redshift that are consistent with current observations
 \citep{Fishbach2017,Fishbach2018,O1O2Population}.  Our mass distribution
-includes a sharp cutoff at $m = \MSourceMax{}$ to model the effects of the
+includes a sharp cutoff at $m = \MPISN{}$ to model the effects of the
 \ac{PISN} process \citep{Belczynski2016}.  We use a realistic model of the
 detectability of sources from this population
 \citep{GW150914Rate,GW150914RateSupplement} and for mass and distance estimation
@@ -265,9 +266,9 @@ are described more fully in \S \ref{sec:simulated-population}.
   between the measured detector-frame masses and luminosity distances and
   inferred redshifts and source-frame masses, until it achieves a consistent
   upper limit on the source-frame \ac{BH} mass across all redshifts.  After one
-  year of synthetic observations we measure $\MMax{} = \MMaxOneYear{}$ (median
+  year of synthetic observations we measure $\MMax{} = \MScaleOneYear{}$ (median
   and 68\% credible interval).  After five years (not shown) we measure $\MMax{}
-  = \MMaxFiveYear{}$.}
+  = \MScaleFiveYear{}$.}
 %
 \end{figure}
 
