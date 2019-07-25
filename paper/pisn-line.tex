@@ -12,8 +12,7 @@
 
 % Shorthand
 \newcommand{\mdet}{m^\mathrm{detector}}
-\newcommand{\MMax}{M_\mathrm{max}}
-\newcommand{\MMin}{M_\mathrm{min}}
+\newcommand{\MScale}{M_{\mathrm{scale}}}
 \newcommand{\monedet}{m_1^\mathrm{detector}}
 \newcommand{\monesource}{m_1^\mathrm{source}}
 \newcommand{\mtwodet}{m_2^\mathrm{detector}}
@@ -34,6 +33,7 @@
 \newcommand{\zpivot}{0.8}
 \newcommand{\wDEOneYear}{-0.68^{+0.17}_{0.21}}
 \newcommand{\wDEFiveYear}{-1.04^{+0.12}_{0.13}}
+\newcommand{\SigmawDEOneYear}{19 \%}
 \newcommand{\SigmawDEFiveYear}{12 \%}
 
 % units
@@ -54,6 +54,10 @@
 \DeclareAcronym{BNS}{
   short = BNS,
   long = {binary neutron star}
+}
+\DeclareAcronym{CMB}{
+  short = CMB,
+  long = {cosmic microwave background}
 }
 \DeclareAcronym{GW}{
   short = GW,
@@ -92,8 +96,8 @@
 \begin{abstract}
 %
   Simultaneous measurements of distance and redshift can be used to constrain
-  the expansion history of the universe and the associated cosmological
-  parameters \citationhere{}. Merging \ac{BBH} systems are standard sirens
+  the expansion history of the universe and associated cosmological parameters
+  \citationhere{}. Merging \ac{BBH} systems are standard sirens
   \citep{Schutz1986,Holz2005}---their gravitational waveform provides direct
   information about the luminosity distance to the source.  Because gravity is
   scale-free, there is a perfect degeneracy between the source masses and
@@ -103,25 +107,24 @@
   Here we suggest that the \ac{PISN}
   \citep{Heger2002,Belczynski2016,Woosley2017,Spera2017} process, thought to be
   the source of the observed upper-limit on the \ac{BH} mass in merging \ac{BBH}
-  systems at $\sim \MPISN{}$ \citep{O1O2Population}, imprints a mass scale
-  in the population of \ac{BBH} mergers and permits a measurement of the
-  redshift-luminosity-distance relation.  With realistic assumptions about the
-  \ac{BBH} merger rate \citep{GWTC-1}, a mass distribution incorporating a
-  \ac{PISN} mass scale \citep{O1O2Population}, and measurement uncertainty
-  \citep{Vitale2017} for \ac{BBH} inspirals in the Advanced LIGO and Virgo
-  detectors at design sensitivity \citationhere{}, we simulate five years of
-  \ac{BBH} detections. We show that after one year of operation at design
-  sensitivity (\fixme{put date here}) the \ac{BBH} population can constrain
-  $H(z)$ to $\SigmaHPvtOneYear$ at a pivot redshift $z \simeq \zpivot$.  After
-  five years (\fixme{date}) the constraint improves to $\SigmaHPvtFiveYear$.
-  This measurement relies only on general relativity and the presence of a
-  cutoff mass scale that is approximately fixed or calibrated across cosmic time
-  ($\Delta \MMax \lesssim 1 \, M_\odot$); it is independent of any distance
-  ladder or cosmological model. When combined with a percent-level local
-  measurement of the Hubble constant \citep{Chen2017} and a sub-percent
-  constraint on the physical matter density from CMB measurements
-  \citep{Planck2016} in a $w\mathrm{CDM}$ cosmological model, the dark energy
-  equation of state parameter is determined with $\SigmawDEFiveYear$
+  systems at $\sim \MPISN{}$ \citep{O1O2Population}, imprints a mass scale in
+  the population of \ac{BBH} mergers and permits a measurement of the
+  redshift-luminosity-distance relation with these sources.  We simulate five
+  years of \ac{BBH} detections in the Advanced LIGO and Virgo detectiors with
+  realistic assumptions about the \ac{BBH} merger rate \citep{GWTC-1}, a mass
+  distribution incorporating a \ac{PISN} mass scale \citep{O1O2Population}, and
+  measurement uncertainty \citep{Vitale2017}. We show that after one year of
+  operation at design sensitivity (\fixme{put date here}) the \ac{BBH}
+  population can constrain $H(z)$ to $\SigmaHPvtOneYear$ at a pivot redshift $z
+  \simeq \zpivot$.  After five years (\fixme{date}) the constraint improves to
+  $\SigmaHPvtFiveYear$. This measurement relies only on general relativity and
+  the presence of a cutoff mass scale that is approximately fixed or calibrated
+  across cosmic time ($\partial \MScale / \partial z \lesssim 1 \, M_\odot$); it
+  is independent of any distance ladder or cosmological model. When combined
+  with a percent-level local measurement of the Hubble constant \citep{Chen2017}
+  and a sub-percent constraint on the physical matter density from CMB
+  measurements \citep{Planck2016} in a $w\mathrm{CDM}$ cosmological model, the
+  dark energy equation of state parameter is determined with $\SigmawDEFiveYear$
   uncertainty. Observations by future ``third-generation'' \ac{GW} detectors
   \citationhere{}, which can see \ac{BBH} mergers throughout the universe, would
   permit sub-percent cosmographical measurements to $z \gtrsim 4$ within one
@@ -151,47 +154,48 @@ Compact object mergers that emit gravitational waves have a universal
 characteristic peak luminosity $c^5/G \simeq 3.6 \times 10^{59} \, \mathrm{erg}
 \, \mathrm{s}^{-1}$ that enables direct measurements of the luminosity distance
 to these sources \citep{Schutz1986}.  They are standard sirens \citep{Holz2005}.
-However, the source-frame mass of the merging objects is degenerate with the
-redshift; the waveform depends only on the redshifted mass in the detector
-frame, $m_\mathrm{det} = m_\mathrm{source} (1 + z)$.  General relativity
-predicts the gravitational waveforms of stellar-mass \ac{BBH} mergers.  Using
-parameterized models of these waveforms
+However, the effects of the source-frame mass and redshift are degenerate in the
+gravitational waveform; the observed waveform depends only on the redshifted
+mass in the detector frame, $m_\mathrm{det} = m_\mathrm{source} (1 + z)$.
+General relativity predicts the gravitational waveforms of stellar-mass \ac{BBH}
+mergers.  Using parameterized models of these waveforms
 \citep{Taracchini2014,Kahn2016,Bohe2017,Chatziioannou2017}, it will be possible
 to measure the detector-frame masses with $\sim 20\%$ uncertainty and luminosity
 distances \citep{Hogg1999} with $\sim 50\%$ uncertainty for a source near the
 detection threshold in Advanced LIGO and Anvanced Virgo at design sensitivity
-\citep{Vitale2017} \citationhere{}.  The uncertainty in these parameters scales
-inversely with the signal-to-noise ratio of a source \citep{Vitale2017}.
+\citep{Vitale2017}.  The uncertainty in these parameters scales inversely with
+the signal-to-noise ratio of a source.
 
 If the \ac{BBH} merger rate follows the star formation rate
 \citep{Fishbach2018,O1O2Population}, the primary mass distribution follows a
 declining power law $m_1^{-\alpha}$ with $\alpha \simeq 0.75$ for $m_1 \lesssim
-\MPISN{}$, the mass ratio distribution is flat, and the three-detector duty
-cycle is $\sim 50\%$ then Advanced LIGO and Advanced Virgo should detect $\sim
-1000$ \ac{BBH} mergers per year at design sensitivity over a range of redshifts
-$0 \leq z \lesssim 1.5$.  The typical detected merger will have a redshift $z
-\sim 0.75$.  If we assume that $\sim 1/2$ these detections are informative about
-the redshifted upper limit on the remnant mass in the detector frame,
-$m_\mathrm{max,det} = m_\mathrm{max,source} \left(1 + z\left( d_L \right)
-\right)$, that the combined uncertainty is $1/\sqrt{N}$ smaller than the
-single-measurement uncertainty, and that most detections are near threshold,
-then we are dominated by the $\sim 50\%$ distance uncertainty and can achieve an
-absolute distance-redshift measurement (i.e.\ constrain the local expansion
-rate, $H(z)$, for $z \simeq 0.75$) at the $50 \% / \sqrt{1000/2} \simeq 2.2 \%$
-level after one year, and the $1 \%$ level after five years of \ac{BBH} merger
-observations at design sensitivity.
+\MPISN{}$, tapering off above this mass scale, the mass ratio distribution is
+flat, and the three-detector duty cycle is $\sim 50\%$ then Advanced LIGO and
+Advanced Virgo should detect $\sim 1000$ \ac{BBH} mergers per year at design
+sensitivity over a range of redshifts $0 \leq z \lesssim 1.5$.  The typical
+detected merger will have a redshift $z \sim 0.5$.  If we assume that $\sim
+1/4$ these detections are informative about the redshifted upper limit on the
+remnant mass in the detector frame, $m_\mathrm{max,det} = m_\mathrm{max,source}
+\left(1 + z\left( d_L \right) \right)$, that the combined uncertainty is
+$1/\sqrt{N}$ smaller than the single-measurement uncertainty, and that most
+detections are near threshold, then we are dominated by the $\sim 50\%$ distance
+uncertainty and can achieve an absolute distance-redshift measurement (i.e.\
+constrain the local expansion rate, $H(z)$, for $z \simeq 0.75$) at the $50 \% /
+\sqrt{1000/4} \simeq 3 \%$ level after one year, and the $1.4 \%$ level after
+five years of \ac{BBH} merger observations at design sensitivity.
 
-Detailed calculations support this back-of-the-envelope estimate.  We have
-simulated five years of \ac{GW} observations with Advanced LIGO and Advanced
-Virgo at design sensitivity.  We use a local merger rate, mass distribution, and
-rate evolution with redshift that are consistent with current observations
-\citep{Fishbach2017,Fishbach2018,O1O2Population}.  Our mass distribution
-includes a sharp cutoff at $m = \MPISN{}$ to model the effects of the
-\ac{PISN} process \citep{Belczynski2016}.  We use a realistic model of the
-detectability of sources from this population
-\citep{GW150914Rate,GW150914RateSupplement} and for mass and distance estimation
-uncertainties \citep{Vitale2017}.  The properties of the simulated population
-are described more fully in \S \ref{sec:simulated-population}.
+Detailed calculations are within a factor of two of this back-of-the-envelope
+estimate.  We have simulated five years of \ac{GW} observations with Advanced
+LIGO and Advanced Virgo at design sensitivity.  We use a local merger rate, mass
+distribution, and rate evolution with redshift that are consistent with current
+observations \citep{Fishbach2017,Fishbach2018,O1O2Population}.  Our mass
+distribution tapers off at $m = \MPISN{}$ to model the effects of the \ac{PISN}
+process \citep{Belczynski2016}.  We use a realistic model of the detectability
+of sources from this population \citep{GW150914Rate,GW150914RateSupplement} and
+for mass and distance estimation uncertainties \citep{Vitale2017}.  The
+properties of the simulated population are described more fully in \S
+\ref{sec:simulated-population}.  Figure \ref{fig:m1-dL} shows the simulated
+detections and uncertainty for one and five years of observation.
 
 \begin{figure}
   \plottwo{plots/m1-dL-true}{plots/m1-dL-obs}
@@ -200,27 +204,53 @@ are described more fully in \S \ref{sec:simulated-population}.
   The true detector-frame primary \ac{BH} masses and luminosity distances for
   the simulated population of \ac{BBH} mergers used in this work.  Blue circles
   denote one year of Advanced LIGO / Virgo observations, orange circles five
-  years of observations. The black line shows the redshifting of the maximum
-  \ac{BH} mass corresponding to the cosmology used to generate the events
+  years of observations. The black line shows the redshifting of the PISN
+  \ac{BH} mass scale corresponding to the cosmology used to generate the events
   \citep[TT, TE, EE + lowP + lensing + ext]{Planck2016}.  (Right) The inferred
   detector-frame primary \ac{BH} masses and luminosity distances using our model
-  for the \ac{GW} data likelihood for each \ac{BBH} event.  Here again blue
-  corresponds to one year of observations and orange to five years.  Dots denote
-  the mean and bars the 1$\sigma$ width of the likelihood (i.e.\ a posterior
-  distribution using flat priors on $m_1$ and $d_L$).  There is a bias in the
-  recovery of the masses and distance that becomes more acute at large distances
-  due to a failure to model the population (which is not flat in $m_1$ and
-  $d_L$) and selection effects in these single-event analyses.  The black line
-  shows the redshifting of the mass upper limit.  The most-distant event biases
-  upward in both mass and distance by several sigma because it represents a
-  single ``lucky'' noise fluctuation into detectability out of $\sim 2 \times
-  10^5$ merger events per year within the detector horizon.  We also show the
-  inferred distance-maximum detector-frame mass relation inferred from our
-  analysis of the one year and five year mock data sets in the same colors (the
-  solid line gives the posterior median, dark band gives the 68\% credible
-  interval, and the light band the 95\% credible interval).}
+  of the measurement uncertainty for each event.  Here again blue corresponds to
+  one year of observations and orange to five years.  Dots denote the mean and
+  bars the 1$\sigma$ width of the likelihood for each event.  There is a bias in
+  the recovery of the masses and distance that becomes more acute at large
+  distances due to a failure to model the population (which is not flat in $m_1$
+  and $d_L$) and selection effects in these single-event analyses.  The black
+  line shows the redshifting of the \ac{PISN} mass scale.  The most-distant
+  event biases upward in both mass and distance by several sigma because it
+  represents a single ``lucky'' noise fluctuation into detectability out of
+  $\sim 2 \times 10^5$ merger events per year within the detector horizon.  We
+  also show the inferred distance-mass relation from our analysis of the one
+  year and five year mock data sets in the same colors (the solid line gives the
+  posterior median, dark band gives the 68\% credible interval, and the light
+  band the 95\% credible interval).}
 %
 \end{figure}
+
+We fit a parameterized model of the true mass distribution to this data set
+accounting for measurement error and selection effects in a hierarchical
+analysis \citep{Hogg2010,Mandel2010,Loredo2004,Mandel2019,Farr2019}.  We include
+parameters for the power-law slopes in the mass distribution and redshift
+evolution, a mass scale and range of masses over which the mass distribution
+cuts off due to the \ac{PISN}, a parameterized FLRW cosmology with $H_0$,
+$\Omega_M$, and $w$ free parameters \citep{Hogg1999}, and parameters for the
+true masses and redshift of each detected signal.  The ``population-level''
+distribution and cosmological parameters are given broad priors that are much
+wider than the corresponding posteriors.  Marginalizing over all parameters
+except $H_0$, $\Omega_M$ and $w$ induces a posterior over expansion histories,
+$H(z)$, that is shown in Figure \ref{fig:Hz}.  The redshift at which the
+fractional uncertainty in $H(z)$ is minimized---the ``pivot'' redshift---is
+$\zpivot{}$.  After one year of observations, the fractional uncertainty in $H(z
+= \zpivot)$ is $\SigmaHPvtOneYear{}$; after five years it is
+$\SigmaHPvtFiveYear{}$.  This demonstrates an absolute distance measure to $z
+\simeq \zpivot{}$ at percent-level precision; combining this inference on $H(z)$
+with other data sets such as observations of baryon acoustic oscillations
+\citep{BOSS2015} or Type Ia supernovae \citep{Scolnic2018} can translate this
+absolute distance measure to other redshifts
+\citep{BOSS2015,Cuesta2015,Feeney2019}. For example, one can independently
+calibrate the Type Ia supernova distance scale without a distance ladder
+\citep{Feeney2019,Scolnic2018}, or compare the \ac{GW}-determined distance scale
+with one derived from the photon-baryon sound horizon
+\citep{Cuesta2015,Aylor2019} in the early universe \citep{Planck2016} or at late
+times \citep{BOSS2015}.
 
 \begin{figure}
   \plottwo{plots/Hz}{plots/H075}
@@ -238,19 +268,17 @@ are described more fully in \S \ref{sec:simulated-population}.
   (Right) Posterior distributions over $H\left(z = \zpivot{}\right)$,
   corresponding to the redshift where the fractional uncertainty is minimized.
   The true $H\left( z = \zpivot{} \right)$ is shown by the black vertical line.
-  The posterior after one year is blue, after five years is orange.  This
-  demonstrates an absolute distance measure to $z \simeq \zpivot{}$ at
-  percent-level precision; combining this inference on $H(z)$ with other data
-  sets such as observations of baryon acoustic oscillations \citep{BOSS2015} or
-  Type Ia supernovae \citep{Scolnic2018} can translate this absolute distance
-  measure to other redshifts \citep{BOSS2015,Cuesta2015,Feeney2019}. For
-  example, one can independently calibrate the Type Ia supernova distance scale
-  without a distance ladder \citep{Feeney2019,Scolnic2018}, or compare the
-  \ac{GW}-determined distance scale with one derived from the photon-baryon
-  sound horizon \citep{Cuesta2015,Aylor2019} in the early universe
-  \citep{Planck2016} or at late times \citep{BOSS2015}. }
+  The posterior after one year is blue, after five years is orange. }
 %
 \end{figure}
+
+Our hierarchical model also estimates the source-frame masses and redshifts for
+each individual event that incorporate our information about the population.
+These results for the one-year data set are shown in Figure
+\ref{fig:mass-correction}.  Events pile up near the \ac{PISN} mass scale; in
+effect, the cosmology is adjusted so that the measured distances to each event
+generate redshifts that produce a constant \ac{PISN} mass scale in the
+source-frame from measured detector-frame masses.
 
 \begin{figure}
   \plotone{plots/mass-correction}
@@ -266,11 +294,27 @@ are described more fully in \S \ref{sec:simulated-population}.
   between the measured detector-frame masses and luminosity distances and
   inferred redshifts and source-frame masses, until it achieves a consistent
   upper limit on the source-frame \ac{BH} mass across all redshifts.  After one
-  year of synthetic observations we measure $\MMax{} = \MScaleOneYear{}$ (median
-  and 68\% credible interval).  After five years (not shown) we measure $\MMax{}
+  year of synthetic observations we measure $\MScale{} = \MScaleOneYear{}$ (median
+  and 68\% credible interval).  After five years (not shown) we measure $\MScale{}
   = \MScaleFiveYear{}$.}
 %
 \end{figure}
+
+The pivot redshift for this measurement is close to the redshift where the
+physical matter and dark energy densities are equal, and thus this measurement
+can be informative about the dark energy equation of state.  If we assume an
+independent 1\% measurement of $H_0$ (as could be obtained from \ac{GW}
+observations of \ac{BNS} mergers with identified electromagnetic counterparts
+\citep{Chen2017}) and a measurement of the physical matter density at high
+redshift (as obtained by the Planck satellite's measurements of the \ac{CMB}
+\citep{Planck2016}), then the remaining un-constrained parameter in our
+cosmological model is $w$, the dark energy equation of state.  Imposing these
+additional measurements as a tight prior on the relevant parameters, we find
+that our synthetic population of \ac{BBH} mergers can constrain $w$ to
+$\SigmawDEOneYear{}$ and $\SigmawDEFiveYear{}$ after one and five years of
+observations.  These measurements would be competitive with, but independent
+from, other constraints on $w$ \citationhere{}.  Posteriors for $w$ with these
+informative priors are shown in Figure \ref{fig:wDE}.
 
 \begin{figure}
   \plotone{plots/wDE}
@@ -291,6 +335,25 @@ are described more fully in \S \ref{sec:simulated-population}.
   = \wDEFiveYear{}$ after five years.}
 %
 \end{figure}
+
+Our simplistic analysis here assumes that the mass distribution of merging
+\acp{BBH} does not change with redshift.  In reality the mass distribution will
+change because the metallicity of \ac{BBH} progenitor systems changes with
+redshift \citationhere{}.  The \ac{PISN} mass scale, however, is not expected to
+evolve much to $z \simeq 1.5$ \citationhere{}.  \fixme{Is it?  This one is for
+Daniel.}  We infer a mass scale in our simple model of $\MScaleFiveYear{}$ after
+five years; changes in the \ac{PISN} mass scale for merging \ac{BBH} systems at
+a comparable level to $z \simeq 5$ are a systematic that must be calibrated to
+ensure an accurate measurement.  \ac{BBH} mergers thus become ``standardizable
+sirens'' \citationhere{}.
+
+Third generation \ac{GW} detectors, planned for construction in the mid-2030s,
+would detect $\sim 15,000$ \ac{BBH} mergers per month to $z \gtrsim 10$, with a
+typical relative uncertainty on $d_L$ of $\sim 10 \%$ at $z \simeq 2$
+\citep{Vitale2018}.  Provided the \ac{PISN} mass scale is properly calibrated,
+such detectors could achieve sub-percent uncertainty in cosmography to high
+redshifts $z \lesssim 5$ within \emph{one month} of \ac{BBH} merger
+observations.
 
 \acknowledgments
 
