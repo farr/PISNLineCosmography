@@ -9,6 +9,7 @@
 \newcommand{\dd}{\mathrm{d}}
 \newcommand{\diff}[2]{\frac{\dd #1}{\dd #2}}
 \newcommand{\fixme}[1]{\textcolor{red}{#1}}
+\newcommand{\fsm}{f_{\mathrm{smooth}}}
 
 % Shorthand
 \newcommand{\mdet}{m^\mathrm{detector}}
@@ -367,9 +368,60 @@ Company in Columbus, OH, USA where this work was originally conceived.
 
 \appendix
 
+\setcounter{figure}{0}
+\renewcommand{\figurename}{Extended Data Figure}
+\renewcommand{\tablename}{Extended Data Table}
+
 \section{Simulated Population}
 \label{sec:simulated-population}
 
-Blah.
+We draw our synthetic observations from a population that follows
+%
+\begin{multline}
+  \label{eq:population}
+  \diff{N}{m_1 \dd m_2 \dd V \dd t} = \frac{R_{30}}{\left( 30 \, \MSun \right)^2} \left( \frac{m_1}{30 \, \MSun} \right)^{-\alpha} \left( \frac{m_2}{30 \, \MSun} \right)^{\beta} \left( 1 + z \right)^{\gamma} \\ \times \fsm\left( m_1 \mid m_l, \sigma_l, m_h, \sigma_h \right) \fsm\left( m_2 \mid m_l, \sigma_l, m_h, \sigma_h \right),
+\end{multline}
+%
+where all quantities are evaluated in the comoving frame and
+%
+\begin{equation}
+  \label{eq:smooth}
+  \fsm\left( m \mid m_l, \sigma_l, m_h, \sigma_h \right) = \Phi\left( \frac{\log m - \log m_l}{\sigma_l} \right) \left[ 1 - \Phi\left( \frac{\log m - \log m_h}{\sigma_h} \right) \right]
+\end{equation}
+%
+is a function that tapers smoothly to zero when $m \lesssim m_l$ or $m \gtrsim
+m_h$ over a scale in log-mass of $\sigma_l$ and $\sigma_h$; $\Phi(x)$ is the
+standard normal cumulative distribution function.  (We enforce $m_2 \leq m_1$.)
+
+We have chosen population parameters that are consistent with the current
+observations reported in GWTC-1 \citep{GWTC-1,O1O2Population}:
+%
+\begin{eqnarray}
+  \label{eq:parameters}
+  R_{30} & = & 64.4 \\
+  \alpha & = & 0.75 \\
+  \beta & = & 0.0 \\
+  \gamma & = & 3.0 \\
+  m_l & = & 5 \, \MSun \\
+  m_h & = & 45 \, \MSun \\
+  \sigma_l & = & 0.1 \\
+  \sigma_h & = & 0.1.
+\end{eqnarray}
+%
+with these choices the volumetric merger rate at $z = 0$ is $60 \, \perGpcyr$.
+The corresponding marginal mass distributions for $m_1$ and $m_2$ are shown in
+Figure \ref{fig:marginal-masses}.
+
+\begin{figure}
+  \plotone{plots/pm1m2-marg}
+%
+  \caption{\label{fig:marginal-masses} \textbf{Marginal mass distributions.} The
+  marginal mass distributions for the primary ($m_1$) and secondary ($m_2$)
+  masses in merging \ac{BBH} systems implied by the merger rate density in Eq.\
+  \eqref{eq:population} and the parameter choices in Eq.\ \eqref{eq:parameters}.
+  The turnover at $m \simeq \MPISN{}$ is apparent in the primary mass
+  distribution.}
+%
+\end{figure}
 
 \end{document}
