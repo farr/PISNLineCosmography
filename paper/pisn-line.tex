@@ -149,20 +149,23 @@ Advanced LIGO and Advanced VIRGO's first and second observing runs
 \citep{GWTC-1}. Modeling of this population suggests a precipitous drop in the
 merger rate for primary black hole masses larger than $\sim \MPISN{}$
 \citep{Fishbach2017,GWTC-1}.  A possible explanation for this drop is the
-\ac{PISN} process \citationhere{}. This process occurs in the cores of massive
-stars (helium core masses $30$--$133 \, \MSun$ \citep{Woosley2017}) when the
-core temperature becomes sufficiently high to permit the production of
-electron-positron pairs; pair production softens the equation of state of the
-core, leading to a collapse which is halted by nuclear burning
-\citep{Heger2002}.  The energy produced can either unbind the star, leaving no
-\ac{BH} remnant, or drive a mass-loss pulse that reduces the mass of the star
-until the \ac{PISN} is halted, leading to remnant masses $\sim \MPISN{}$. The
-maximum mass of remnant black holes depends weakly on the metallicity of the
-progenitor stars; modeling suggests that the upper limit on the remnant mass may
-vary by less than 1--2 $\MSun$ for redshifts $0 \leq z \lesssim 2$
-\citep{Belczynski2016,Mapelli2017}.  Here we make the conservative choice to use
-a smooth taper in the mass distribution that takes effect at $m \simeq \MPISN{}$
-but acts over a characteristic scale of $\simeq \MTaperScale$.
+\ac{PISN} process
+\citep{Fowler1964,Rakavy1967,Bond1984,Heger2002,Belczynski2016,Woosley2017,Spera2017}.
+This process occurs in the cores of massive stars (helium core masses $30$--$133
+\, \MSun$ \citep{Woosley2017}) when the core temperature becomes sufficiently
+high to permit the production of electron-positron pairs; pair production
+softens the equation of state of the core, leading to a collapse which is halted
+by nuclear burning \citep{Heger2002}.  The energy produced can either unbind the
+star, leaving no \ac{BH} remnant, or drive a mass-loss pulse that reduces the
+mass of the star until the \ac{PISN} is halted, leading to remnant masses $\sim
+\MPISN{}$ (this latter process is called the \ac{PPISN}). The characteristic
+mass of remnant black holes depends weakly on the metallicity of the progenitor
+stars; modeling suggests that the upper limit on the remnant mass may vary by
+less than 1--2 $\MSun$ for redshifts $0 \leq z \lesssim 2$
+\citep{Belczynski2016,Mapelli2017}.  Here we make the conservative choice to
+model the effcet as a smooth taper in the mass distribution that takes effect
+around $m \simeq \MPISN{}$ but acts over a characteristic scale of $\simeq
+\MTaperScale$.
 
 Compact object mergers that emit gravitational waves have a universal
 characteristic peak luminosity $c^5/G \simeq 3.6 \times 10^{59} \, \mathrm{erg}
@@ -209,7 +212,8 @@ of sources from this population \citep{GW150914Rate,GW150914RateSupplement} and
 for mass and distance estimation uncertainties \citep{Vitale2017}.  The
 properties of the simulated population are described more fully in \S
 \ref{sec:simulated-population}.  Figure \ref{fig:m1-dL} shows the simulated
-detections and uncertainty for one and five years of observation.
+detections and uncertainty on detector-frame mass and distance estimates for one
+and five years of observation.
 
 \begin{figure}
   \plottwo{plots/m1-dL-true}{plots/m1-dL-obs}
