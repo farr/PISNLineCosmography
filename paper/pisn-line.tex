@@ -25,6 +25,7 @@
 \newcommand{\OOneOTwoAlpha}{0.4^{+1.3}_{-1.9}}
 \newcommand{\OOneOTwoMergerRate}{65^{+76}_{-34} \, \perGpcyr}
 \newcommand{\MPISN}{45 \, \MSun{}}
+\newcommand{\MTaperScale}{5 \, \MSun{}}
 
 % Generated quantities from PaperPlots.ipynb
 \newcommand{\MScaleOneYear}{43.0^{+1.3}_{-1.3} \, \MSun{}}
@@ -153,7 +154,9 @@ until the \ac{PISN} is halted, leading to remnant masses $\sim \MPISN{}$. The
 maximum mass of remnant black holes depends weakly on the metallicity of the
 progenitor stars; modeling suggests that the upper limit on the remnant mass may
 vary by less than 1--2 $\MSun$ for redshifts $0 \leq z \lesssim 2$
-\citep{Belczynski2016,Mapelli2017}.
+\citep{Belczynski2016,Mapelli2017}.  Here we make the conservative choice to use
+a smooth taper in the mass distribution that takes effect at $m \simeq \MPISN{}$
+but acts over a characteristic scale of $\simeq \MTaperScale$.
 
 Compact object mergers that emit gravitational waves have a universal
 characteristic peak luminosity $c^5/G \simeq 3.6 \times 10^{59} \, \mathrm{erg}
