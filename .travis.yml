@@ -1,5 +1,7 @@
 sudo: false
 language: generic
+git:
+  depth: 3
 matrix:
   include:
     - os: linux
