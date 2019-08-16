@@ -2,7 +2,7 @@
 
 [![Latest build of the paper](https://img.shields.io/badge/PDF-latest-orange.svg?style=flat)](https://github.com/farr/PISNLineCosmography/blob/master-pdf/paper/pisn-line.pdf)
 
-Doing cosmography with the PISN "line."
+Doing cosmography with the PISN "absorption line."
 
 The code environment needed to run the code in this repository can by found in
 PISN.yml.  Issue
