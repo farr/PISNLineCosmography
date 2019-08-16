@@ -12,11 +12,11 @@ then
   conda info -a
   conda create --yes -n paper
   conda activate paper
-  conda install -c conda-forge -c pkgw-forge tectonic
+  conda install -c conda-forge -c texlive-core
 
   # Build the paper using tectonic
   cd paper
-  tectonic pisn-line.tex --print
+  latexmk -pdf pisn-line
 
   # Force push the paper to GitHub
   cd $TRAVIS_BUILD_DIR
