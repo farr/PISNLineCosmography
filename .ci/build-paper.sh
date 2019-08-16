@@ -11,8 +11,8 @@ then
   conda update -q conda
   conda info -a
   conda create --yes -n paper
-  conda activate paper
-  conda install -c conda-forge -c texlive-core
+  source activate paper
+  conda install -c conda-forge texlive-core
 
   # Build the paper using tectonic
   cd paper
