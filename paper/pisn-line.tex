@@ -582,6 +582,7 @@ on the parameters of each source, $\theta_i \equiv \left\{ m_1^{(i)}, m_2^{(i)},
 observational data $d_i$ ($i = 1, \ldots, N_\mathrm{obs}$) is
 %
 \begin{equation}
+  \label{eq:hierarchical-model}
   \pi \left( \lambda, \left\{ \theta_i \right\} \mid \left\{ d_i \right\} \right) = \prod_{i=1}^{N_\mathrm{obs}} \left[ p\left( d_i \mid \theta_i \right) \diff{N}{\theta_i}(\lambda) \right] \exp\left[ - \Lambda(\lambda) \right] p\left( \lambda \right),
 \end{equation}
 %
@@ -618,5 +619,13 @@ reference population \citep{Farr2019}.  Thus, our analysis could deal with a
 selection function from a real search over \ac{GW} data, represented as a list
 of synthetic signals drawn from a reference population that have been
 successfully detected by a search pipeline.
+
+We use the Hamiltonian Monte-Carlo sampler Stan \citep{Stan} to sample from the
+distribution over the high-dimensional parameter space of the $\theta_i$ and
+$\lambda$ defined in Eq.\ \eqref{eq:hierarchical-model}.  Our samplings involve
+four independent chains of 1000 samples, pass convergence tests based on the
+$\hat{R}$ statistic \citep{Gelman1992}, and we have verified that each parameter
+has an effective sample size that is at least $100$ (and greater than $1000$ for
+most parameters).
 
 \end{document}
