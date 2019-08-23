@@ -12,6 +12,7 @@
 \newcommand{\fsm}{f_{\mathrm{smooth}}}
 
 % Shorthand
+\newcommand{\mchirp}{\mathcal{M}}
 \newcommand{\mdet}{m^\mathrm{detector}}
 \newcommand{\MScale}{M_{\mathrm{scale}}}
 \newcommand{\monedet}{m_1^\mathrm{detector}}
@@ -77,6 +78,10 @@
 \DeclareAcronym{PPISN}{
   short = PPISN,
   long = {pulsational pair instability supernova}
+}
+\DeclareAcronym{SNR}{
+  short = SNR,
+  long = {signal to noise ratio}
 }
 
 \begin{document}
@@ -481,5 +486,133 @@ Figure \ref{fig:marginal-masses}.
   distribution.}
 %
 \end{figure}
+
+We model the cosmology as a flat wCDM model which depends on the Hubble
+constant, $H_0$, the matter density in units of the critical density,
+$\Omega_M$, and the dark energy equation of state parameter $w$
+\citep{Hogg1999}.
+
+\section{Measurement and Selection Model}
+\label{sec:measurement}
+
+After drawing a catalog of true merger parameters from the population
+distribution in \S\ \ref{sec:simulated-population}, we use an approximation
+\citep{Fishbach2018} to the true measurement and selection process in a
+gravitational wave detector \citep{Veitch2015}.
+
+We assume a 50\% duty cycle for our detector network.
+
+We use IMRPhenomPv2 waveforms \citep{Hannam2014} to compute the expected optimal
+\ac{SNR}, $\bar{\rho}\left( m_1, m_2, d_L \right)$, in an Advanced LIGO detector
+operating at design sensitivity \citep{ObsScenarios} for the sources in our
+catalog assuming that the source appeared in a face-on configuration directly
+above the detector.  We draw a random number $\Theta \in [0,1]$ from a
+distribution that results from averaging \ac{GW} signal amplitude over position
+on the sky and binary orientations \citep{Finn1993}.  The observed \ac{SNR} in a
+single Advanced LIGO detector follows
+%
+\begin{equation}
+  \rho \sim N\left( \bar{\rho} \Theta, 1 \right).
+\end{equation}
+%
+We approximate the detectability of a source in a three-detector network as a
+threshold on the observed single-detector \ac{SNR}, only including sources in
+our detected catalog if $\rho > 8$ \citep{GW150914RateSupplement}.
+
+For detected sources we assume the symmetric mass ratio,
+%
+\begin{equation}
+  \eta \equiv \frac{m_1 m_2}{\left( m_1 + m_2 \right)^2},
+\end{equation}
+%
+and chirp mass in the detector frame,
+%
+\begin{equation}
+  \mchirp \equiv \left( m_1 + m_2 \right) \eta^{3/5} \left( 1 + z \right),
+\end{equation}
+%
+are measured with uncertainty
+%
+\begin{equation}
+  \eta_\mathrm{obs} \sim N\left( \eta, 5 \times 10^{-3} \frac{8}{\rho} \right)
+\end{equation}
+%
+and
+%
+\begin{equation}
+  \log \mchirp_\mathrm{obs} \sim N\left( \log \mchirp, 3 \times 10^{-2} \frac{8}{\rho} \right),
+\end{equation}
+%
+where the observed symmetric mass ratio is constrained to $0 \leq
+\eta_\mathrm{obs} \leq 0.25$.  The angular amplitude factor, $\Theta$, is
+measured with uncertainty
+%
+\begin{equation}
+  \Theta_\mathrm{obs} \sim N\left( \Theta, 5 \times 10^{-2} \frac{8}{\rho} \right)
+\end{equation}
+%
+constrained to $0 \leq \Theta_\mathrm{obs} \leq 1$.  Our complete observed data
+for each detection in the catalog consists of $\rho$, $\mchirp_\mathrm{obs}$,
+$\eta_\mathrm{obs}$, and $\Theta_\mathrm{obs}$; the likelihood function for
+$m_1$, $m_2$, $\Theta$, and $d_L$ given these data follows from the above
+distributions and uncertainties (which are assumed to be measured for each
+event).
+
+The uncertainty on the angular amplitude factor, $\Theta$, is tuned to reproduce
+the correct distribution of detected distance uncertainties for a three-detector
+network at design sensitivity \citep{Vitale2017}. Our model reproduces the
+correlated mass measurements, scaling with \ac{SNR}, and typical uncertainty in
+mass and distance space that would result from a fuller analysis of detected
+systems at much lower computational cost than full parameter estimation
+\citep{Veitch2015}.
+
+\section{Hierarchical Analysis}
+\label{sec:hierarchical}
+
+Our hierarchical analysis proceeds from a model of a censored Poisson process
+with measurement uncertainty \citep{Loredo2004,Mandel2019}.  The joint posterior
+on the parameters of each source, $\theta_i \equiv \left\{ m_1^{(i)}, m_2^{(i)},
+\Theta^{(i)}, d_L^{(i)} \right\}$, and the population-level parameters, $\lambda
+= \left\{ R_{30}, \alpha, \beta, \gamma, m_l, m_h, \sigma_l, \sigma_h, H_0,
+\Omega_M, w \right\}$ (see \S\ \ref{sec:simulated-population}) given
+observational data $d_i$ ($i = 1, \ldots, N_\mathrm{obs}$) is
+%
+\begin{equation}
+  \pi \left( \lambda, \left\{ \theta_i \right\} \mid \left\{ d_i \right\} \right) = \prod_{i=1}^{N_\mathrm{obs}} \left[ p\left( d_i \mid \theta_i \right) \diff{N}{\theta_i}(\lambda) \right] \exp\left[ - \Lambda(\lambda) \right] p\left( \lambda \right),
+\end{equation}
+%
+where $p\left( d \mid \theta \right)$ is the likelihood function representing
+the measurement process detailed in \S\ \ref{sec:measurement};
+$\diff{N}{\theta}(\lambda)$ is the population model described in \S\
+\ref{sec:simulated-population}; $\Lambda$ is the expected number of detections
+given population parameters $\lambda$,
+%
+\begin{equation}
+  \label{eq:selection-integral}
+  \Lambda(\lambda) \equiv \int_{\rho > 8} \dd d \, \dd \theta \, p\left( d | \theta \right) \diff{N}{\theta}\left(\lambda \right);
+\end{equation}
+%
+and $p(\lambda)$ is a prior on the population parameters.  For our default
+analysis, we choose prior distributions for each population parameter that are
+much wider than the corresponding posterior; when constraining $w$, the dark
+energy equation of state, we impose a tight prior on $H_0$ and $\Omega_M$ as
+described in the main text.
+
+Though $p\left( d \mid \theta \right)$ is computable in closed form for our
+simplified measurement model, we implement this function as a Gaussian mixture
+model density estimate over samples theta drawn from $\theta \sim p\left( d \mid
+\theta \right)$ \citep{SciKitLearn}.  Thus our implementation of the
+hierarchical model is agnostic to the form of the likelihood function, and can
+easily consume samples from a full parameter estimation analysis over real
+\ac{GW} observational data \citep{GWTC-1}.
+
+Similarly, though $\Lambda(\lambda)$ is computable in closed form for our
+simplified selection model, we estimate the integral in Eq.\
+\eqref{eq:selection-integral} via importance sampling from a sample of
+``detected'' systems as described in \S\ \ref{sec:measurement} drawn from a
+reference population \citep{Farr2019}.  Thus, our analysis could deal with a
+selection function from a real search over \ac{GW} data, represented as a list
+of synthetic signals drawn from a reference population that have been
+successfully detected by a search pipeline.
 
 \end{document}
