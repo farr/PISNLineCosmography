@@ -1,6 +1,6 @@
 # PISNLineCosmography
 
-[![Latest build of the paper](https://img.shields.io/badge/PDF-latest-orange.svg?style=flat)](https://github.com/farr/PISNLineCosmography/blob/master-pdf/paper/pisn-line.pdf)
+[![Latest build of the paper](https://img.shields.io/badge/PDF-latest-orange.svg?style=flat)](https://github.com/farr/PISNLineCosmography/blob/master-pdf/paper/pisn-line.pdf) ![Status of build](https://travis-ci.org/farr/PISNLineCosmography.svg?branch=master)
 
 Doing cosmography with the PISN "absorption line."
 
