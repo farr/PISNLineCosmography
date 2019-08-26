@@ -264,7 +264,7 @@ with $H_0$, $\Omega_M$, and $w$ free parameters \citep{Hogg1999}, and parameters
 for the true masses and redshift of each detected signal.  The
 ``population-level'' distribution and cosmological parameters are given broad
 priors that are much wider than the corresponding posteriors.  Marginalizing
-over all parameters except $H_0$, $\Omega_M$ and $w$ induces a posterior over
+over all parameters except $H_0$, $\Omega_M$, and $w$ induces a posterior over
 expansion histories, $H(z)$, that is shown in Figure \ref{fig:Hz}.  The redshift
 at which the fractional uncertainty in $H(z)$ is minimized---the ``pivot''
 redshift---is $\zpivot{}$.  After one year of observations, the fractional
@@ -313,9 +313,9 @@ source-frame from measured detector-frame masses.
 \begin{figure}
   \plotone{plots/mass-correction}
 %
-  \caption{\label{fig:mass-correction} Inferred maximum mass and masses and
-  redshifts for one year of observation.  Posterior mean and 1$\sigma$ (68\%)
-  credible ranges for the source-frame primary \ac{BH} mass and redshift after
+  \caption{\label{fig:mass-correction} Inferred masses and
+  redshifts, and maximum BH mass, for one year of observation.  The points show the posterior mean and 1$\sigma$ (68\%)
+  credible ranges for the source-frame primary \ac{BH} masses and redshifts after
   one year of \ac{BBH} merger observations.  The horizontal line is the
   posterior median of the maximum black hole mass set by the PISN process; the
   dark and light bands correspond to the 1$\sigma$ and 2$\sigma$ (68\% and 95\%)
@@ -333,11 +333,9 @@ source-frame from measured detector-frame masses.
 The pivot redshift for this measurement is close to the redshift where the
 physical matter and dark energy densities are equal, and thus this measurement
 can be informative about the dark energy equation of state.  If we assume an
-independent 1\% measurement of $H_0$ (as could be obtained from \ac{GW}
-observations of \ac{BNS} mergers with identified electromagnetic counterparts
-\citep{Chen2017}) and a measurement of the physical matter density at high
-redshift (as obtained by the Planck satellite's measurements of the \ac{CMB}
-\citep{Planck2016}), then the remaining un-constrained parameter in our
+independent 1\% measurement of $H_0$~\citep[as could be obtained from \ac{GW}
+observations of \ac{BNS} mergers with identified electromagnetic counterparts;][]{Chen2017} and a measurement of the physical matter density at high
+redshift~\citep[as obtained by the Planck satellite's measurements of the \ac{CMB};][]{Planck2016}, then the remaining un-constrained parameter in our
 cosmological model is $w$, the dark energy equation of state.  Imposing these
 additional measurements as a tight prior on the relevant parameters, we find
 that our synthetic population of \ac{BBH} mergers can constrain $w$ to
@@ -380,7 +378,7 @@ calibrated to ensure an accurate measurement.  \ac{BBH} mergers thus become
 There is a possibility that the \ac{PPISN} process, a sequence of incomplete
 pair-instability-driven mass loss events, could lead to a pile-up of \ac{BBH}
 systems near the upper mass limit
-\citep{Belczynski2016,Marchant2018,Talbot2018}.  Current LIGO obesrvations are
+\citep{Belczynski2016,Marchant2018,Talbot2018}.  Current LIGO observations are
 inconclusive about the existence of such a ``pile up'' in the mass distribution
 \citep{O1O2Population}.  Should one exist, it would offer another mass scale in
 the mass distribution that could improve upon the constraints presented here. It
@@ -389,15 +387,14 @@ comparing the location and amplitude of the pile up as a function of distance,
 since these properties would respond differently to a change in the \ac{PISN}
 mass scale.
 
-The possible existence of so-called ``second generation'' \ac{BBH} mergers
-(mergers where one black hole it itself a merger product) could fill in the
+The possible existence of so-called ``second generation'' \ac{BBH} mergers~\citep[mergers where one black hole is itself a merger product, see e.g.][]{2017ApJ...840L..24F} could fill in the
 \ac{PISN} mass gap, but are not expected to be prevalent enough to obscure the
 falloff in the mass distribution due to the \ac{PISN} limit discussed here
 \citep{Rodriguez2019}.
 
 It is likely that by the mid 2020s there will be two gravitational wave
 detectors operating in addition to the two LIGO and one Virgo detectors
-\cite{ObsScenarios}; additional detectors do not dramatically improve distance
+\citep{ObsScenarios}; additional detectors do not dramatically improve distance
 or mass estimates \citep{Vitale2017}, but the higher SNR afforded from the
 additional detectors could extend the detection horizon leading to a factor of
 $\sim 4$ increase in the number of \ac{BBH} detections and a resulting factor of
@@ -415,7 +412,7 @@ We thank Stephen Feeney for providing a sounding board for the methods discussed
 in this paper.  We thank Jon Gair for providing a thorough and helpful LIGO
 Scientific Collaboration internal review.  We acknowledge the 2018 April APS
 Meeting and Barley's Brewing Company in Columbus, OH, USA where this work was
-originally conceived.
+originally conceived. MF was supported by the NSF Graduate Research Fellowship Program under grant DGE-1746045. MF and DEH were supported by  NSF grant PHY-1708081. They were also supported by the Kavli Institute for Cosmological Physics at the University of Chicago through NSF grant PHY-1125897 and an endowment from the Kavli Foundation. DEH also gratefully acknowledges support from the Marion and Stuart Rice Award.
 
 All code and data used in this analysis, including the \LaTeX{} source for this
 document, can be found under an open-source license at
