@@ -72,7 +72,7 @@
 }
 \DeclareAcronym{GWTC1}{
   short = GWTC1,
-  long = {gravitational wave transient catalog 1}
+  long = {Gravitational Wave Transient Catalog 1}
 }
 \DeclareAcronym{PISN}{
   short = PISN,
@@ -158,8 +158,8 @@ merger rate for primary black hole masses larger than $\sim \MPISN{}$
 \citep{Fishbach2017,GWTC-1}.  A possible explanation for this drop is the
 \ac{PISN} process
 \citep{Fowler1964,Rakavy1967,Bond1984,Heger2002,Belczynski2016,Woosley2017,Spera2017,Leung2019}.
-This process occurs in the cores of massive stars (helium core masses $30$--$133
-\, \MSun$ \citep{Woosley2017}) when the core temperature becomes sufficiently
+This process occurs in the cores of massive stars~\citep[helium core masses $30$--$133
+\, \MSun$;][]{Woosley2017}pisn when the core temperature becomes sufficiently
 high to permit the production of electron-positron pairs; pair production
 softens the equation of state of the core, leading to a collapse which is halted
 by nuclear burning \citep{Heger2002}.  The energy produced can either unbind the
@@ -180,8 +180,8 @@ uncertainty by about a factor of two.
 Compact object mergers that emit gravitational waves have a universal
 characteristic peak luminosity $c^5/G \simeq 3.6 \times 10^{59} \, \mathrm{erg}
 \, \mathrm{s}^{-1}$ that enables direct measurements of the luminosity distance
-to these sources \citep{Schutz1986}.  They are ``standard sirens''
-\citep{Holz2005}. However, the effects of the source-frame mass and redshift are
+to these sources, allowing them to be used as ``standard sirens''~\citep{Schutz1986,Holz2005}.
+However, the effects of the source-frame mass and redshift are
 degenerate in the gravitational waveform; the observed waveform depends only on
 the redshifted mass in the detector frame, $m_\mathrm{det} = m_\mathrm{source}
 (1 + z)$. General relativity predicts the gravitational waveforms of
@@ -189,18 +189,18 @@ stellar-mass \ac{BBH} mergers.  Using parameterized models of these waveforms
 \citep{Taracchini2014,Kahn2016,Bohe2017,Chatziioannou2017}, it will be possible
 to measure the detector-frame masses with $\sim 20\%$ uncertainty and luminosity
 distances \citep{Hogg1999} with $\sim 50\%$ uncertainty for a source near the
-detection threshold in Advanced LIGO and Anvanced Virgo at design sensitivity
+detection threshold in Advanced LIGO and Advanced Virgo at design sensitivity
 \citep{Vitale2017}.  The relative uncertainty in these parameters scales
 inversely with the signal-to-noise ratio of a source.
 
-If the \ac{BBH} merger rate follows the star formation rate
+If we assume that the \ac{BBH} merger rate follows the star formation rate
 \citep{Fishbach2018,O1O2Population}, the primary mass distribution follows a
 declining power law $m_1^{-\alpha}$ with $\alpha \simeq 0.75$ for $m_1 \lesssim
-\MPISN{}$, tapering off above this mass scale, the mass ratio distribution is
-flat, and the three-detector duty cycle is $\sim 50\%$ then Advanced LIGO and
+\MPISN{}$ and tapering off above this mass scale, the mass ratio distribution is
+flat, and the three-detector duty cycle is $\sim 50\%$, then Advanced LIGO and
 Advanced Virgo should detect $\sim 1000$ \ac{BBH} mergers per year at design
 sensitivity over a range of redshifts $0 \leq z \lesssim 1.5$
-\citep{O1O2Population}.  The typical detected merger will have a redshift $z
+\citep{O1O2Population}.  The typical detected merger will be at redshift $z
 \sim 0.5$.
 
 With this mass distribution, about one in four mergers will have a mass estimate
@@ -230,22 +230,20 @@ and five years of observation.
 \begin{figure}
   \plottwo{plots/m1-dL-true}{plots/m1-dL-obs}
 %
-  \caption{\label{fig:m1-dL} Simulated population of \ac{BBH} mergers.  (Left)
-  The true detector-frame primary \ac{BH} masses and luminosity distances for
-  the simulated population of \ac{BBH} mergers used in this work.  Blue circles
-  denote one year of Advanced LIGO / Virgo observations, orange circles five
+  \caption{\label{fig:m1-dL} Masses and luminosity distances for a simulated population of \ac{BBH} mergers detected by an Advanced LIGO/Virgo network.
+  Blue circles
+  denote one year of observations, orange circles five
   years of observations. The black line shows the redshifting of the PISN
   \ac{BH} mass scale corresponding to the cosmology used to generate the events
-  \citep[TT, TE, EE + lowP + lensing + ext]{Planck2016}.  (Right) The inferred
+  \citep[TT, TE, EE + lowP + lensing + ext]{Planck2016}.  (Left)
+  The true detector-frame primary \ac{BH} masses and luminosity distances.   (Right) The inferred
   detector-frame primary \ac{BH} masses and luminosity distances using our model
-  of the measurement uncertainty for each event.  Here again blue corresponds to
-  one year of observations and orange to five years.  Dots denote the mean and
+  of the measurement uncertainty for each event. Dots denote the mean and
   bars the 1$\sigma$ width of the likelihood for each event.  There is a bias in
   the recovery of the masses and distance that becomes more acute at large
   distances due to a failure to model the population (which is not flat in $m_1$
   and $d_L$) and selection effects in these single-event analyses; our
-  hierarchical model that fits the population accounts for these biases.  The
-  black line shows the redshifting of the \ac{PISN} mass scale. The most-distant
+  hierarchical model that fits the population accounts for these biases. The most-distant
   event biases upward in both mass and distance by several sigma because it
   represents a single ``lucky'' noise fluctuation into detectability out of
   $\sim 2 \times 10^5$ merger events per year within the detector horizon.  We
