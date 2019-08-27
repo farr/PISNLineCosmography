@@ -609,8 +609,8 @@ described in the main text.
 
 Though $p\left( d \mid \theta \right)$ is computable in closed form for our
 simplified measurement model, we implement this function as a Gaussian mixture
-model density estimate over samples theta drawn from $\theta \sim p\left( d \mid
-\theta \right)$ \citep{SciKitLearn}.  Thus our implementation of the
+model density estimate over samples $\theta$ drawn from $\theta \sim p\left( d
+\mid \theta \right)$ \citep{SciKitLearn}.  Thus our implementation of the
 hierarchical model is agnostic to the form of the likelihood function, and can
 easily consume samples from a full parameter estimation analysis over real
 \ac{GW} observational data \citep{GWTC-1}.
