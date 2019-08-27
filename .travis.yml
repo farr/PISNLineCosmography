@@ -1,7 +1,6 @@
 sudo: false
 language: generic
 git:
-  depth: 3
   lfs_skip_smudge: true # We don't need the LFS files to build the paper.
 matrix:
   include:
