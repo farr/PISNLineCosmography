@@ -45,7 +45,7 @@ def next_pow_two(x):
         x2 = x2 << 1
     return x2
 
-def optimal_snr(m1_intrinsic, m2_intrinsic, z, psd_fn=ls.SimNoisePSDaLIGOEarlyHighSensitivityP1200087):
+def optimal_snr(m1_intrinsic, m2_intrinsic, z, psd_fn=ls.SimNoisePSDaLIGOEarlyHighSensitivityP1200087, flow=20):
     """Return the optimal SNR of a signal.
 
     :param m1_intrinsic: The source-frame mass 1.
@@ -58,6 +58,8 @@ def optimal_snr(m1_intrinsic, m2_intrinsic, z, psd_fn=ls.SimNoisePSDaLIGOEarlyHi
       frequency (default is early aLIGO high sensitivity, defined in
       [P1200087](https://dcc.ligo.org/LIGO-P1200087/public).
 
+    :param flow: The lower frequency at which the SNR integral begins.
+
     :return: The SNR of a face-on, overhead source.
 
     """
@@ -66,9 +68,9 @@ def optimal_snr(m1_intrinsic, m2_intrinsic, z, psd_fn=ls.SimNoisePSDaLIGOEarlyHi
     dL = cosmo.Planck15.luminosity_distance(z).to(u.Gpc).value
 
     # Basic setup: min frequency for w.f., PSD start freq, etc.
-    fmin = 19.0
+    fmin = flow*0.9
     fref = 40.0
-    psdstart = 20.0
+    psdstart = flow
 
     # This is a conservative estimate of the chirp time + MR time (2 seconds)
     tmax = ls.SimInspiralChirpTimeBound(fmin, m1_intrinsic*(1+z)*lal.MSUN_SI, m2_intrinsic*(1+z)*lal.MSUN_SI, 0.0, 0.0) + 2
