@@ -1,0 +1,59 @@
+================================================================================
+Title: A Future Percent-Level Measurement of the Hubble Expansion at Redshift
+       0.8 With Advanced LIGO
+Authors: Farr W.M., Fishbach M., Ye J., Holz D.E.
+================================================================================
+Description of contents: This tar.gz archive contains 2 HDF5 files containing
+    the data behind Figure 1 of the accepted manuscript listed above.
+
+    The 2 files and their MD5 checksums:
+
+    Figure Panel  File            Checksum
+    ------------  ----            --------
+    Left          m1-dL-true.h5   b91382aa5cbba828a8ee15931e2f004a
+    Right         m1-dL-obs.h5    a89115c9d048aa18be777b5837b98f3f
+
+    These files contain the following data structures:
+
+    HDF5 "m1-dL-true.h5" {
+    FILE_CONTENTS {
+     group      /
+     group      /1yr
+     dataset    /1yr/dL
+     dataset    /1yr/m1det
+     group      /5yr
+     dataset    /5yr/dL
+     dataset    /5yr/m1det
+     dataset    /dL
+     dataset    /m1_turnoff
+     }
+    }
+
+    HDF5 "m1-dL-obs.h5" {
+    FILE_CONTENTS {
+     group      /
+     group      /1yr
+     dataset    /1yr/dL
+     dataset    /1yr/dl_err
+     dataset    /1yr/m1det
+     dataset    /1yr/m1det_err
+     group      /5yr
+     dataset    /5yr/dL
+     dataset    /5yr/dl_err
+     dataset    /5yr/m1det
+     dataset    /5yr/m1det_err
+     dataset    /dL
+     dataset    /m1_cutoff
+     dataset    /m1_cutoff_1yr
+     dataset    /m1_cutoff_5yr
+     }
+    }
+
+System requirements: A copy of the HDF5 libraries
+(https://www.hdfgroup.org/solutions/hdf5/).  Many language bindings for these
+libraries exist; for example, in Python, after installing the h5py library,
+data in these files can be accessed via
+
+    with h5py.File('<name>.h5', 'r') as f:
+        x = f['some_group/some_other_group/some_dataset']
+================================================================================

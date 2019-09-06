@@ -1,0 +1,34 @@
+================================================================================
+Title: A Future Percent-Level Measurement of the Hubble Expansion at Redshift
+       0.8 With Advanced LIGO
+Authors: Farr W.M., Fishbach M., Ye J., Holz D.E.
+================================================================================
+Description of contents: This tar.gz archive contains 1 HDF5 file containing
+    the data behind Figure 3 of the accepted manuscript listed above.
+
+    This file and its MD5 checksum are:
+
+    Figure Panel  File               Checksum
+    ------------  ----               --------
+    Full          pm1m2.h5           14d4ebbaf99ad4c65ae65ba53ac5fc71
+
+    This file contains the following data structures:
+
+    HDF5 "pm1m2.h5" {
+    FILE_CONTENTS {
+     group      /
+     dataset    /ms
+     dataset    /pm1
+     dataset    /pm1m2
+     dataset    /pm2
+     }
+    }
+
+System requirements: A copy of the HDF5 libraries
+(https://www.hdfgroup.org/solutions/hdf5/).  Many language bindings for these
+libraries exist; for example, in Python, after installing the h5py library,
+data in these files can be accessed via
+
+    with h5py.File('<name>.h5', 'r') as f:
+        x = f['some_group/some_other_group/some_dataset']
+================================================================================
